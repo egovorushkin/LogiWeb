@@ -42,23 +42,31 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label for="driverStatus" class="col-sm-2 col-form-label">Current Status:</label>
-            <div class="col-sm-3">
-                <input path="driverStatus" type="text" class="form-control" id="driverStatus" name="driverStatus"/>
+            <label class="col-sm-2 col-form-label">Current Status:</label>
+            <div class="col-sm-8">
+                <form:select class="form-control" path="driverStatus" id="driverStatus" name="driverStatus">
+                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
+                </form:select>
             </div>
         </div>
-        <div class="row mb-3">
-            <label for="currentCity" class="col-sm-2 col-form-label">Current City:</label>
-            <div class="col-sm-3">
-                <input path="currentCity" type="text" class="form-control" id="currentCity" name="currentCity"/>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="currentTruck" class="col-sm-2 col-form-label">Current Truck:</label>
-            <div class="col-sm-3">
-                <input path="currentTruck" type="text" class="form-control" id="currentTruck" name="currentTruck"/>
-            </div>
-        </div>
+<%--        <div class="row mb-3">--%>
+<%--            <label for="driverStatus" class="col-sm-2 col-form-label">Current Status:</label>--%>
+<%--            <div class="col-sm-3">--%>
+<%--                <input path="driverStatus" type="text" class="form-control" id="driverStatus" name="driverStatus"/>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="row mb-3">--%>
+<%--            <label for="currentCity" class="col-sm-2 col-form-label">Current City:</label>--%>
+<%--            <div class="col-sm-3">--%>
+<%--                <input path="currentCity" type="text" class="form-control" id="currentCity" name="currentCity"/>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="row mb-3">--%>
+<%--            <label for="currentTruck" class="col-sm-2 col-form-label">Current Truck:</label>--%>
+<%--            <div class="col-sm-3">--%>
+<%--                <input path="currentTruck" type="text" class="form-control" id="currentTruck" name="currentTruck"/>--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <button type="submit" class="btn btn-primary">Save</button>
         <a class="btn btn-secondary" href="${pageContext.request.contextPath}/drivers/list" role="button">Back</a>
     </form:form>

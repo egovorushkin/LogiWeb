@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
-<title>Drivers</title>
+<title>List of Drivers</title>
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
@@ -14,7 +14,7 @@
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
             <th scope="col">Personal Number</th>
-            <th scope="col">Worked Hours / Month)</th>
+            <th scope="col">Worked Hours / Month</th>
             <th scope="col">Current Status</th>
             <th scope="col">Current City</th>
             <th scope="col">Current Truck</th>
@@ -40,8 +40,8 @@
                 <td>${driver.personalNumber}</td>
                 <td>${driver.workedHoursPerMonth}</td>
                 <td>${driver.driverStatus}</td>
-                <td>${driver.currentCity}</td>
-                <td>${driver.currentTruck}</td>
+                <td></td>
+                <td></td>
                 <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
                        onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"><span
