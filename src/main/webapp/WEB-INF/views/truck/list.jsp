@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
-<title>Trucks</title>
+<title>List of Trucks</title>
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 

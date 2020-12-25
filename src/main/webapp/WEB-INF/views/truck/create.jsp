@@ -29,16 +29,24 @@
         <div class="row mb-3">
             <label for="capacity" class="col-sm-2 col-form-label">Capacity (kg):</label>
             <div class="col-sm-2">
-                <form:input path="capacity" type="number" class="form-control" id="capacity" name="capacity" />
+                <form:input path="capacity" type="number" class="form-control" id="capacity" name="capacity"/>
             </div>
             <form:errors path="capacity" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="status" class="col-sm-2 col-form-label">Current Status:</label>
+            <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="status" name="status">
+                <form:select class="form-control" path="status" id="status" name="status">
+                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
+                </form:select>
             </div>
         </div>
+<%--        <div class="row mb-3">--%>
+<%--            <label for="status" class="col-sm-2 col-form-label">Current Status:</label>--%>
+<%--            <div class="col-sm-2">--%>
+<%--                <input type="text" class="form-control" id="status" name="status">--%>
+<%--            </div>--%>
+<%--        </div>--%>
 <%--        <div class="row mb-3">--%>
 <%--            <label for="currentCity" class="col-sm-2 col-form-label">Current City:</label>--%>
 <%--            <div class="col-sm-3">--%>
