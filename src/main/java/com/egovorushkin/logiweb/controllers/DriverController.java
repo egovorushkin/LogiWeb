@@ -1,6 +1,8 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.entities.Driver;
+import com.egovorushkin.logiweb.entities.status.DriverStatus;
+import com.egovorushkin.logiweb.entities.status.TruckStatus;
 import com.egovorushkin.logiweb.services.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +56,7 @@ public class DriverController {
     public String editDriverForm(@RequestParam("driverId") int id, Model model) {
         Driver driver = driverService.getDriverById(id);
         model.addAttribute("driver", driver);
+        model.addAttribute("statuses", DriverStatus.values());
         return "driver/edit";
     }
 

@@ -2,11 +2,12 @@ package com.egovorushkin.logiweb.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "city")
-public class City {
+public class City implements Serializable {
 
     @Id
     @Column(name = "id")

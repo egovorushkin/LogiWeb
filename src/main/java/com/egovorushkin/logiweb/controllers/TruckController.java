@@ -60,7 +60,7 @@ public class TruckController {
     public String editTruckForm(@RequestParam("truckId") int id, Model model) {
         Truck truck = truckService.getTruckById(id);
         model.addAttribute("truck", truck);
-        model.addAttribute("cities", cityService.listAll());
+      //  model.addAttribute("cities", cityService.listAll());
         model.addAttribute("statuses", TruckStatus.values());
         return "truck/edit";
     }
