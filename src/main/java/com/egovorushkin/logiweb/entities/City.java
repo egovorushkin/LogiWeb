@@ -18,14 +18,6 @@ public class City implements Serializable {
     @NotNull
     private String name;
 
-    @OneToOne(mappedBy = "currentCity", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-    private Truck truck;
-
-    @OneToOne(mappedBy = "currentCity", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-    private Driver driver;
-
     public City() {
     }
 
@@ -50,37 +42,7 @@ public class City implements Serializable {
         this.name = name;
     }
 
-    public Truck getTruck() {
-        return truck;
-    }
-
-    public void setTruck(Truck truck) {
-        if (truck == null) {
-            if (this.truck != null) {
-                this.truck.setCurrentCity(null);
-            }
-        } else {
-            truck.setCurrentCity(this);
-        }
-        this.truck = truck;
-    }
-
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        if (driver == null) {
-            if (this.driver != null) {
-                this.driver.setCurrentCity(null);
-            }
-        } else {
-            driver.setCurrentCity(this);
-        }
-        this.driver = driver;
-    }
-
-    @Override
+     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -96,6 +58,8 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return "City{" +
+                "id=" + id +
+                ", name='" + name;
     }
 }

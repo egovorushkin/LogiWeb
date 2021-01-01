@@ -10,6 +10,12 @@
 
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+
+    <div class="page-header">
+        <h1>Create New Driver</h1>
+        <hr>
+    </div>
+
     <form:form modelAttribute="driver" action="${pageContext.request.contextPath}/drivers/save" method="post">
         <div class="row mb-3">
             <label for="firstName" class="col-sm-2 col-form-label">First Name:</label>
@@ -49,24 +55,30 @@
                 </form:select>
             </div>
         </div>
-<%--        <div class="row mb-3">--%>
-<%--            <label for="driverStatus" class="col-sm-2 col-form-label">Current Status:</label>--%>
-<%--            <div class="col-sm-3">--%>
-<%--                <input path="driverStatus" type="text" class="form-control" id="driverStatus" name="driverStatus"/>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="row mb-3">--%>
-<%--            <label for="currentCity" class="col-sm-2 col-form-label">Current City:</label>--%>
-<%--            <div class="col-sm-3">--%>
-<%--                <input path="currentCity" type="text" class="form-control" id="currentCity" name="currentCity"/>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="row mb-3">--%>
-<%--            <label for="currentTruck" class="col-sm-2 col-form-label">Current Truck:</label>--%>
-<%--            <div class="col-sm-3">--%>
-<%--                <input path="currentTruck" type="text" class="form-control" id="currentTruck" name="currentTruck"/>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Current City:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control">
+                    <c:if test="${empty driver.currentCity}">
+                        <form:option value="" disabled="true" selected="true" />
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+            <form:errors path="currentCity" cssClass="alert alert-danger"/>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Current Truck:</label>
+            <div class="col-sm-2">
+                <form:select path="currentTruck.id" cssClass="form-control">
+                    <c:if test="${empty driver.currentTruck}">
+                        <form:option value="" disabled="true" selected="true" />
+                    </c:if>
+                    <form:options items="${trucks}" itemValue="id" itemLabel="registrationNumber"/>
+                </form:select>
+            </div>
+            <form:errors path="currentTruck" cssClass="alert alert-danger"/>
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
         <a class="btn btn-secondary" href="${pageContext.request.contextPath}/drivers/list" role="button">Back</a>
     </form:form>

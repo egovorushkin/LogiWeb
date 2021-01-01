@@ -19,13 +19,11 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    @Transactional
     public City getCityById(int id) {
         return cityDao.getCityById(id);
     }
 
     @Override
-    @Transactional
     public List listAll() {
         return cityDao.listAll();
     }

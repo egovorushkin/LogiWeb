@@ -3,7 +3,9 @@ package com.egovorushkin.logiweb.controllers;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.status.DriverStatus;
 import com.egovorushkin.logiweb.entities.status.TruckStatus;
+import com.egovorushkin.logiweb.services.CityService;
 import com.egovorushkin.logiweb.services.DriverService;
+import com.egovorushkin.logiweb.services.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +20,14 @@ import java.util.List;
 public class DriverController {
 
     private DriverService driverService;
+    private TruckService truckService;
+    private CityService cityService;
 
     @Autowired
-    public DriverController(DriverService driverService) {
+    public DriverController(DriverService driverService, TruckService truckService, CityService cityService) {
         this.driverService = driverService;
+        this.truckService = truckService;
+        this.cityService = cityService;
     }
 
     @GetMapping(value = "/list")
@@ -40,6 +46,8 @@ public class DriverController {
     @GetMapping(value = "/create")
     public String createDriverForm(Model model) {
         model.addAttribute("driver", new Driver());
+        model.addAttribute("trucks", truckService.listAll());
+        model.addAttribute("cities", cityService.listAll());
         return "/driver/create";
     }
 
@@ -57,6 +65,8 @@ public class DriverController {
         Driver driver = driverService.getDriverById(id);
         model.addAttribute("driver", driver);
         model.addAttribute("statuses", DriverStatus.values());
+        model.addAttribute("trucks", truckService.listAll());
+        model.addAttribute("cities", cityService.listAll());
         return "driver/edit";
     }
 

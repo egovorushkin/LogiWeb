@@ -9,13 +9,19 @@
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+    <div class="page-header">
+        <h1>Edit Truck</h1>
+        <hr>
+    </div>
+
+
     <form:form modelAttribute="truck" action="${pageContext.request.contextPath}/trucks/update" method="post">
 
         <form:hidden path="id"/>
 
         <div class="row mb-3">
             <label for="registrationNumber" class="col-sm-2 col-form-label">Registration Number:</label>
-            <div class="col-sm-2">
+            <div class="col-sm-2 ">
                 <form:input path="registrationNumber" type="text" class="form-control" id="registrationNumber"
                             name="registrationNumber"/>
             </div>
@@ -43,7 +49,18 @@
                 </form:select>
             </div>
         </div>
-
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Current City:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control">
+                    <c:if test="${empty truck.currentCity}">
+                        <form:option value="${truck.currentCity.name}" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+            <form:errors path="currentCity" cssClass="alert alert-danger"/>
+        </div>
         <!-- construct an "delete" link with truck id -->
         <c:url var="deleteLink" value="/trucks/delete">
             <c:param name="truckId" value="${truck.id}"/>

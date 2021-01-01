@@ -36,7 +36,7 @@ public class Truck implements Serializable {
     @Column(name = "status")
     private TruckStatus truckStatus;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City currentCity;
 
@@ -128,6 +128,13 @@ public class Truck implements Serializable {
 
     @Override
     public String toString() {
-        return registrationNumber;
+        return "Truck{" +
+                "id=" + id +
+                ", registrationNumber='" + registrationNumber + '\'' +
+                ", teamSize=" + teamSize +
+                ", capacity=" + capacity +
+                ", truckStatus=" + truckStatus +
+                ", currentCity=" + currentCity +
+                '}';
     }
 }

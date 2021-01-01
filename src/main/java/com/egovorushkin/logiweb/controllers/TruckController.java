@@ -35,21 +35,25 @@ public class TruckController {
         return "truck/list";
     }
 
-//    @GetMapping("/{id}")
-//    public String show(@PathVariable("id") int id, Model model) {
-//        model.addAttribute("truck", truckService.showTruck(id));
-//        return "truck/show";
-//    }
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model) {
+        model.addAttribute("truck", truckService.showTruck(id));
+        model.addAttribute("cities", cityService.listAll());
+        model.addAttribute("statuses", TruckStatus.values());
+        return "truck/show";
+    }
 
     @GetMapping(value = "/create")
     public String createTruckForm(Model model) {
         model.addAttribute("truck", new Truck());
+        model.addAttribute("cities", cityService.listAll());
         return "/truck/create";
     }
 
     @PostMapping(value = "/save")
-    public String saveTruck(@ModelAttribute("truck") @Valid Truck truck, BindingResult bindingResult) {
+    public String saveTruck(@ModelAttribute("truck") @Valid Truck truck, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("cities", cityService.listAll());
             return "truck/create";
         }
         truckService.saveTruck(truck);
@@ -60,7 +64,7 @@ public class TruckController {
     public String editTruckForm(@RequestParam("truckId") int id, Model model) {
         Truck truck = truckService.getTruckById(id);
         model.addAttribute("truck", truck);
-      //  model.addAttribute("cities", cityService.listAll());
+        model.addAttribute("cities", cityService.listAll());
         model.addAttribute("statuses", TruckStatus.values());
         return "truck/edit";
     }

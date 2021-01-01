@@ -7,8 +7,12 @@
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <div class="page-header">
+        <h1>List of Trucks</h1>
+        <hr>
+    </div>
 
-    <table class="table table-hover table-responsive-sm" width="100%">
+    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm" width="60%">
         <thead>
         <tr>
             <th scope="col">Registration Number</th>
@@ -32,13 +36,12 @@
                 <c:param name="truckId" value="${truck.id}" />
             </c:url>
 
-
-            <tr class='table-row'>
+            <tr class='table-row' data-href='${pageContext.request.contextPath}/trucks/${truck.id}'>
                 <td>${truck.registrationNumber}</td>
                 <td>${truck.teamSize}</td>
                 <td>${truck.capacity}</td>
                 <td>${truck.status}</td>
-                <td></td>
+                <td>${truck.currentCity.name}</td>
                 <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
                        onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"><span data-feather="x-square"></span></a></td>

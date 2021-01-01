@@ -19,7 +19,7 @@
 </script>
 
 <script>
-    $(document).ready(function ($) {
+    jQuery(document).ready(function ($) {
         $(".table-row").click(function () {
             window.document.location = $(this).data("href");
         });

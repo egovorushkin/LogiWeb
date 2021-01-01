@@ -7,8 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.logging.Logger;
 
-@Repository()
+@Repository
 public class TruckDaoImpl implements TruckDao {
 
     @PersistenceContext
@@ -20,12 +21,15 @@ public class TruckDaoImpl implements TruckDao {
         return truck;
     }
 
+    @Override
     public List<Truck> listAll() {
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t", Truck.class);
+        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t " +
+                "JOIN FETCH t.currentCity", Truck.class);
         List<Truck> trucks = q.getResultList();
         return trucks;
     }
 
+    @Override
     public Truck showTruck(int id) {
         Truck truck;
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t WHERE t.id=:id", Truck.class).setParameter("id", id);
@@ -33,6 +37,7 @@ public class TruckDaoImpl implements TruckDao {
         return truck;
     }
 
+    @Override
     public void saveTruck(Truck truck) {
         entityManager.persist(truck);
     }

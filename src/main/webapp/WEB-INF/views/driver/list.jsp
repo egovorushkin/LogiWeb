@@ -8,7 +8,12 @@
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <table class="table table-hover table-responsive-sm" width="100%">
+    <div class="page-header">
+        <h1>List Of Drivers</h1>
+        <hr>
+    </div>
+
+    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm" width="60%">
         <thead>
         <tr>
             <th scope="col">First Name</th>
@@ -40,8 +45,8 @@
                 <td>${driver.personalNumber}</td>
                 <td>${driver.workedHoursPerMonth}</td>
                 <td>${driver.driverStatus}</td>
-                <td></td>
-                <td></td>
+                <td>${driver.currentCity.name}</td>
+                <td>${driver.currentTruck.registrationNumber}</td>
                 <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
                        onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"><span

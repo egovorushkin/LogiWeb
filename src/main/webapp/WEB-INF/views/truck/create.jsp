@@ -10,6 +10,11 @@
 
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+    <div class="page-header">
+        <h1>Create New Truck</h1>
+        <hr>
+    </div>
+
     <form:form modelAttribute="truck" action="${pageContext.request.contextPath}/trucks/save" method="post">
         <div class="row mb-3">
             <label for="registrationNumber" class="col-sm-2 col-form-label">Registration Number:</label>
@@ -41,19 +46,18 @@
                 </form:select>
             </div>
         </div>
-<%--        <div class="row mb-3">--%>
-<%--            <label for="status" class="col-sm-2 col-form-label">Current Status:</label>--%>
-<%--            <div class="col-sm-2">--%>
-<%--                <input type="text" class="form-control" id="status" name="status">--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="row mb-3">--%>
-<%--            <label for="currentCity" class="col-sm-2 col-form-label">Current City:</label>--%>
-<%--            <div class="col-sm-3">--%>
-<%--                <form:input path="currentCity" type="text" class="form-control" id="currentCity" name="currentCity"/>--%>
-<%--            </div>--%>
-<%--            <form:errors path="currentCity" cssClass="alert alert-danger"/>--%>
-<%--        </div>--%>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Current City:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control">
+                    <c:if test="${empty truck.currentCity}">
+                        <form:option value="" disabled="true" selected="true" />
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+            <form:errors path="currentCity" cssClass="alert alert-danger"/>
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
         <a class="btn btn-secondary" href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
     </form:form>

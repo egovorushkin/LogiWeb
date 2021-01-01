@@ -30,7 +30,7 @@ public class Driver implements Serializable {
     @Column(name = "status")
     private DriverStatus driverStatus;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City currentCity;
 
