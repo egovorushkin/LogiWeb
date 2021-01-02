@@ -37,11 +37,14 @@ public class DriverController {
         return "driver/list";
     }
 
-//    @GetMapping("/{id}")
-//    public String show(@PathVariable("id") int id, Model model) {
-//        model.addAttribute("truck", truckService.showTruck(id));
-//        return "truck/show";
-//    }
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model) {
+        model.addAttribute("driver", driverService.showDriver(id));
+        model.addAttribute("cities", cityService.listAll());
+        model.addAttribute("statuses", DriverStatus.values());
+        model.addAttribute("trucks", truckService.listAll());
+        return "driver/show";
+    }
 
     @GetMapping(value = "/create")
     public String createDriverForm(Model model) {

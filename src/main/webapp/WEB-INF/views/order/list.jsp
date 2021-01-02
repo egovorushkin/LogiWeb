@@ -27,6 +27,9 @@
         <tr>
             <th scope="col">Unique Number</th>
             <th scope="col">Status</th>
+            <th scope="col">Waypoint List</th>
+            <th scope="col">Truck</th>
+            <th scope="col">List of Drivers</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
         </tr>

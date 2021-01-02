@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../fragments/page-before-title.jsp"/>
@@ -14,7 +14,7 @@
         <hr>
     </div>
 
-    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm" width="60%">
+    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
         <thead>
         <tr>
             <th scope="col">Registration Number</th>
@@ -28,15 +28,6 @@
         </thead>
         <tbody>
 
-        <!-- construct an "delete" link with truck id -->
-        <c:url var="deleteLink" value="/trucks/delete">
-            <c:param name="truckId" value="${truck.id}"/>
-        </c:url>
-        <!-- construct an "update" link with truck id -->
-        <c:url var="updateLink" value="/trucks/edit">
-            <c:param name="truckId" value="${truck.id}"/>
-        </c:url>
-
         <c:forEach items="${trucks}" var="truck">
             <tr class='table-row' data-href='${pageContext.request.contextPath}/trucks/${truck.id}'>
                 <td>${truck.registrationNumber}</td>
@@ -44,6 +35,16 @@
                 <td>${truck.capacity}</td>
                 <td>${truck.status}</td>
                 <td>${truck.currentCity.name}</td>
+
+                <!-- construct an "delete" link with truck id -->
+                <c:url var="deleteLink" value="/trucks/delete">
+                    <c:param name="truckId" value="${truck.id}"/>
+                </c:url>
+                <!-- construct an "update" link with truck id -->
+                <c:url var="updateLink" value="/trucks/edit">
+                    <c:param name="truckId" value="${truck.id}"/>
+                </c:url>
+
                 <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
                        onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"><span
@@ -54,10 +55,7 @@
     </table>
     <br>
 
-
     <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/trucks/create" role="button">Add</a>
 </main>
-</div>
-</div>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

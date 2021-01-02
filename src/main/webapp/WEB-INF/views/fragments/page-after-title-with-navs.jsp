@@ -9,7 +9,6 @@
 <!-- Custom styles for this template -->
 <link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
-</head>
 
 
 <body>
@@ -57,7 +56,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/orders/list">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/cargoes/list">
                             <span data-feather="package"></span>
                             Cargos
                         </a>

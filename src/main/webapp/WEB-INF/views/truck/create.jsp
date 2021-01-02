@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -65,8 +65,6 @@
         <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
     </form:form>
 </main>
-</div>
-</div>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>
 

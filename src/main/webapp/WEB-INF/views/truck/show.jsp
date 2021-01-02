@@ -1,11 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<!-- construct an "delete" link with truck id -->
-<c:url var="deleteLink" value="/trucks/delete">
-    <c:param name="truckId" value="${truck.id}"/>
-</c:url>
 
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
@@ -62,8 +57,18 @@
             </div>
         </div>
 
-        <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/trucks/edit" role="button">Edit</a>
-        <a class="btn btn-sm btn-secondary" href="${deleteLink}"
+        <!-- construct an "delete" link with truck id -->
+        <c:url var="deleteLink" value="/trucks/delete">
+            <c:param name="truckId" value="${truck.id}"/>
+        </c:url>
+
+        <!-- construct an "update" link with truck id -->
+        <c:url var="updateLink" value="/trucks/edit">
+            <c:param name="truckId" value="${truck.id}"/>
+        </c:url>
+
+        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit</a>
+        <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"
            role="button">Delete</a>
         <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
@@ -74,7 +79,5 @@
         <hr>
     </div>
 </main>
-</div>
-</div>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

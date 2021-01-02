@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -43,8 +43,8 @@
         <div class="row mb-3">
             <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked Hours / Month:</label>
             <div class="col-sm-2">
-                <input type="workedHoursPerMonth" class="form-control form-control-sm" id="workedHoursPerMonth"
-                       name="workedHoursPerMonth">
+                <input class="form-control form-control-sm" id="workedHoursPerMonth" name="workedHoursPerMonth"
+                       type="number">
             </div>
         </div>
         <div class="row mb-3">
@@ -84,8 +84,6 @@
            role="button">Back</a>
     </form:form>
 </main>
-</div>
-</div>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>
 

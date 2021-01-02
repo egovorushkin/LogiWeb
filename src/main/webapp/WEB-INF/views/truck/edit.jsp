@@ -1,11 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<!-- construct an "delete" link with truck id -->
-<c:url var="deleteLink" value="/trucks/delete">
-    <c:param name="truckId" value="${truck.id}"/>
-</c:url>
 
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
@@ -71,7 +66,12 @@
             <form:errors path="currentCity" cssClass="alert alert-danger"/>
         </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
+        <!-- construct an "delete" link with truck id -->
+        <c:url var="deleteLink" value="/trucks/delete">
+            <c:param name="truckId" value="${truck.id}"/>
+        </c:url>
+
+        <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"
            role="button">Delete</a>
@@ -79,8 +79,6 @@
            role="button">Cancel</a>
     </form:form>
 </main>
-</div>
-</div>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>
 
