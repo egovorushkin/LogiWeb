@@ -42,7 +42,7 @@ public class City implements Serializable {
         this.name = name;
     }
 
-     @Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -58,8 +58,6 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "City{" +
-                "id=" + id +
-                ", name='" + name;
+        return name;
     }
 }

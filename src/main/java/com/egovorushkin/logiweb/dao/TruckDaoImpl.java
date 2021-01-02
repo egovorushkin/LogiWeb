@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Repository
 public class TruckDaoImpl implements TruckDao {
