@@ -2,14 +2,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
+<!-- construct an "delete" link with driver id -->
+<c:url var="deleteLink" value="/drivers/delete">
+    <c:param name="driverId" value="${driver.id}"/>
+</c:url>
+<!-- construct an "update" link with driver id -->
+<c:url var="updateLink" value="/drivers/edit">
+    <c:param name="driverId" value="${driver.id}"/>
+</c:url>
+
 <title>List of Drivers</title>
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
 
     <div class="page-header">
-        <h1>List Of Drivers</h1>
+        <h2>List Of Drivers</h2>
         <hr>
     </div>
 
@@ -29,16 +38,6 @@
         </thead>
         <tbody>
         <c:forEach items="${drivers}" var="driver">
-
-            <!-- construct an "delete" link with driver id -->
-            <c:url var="deleteLink" value="/drivers/delete">
-                <c:param name="driverId" value="${driver.id}"/>
-            </c:url>
-            <!-- construct an "update" link with driver id -->
-            <c:url var="updateLink" value="/drivers/edit">
-                <c:param name="driverId" value="${driver.id}"/>
-            </c:url>
-
             <tr class='table-row'>
                 <td>${driver.firstName}</td>
                 <td>${driver.lastName}</td>
@@ -55,8 +54,9 @@
         </c:forEach>
         </tbody>
     </table>
+    
     <br>
-    <a class="btn btn-success" href="${pageContext.request.contextPath}/drivers/create" role="button">Add</a>
+    <a class="btn btn-sm  btn-success" href="${pageContext.request.contextPath}/drivers/create" role="button">Add</a>
 </main>
 </div>
 </div>

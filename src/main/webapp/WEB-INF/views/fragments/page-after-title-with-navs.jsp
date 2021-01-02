@@ -52,8 +52,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/orders/list">
-                            <span data-feather="package"></span>
+                            <span data-feather="clipboard"></span>
                             Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/orders/list">
+                            <span data-feather="package"></span>
+                            Cargos
                         </a>
                     </li>
                 </ul>
