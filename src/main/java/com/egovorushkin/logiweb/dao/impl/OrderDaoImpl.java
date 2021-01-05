@@ -1,5 +1,6 @@
-package com.egovorushkin.logiweb.dao;
+package com.egovorushkin.logiweb.dao.impl;
 
+import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.entities.Order;
 import org.springframework.stereotype.Repository;
 

@@ -1,5 +1,6 @@
-package com.egovorushkin.logiweb.dao;
+package com.egovorushkin.logiweb.dao.impl;
 
+import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
 
@@ -16,16 +17,14 @@ public class TruckDaoImpl implements TruckDao {
 
     @Override
     public Truck getTruckById(int id) {
-        Truck truck = entityManager.find(Truck.class, id);
-        return truck;
+        return entityManager.find(Truck.class, id);
     }
 
     @Override
     public List<Truck> listAll() {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t " +
                 "JOIN FETCH t.currentCity", Truck.class);
-        List<Truck> trucks = q.getResultList();
-        return trucks;
+        return q.getResultList();
     }
 
     @Override

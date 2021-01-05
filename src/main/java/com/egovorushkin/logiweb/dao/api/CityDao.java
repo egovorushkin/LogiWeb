@@ -1,4 +1,4 @@
-package com.egovorushkin.logiweb.dao;
+package com.egovorushkin.logiweb.dao.api;
 
 import com.egovorushkin.logiweb.entities.City;
 

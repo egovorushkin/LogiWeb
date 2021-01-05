@@ -1,10 +1,10 @@
-package com.egovorushkin.logiweb.dao;
+package com.egovorushkin.logiweb.services.api;
 
 import com.egovorushkin.logiweb.entities.Cargo;
 
 import java.util.List;
 
-public interface CargoDao {
+public interface CargoService {
 
     Cargo getCargoById(int id);
 

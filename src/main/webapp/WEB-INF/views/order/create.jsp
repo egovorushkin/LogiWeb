@@ -25,6 +25,17 @@
             <form:errors path="uniqueNumber" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Cargo:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty truck.currentCity}">
+                        <form:option value="" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+        </div>
+        <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
                 <form:select class="form-control form-control-sm" path="orderStatus" id="orderStatus"
@@ -33,14 +44,50 @@
                 </form:select>
             </div>
         </div>
-
-        <%--        <div class="row mb-3">--%>
-        <%--            <label for="currentCity" class="col-sm-2 col-form-label">Current City:</label>--%>
-        <%--            <div class="col-sm-2">--%>
-        <%--                <form:input path="currentCity" type="text" class="form-control form-control-sm" id="currentCity" name="currentCity"/>--%>
-        <%--            </div>--%>
-        <%--        </div>--%>
-
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">From City:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty truck.currentCity}">
+                        <form:option value="" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">To City:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty truck.currentCity}">
+                        <form:option value="" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Type:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty truck.currentCity}">
+                        <form:option value="" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Truck:</label>
+            <div class="col-sm-2">
+                <form:select path="currentCity.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty truck.currentCity}">
+                        <form:option value="" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+        </div>
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/orders/list" role="button">Back</a>
     </form:form>

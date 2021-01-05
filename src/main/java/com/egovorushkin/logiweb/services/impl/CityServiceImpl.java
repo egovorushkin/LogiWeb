@@ -1,7 +1,8 @@
-package com.egovorushkin.logiweb.services;
+package com.egovorushkin.logiweb.services.impl;
 
-import com.egovorushkin.logiweb.dao.CityDao;
+import com.egovorushkin.logiweb.dao.api.CityDao;
 import com.egovorushkin.logiweb.entities.City;
+import com.egovorushkin.logiweb.services.api.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

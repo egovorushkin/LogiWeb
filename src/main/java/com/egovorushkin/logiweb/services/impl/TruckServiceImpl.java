@@ -1,7 +1,8 @@
-package com.egovorushkin.logiweb.services;
+package com.egovorushkin.logiweb.services.impl;
 
-import com.egovorushkin.logiweb.dao.TruckDao;
+import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.services.api.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

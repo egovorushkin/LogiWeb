@@ -56,7 +56,6 @@
         </tbody>
     </table>
 
-    <br>
     <a class="btn btn-sm  btn-success" href="${pageContext.request.contextPath}/drivers/create" role="button">Add</a>
 </main>
 

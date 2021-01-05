@@ -1,5 +1,6 @@
-package com.egovorushkin.logiweb.dao;
+package com.egovorushkin.logiweb.dao.impl;
 
+import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.entities.Driver;
 import org.springframework.stereotype.Repository;
 

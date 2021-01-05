@@ -9,13 +9,15 @@
 <!-- Custom styles for this template -->
 <link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
-
-
+</head>
 <body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand" href="${pageContext.request.contextPath}/">LogiWeb</a>
-    <ul class="navbar-nav px-3">
 
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="${pageContext.request.contextPath}/">LogiWeb</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="#">
                 <security:authorize access="isAuthenticated()">
@@ -24,41 +26,47 @@
             </a>
         </li>
     </ul>
-</nav>
+</header>
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="${pageContext.request.contextPath}/">
-                            <span data-feather="home"></span>
+                            <i class="fas fa-home"></i>
                             Home <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/trucks/list">
-                            <span data-feather="truck"></span>
+                            <i class="fas fa-truck"></i>
                             Trucks
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/drivers/list">
-                            <span data-feather="users"></span>
+                            <i class="fas fa-users"></i>
                             Drivers
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/orders/list">
-                            <span data-feather="clipboard"></span>
+                            <i class="fas fa-clipboard-list"></i>
                             Orders
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/cargoes/list">
-                            <span data-feather="package"></span>
+                            <i class="fas fa-dolly-flatbed"></i>
                             Cargos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/waypoint-lists/list">
+                            <span data-feather="trending-down"></span>
+                            Waypoint Lists
                         </a>
                     </li>
                 </ul>
@@ -74,6 +82,14 @@
                         <a class="nav-link" href="#">
                             <span data-feather="file-text"></span>
                             Current month
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/map">
+                            <i class="fas fa-map-marked-alt"></i>
+                            Google Maps Test
                         </a>
                     </li>
                 </ul>

@@ -2,7 +2,7 @@ package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.entities.Cargo;
 import com.egovorushkin.logiweb.entities.status.CargoStatus;
-import com.egovorushkin.logiweb.services.CargoService;
+import com.egovorushkin.logiweb.services.api.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

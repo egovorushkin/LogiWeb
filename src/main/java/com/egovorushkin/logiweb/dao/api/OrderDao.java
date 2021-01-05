@@ -1,10 +1,10 @@
-package com.egovorushkin.logiweb.services;
+package com.egovorushkin.logiweb.dao.api;
 
 import com.egovorushkin.logiweb.entities.Order;
 
 import java.util.List;
 
-public interface OrderService {
+public interface OrderDao {
 
     Order getOrderById(int id);
 

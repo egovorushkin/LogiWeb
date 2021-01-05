@@ -53,7 +53,6 @@
         </c:forEach>
         </tbody>
     </table>
-    <br>
 
     <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/trucks/create" role="button">Add</a>
 </main>

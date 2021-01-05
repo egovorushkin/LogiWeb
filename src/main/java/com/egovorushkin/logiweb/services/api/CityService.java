@@ -1,4 +1,4 @@
-package com.egovorushkin.logiweb.services;
+package com.egovorushkin.logiweb.services.api;
 
 import com.egovorushkin.logiweb.entities.City;
 
