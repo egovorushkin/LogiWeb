@@ -3,7 +3,6 @@ package com.egovorushkin.logiweb.dao.impl;
 import com.egovorushkin.logiweb.dao.api.CargoDao;
 import com.egovorushkin.logiweb.entities.Cargo;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -22,14 +21,16 @@ public class CargoDaoImpl implements CargoDao {
 
     @Override
     public List<Cargo> listAll() {
-        TypedQuery<Cargo> q = entityManager.createQuery("SELECT t FROM Cargo t", Cargo.class);
+        TypedQuery<Cargo> q = entityManager.createQuery("SELECT t FROM Cargo t",
+                Cargo.class);
         return q.getResultList();
     }
 
     @Override
     public Cargo showCargo(int id) {
         Cargo cargo;
-        TypedQuery<Cargo> q = entityManager.createQuery("SELECT c FROM Cargo c WHERE c.id=:id", Cargo.class).setParameter("id", id);
+        TypedQuery<Cargo> q = entityManager.createQuery("SELECT c FROM Cargo c WHERE c" +
+                ".id=:id", Cargo.class).setParameter("id", id);
         cargo = q.getSingleResult();
         return cargo;
     }

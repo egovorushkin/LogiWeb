@@ -21,7 +21,8 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"classpath:datasource.properties", "classpath:security-persistence.properties"})
+@PropertySource({"classpath:datasource.properties", "classpath:security-persistence" +
+        ".properties"})
 public class PersistenceJPAConfig {
 
     @Autowired
@@ -29,7 +30,8 @@ public class PersistenceJPAConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        final LocalContainerEntityManagerFactoryBean em =
+                new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan("com.egovorushkin.logiweb.entities");
 
@@ -113,10 +115,14 @@ public class PersistenceJPAConfig {
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        hibernateProperties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", "false");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty(
+                "hibernate.hbm2ddl.auto"));
+        hibernateProperties.setProperty("hibernate.show_sql", env.getProperty(
+                "hibernate.show_sql"));
+        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate" +
+                ".dialect"));
+        hibernateProperties.setProperty("hibernate.cache.use_second_level_cache",
+                "false");
 
         return hibernateProperties;
     }

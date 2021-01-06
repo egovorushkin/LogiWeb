@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.services.impl;
 
 import com.egovorushkin.logiweb.dao.api.TruckDao;
+import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,12 @@ public class TruckServiceImpl implements TruckService {
     @Transactional
     public void delete(int id) {
         truckDao.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Driver> findCurrentDrivers(int id) throws Exception {
+        return truckDao.findCurrentDrivers(id);
     }
 
 }

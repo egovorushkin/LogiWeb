@@ -32,7 +32,7 @@
                     <c:if test="${empty order.waypointList}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${waypointLists}" itemValue="id" itemLabel="name"/>
+                    <form:options items="${waypointLists}" itemValue="id" itemLabel="id"/>
                 </form:select>
             </div>
         </div>
@@ -43,22 +43,10 @@
                     <c:if test="${empty order.truck}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${trucks}" itemValue="id" itemLabel="name"/>
+                    <form:options items="${trucks}" itemValue="id" itemLabel="id"/>
                 </form:select>
             </div>
         </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Drivers:</label>
-            <div class="col-sm-2">
-                <form:select path="" cssClass="form-control form-control-sm">
-                    <c:if test="${empty truck.currentCity}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
-                </form:select>
-            </div>
-        </div>
-
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/orders/list" role="button">Back</a>
     </form:form>

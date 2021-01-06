@@ -90,12 +90,6 @@
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/map">
-                            <i class="fas fa-map-marked-alt"></i>
-                            Google Maps Test
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
                             <span data-feather="map"></span>
                             Google Maps Test
                         </a>

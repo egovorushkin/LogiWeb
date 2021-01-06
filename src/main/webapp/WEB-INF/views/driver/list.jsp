@@ -29,13 +29,13 @@
         <tbody>
         <c:forEach items="${drivers}" var="driver">
             <tr class='table-row' data-href='${pageContext.request.contextPath}/drivers/${driver.id}'>
-                <td>${driver.firstName}</td>
-                <td>${driver.lastName}</td>
-                <td>${driver.personalNumber}</td>
-                <td>${driver.workedHoursPerMonth}</td>
-                <td>${driver.driverStatus}</td>
-                <td>${driver.currentCity.name}</td>
-                <td>${driver.currentTruck.registrationNumber}</td
+                <td class="align-middle">${driver.firstName}</td>
+                <td class="align-middle">${driver.lastName}</td>
+                <td class="align-middle">${driver.personalNumber}</td>
+                <td class="align-middle">${driver.workedHoursPerMonth}</td>
+                <td class="align-middle">${driver.driverStatus}</td>
+                <td class="align-middle">${driver.currentCity.name}</td>
+                <td class="align-middle">${driver.currentTruck.registrationNumber}</td
 
                         <!-- construct an "delete" link with driver id -->
                 <c:url var="deleteLink" value="/drivers/delete">
@@ -55,7 +55,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-sm  btn-success" href="${pageContext.request.contextPath}/drivers/create" role="button">Add</a>
+    <a class="btn btn-sm  btn-success" href="${pageContext.request.contextPath}/drivers/create" role="button">Add Driver</a>
 </main>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

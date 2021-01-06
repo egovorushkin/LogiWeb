@@ -14,13 +14,9 @@ import javax.persistence.EnumType;
 import javax.persistence.ManyToOne;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -33,7 +29,8 @@ public class Truck implements Serializable {
     private int id;
 
     @NotEmpty(message = "Registration Number should not be empty")
-    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number must be 2 characters and 5 digits (ex. \"AB12345\")")
+    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number must be 2" +
+            " characters and 5 digits (ex. \"AB12345\")")
     @Column(name = "registration_number", unique = true)
     private String registrationNumber;
 
@@ -53,13 +50,11 @@ public class Truck implements Serializable {
     @JoinColumn(name = "city_id")
     private City currentCity;
 
-    @OneToMany(mappedBy = "currentTruck", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Driver> currentDrivers = new ArrayList<>();
-
     public Truck() {
     }
 
-    public Truck(String registrationNumber, int teamSize, int capacity, TruckStatus status, City currentCity) {
+    public Truck(String registrationNumber, int teamSize, int capacity,
+                 TruckStatus status, City currentCity) {
         this.registrationNumber = registrationNumber;
         this.teamSize = teamSize;
         this.capacity = capacity;
@@ -113,16 +108,6 @@ public class Truck implements Serializable {
 
     public void setCurrentCity(City currentCity) {
         this.currentCity = currentCity;
-    }
-
-    public void addDriver(Driver driver) {
-        currentDrivers.add(driver);
-        driver.setCurrentTruck(this);
-    }
-
-    public void removeDriver(Driver driver) {
-        currentDrivers.remove(driver);
-        driver.setCurrentTruck(null);
     }
 
     @Override

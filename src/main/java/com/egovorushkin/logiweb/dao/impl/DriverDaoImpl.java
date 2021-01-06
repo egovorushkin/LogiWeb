@@ -23,7 +23,8 @@ public class DriverDaoImpl implements DriverDao {
     @Override
     public List<Driver> listAll() {
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM Driver d " +
-                   "LEFT JOIN FETCH d.currentCity currentCity LEFT JOIN FETCH d.currentTruck currentTruck", Driver.class);
+                "LEFT JOIN FETCH d.currentCity currentCity LEFT JOIN FETCH d" +
+                ".currentTruck currentTruck", Driver.class);
 
         return q.getResultList();
     }
@@ -50,7 +51,8 @@ public class DriverDaoImpl implements DriverDao {
     @Override
     public Driver showDriver(int id) {
         Driver driver;
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM Driver d WHERE d.id=:id", Driver.class).setParameter("id", id);
+        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM Driver d WHERE " +
+                "d.id=:id", Driver.class).setParameter("id", id);
         driver = q.getSingleResult();
         return driver;
     }

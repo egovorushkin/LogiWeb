@@ -53,7 +53,7 @@
         </table>
 
     <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/waypoint-lists/create"
-       role="button">Add</a>
+       role="button">Add Waypoint List</a>
 </main>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

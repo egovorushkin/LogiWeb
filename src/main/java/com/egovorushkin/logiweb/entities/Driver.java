@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "driver")
@@ -51,7 +52,9 @@ public class Driver implements Serializable {
     public Driver() {
     }
 
-    public Driver(String firstName, String lastName, int personalNumber, int workedHoursPerMonth, DriverStatus driverStatus, City currentCity, Truck currentTruck) {
+    public Driver(String firstName, String lastName, int personalNumber,
+                  int workedHoursPerMonth, DriverStatus driverStatus, City currentCity,
+                  Truck currentTruck) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.personalNumber = personalNumber;
@@ -125,5 +128,30 @@ public class Driver implements Serializable {
         this.currentTruck = currentTruck;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return personalNumber == driver.personalNumber;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(personalNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", personalNumber=" + personalNumber +
+                ", workedHoursPerMonth=" + workedHoursPerMonth +
+                ", driverStatus=" + driverStatus +
+                ", currentCity=" + currentCity +
+                ", currentTruck=" + currentTruck +
+                '}';
+    }
 }

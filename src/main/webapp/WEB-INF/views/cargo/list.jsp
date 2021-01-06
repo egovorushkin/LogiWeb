@@ -28,10 +28,10 @@
 
         <c:forEach items="${cargoes}" var="cargo">
             <tr class='table-row' data-href='${pageContext.request.contextPath}/cargoes/${cargo.id}'>
-                <td>${cargo.id}</td>
-                <td>${cargo.name}</td>
-                <td>${cargo.weight}</td>
-                <td>${cargo.status}</td>
+                <td class="align-middle">${cargo.id}</td>
+                <td class="align-middle">${cargo.name}</td>
+                <td class="align-middle">${cargo.weight}</td>
+                <td class="align-middle">${cargo.status}</td>
 
                 <!-- construct an "delete" link with cargo id -->
                 <c:url var="deleteLink" value="/cargoes/delete">
@@ -50,7 +50,7 @@
         </c:forEach>
         </tbody>
     </table>
-    <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/cargoes/create" role="button">Add</a>
+    <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/cargoes/create" role="button">Add Cargo</a>
 </main>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

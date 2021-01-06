@@ -72,11 +72,6 @@
            role="button">Delete</a>
         <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/waypoint-lists/list" role="button">Back</a>
     </form:form>
-
-    <div class="page-header">
-        <h3>Current Drivers</h3>
-        <hr>
-    </div>
 </main>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

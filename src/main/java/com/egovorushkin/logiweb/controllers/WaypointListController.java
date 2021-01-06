@@ -43,6 +43,7 @@ public class WaypointListController {
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("waypointList", waypointListService.showWaypointList(id));
         model.addAttribute("cities", cityService.listAll());
+        model.addAttribute("cargoes", cargoService.listAll());
         model.addAttribute("statuses", WaypointListStatus.values());
         return "waypoint-list/show";
     }

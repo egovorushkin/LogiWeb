@@ -43,6 +43,7 @@ public class OrderController {
         model.addAttribute("order", orderService.showOrder(id));
         model.addAttribute("waypointLists", waypointListService.listAll());
         model.addAttribute("trucks", truckService.listAll());
+        model.addAttribute("statuses", OrderStatus.values());
         return "order/show";
     }
 

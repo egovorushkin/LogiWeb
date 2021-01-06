@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Repository()
+@Repository
 public class CityDaoImpl implements CityDao {
 
     @PersistenceContext
@@ -22,14 +22,16 @@ public class CityDaoImpl implements CityDao {
 
     @Override
     public List<City> listAll() {
-        TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c", City.class);
+        TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c",
+                City.class);
         return q.getResultList();
     }
 
     @Override
     public City showCity(int id) {
         City city;
-        TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c WHERE c.id=:id", City.class).setParameter("id", id);
+        TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c WHERE c" +
+                ".id=:id", City.class).setParameter("id", id);
         city = q.getSingleResult();
         return city;
     }

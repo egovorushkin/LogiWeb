@@ -14,26 +14,24 @@
         <h1 class="h2">Create New Cargo</h1>
     </div>
 
-    <form:form modelAttribute="cargo" action="${pageContext.request.contextPath}/cargoes/save" method="post">
-        <div class="row mb-3">
-            <label for="id" class="col-sm-2 col-form-label">Id:</label>
-            <div class="col-sm-2">
-                <form:input path="id" type="number" class="form-control form-control-sm" id="id" name="id"
-                            readonly="true"/>
-            </div>
-        </div>
+    <form:form modelAttribute="cargo"
+               action="${pageContext.request.contextPath}/cargoes/save"
+               method="post">
         <div class="row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Name:</label>
             <div class="col-sm-2">
-                <form:input path="name" type="text" class="form-control form-control-sm" id="name"
+                <form:input path="name" type="text"
+                            class="form-control form-control-sm" id="name"
                             name="name"/>
             </div>
             <form:errors path="name" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="weight" class="col-sm-2 col-form-label">Weight (kg):</label>
+            <label for="weight" class="col-sm-2 col-form-label">Weight
+                (kg):</label>
             <div class="col-sm-2">
-                <form:input path="weight" type="number" class="form-control form-control-sm" id="weight"
+                <form:input path="weight" type="number"
+                            class="form-control form-control-sm" id="weight"
                             name="weight"/>
             </div>
             <form:errors path="weight" cssClass="alert alert-danger"/>
@@ -41,14 +39,17 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status" id="status" name="status">
-                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
+                <form:select class="form-control form-control-sm" path="status"
+                             id="status" name="status">
+                    <form:options itemValue="name" itemLabel="name"
+                                  items="${statuses}"/>
                 </form:select>
             </div>
         </div>
 
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/cargoes/list"
+        <a class="btn btn-sm btn-secondary"
+           href="${pageContext.request.contextPath}/cargoes/list"
            role="button">Back</a>
     </form:form>
 </main>

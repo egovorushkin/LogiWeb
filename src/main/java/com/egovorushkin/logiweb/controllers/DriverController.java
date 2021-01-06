@@ -18,12 +18,13 @@ import java.util.List;
 @RequestMapping("/drivers")
 public class DriverController {
 
-    private DriverService driverService;
-    private TruckService truckService;
-    private CityService cityService;
+    private final DriverService driverService;
+    private final TruckService truckService;
+    private final CityService cityService;
 
     @Autowired
-    public DriverController(DriverService driverService, TruckService truckService, CityService cityService) {
+    public DriverController(DriverService driverService, TruckService truckService,
+                            CityService cityService) {
         this.driverService = driverService;
         this.truckService = truckService;
         this.cityService = cityService;
@@ -54,7 +55,8 @@ public class DriverController {
     }
 
     @PostMapping(value = "/save")
-    public String saveDriver(@ModelAttribute("driver") @Valid Driver driver, BindingResult bindingResult) {
+    public String saveDriver(@ModelAttribute("driver") @Valid Driver driver,
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "driver/create";
         }
@@ -73,7 +75,8 @@ public class DriverController {
     }
 
     @PostMapping("/update")
-    public String updateDriver(@ModelAttribute("driver") @Valid Driver driver, BindingResult bindingResult) {
+    public String updateDriver(@ModelAttribute("driver") @Valid Driver driver,
+                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "driver/edit";
         }

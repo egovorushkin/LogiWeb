@@ -2,7 +2,17 @@ package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.status.WaypointListStatus;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import java.util.Objects;
 
 @Entity
@@ -33,7 +43,8 @@ public class WaypointList {
     public WaypointList() {
     }
 
-    public WaypointList(int id, City fromCity, City toCity, Cargo cargo, WaypointListStatus status) {
+    public WaypointList(int id, City fromCity, City toCity, Cargo cargo,
+                        WaypointListStatus status) {
         this.id = id;
         this.fromCity = fromCity;
         this.toCity = toCity;

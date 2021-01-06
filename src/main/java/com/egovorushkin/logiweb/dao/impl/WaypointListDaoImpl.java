@@ -22,8 +22,10 @@ public class WaypointListDaoImpl implements WaypointListDao {
 
     @Override
     public List<WaypointList> listAll() {
-        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT w FROM WaypointList w " +
-                "LEFT JOIN FETCH w.fromCity fromCity LEFT JOIN FETCH w.toCity toCity LEFT JOIN FETCH w.cargo cargo", WaypointList.class);
+        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT w FROM " +
+                "WaypointList w " +
+                "LEFT JOIN FETCH w.fromCity fromCity LEFT JOIN FETCH w.toCity toCity " +
+                "LEFT JOIN FETCH w.cargo cargo", WaypointList.class);
 
         return q.getResultList();
     }
@@ -31,7 +33,9 @@ public class WaypointListDaoImpl implements WaypointListDao {
     @Override
     public WaypointList showWaypointList(int id) {
         WaypointList waypointList;
-        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT t FROM WaypointList t WHERE t.id=:id", WaypointList.class).setParameter("id", id);
+        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT t FROM " +
+                "WaypointList t WHERE t.id=:id", WaypointList.class).setParameter("id",
+                id);
         waypointList = q.getSingleResult();
         return waypointList;
     }

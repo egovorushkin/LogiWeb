@@ -11,15 +11,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/trucks")
 public class TruckController {
 
-    private TruckService truckService;
+    private final TruckService truckService;
 
-    private CityService cityService;
+    private final CityService cityService;
 
     @Autowired
     public TruckController(TruckService truckService, CityService cityService) {
@@ -28,18 +27,18 @@ public class TruckController {
         this.cityService = cityService;
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = {"/list", "/list/{page}"})
     public String showAllTrucks(Model model) {
-        List<Truck> trucks = truckService.listAll();
-        model.addAttribute("trucks", trucks);
+        model.addAttribute("trucks", truckService.listAll());
         return "truck/list";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@PathVariable("id") int id, Model model) throws Exception {
         model.addAttribute("truck", truckService.showTruck(id));
         model.addAttribute("cities", cityService.listAll());
         model.addAttribute("statuses", TruckStatus.values());
+        model.addAttribute("drivers", truckService.findCurrentDrivers(id));
         return "truck/show";
     }
 
@@ -51,7 +50,8 @@ public class TruckController {
     }
 
     @PostMapping(value = "/save")
-    public String saveTruck(@ModelAttribute("truck") @Valid Truck truck, BindingResult bindingResult, Model model) {
+    public String saveTruck(@ModelAttribute("truck") @Valid Truck truck,
+                            BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cities", cityService.listAll());
             return "truck/create";
@@ -70,7 +70,8 @@ public class TruckController {
     }
 
     @PostMapping("/update")
-    public String updateTruck(@ModelAttribute("truck") @Valid Truck truck, BindingResult bindingResult) {
+    public String updateTruck(@ModelAttribute("truck") @Valid Truck truck,
+                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "truck/edit";
         }

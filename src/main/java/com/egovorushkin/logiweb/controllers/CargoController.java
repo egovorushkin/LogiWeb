@@ -45,7 +45,8 @@ public class CargoController {
     }
 
     @PostMapping(value = "/save")
-    public String saveCargo(@ModelAttribute("cargo") @Valid Cargo cargo, BindingResult bindingResult) {
+    public String saveCargo(@ModelAttribute("cargo") @Valid Cargo cargo,
+                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "cargo/create";
         }
@@ -62,7 +63,8 @@ public class CargoController {
     }
 
     @PostMapping("/update")
-    public String updateCargo(@ModelAttribute("cargo") @Valid Cargo cargo, BindingResult bindingResult) {
+    public String updateCargo(@ModelAttribute("cargo") @Valid Cargo cargo,
+                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "cargo/edit";
         }

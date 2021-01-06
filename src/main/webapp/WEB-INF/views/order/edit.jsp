@@ -22,24 +22,38 @@
     <form:form modelAttribute="order" action="${pageContext.request.contextPath}/orders/update" method="post">
         <form:hidden path="id"/>
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Unique Number:</label>
-            <div class="col-sm-2">
-                <input type="text" class="form-control form-control-sm" id="registrationNumber"
-                       name="registrationNumber"
-                       value="${order.uniqueNumber}">
+            <label for="id" class="col-sm-2 col-form-label">Unique Number:</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control form-control-sm" id="id" name="id" value="${order.id}" readonly>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <form:select class="form-control form-control-sm" path="orderStatus" id="orderStatus"
                              name="orderStatus">
                     <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
                 </form:select>
             </div>
         </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Waypoint List:</label>
+            <div class="col-sm-3">
+                <form:select path="waypointList.id" cssClass="form-control form-control-sm">
+                    <form:options items="${waypointLists}" itemValue="id" itemLabel="id"/>
+                </form:select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Truck:</label>
+            <div class="col-sm-3">
+                <form:select path="truck.registrationNumber" cssClass="form-control form-control-sm">
+                    <form:options items="${trucks}" itemValue="id" itemLabel="registrationNumber"/>
+                </form:select>
+            </div>
+        </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary btn-sm">Save</button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"
            role="button">Delete</a>

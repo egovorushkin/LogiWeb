@@ -17,13 +17,6 @@
     <form:form modelAttribute="waypointList" action="${pageContext.request.contextPath}/waypoint-lists/save"
                method="post">
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Unique Number:</label>
-            <div class="col-sm-2">
-                <form:input path="id" type="number" class="form-control form-control-sm" id="id"
-                            name="id" readonly="true"/>
-            </div>
-        </div>
-        <div class="row mb-3">
             <label class="col-sm-2 col-form-label">From City:</label>
             <div class="col-sm-2">
                 <form:select path="fromCity.id" cssClass="form-control form-control-sm">
