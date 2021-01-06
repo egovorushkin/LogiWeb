@@ -8,11 +8,10 @@
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+<main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="page-header">
-        <h2>Create New Waypoint List</h2>
-        <hr>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Create New Waypoint List</h1>
     </div>
 
     <form:form modelAttribute="waypointList" action="${pageContext.request.contextPath}/waypoint-lists/save"
@@ -67,7 +66,7 @@
         </div>
 
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/waypointLists/list" role="button">Back</a>
+        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/waypoint-lists/list" role="button">Back</a>
     </form:form>
 </main>
 

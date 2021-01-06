@@ -2,15 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
-<title>List of Drivers</title>
+<title>Drivers</title>
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+<main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="page-header">
-        <h2>List Of Drivers</h2>
-        <hr>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Drivers</h1>
     </div>
 
     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">

@@ -15,25 +15,27 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "unique_number")
-    private int uniqueNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderStatus orderStatus;
 
-//    private Truck truck;
-//
-//    private List<Driver> drivers;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "waypoint_list_id")
+    private WaypointList waypointList;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "truck_id")
+    private Truck truck;
 
     public Order() {
     }
 
-    public Order(int id, int uniqueNumber, OrderStatus orderStatus) {
+    public Order(int id, OrderStatus orderStatus, WaypointList waypointList, Truck truck) {
         this.id = id;
-        this.uniqueNumber = uniqueNumber;
         this.orderStatus = orderStatus;
+        this.waypointList = waypointList;
+        this.truck = truck;
     }
 
     public int getId() {
@@ -44,14 +46,6 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public int getUniqueNumber() {
-        return uniqueNumber;
-    }
-
-    public void setUniqueNumber(int uniqueNumber) {
-        this.uniqueNumber = uniqueNumber;
-    }
-
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
@@ -60,17 +54,42 @@ public class Order implements Serializable {
         this.orderStatus = orderStatus;
     }
 
+    public WaypointList getWaypointList() {
+        return waypointList;
+    }
+
+    public void setWaypointList(WaypointList waypointList) {
+        this.waypointList = waypointList;
+    }
+
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public void setTruck(Truck truck) {
+        this.truck = truck;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id &&
-                uniqueNumber == order.uniqueNumber;
+        return id == order.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, uniqueNumber);
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderStatus=" + orderStatus +
+                ", waypointList=" + waypointList +
+                ", truck=" + truck +
+                '}';
     }
 }

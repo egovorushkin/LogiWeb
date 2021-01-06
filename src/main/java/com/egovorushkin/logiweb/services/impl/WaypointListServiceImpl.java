@@ -1,6 +1,6 @@
 package com.egovorushkin.logiweb.services.impl;
 
-import com.egovorushkin.logiweb.dao.impl.WaypointListDao;
+import com.egovorushkin.logiweb.dao.api.WaypointListDao;
 import com.egovorushkin.logiweb.entities.WaypointList;
 import com.egovorushkin.logiweb.services.api.WaypointListService;
 import org.springframework.beans.factory.annotation.Autowired;

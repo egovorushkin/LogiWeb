@@ -8,6 +8,7 @@
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Waypoint List</h1>
     </div>
@@ -27,7 +28,7 @@
             <tbody>
 
             <c:forEach items="${waypointLists}" var="waypointList">
-                <tr class='table-row' data-href='${pageContext.request.contextPath}/waypointLists/${waypointList.id}'>
+                <tr class='table-row' data-href='${pageContext.request.contextPath}/waypoint-lists/${waypointList.id}'>
                     <td class="align-middle">${waypointList.id}</td>
                     <td class="align-middle">${waypointList.fromCity.name}</td>
                     <td class="align-middle">${waypointList.toCity.name}</td>

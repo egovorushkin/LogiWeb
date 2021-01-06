@@ -23,13 +23,9 @@ public class DriverDaoImpl implements DriverDao {
     @Override
     public List<Driver> listAll() {
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM Driver d " +
-                   "LEFT JOIN FETCH d.currentCity", Driver.class);
+                   "LEFT JOIN FETCH d.currentCity currentCity LEFT JOIN FETCH d.currentTruck currentTruck", Driver.class);
 
-        List<Driver> drivers = q.getResultList();
-        q = entityManager.createQuery("SELECT d FROM Driver d " +
-                "LEFT JOIN FETCH d.currentTruck t", Driver.class);
-        drivers = q.getResultList();
-        return drivers;
+        return q.getResultList();
     }
 
     @Override

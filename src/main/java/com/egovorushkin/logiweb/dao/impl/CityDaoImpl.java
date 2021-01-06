@@ -17,15 +17,13 @@ public class CityDaoImpl implements CityDao {
 
     @Override
     public City getCityById(int id) {
-        City city = entityManager.find(City.class, id);
-        return city;
+        return entityManager.find(City.class, id);
     }
 
     @Override
     public List<City> listAll() {
         TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c", City.class);
-        List<City> cities = q.getResultList();
-        return cities;
+        return q.getResultList();
     }
 
     @Override

@@ -3,15 +3,14 @@
 
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
-<title>List of Cargoes</title>
+<title>Cargoes</title>
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+<main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="page-header">
-        <h2>List Of Cargoes</h2>
-        <hr>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Cargoes</h1>
     </div>
 
     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -51,9 +50,6 @@
         </c:forEach>
         </tbody>
     </table>
-    <br>
-
-
     <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/cargoes/create" role="button">Add</a>
 </main>
 

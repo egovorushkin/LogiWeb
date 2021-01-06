@@ -2,8 +2,9 @@ package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.status.OrderStatus;
-import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.OrderService;
+import com.egovorushkin.logiweb.services.api.TruckService;
+import com.egovorushkin.logiweb.services.api.WaypointListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +18,17 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    private CityService cityService;
+    private final WaypointListService waypointListService;
+
+    private final TruckService truckService;
 
     @Autowired
-    public OrderController(OrderService orderService, CityService cityService) {
-
+    public OrderController(OrderService orderService, WaypointListService waypointListService, TruckService truckService) {
         this.orderService = orderService;
-        this.cityService = cityService;
+        this.waypointListService = waypointListService;
+        this.truckService = truckService;
     }
 
     @GetMapping(value = "/list")
@@ -35,21 +38,27 @@ public class OrderController {
         return "order/list";
     }
 
-//    @GetMapping("/{id}")
-//    public String show(@PathVariable("id") int id, Model model) {
-//        model.addAttribute("order", orderService.showOrder(id));
-//        return "order/show";
-//    }
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model) {
+        model.addAttribute("order", orderService.showOrder(id));
+        model.addAttribute("waypointLists", waypointListService.listAll());
+        model.addAttribute("trucks", truckService.listAll());
+        return "order/show";
+    }
 
     @GetMapping(value = "/create")
     public String createOrderForm(Model model) {
         model.addAttribute("order", new Order());
+        model.addAttribute("waypointLists", waypointListService.listAll());
+        model.addAttribute("trucks", truckService.listAll());
         return "/order/create";
     }
 
     @PostMapping(value = "/save")
-    public String saveOrder(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult) {
+    public String saveOrder(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("waypointLists", waypointListService.listAll());
+            model.addAttribute("trucks", truckService.listAll());
             return "order/create";
         }
         orderService.saveOrder(order);
@@ -60,7 +69,8 @@ public class OrderController {
     public String editOrderForm(@RequestParam("orderId") int id, Model model) {
         Order order = orderService.getOrderById(id);
         model.addAttribute("order", order);
-        model.addAttribute("cities", cityService.listAll());
+        model.addAttribute("waypointLists", waypointListService.listAll());
+        model.addAttribute("trucks", truckService.listAll());
         model.addAttribute("statuses", OrderStatus.values());
         return "order/edit";
     }

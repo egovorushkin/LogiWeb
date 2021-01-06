@@ -17,14 +17,13 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order getOrderById(int id) {
-        Order order = entityManager.find(Order.class, id);
-        return order;
+        return entityManager.find(Order.class, id);
     }
 
     public List<Order> listAll() {
-        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o", Order.class);
-        List<Order> orders = q.getResultList();
-        return orders;
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o LEFT JOIN FETCH " +
+                "o.waypointList wList LEFT JOIN FETCH o.truck truck", Order.class);
+        return q.getResultList();
     }
 
     public Order showOrder(int id) {

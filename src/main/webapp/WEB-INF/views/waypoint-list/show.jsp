@@ -4,39 +4,46 @@
 
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
-<title>Truck</title>
+<title>Waypoint List</title>
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+<main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="page-header">
-        <h2>Truck</h2>
-        <hr>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Waypoint List</h1>
     </div>
 
-    <form:form modelAttribute="truck" action="${pageContext.request.contextPath}/trucks/${truck.id}">
-        <form:hidden path="id"/>
+    <form:form modelAttribute="waypointList" action="${pageContext.request.contextPath}/waypoint-lists/${waypointList.id}">
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration Number:</label>
+            <label for="id" class="col-sm-2 col-form-label">Unique Number:</label>
             <div class="col-sm-2 ">
-                <form:input path="registrationNumber" type="text" class="form-control form-control-sm"
-                            id="registrationNumber"
-                            name="registrationNumber" disabled="true"/>
+                <form:input path="id" type="number" class="form-control form-control-sm" id="id"
+                            name="id" disabled="true"/>
             </div>
         </div>
         <div class="row mb-3">
-            <label for="teamSize" class="col-sm-2 col-form-label">Team Size:</label>
+            <label class="col-sm-2 col-form-label">From City:</label>
             <div class="col-sm-2">
-                <form:input path="teamSize" type="number" class="form-control form-control-sm" id="teamSize"
-                            name="teamSize" readonly="true"/>
+                <form:select path="fromCity.id" cssClass="form-control form-control-sm" disabled="true">
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
             </div>
         </div>
         <div class="row mb-3">
-            <label for="capacity" class="col-sm-2 col-form-label">Capacity (kg):</label>
+            <label class="col-sm-2 col-form-label">To City:</label>
             <div class="col-sm-2">
-                <form:input path="capacity" type="number" class="form-control form-control-sm" id="capacity"
-                            name="capacity" readonly="true"/>
+                <form:select path="toCity.id" cssClass="form-control form-control-sm" disabled="true">
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Cargoes:</label>
+            <div class="col-sm-2">
+                <form:select path="cargo.id" cssClass="form-control form-control-sm" disabled="true">
+                    <form:options items="${cargoes}" itemValue="id" itemLabel="name"/>
+                </form:select>
             </div>
         </div>
         <div class="row mb-3">
@@ -48,30 +55,22 @@
                 </form:select>
             </div>
         </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current City:</label>
-            <div class="col-sm-2">
-                <form:select path="currentCity.id" cssClass="form-control form-control-sm" disabled="true">
-                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
-                </form:select>
-            </div>
-        </div>
 
-        <!-- construct an "delete" link with truck id -->
-        <c:url var="deleteLink" value="/trucks/delete">
-            <c:param name="truckId" value="${truck.id}"/>
+        <!-- construct an "delete" link with waypoint list id -->
+        <c:url var="deleteLink" value="/waypoint-lists/delete">
+            <c:param name="waypointListId" value="${waypointList.id}"/>
         </c:url>
 
-        <!-- construct an "update" link with truck id -->
-        <c:url var="updateLink" value="/trucks/edit">
-            <c:param name="truckId" value="${truck.id}"/>
+        <!-- construct an "update" link with waypoint list id -->
+        <c:url var="updateLink" value="/waypoint-lists/edit">
+            <c:param name="waypointListId" value="${waypointList.id}"/>
         </c:url>
 
         <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit</a>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this waypoint list?'))) return false"
            role="button">Delete</a>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
+        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/waypoint-lists/list" role="button">Back</a>
     </form:form>
 
     <div class="page-header">

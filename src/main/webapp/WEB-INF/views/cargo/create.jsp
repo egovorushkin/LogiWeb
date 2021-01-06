@@ -8,11 +8,10 @@
 
 <jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 m-2">
+<main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="page-header">
-        <h2>Create New Cargo</h2>
-        <hr>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Create New Cargo</h1>
     </div>
 
     <form:form modelAttribute="cargo" action="${pageContext.request.contextPath}/cargoes/save" method="post">

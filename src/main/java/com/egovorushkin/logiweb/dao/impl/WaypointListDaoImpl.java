@@ -1,5 +1,6 @@
 package com.egovorushkin.logiweb.dao.impl;
 
+import com.egovorushkin.logiweb.dao.api.WaypointListDao;
 import com.egovorushkin.logiweb.entities.WaypointList;
 import org.springframework.stereotype.Repository;
 
@@ -24,9 +25,7 @@ public class WaypointListDaoImpl implements WaypointListDao {
         TypedQuery<WaypointList> q = entityManager.createQuery("SELECT w FROM WaypointList w " +
                 "LEFT JOIN FETCH w.fromCity fromCity LEFT JOIN FETCH w.toCity toCity LEFT JOIN FETCH w.cargo cargo", WaypointList.class);
 
-        List<WaypointList> waypointLists = q.getResultList();;
-
-        return waypointLists;
+        return q.getResultList();
     }
 
     @Override
