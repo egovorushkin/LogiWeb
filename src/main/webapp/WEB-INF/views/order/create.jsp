@@ -32,18 +32,18 @@
                     <c:if test="${empty order.waypointList}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${waypointLists}" itemValue="id" itemLabel="id"/>
+                    <form:options items="${waypointLists}" itemValue="fromCity" itemLabel="fromCity"/>
                 </form:select>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Truck:</label>
             <div class="col-sm-2">
-                <form:select path="truck.id" cssClass="form-control form-control-sm">
+                <form:select path="truck.registrationNumber" cssClass="form-control form-control-sm">
                     <c:if test="${empty order.truck}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${trucks}" itemValue="id" itemLabel="id"/>
+                    <form:options items="${trucks}" itemValue="registrationNumber" itemLabel="registrationNumber"/>
                 </form:select>
             </div>
         </div>

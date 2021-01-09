@@ -2,6 +2,7 @@ package com.egovorushkin.logiweb.dao.impl;
 
 import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.entities.Order;
+import com.egovorushkin.logiweb.entities.WaypointList;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,16 +22,23 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     public List<Order> listAll() {
-        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o LEFT JOIN FETCH " +
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o LEFT " +
+                "JOIN FETCH " +
                 "o.waypointList wList LEFT JOIN FETCH o.truck truck", Order.class);
         return q.getResultList();
     }
 
     public Order showOrder(int id) {
-        Order order;
-        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.id=:id", Order.class).setParameter("id", id);
-        order = q.getSingleResult();
-        return order;
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o" +
+                ".id=:id", Order.class).setParameter("id", id);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public WaypointList findCurrentWaypointList(int id) {
+        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT w FROM WaypointList w WHERE w" +
+                ".id=:id", WaypointList.class).setParameter("id", id);
+        return q.getSingleResult();
     }
 
     public void saveOrder(Order order) {

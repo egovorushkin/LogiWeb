@@ -22,12 +22,11 @@ public class TruckController {
 
     @Autowired
     public TruckController(TruckService truckService, CityService cityService) {
-
         this.truckService = truckService;
         this.cityService = cityService;
     }
 
-    @GetMapping(value = {"/list", "/list/{page}"})
+    @GetMapping(value = "/list")
     public String showAllTrucks(Model model) {
         model.addAttribute("trucks", truckService.listAll());
         return "truck/list";

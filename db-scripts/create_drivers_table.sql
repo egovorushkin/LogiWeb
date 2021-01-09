@@ -1,5 +1,8 @@
 CREATE TABLE `logiweb`.`drivers` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NOT NULL,
+  `password` CHAR(80) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
   `personal_number` INT NOT NULL,
@@ -12,11 +15,11 @@ CREATE TABLE `logiweb`.`drivers` (
   INDEX `fk_drivers_cities_idx` (`current_city` ASC) VISIBLE,
   CONSTRAINT `fk_drivers_trucks`
     FOREIGN KEY (`current_truck`)
-    REFERENCES `logiweb`.`trucks` (`id`)
+    REFERENCES `logiweb`.`truck` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_drivers_cities`
     FOREIGN KEY (`current_city`)
-    REFERENCES `logiweb`.`cities` (`id`)
+    REFERENCES `logiweb`.`city` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);

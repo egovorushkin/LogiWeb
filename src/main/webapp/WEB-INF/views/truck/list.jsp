@@ -32,7 +32,7 @@
                 <td class="align-middle">${truck.registrationNumber}</td>
                 <td class="align-middle">${truck.teamSize}</td>
                 <td class="align-middle">${truck.capacity}</td>
-                <td class="align-middle">${truck.status}</td>
+                <td class="align-middle">${truck.status.toString()}</td>
                 <td class="align-middle">${truck.currentCity.name}</td>
 
                 <!-- construct an "delete" link with truck id -->
