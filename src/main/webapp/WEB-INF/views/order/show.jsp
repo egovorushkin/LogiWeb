@@ -30,43 +30,25 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current Status:</label>
+            <label for="status" class="col-sm-2 col-form-label">Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm"
-                             path="orderStatus"
-                             id="orderStatus"
-                             name="orderStatus" disabled="true">
-                    <form:options itemValue="name" itemLabel="name"
-                                  items="${statuses}"/>
-                </form:select>
+                <form:input path="status.name" type="text"
+                            class="form-control form-control-sm" id="status"
+                            name="status" readonly="true"/>
             </div>
         </div>
-        <%--        <div class="row mb-3">--%>
-        <%--            <label class="col-sm-2 col-form-label">Waypoint List:</label>--%>
-        <%--            <div class="col-sm-2">--%>
-        <%--                <form:select path="waypointList.toCity"--%>
-        <%--                             cssClass="form-control form-control-sm"--%>
-        <%--                             disabled="true">--%>
-        <%--                    <form:options items="${waypointLists}" itemValue="toCity"--%>
-        <%--                                  itemLabel="toCity"/>--%>
-        <%--                </form:select>--%>
-        <%--            </div>--%>
-        <%--        </div>--%>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Truck:</label>
+            <label for="truck" class="col-sm-2 col-form-label">Truck:</label>
             <div class="col-sm-2">
-                <form:select path="truck.registrationNumber"
-                             cssClass="form-control form-control-sm"
-                             disabled="true">
-                    <form:options items="${trucks}" itemValue="id"
-                                  itemLabel="registrationNumber"/>
-                </form:select>
+                <form:input path="truck.registrationNumber" type="text"
+                            class="form-control form-control-sm" id="truck"
+                            name="truck" readonly="true"/>
             </div>
         </div>
 
         <a class="btn btn-success btn-sm"
            href="${pageContext.request.contextPath}/orders/edit" role="button">Edit</a>
-        <a class="btn btn-secondary btn-sm" href="${deleteLink}"
+        <a class="btn btn-danger btn-sm" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"
            role="button">Delete</a>
         <a class="btn btn-secondary btn-sm"
@@ -88,17 +70,15 @@
             </thead>
             <tbody>
             <tr class='table-row'>
-                <td class="align-middle">${order.waypointList.fromCity.name}</td>
-                <td class="align-middle">${order.waypointList.fromCity.name}</td>
-                <td class="align-middle">${order.waypointList.toCity.name}</td>
-                <td class="align-middle">${order.waypointList.cargo.toString()}</td>
-                <td class="align-middle">${order.waypointList.status.name}</td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
             </tr>
             </tbody>
         </table>
     </form:form>
-
-
 
 </main>
 </div>

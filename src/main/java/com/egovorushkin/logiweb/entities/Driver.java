@@ -1,6 +1,6 @@
 package com.egovorushkin.logiweb.entities;
 
-import com.egovorushkin.logiweb.entities.status.DriverStatus;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +39,7 @@ public class Driver implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private DriverStatus driverStatus;
+    private DriverStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
@@ -59,7 +59,7 @@ public class Driver implements Serializable {
         this.lastName = lastName;
         this.personalNumber = personalNumber;
         this.workedHoursPerMonth = workedHoursPerMonth;
-        this.driverStatus = driverStatus;
+        this.status = driverStatus;
         this.currentCity = currentCity;
         this.currentTruck = currentTruck;
     }
@@ -104,12 +104,12 @@ public class Driver implements Serializable {
         this.workedHoursPerMonth = workedHoursPerMonth;
     }
 
-    public DriverStatus getDriverStatus() {
-        return driverStatus;
+    public DriverStatus getStatus() {
+        return status;
     }
 
-    public void setDriverStatus(DriverStatus driverStatus) {
-        this.driverStatus = driverStatus;
+    public void setStatus(DriverStatus driverStatus) {
+        this.status = driverStatus;
     }
 
     public City getCurrentCity() {
@@ -149,7 +149,7 @@ public class Driver implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", personalNumber=" + personalNumber +
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
-                ", driverStatus=" + driverStatus +
+                ", status=" + status +
                 ", currentCity=" + currentCity +
                 ", currentTruck=" + currentTruck +
                 '}';

@@ -1,19 +1,10 @@
 package com.egovorushkin.logiweb.entities;
 
-import com.egovorushkin.logiweb.entities.status.TruckStatus;
+import com.egovorushkin.logiweb.entities.enums.TruckState;
+import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -34,7 +25,7 @@ public class Truck implements Serializable {
     @Column(name = "registration_number", unique = true)
     private String registrationNumber;
 
-    @Range(max = 3, message = "Team size should be greater than 0 and less or equals 3.")
+    @Range(max = 2, message = "Team size should be greater than 0 and less or equals 3.")
     @Column(name = "team_size")
     private int teamSize;
 
@@ -44,7 +35,11 @@ public class Truck implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private TruckStatus truckStatus;
+    private TruckStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state")
+     private TruckState state;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
@@ -53,12 +48,20 @@ public class Truck implements Serializable {
     public Truck() {
     }
 
-    public Truck(String registrationNumber, int teamSize, int capacity,
-                 TruckStatus status, City currentCity) {
+    public Truck(int id, @NotEmpty(message = "Registration Number should not be empty")
+    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number must be 2" +
+            " characters and 5 digits (ex. \"AB12345\")") String registrationNumber,
+                 @Range(max = 2, message = "Team size should be greater than 0 and less" +
+                         " or equals 3.") int teamSize,
+                 @Range(max = 28000, message = "Capacity should be less or equals 28000" +
+                         " kg.") int capacity,
+                 TruckStatus status, TruckState state, City currentCity) {
+        this.id = id;
         this.registrationNumber = registrationNumber;
         this.teamSize = teamSize;
         this.capacity = capacity;
-        this.truckStatus = status;
+        this.status = status;
+        this.state = state;
         this.currentCity = currentCity;
     }
 
@@ -95,11 +98,19 @@ public class Truck implements Serializable {
     }
 
     public TruckStatus getStatus() {
-        return truckStatus;
+        return status;
     }
 
     public void setStatus(TruckStatus status) {
-        this.truckStatus = status;
+        this.status = status;
+    }
+
+    public TruckState getState() {
+        return state;
+    }
+
+    public void setState(TruckState state) {
+        this.state = state;
     }
 
     public City getCurrentCity() {
@@ -131,7 +142,8 @@ public class Truck implements Serializable {
                 ", registrationNumber='" + registrationNumber + '\'' +
                 ", teamSize=" + teamSize +
                 ", capacity=" + capacity +
-                ", truckStatus=" + truckStatus +
+                ", status=" + status +
+                ", state=" + state +
                 ", currentCity=" + currentCity +
                 '}';
     }

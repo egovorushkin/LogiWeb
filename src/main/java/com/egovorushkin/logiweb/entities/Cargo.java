@@ -1,6 +1,6 @@
 package com.egovorushkin.logiweb.entities;
 
-import com.egovorushkin.logiweb.entities.status.CargoStatus;
+import com.egovorushkin.logiweb.entities.enums.CargoStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

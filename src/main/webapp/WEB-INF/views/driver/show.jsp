@@ -56,34 +56,38 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current Status:</label>
+            <label for="status" class="col-sm-2 col-form-label">Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="driverStatus" id="driverStatus"
-                             name="driverStatus" disabled="true">
-                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
-                </form:select>
+                <form:input path="status.name" type="text"
+                            class="form-control form-control-sm" id="status"
+                            name="status" readonly="true"/>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current City:</label>
+            <label for="currentCity" class="col-sm-2 col-form-label">Current
+                City:</label>
             <div class="col-sm-2">
-                <form:select path="currentCity.id" cssClass="form-control form-control-sm" disabled="true">
-                    <c:if test="${empty driver.currentCity}">
-                        <form:option value="${driver.currentCity.name}" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
-                </form:select>
+                <input value="${driver.currentCity.toString()}"
+                       class="form-control form-control-sm" id="currentCity"
+                       name="currentCity" disabled/>
             </div>
         </div>
+
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Truck:</label>
             <div class="col-sm-2">
-                <form:select path="currentTruck.id" cssClass="form-control form-control-sm" disabled="true">
-                    <c:if test="${empty driver.currentTruck}">
-                        <form:option value="${driver.currentTruck.registrationNumber}" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${trucks}" itemValue="id" itemLabel="registrationNumber"/>
-                </form:select>
+                    <c:choose>
+                        <c:when test="${empty driver.currentTruck}">
+                            <input value="None"
+                                   class="form-control form-control-sm" id="none"
+                                   name="none" disabled/>
+                        </c:when>
+                        <c:otherwise>
+                            <input value="${driver.currentTruck.registrationNumber}"
+                                   class="form-control form-control-sm" id="currentTruck"
+                                   name="currentTruck" disabled/>
+                        </c:otherwise>
+                    </c:choose>
             </div>
         </div>
 

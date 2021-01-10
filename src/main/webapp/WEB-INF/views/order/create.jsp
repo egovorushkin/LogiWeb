@@ -19,20 +19,19 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="orderStatus" id="orderStatus"
-                             name="orderStatus">
-                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
+                <form:select class="form-control form-control-sm" path="status" id="status"
+                             name="status">
+                    <form:options itemValue="title" itemLabel="name" items="${statuses}"/>
                 </form:select>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Waypoint List:</label>
             <div class="col-sm-2">
-                <form:select path="waypointList.id" cssClass="form-control form-control-sm">
-                    <c:if test="${empty order.waypointList}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${waypointLists}" itemValue="fromCity" itemLabel="fromCity"/>
+                <form:select id="waypointList" name="userId" path="waypointList.id" class="form-control form-control-sm">
+                    <c:forEach var="waypointList" items="${waypointLists}">
+                        <form:option value="${waypointList.id}"><c:out value="${waypointList.toString()}"/></form:option>
+                    </c:forEach>
                 </form:select>
             </div>
         </div>

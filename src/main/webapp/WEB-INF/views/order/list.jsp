@@ -27,7 +27,7 @@
         <c:forEach items="${orders}" var="order">
             <tr class='table-row' data-href='${pageContext.request.contextPath}/orders/${order.id}'>
                 <td class="align-middle">${order.id}</td>
-                <td class="align-middle">${order.orderStatus}</td>
+                <td class="align-middle">${order.status.toString()}</td>
                 <td class="align-middle">${order.waypointList.id}</td>
                 <td class="align-middle">${order.truck.registrationNumber}</td>
 

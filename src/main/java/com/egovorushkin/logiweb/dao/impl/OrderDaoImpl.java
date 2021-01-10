@@ -22,22 +22,25 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     public List<Order> listAll() {
-        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o LEFT " +
-                "JOIN FETCH " +
-                "o.waypointList wList LEFT JOIN FETCH o.truck truck", Order.class);
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order " +
+                        "o LEFT " +
+                        "JOIN FETCH " +
+                        "o.waypointList wList LEFT JOIN FETCH o.truck truck",
+                Order.class);
         return q.getResultList();
     }
 
     public Order showOrder(int id) {
-        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o" +
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order " +
+                "o JOIN FETCH o.waypointList JOIN FETCH o.truck WHERE o" +
                 ".id=:id", Order.class).setParameter("id", id);
         return q.getSingleResult();
     }
 
     @Override
     public WaypointList findCurrentWaypointList(int id) {
-        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT w FROM WaypointList w WHERE w" +
-                ".id=:id", WaypointList.class).setParameter("id", id);
+        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT w FROM" +
+                " WaypointList w WHERE w.id=:id", WaypointList.class).setParameter("id", id);
         return q.getSingleResult();
     }
 

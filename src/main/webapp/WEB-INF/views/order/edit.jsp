@@ -30,7 +30,7 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-3">
-                <form:select class="form-control form-control-sm" path="orderStatus" id="orderStatus"
+                <form:select class="form-control form-control-sm" path="status" id="orderStatus"
                              name="orderStatus">
                     <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
                 </form:select>

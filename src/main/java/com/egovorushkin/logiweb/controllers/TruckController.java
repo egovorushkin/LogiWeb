@@ -1,7 +1,8 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.entities.Truck;
-import com.egovorushkin.logiweb.entities.status.TruckStatus;
+import com.egovorushkin.logiweb.entities.enums.TruckState;
+import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,8 @@ public class TruckController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) throws Exception {
         model.addAttribute("truck", truckService.showTruck(id));
-        model.addAttribute("cities", cityService.listAll());
+        //model.addAttribute("cities", cityService.listAll());
+        model.addAttribute("states", TruckState.values());
         model.addAttribute("statuses", TruckStatus.values());
         model.addAttribute("drivers", truckService.findCurrentDrivers(id));
         return "truck/show";
@@ -64,6 +66,7 @@ public class TruckController {
         Truck truck = truckService.getTruckById(id);
         model.addAttribute("truck", truck);
         model.addAttribute("cities", cityService.listAll());
+        model.addAttribute("states", TruckState.values());
         model.addAttribute("statuses", TruckStatus.values());
         return "truck/edit";
     }

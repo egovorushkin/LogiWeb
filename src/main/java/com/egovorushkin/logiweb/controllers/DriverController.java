@@ -1,7 +1,7 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.entities.Driver;
-import com.egovorushkin.logiweb.entities.status.DriverStatus;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.TruckService;

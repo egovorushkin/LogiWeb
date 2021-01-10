@@ -1,7 +1,7 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.entities.Order;
-import com.egovorushkin.logiweb.entities.status.OrderStatus;
+import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import com.egovorushkin.logiweb.services.api.WaypointListService;

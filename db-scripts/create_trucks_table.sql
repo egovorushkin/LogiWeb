@@ -3,7 +3,8 @@ CREATE TABLE `logiweb`.`trucks` (
   `registration_number` VARCHAR(7) NOT NULL,
   `team_size` INT NOT NULL,
   `capacity` INT NOT NULL,
-  `status` VARCHAR(6) NOT NULL,
+  `state` VARCHAR(20) NOT NULL,
+  `status` VARCHAR(20) NOT NULL,
   `current_city` VARCHAR(20) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `registration_number_UNIQUE` (`registration_number` ASC) VISIBLE);

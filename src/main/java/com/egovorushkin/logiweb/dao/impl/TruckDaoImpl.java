@@ -23,18 +23,18 @@ public class TruckDaoImpl implements TruckDao {
 
     @Override
     public List<Truck> listAll() {
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t " +
+        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
+                "t " +
                 "JOIN FETCH t.currentCity", Truck.class);
         return q.getResultList();
     }
 
     @Override
     public Truck showTruck(int id) {
-        Truck truck;
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t " +
-                "WHERE t.id=:id", Truck.class).setParameter("id", id);
-        truck = q.getSingleResult();
-        return truck;
+        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
+                "t " +
+                "JOIN FETCH t.currentCity WHERE t.id=:id", Truck.class).setParameter("id", id);
+        return q.getSingleResult();
     }
 
     @Override
@@ -57,17 +57,13 @@ public class TruckDaoImpl implements TruckDao {
     }
 
     @Override
-    public List<Driver> findCurrentDrivers(int id) throws Exception {
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM Driver d " +
-                "WHERE d.currentTruck.id=:id", Driver.class).setParameter("id", id);
+    public List<Driver> findCurrentDrivers(int id) {
+        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
+                "Driver d " +
+                "WHERE d.currentTruck.id=:id", Driver.class).setParameter("id"
+                , id);
 
-        List<Driver> drivers = q.getResultList();
-
-        if (drivers.isEmpty()) {
-            throw new Exception("Drivers not found!");
-        }
-
-        return drivers;
+        return q.getResultList();
     }
 
 }

@@ -1,7 +1,7 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.entities.WaypointList;
-import com.egovorushkin.logiweb.entities.status.WaypointListStatus;
+import com.egovorushkin.logiweb.entities.enums.WaypointListStatus;
 import com.egovorushkin.logiweb.services.api.CargoService;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.WaypointListService;

@@ -33,7 +33,7 @@
                 <td class="align-middle">${driver.lastName}</td>
                 <td class="align-middle">${driver.personalNumber}</td>
                 <td class="align-middle">${driver.workedHoursPerMonth}</td>
-                <td class="align-middle">${driver.driverStatus}</td>
+                <td class="align-middle">${driver.status.toString()}</td>
                 <td class="align-middle">${driver.currentCity.name}</td>
                 <td class="align-middle">${driver.currentTruck.registrationNumber}</td
 

@@ -1,6 +1,6 @@
 package com.egovorushkin.logiweb.entities;
 
-import com.egovorushkin.logiweb.entities.status.WaypointListStatus;
+import com.egovorushkin.logiweb.entities.enums.WaypointListStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -111,12 +111,6 @@ public class WaypointList {
 
     @Override
     public String toString() {
-        return "WaypointList{" +
-                "id=" + id +
-                ", fromCity=" + fromCity +
-                ", toCity=" + toCity +
-                ", cargo=" + cargo +
-                ", status=" + status +
-                '}';
+        return fromCity +" -> " + toCity +", " + cargo + ", " + status;
     }
 }

@@ -27,15 +27,31 @@
                             name="registrationNumber" disabled="true"/>
             </div>
         </div>
-        <div class="row mb-3">
-            <label for="teamSize" class="col-sm-2 col-form-label">Team
-                Size:</label>
-            <div class="col-sm-2">
-                <form:input path="teamSize" type="number"
-                            class="form-control form-control-sm" id="teamSize"
-                            name="teamSize" readonly="true"/>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Team Size:</legend>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <form:radiobutton path="teamSize"
+                                          class="form-check-input"
+                                          name="teamSize" id="teamSize"
+                                          disabled="true"/>
+                        <c:choose>
+                            <c:when test="${truck.teamSize == 1}">
+                                <label class="form-check-label" for="teamSize">
+                                        1 Driver
+                                </label>
+                            </c:when>
+                            <c:otherwise>
+                                <label class="form-check-label" for="teamSize">
+                                        ${truck.teamSize} Drivers
+                                </label>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
             </div>
-        </div>
+        </fieldset>
         <div class="row mb-3">
             <label for="capacity" class="col-sm-2 col-form-label">Capacity
                 (kg):</label>
@@ -46,25 +62,28 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current Status:</label>
+            <label for="state" class="col-sm-2 col-form-label">State:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status"
-                             id="status" name="status"
-                             disabled="true">
-                    <form:options itemValue="name" itemLabel="name"
-                                  items="${statuses}"/>
-                </form:select>
+                <form:input path="state.name" type="text"
+                            class="form-control form-control-sm" id="state"
+                            name="state" readonly="true"/>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current City:</label>
+            <label for="status" class="col-sm-2 col-form-label">Status:</label>
             <div class="col-sm-2">
-                <form:select path="currentCity.id"
-                             cssClass="form-control form-control-sm"
-                             disabled="true">
-                    <form:options items="${cities}" itemValue="id"
-                                  itemLabel="name"/>
-                </form:select>
+                <form:input path="status.name" type="text"
+                            class="form-control form-control-sm" id="status"
+                            name="status" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="currentCity" class="col-sm-2 col-form-label">Current
+                City:</label>
+            <div class="col-sm-2">
+                <input value="${truck.currentCity.toString()}"
+                       class="form-control form-control-sm" id="currentCity"
+                       name="currentCity" disabled/>
             </div>
         </div>
 
@@ -112,7 +131,7 @@
                 <td class="align-middle">${driver.lastName}</td>
                 <td class="align-middle">${driver.personalNumber}</td>
                 <td class="align-middle">${driver.workedHoursPerMonth}</td>
-                <td class="align-middle">${driver.driverStatus}</td>
+                <td class="align-middle">${driver.status}</td>
                 <td class="align-middle">${driver.currentCity.name}</td>
 
                 <!-- construct an "delete" link with driver id -->

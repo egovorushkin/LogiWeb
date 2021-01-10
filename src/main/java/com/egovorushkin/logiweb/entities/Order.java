@@ -1,6 +1,6 @@
 package com.egovorushkin.logiweb.entities;
 
-import com.egovorushkin.logiweb.entities.status.OrderStatus;
+import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +27,7 @@ public class Order implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "waypoint_list_id")
@@ -43,7 +43,7 @@ public class Order implements Serializable {
     public Order(int id, OrderStatus orderStatus, WaypointList waypointList,
                  Truck truck) {
         this.id = id;
-        this.orderStatus = orderStatus;
+        this.status = orderStatus;
         this.waypointList = waypointList;
         this.truck = truck;
     }
@@ -56,12 +56,12 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setStatus(OrderStatus orderStatus) {
+        this.status = orderStatus;
     }
 
     public WaypointList getWaypointList() {
@@ -97,7 +97,7 @@ public class Order implements Serializable {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", orderStatus=" + orderStatus +
+                ", status=" + status +
                 ", waypointList=" + waypointList +
                 ", truck=" + truck +
                 '}';

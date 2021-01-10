@@ -14,53 +14,100 @@
         <h1 class="h2">Create New Truck</h1>
     </div>
 
-    <form:form modelAttribute="truck" action="${pageContext.request.contextPath}/trucks/save" method="post">
+    <form:form modelAttribute="truck"
+               action="${pageContext.request.contextPath}/trucks/save"
+               method="post">
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration Number:</label>
+            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration
+                Number:</label>
             <div class="col-sm-2">
-                <form:input path="registrationNumber" type="text" class="form-control form-control-sm"
+                <form:input path="registrationNumber" type="text"
+                            class="form-control form-control-sm"
                             id="registrationNumber" name="registrationNumber"/>
             </div>
-            <form:errors path="registrationNumber" cssClass="alert alert-danger"/>
-
+            <form:errors path="registrationNumber"
+                         cssClass="alert alert-danger"/>
         </div>
-        <div class="row mb-3">
-            <label for="teamSize" class="col-sm-2 col-form-label">Team Size:</label>
-            <div class="col-sm-2">
-                <form:input path="teamSize" type="number" class="form-control form-control-sm" id="teamSize"
-                            name="teamSize"/>
+        <formfieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Team Size:</legend>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <form:radiobutton path="teamSize"
+                                          class="form-check-input"
+                                          name="oneDriver" value="0"
+                                          id="oneDriver"/>
+                        <label class="form-check-label" for="oneDriver">
+                            None
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <form:radiobutton path="teamSize"
+                                          class="form-check-input"
+                                          name="oneDriver" value="1"
+                                          id="oneDriver"/>
+                        <label class="form-check-label" for="oneDriver">
+                            1
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <form:radiobutton path="teamSize"
+                                          class="form-check-input"
+                                          name="twoDrivers" value="2"
+                                          id="twoDrivers"/>
+                        <label class="form-check-label" for="twoDrivers">
+                            2
+                        </label>
+                    </div>
+                </div>
             </div>
-            <form:errors path="teamSize" cssClass="alert alert-danger"/>
-        </div>
+        </formfieldset>
         <div class="row mb-3">
-            <label for="capacity" class="col-sm-2 col-form-label">Capacity (kg):</label>
+            <label for="capacity" class="col-sm-2 col-form-label">Capacity
+                (kg):</label>
             <div class="col-sm-2">
-                <form:input path="capacity" type="number" class="form-control form-control-sm" id="capacity"
+                <form:input path="capacity" type="number"
+                            class="form-control form-control-sm" id="capacity"
                             name="capacity"/>
             </div>
             <form:errors path="capacity" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Condition:</label>
+            <div class="col-sm-2">
+                <form:select class="form-control form-control-sm" path="state"
+                             id="state" name="name">
+                    <form:options itemValue="title" itemLabel="name"
+                                  items="${states}"/>
+                </form:select>
+            </div>
+        </div>
+        <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status" id="status" name="status">
-                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
+                <form:select class="form-control form-control-sm" path="status"
+                             id="status" name="name">
+                    <form:options itemValue="title" itemLabel="name"
+                                  items="${statuses}"/>
                 </form:select>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current City:</label>
             <div class="col-sm-2">
-                <form:select path="currentCity.id" cssClass="form-control form-control-sm">
+                <form:select path="currentCity.id"
+                             cssClass="form-control form-control-sm">
                     <c:if test="${empty truck.currentCity}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                    <form:options items="${cities}" itemValue="id"
+                                  itemLabel="name"/>
                 </form:select>
             </div>
         </div>
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
+        <a class="btn btn-sm btn-secondary"
+           href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
     </form:form>
 </main>
 
