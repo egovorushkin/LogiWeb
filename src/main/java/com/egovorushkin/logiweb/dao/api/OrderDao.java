@@ -1,7 +1,7 @@
 package com.egovorushkin.logiweb.dao.api;
 
 import com.egovorushkin.logiweb.entities.Order;
-import com.egovorushkin.logiweb.entities.WaypointList;
+import com.egovorushkin.logiweb.entities.Truck;
 
 import java.util.List;
 
@@ -19,5 +19,6 @@ public interface OrderDao {
 
     Order showOrder(int id);
 
-    WaypointList findCurrentWaypointList(int id);
+    List<Truck> findAvailableTrucks(Order order);
+
 }

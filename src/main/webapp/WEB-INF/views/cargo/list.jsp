@@ -10,7 +10,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Cargoes</h1>
+        <h1 class="h2"><i class="fas fa-boxes"></i> | Cargoes</h1>
     </div>
 
     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -31,7 +31,7 @@
                 <td class="align-middle">${cargo.id}</td>
                 <td class="align-middle">${cargo.name}</td>
                 <td class="align-middle">${cargo.weight}</td>
-                <td class="align-middle">${cargo.status}</td>
+                <td class="align-middle">${cargo.status.toString()}</td>
 
                 <!-- construct an "delete" link with cargo id -->
                 <c:url var="deleteLink" value="/cargoes/delete">
@@ -42,10 +42,9 @@
                     <c:param name="cargoId" value="${cargo.id}"/>
                 </c:url>
 
-                <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
+                <td><a class="nav-link" href="${updateLink}"><i class="fas fa-edit fa-sm"></i></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
-                       onclick="if (!(confirm('Are you sure you want to delete this cargo?'))) return false"><span
-                        data-feather="x-square"></span></a></td>
+                       onclick="if (!(confirm('Are you sure you want to delete this cargo?'))) return false"><i class="fas fa-trash-alt fa-sm" style="color: red"></i></a></td>
             </tr>
         </c:forEach>
         </tbody>

@@ -2,11 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<!-- construct an "delete" link with order id -->
-<c:url var="deleteLink" value="/orders/delete">
-    <c:param name="orderId" value="${order.id}"/>
-</c:url>
-
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
 <title>Order</title>
@@ -21,12 +16,14 @@
 
     <form:form modelAttribute="order"
                action="${pageContext.request.contextPath}/orders/${order.id}">
+
         <div class="row mb-3">
             <label for="id" class="col-sm-2 col-form-label">Unique
                 Number:</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control form-control-sm" id="id"
-                       name="id" value="${order.id}" readonly>
+                <form:input path="id" class="form-control form-control-sm"
+                            id="id"
+                            name="id" value="${order.id}" disabled="true"/>
             </div>
         </div>
         <div class="row mb-3">
@@ -38,48 +35,72 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label for="truck" class="col-sm-2 col-form-label">Truck:</label>
+            <label for="fromCity" class="col-sm-2 col-form-label">From
+                City:</label>
             <div class="col-sm-2">
-                <form:input path="truck.registrationNumber" type="text"
-                            class="form-control form-control-sm" id="truck"
-                            name="truck" readonly="true"/>
+                <form:input path="fromCity.name" type="text"
+                            class="form-control form-control-sm" id="fromCity"
+                            name="fromCity" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="toCity" class="col-sm-2 col-form-label">To City:</label>
+            <div class="col-sm-2">
+                <form:input path="toCity.name" type="text"
+                            class="form-control form-control-sm" id="toCity"
+                            name="toCity" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="distance" class="col-sm-2 col-form-label">Distance
+                (km):</label>
+            <div class="col-sm-2">
+                <form:input path="distance" type="text"
+                            class="form-control form-control-sm" id="distance"
+                            name="distance" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="cargo" class="col-sm-2 col-form-label">Cargo:</label>
+            <div class="col-sm-2">
+                <form:input path="cargo.name" type="text"
+                            class="form-control form-control-sm" id="cargo"
+                            name="cargo" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Current Truck:</label>
+            <div class="col-sm-2">
+                <c:choose>
+                    <c:when test="${not empty order.truck}">
+                        <form:input path="truck.registrationNumber" type="text"
+                                    class="form-control form-control-sm" id="registrationNumber"
+                                    name="registrationNumber" readonly="true"/>
+                    </c:when>
+                    <c:otherwise>
+                        <input value="None" class="form-control form-control-sm" disabled />
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 
+        <!-- construct an "delete" link with order id -->
+        <c:url var="deleteLink" value="/orders/delete">
+            <c:param name="orderId" value="${order.id}"/>
+        </c:url>
+        <!-- construct an "update" link with order id -->
+        <c:url var="updateLink" value="/orders/edit">
+            <c:param name="orderId" value="${order.id}"/>
+        </c:url>
+
         <a class="btn btn-success btn-sm"
-           href="${pageContext.request.contextPath}/orders/edit" role="button">Edit</a>
+           href="${updateLink}" role="button">Edit</a>
         <a class="btn btn-danger btn-sm" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"
            role="button">Delete</a>
         <a class="btn btn-secondary btn-sm"
            href="${pageContext.request.contextPath}/orders/list" role="button">Back</a>
-
-        <div>
-            <h3>Waypoint List</h3>
-            <hr>
-        </div>
-        <table class="table table-responsive-sm table-hover table-striped table-bordered table-sm">
-            <thead>
-            <tr>
-                <th>Unique Number</th>
-                <th>From City</th>
-                <th>To City</th>
-                <th>Cargo</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class='table-row'>
-                <td class="align-middle"></td>
-                <td class="align-middle"></td>
-                <td class="align-middle"></td>
-                <td class="align-middle"></td>
-                <td class="align-middle"></td>
-            </tr>
-            </tbody>
-        </table>
     </form:form>
-
 </main>
 </div>
 </div>

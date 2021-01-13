@@ -2,17 +2,7 @@ package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -47,7 +37,7 @@ public class Driver implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "truck_id")
-    private Truck currentTruck;
+    private Truck truck;
 
     public Driver() {
     }
@@ -61,7 +51,7 @@ public class Driver implements Serializable {
         this.workedHoursPerMonth = workedHoursPerMonth;
         this.status = driverStatus;
         this.currentCity = currentCity;
-        this.currentTruck = currentTruck;
+        this.truck = currentTruck;
     }
 
     public int getId() {
@@ -120,12 +110,12 @@ public class Driver implements Serializable {
         this.currentCity = currentCity;
     }
 
-    public Truck getCurrentTruck() {
-        return currentTruck;
+    public Truck getTruck() {
+        return truck;
     }
 
-    public void setCurrentTruck(Truck currentTruck) {
-        this.currentTruck = currentTruck;
+    public void setTruck(Truck currentTruck) {
+        this.truck = currentTruck;
     }
 
     @Override
@@ -151,7 +141,7 @@ public class Driver implements Serializable {
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
                 ", status=" + status +
                 ", currentCity=" + currentCity +
-                ", currentTruck=" + currentTruck +
+                ", currentTruck=" + truck +
                 '}';
     }
 }

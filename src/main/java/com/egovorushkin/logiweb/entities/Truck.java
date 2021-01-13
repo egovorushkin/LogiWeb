@@ -17,15 +17,17 @@ public class Truck implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @NotEmpty(message = "Registration Number should not be empty")
-    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number must be 2" +
+    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number" +
+            " must be 2" +
             " characters and 5 digits (ex. \"AB12345\")")
     @Column(name = "registration_number", unique = true)
     private String registrationNumber;
 
-    @Range(max = 2, message = "Team size should be greater than 0 and less or equals 3.")
+    @Range(max = 2, message = "Team size should be greater than 0 and less or" +
+            " equals 3.")
     @Column(name = "team_size")
     private int teamSize;
 
@@ -39,21 +41,25 @@ public class Truck implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
-     private TruckState state;
+    private TruckState state;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id")
     private City currentCity;
 
     public Truck() {
     }
 
-    public Truck(int id, @NotEmpty(message = "Registration Number should not be empty")
-    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number must be 2" +
+    public Truck(Integer id, @NotEmpty(message = "Registration Number should not " +
+            "be empty")
+    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number" +
+            " must be 2" +
             " characters and 5 digits (ex. \"AB12345\")") String registrationNumber,
-                 @Range(max = 2, message = "Team size should be greater than 0 and less" +
+                 @Range(max = 2, message = "Team size should be greater than " +
+                         "0 and less" +
                          " or equals 3.") int teamSize,
-                 @Range(max = 28000, message = "Capacity should be less or equals 28000" +
+                 @Range(max = 28000, message = "Capacity should be less or " +
+                         "equals 28000" +
                          " kg.") int capacity,
                  TruckStatus status, TruckState state, City currentCity) {
         this.id = id;
@@ -65,11 +71,11 @@ public class Truck implements Serializable {
         this.currentCity = currentCity;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

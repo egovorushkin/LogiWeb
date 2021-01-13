@@ -11,10 +11,12 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Edit Cargo</h1>
+        <h1 class="h2"><i class="fas fa-edit"></i> | Edit Cargo</h1>
     </div>
 
     <form:form modelAttribute="cargo" action="${pageContext.request.contextPath}/cargoes/update" method="post">
+
+        <form:hidden path="id"/>
 
         <div class="row mb-3">
             <label for="id" class="col-sm-2 col-form-label">Id:</label>
@@ -41,7 +43,7 @@
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
                 <form:select class="form-control form-control-sm" path="status" id="status" name="status">
-                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
+                    <form:options itemValue="title" itemLabel="name" items="${statuses}"/>
                 </form:select>
             </div>
         </div>

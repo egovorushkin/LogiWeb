@@ -28,7 +28,6 @@
                 <form:input path="name" type="text" class="form-control form-control-sm" id="name" name="name"
                             disabled="true"/>
             </div>
-            <form:errors path="name" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
             <label for="weight" class="col-sm-2 col-form-label">Weight (kg):</label>
@@ -36,15 +35,13 @@
                 <form:input path="weight" type="number" class="form-control form-control-sm" id="weight" name="weight"
                             disabled="true"/>
             </div>
-            <form:errors path="weight" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current Status:</label>
+            <label for="status" class="col-sm-2 col-form-label">Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status" id="status" name="status"
-                             disabled="true">
-                    <form:options itemValue="name" itemLabel="name" items="${statuses}"/>
-                </form:select>
+                <form:input path="status.name" type="text"
+                            class="form-control form-control-sm" id="status"
+                            name="status" readonly="true"/>
             </div>
         </div>
         <!-- construct an "delete" link with cargo id -->

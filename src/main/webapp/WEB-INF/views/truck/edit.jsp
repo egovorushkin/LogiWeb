@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Edit Truck</h1>
+        <h1 class="h2"><i class="fas fa-edit"></i> | Edit Truck</h1>
     </div>
 
     <form:form modelAttribute="truck" action="${pageContext.request.contextPath}/trucks/update" method="post">
@@ -97,9 +97,6 @@
             <div class="col-sm-2">
                 <form:select path="currentCity.id"
                              cssClass="form-control form-control-sm">
-                    <c:if test="${empty truck.currentCity}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
                     <form:options items="${cities}" itemValue="id"
                                   itemLabel="name"/>
                 </form:select>

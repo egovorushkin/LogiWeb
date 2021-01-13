@@ -2,7 +2,7 @@ package com.egovorushkin.logiweb.dao.impl;
 
 import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.entities.Order;
-import com.egovorushkin.logiweb.entities.WaypointList;
+import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,26 +21,32 @@ public class OrderDaoImpl implements OrderDao {
         return entityManager.find(Order.class, id);
     }
 
+    @Override
     public List<Order> listAll() {
         TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order " +
-                        "o LEFT " +
-                        "JOIN FETCH " +
-                        "o.waypointList wList LEFT JOIN FETCH o.truck truck",
+                        "o LEFT JOIN FETCH o.fromCity LEFT JOIN FETCH o" +
+                        ".toCity LEFT JOIN FETCH o.cargo LEFT JOIN FETCH o" +
+                        ".truck",
                 Order.class);
         return q.getResultList();
     }
 
-    public Order showOrder(int id) {
-        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order " +
-                "o JOIN FETCH o.waypointList JOIN FETCH o.truck WHERE o" +
-                ".id=:id", Order.class).setParameter("id", id);
-        return q.getSingleResult();
-    }
+//    @Override
+//    public Order showOrder(int id) {
+//        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM
+//        Order " +
+//                "o LEFT JOIN FETCH o.fromCity LEFT JOIN FETCH o.toCity LEFT
+//                " +
+//                "JOIN FETCH o.cargo LEFT JOIN FETCH o.truck WHERE o" +
+//                ".id=:id", Order.class).setParameter("id", id);
+//        return q.getSingleResult();
+//    }
 
     @Override
-    public WaypointList findCurrentWaypointList(int id) {
-        TypedQuery<WaypointList> q = entityManager.createQuery("SELECT w FROM" +
-                " WaypointList w WHERE w.id=:id", WaypointList.class).setParameter("id", id);
+    public Order showOrder(int id) {
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order " +
+                "o WHERE o" +
+                ".id=:id", Order.class).setParameter("id", id);
         return q.getSingleResult();
     }
 
@@ -60,6 +66,20 @@ public class OrderDaoImpl implements OrderDao {
         if (order != null) {
             entityManager.remove(order);
         }
+    }
+
+    @Override
+    public List<Truck> findAvailableTrucks(Order order) {
+        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM " +
+                        "Truck t WHERE t.state='SERVICEABLE' AND t" +
+                        ".status='PARKED' " +
+                        "AND t.capacity>=:cargoWeight AND t.currentCity" +
+                        ".id=:fromCity"
+                , Truck.class).setParameter("cargoWeight",
+                order.getCargo().getWeight()).setParameter("fromCity",
+                order.getFromCity().getId());
+
+        return q.getResultList();
     }
 
 }

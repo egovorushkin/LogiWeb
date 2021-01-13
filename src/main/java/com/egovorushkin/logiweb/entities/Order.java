@@ -2,17 +2,7 @@ package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -29,22 +19,36 @@ public class Order implements Serializable {
     @Column(name = "status")
     private OrderStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "waypoint_list_id")
-    private WaypointList waypointList;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "from_city_id")
+    private City fromCity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "to_city_id")
+    private City toCity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cargo_id")
+    private Cargo cargo;
+
+    @Column(name = "distance")
+    private Integer distance;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "truck_id")
     private Truck truck;
 
     public Order() {
     }
 
-    public Order(int id, OrderStatus orderStatus, WaypointList waypointList,
-                 Truck truck) {
+    public Order(int id, OrderStatus status, City fromCity, City toCity,
+                 Cargo cargo, Integer distance, Truck truck) {
         this.id = id;
-        this.status = orderStatus;
-        this.waypointList = waypointList;
+        this.status = status;
+        this.fromCity = fromCity;
+        this.toCity = toCity;
+        this.cargo = cargo;
+        this.distance = distance;
         this.truck = truck;
     }
 
@@ -60,16 +64,40 @@ public class Order implements Serializable {
         return status;
     }
 
-    public void setStatus(OrderStatus orderStatus) {
-        this.status = orderStatus;
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
-    public WaypointList getWaypointList() {
-        return waypointList;
+    public City getFromCity() {
+        return fromCity;
     }
 
-    public void setWaypointList(WaypointList waypointList) {
-        this.waypointList = waypointList;
+    public void setFromCity(City fromCity) {
+        this.fromCity = fromCity;
+    }
+
+    public City getToCity() {
+        return toCity;
+    }
+
+    public void setToCity(City toCity) {
+        this.toCity = toCity;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
     public Truck getTruck() {
@@ -98,7 +126,10 @@ public class Order implements Serializable {
         return "Order{" +
                 "id=" + id +
                 ", status=" + status +
-                ", waypointList=" + waypointList +
+                ", fromCity=" + fromCity +
+                ", toCity=" + toCity +
+                ", cargo=" + cargo +
+                ", distance=" + distance +
                 ", truck=" + truck +
                 '}';
     }

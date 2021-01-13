@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Create New Driver</h1>
+        <h1 class="h2"><i class="fas fa-user-plus"></i> | Create New Driver</h1>
     </div>
 
     <form:form modelAttribute="driver" action="${pageContext.request.contextPath}/drivers/save" method="post">
@@ -69,10 +69,8 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Truck:</label>
             <div class="col-sm-2">
-                <form:select path="currentTruck.id" cssClass="form-control form-control-sm">
-                    <c:if test="${empty driver.currentTruck}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
+                <form:select path="truck.id" cssClass="form-control form-control-sm">
+                    <form:option value="0">None</form:option>
                     <form:options items="${trucks}" itemValue="id" itemLabel="registrationNumber"/>
                 </form:select>
             </div>

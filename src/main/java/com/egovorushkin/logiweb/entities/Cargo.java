@@ -25,7 +25,7 @@ public class Cargo {
     private String name;
 
     @Column(name = "weight")
-    private double weight;
+    private int weight;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -34,7 +34,7 @@ public class Cargo {
     public Cargo() {
     }
 
-    public Cargo(int id, String name, double weight, CargoStatus status) {
+    public Cargo(int id, String name, int weight, CargoStatus status) {
         this.id = id;
         this.name = name;
         this.weight = weight;
@@ -57,11 +57,11 @@ public class Cargo {
         this.name = name;
     }
 
-    public double getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
@@ -88,11 +88,6 @@ public class Cargo {
 
     @Override
     public String toString() {
-        return "Cargo{" +
-                "number=" + id +
-                ", name='" + name + '\'' +
-                ", weight=" + weight +
-                ", status=" + status +
-                '}';
+        return name + " " + weight + " " + status;
     }
 }

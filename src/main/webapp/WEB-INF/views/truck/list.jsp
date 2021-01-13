@@ -10,7 +10,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Trucks</h1>
+        <h1 class="h2"><i class="fas fa-truck-moving"></i> <i class="fas fa-truck-moving"></i> | Trucks</h1>
     </div>
 
     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">

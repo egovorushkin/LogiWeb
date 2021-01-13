@@ -9,7 +9,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Drivers</h1>
+        <h1 class="h2"><i class="fas fa-users"></i> | Drivers</h1>
     </div>
 
     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -28,14 +28,15 @@
         </thead>
         <tbody>
         <c:forEach items="${drivers}" var="driver">
-            <tr class='table-row' data-href='${pageContext.request.contextPath}/drivers/${driver.id}'>
+            <tr class='table-row'
+                data-href='${pageContext.request.contextPath}/drivers/${driver.id}'>
                 <td class="align-middle">${driver.firstName}</td>
                 <td class="align-middle">${driver.lastName}</td>
                 <td class="align-middle">${driver.personalNumber}</td>
                 <td class="align-middle">${driver.workedHoursPerMonth}</td>
                 <td class="align-middle">${driver.status.toString()}</td>
                 <td class="align-middle">${driver.currentCity.name}</td>
-                <td class="align-middle">${driver.currentTruck.registrationNumber}</td
+                <td class="align-middle">${driver.truck.registrationNumber}</td
 
                         <!-- construct an "delete" link with driver id -->
                 <c:url var="deleteLink" value="/drivers/delete">
@@ -46,7 +47,8 @@
                     <c:param name="driverId" value="${driver.id}"/>
                 </c:url>
 
-                <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
+                <td><a class="nav-link" href="${updateLink}"><span
+                        data-feather="edit"></span></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
                        onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"><span
                         data-feather="x-square"></span></a></td>
@@ -55,7 +57,9 @@
         </tbody>
     </table>
 
-    <a class="btn btn-sm  btn-success" href="${pageContext.request.contextPath}/drivers/create" role="button">Add Driver</a>
+    <a class="btn btn-sm  btn-success"
+       href="${pageContext.request.contextPath}/drivers/create" role="button">Add
+        Driver</a>
 </main>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

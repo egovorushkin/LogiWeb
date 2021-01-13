@@ -36,10 +36,9 @@ public class TruckController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) throws Exception {
         model.addAttribute("truck", truckService.showTruck(id));
-        //model.addAttribute("cities", cityService.listAll());
         model.addAttribute("states", TruckState.values());
-        model.addAttribute("statuses", TruckStatus.values());
-        model.addAttribute("drivers", truckService.findCurrentDrivers(id));
+        model.addAttribute("currentDrivers", truckService.findCurrentDrivers(id));
+        model.addAttribute("numberOfDrivers", truckService.findCurrentDrivers(id).size());
         return "truck/show";
     }
 

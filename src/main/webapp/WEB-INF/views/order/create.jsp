@@ -26,26 +26,59 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Waypoint List:</label>
+            <label class="col-sm-2 col-form-label">From City:</label>
             <div class="col-sm-2">
-                <form:select id="waypointList" name="userId" path="waypointList.id" class="form-control form-control-sm">
-                    <c:forEach var="waypointList" items="${waypointLists}">
-                        <form:option value="${waypointList.id}"><c:out value="${waypointList.toString()}"/></form:option>
-                    </c:forEach>
+                <form:select path="fromCity.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty order.fromCity}">
+                        <form:option value="" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
                 </form:select>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Truck:</label>
+            <label class="col-sm-2 col-form-label">To City:</label>
             <div class="col-sm-2">
-                <form:select path="truck.registrationNumber" cssClass="form-control form-control-sm">
-                    <c:if test="${empty order.truck}">
+                <form:select path="toCity.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty order.toCity}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${trucks}" itemValue="registrationNumber" itemLabel="registrationNumber"/>
+                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
                 </form:select>
             </div>
         </div>
+        <div class="row mb-3">
+            <label for="distance" class="col-sm-2 col-form-label">Distance (km):</label>
+            <div class="col-sm-2">
+                <form:input path="distance" type="number"
+                            class="form-control form-control-sm" id="distance"
+                            name="distance"/>
+            </div>
+            <form:errors path="distance" cssClass="alert alert-danger"/>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Cargo:</label>
+            <div class="col-sm-2">
+                <form:select path="cargo.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty order.cargo}">
+                        <form:option value="" disabled="true" selected="true"/>
+                    </c:if>
+                    <form:options items="${cargoes}" itemValue="id" itemLabel="name"/>
+                </form:select>
+            </div>
+        </div>
+
+<%--        <div class="row mb-3">--%>
+<%--            <label class="col-sm-2 col-form-label">Truck:</label>--%>
+<%--            <div class="col-sm-2">--%>
+<%--                <form:select path="truck.id" cssClass="form-control form-control-sm">--%>
+<%--                    <c:if test="${empty order.truck}">--%>
+<%--                        <form:option value="" disabled="true" selected="true"/>--%>
+<%--                    </c:if>--%>
+<%--                    <form:options items="${trucks}" itemValue="id" itemLabel="registrationNumber"/>--%>
+<%--                </form:select>--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/orders/list" role="button">Back</a>
     </form:form>

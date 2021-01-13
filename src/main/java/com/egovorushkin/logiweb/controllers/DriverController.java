@@ -56,8 +56,10 @@ public class DriverController {
 
     @PostMapping(value = "/save")
     public String saveDriver(@ModelAttribute("driver") @Valid Driver driver,
-                             BindingResult bindingResult) {
+                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("trucks", truckService.listAll());
+            model.addAttribute("cities", cityService.listAll());
             return "driver/create";
         }
         driverService.saveDriver(driver);

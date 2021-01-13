@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../fragments/page-before-title.jsp"/>
 
@@ -9,7 +9,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Orders</h1>
+        <h1 class="h2"><i class="fas fa-clipboard-list"></i> | Orders</h1>
     </div>
 
     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -17,7 +17,10 @@
         <tr>
             <th scope="col">Unique Number</th>
             <th scope="col">Status</th>
-            <th scope="col">Waypoint List</th>
+            <th scope="col">From City</th>
+            <th scope="col">To City</th>
+            <th scope="col">Distance</th>
+            <th scope="col">Cargo</th>
             <th scope="col">Truck</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
@@ -28,7 +31,10 @@
             <tr class='table-row' data-href='${pageContext.request.contextPath}/orders/${order.id}'>
                 <td class="align-middle">${order.id}</td>
                 <td class="align-middle">${order.status.toString()}</td>
-                <td class="align-middle">${order.waypointList.id}</td>
+                <td class="align-middle">${order.fromCity.name}</td>
+                <td class="align-middle">${order.toCity.name}</td>
+                <td class="align-middle">${order.distance}</td>
+                <td class="align-middle">${order.cargo.name}</td>
                 <td class="align-middle">${order.truck.registrationNumber}</td>
 
                 <!-- construct an "delete" link with order id -->
@@ -40,8 +46,8 @@
                     <c:param name="orderId" value="${order.id}"/>
                 </c:url>
 
-                <td class="align-middle"><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
-                <td class="align-middle"><a class="nav-link" href="${deleteLink}"
+                <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
+                <td><a class="nav-link" href="${deleteLink}"
                        onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"><span
                         data-feather="x-square"></span></a></td>
             </tr>

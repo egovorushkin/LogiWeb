@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Edit Driver</h1>
+        <h1 class="h2"><i class="fas fa-user-edit"></i> | Edit Driver</h1>
     </div>
 
     <form:form modelAttribute="driver" action="${pageContext.request.contextPath}/drivers/update" method="post">
@@ -72,16 +72,16 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Truck:</label>
             <div class="col-sm-2">
-                <form:select path="currentTruck.id" cssClass="form-control form-control-sm">
-                    <c:if test="${empty driver.currentTruck}">
-                        <form:option value="${driver.currentTruck.registrationNumber}" disabled="true" selected="true"/>
+                <form:select path="truck.id" cssClass="form-control form-control-sm">
+                    <c:if test="${empty driver.truck}">
+                        <form:option value="" disabled="true" selected="true"/>
                     </c:if>
                     <form:options items="${trucks}" itemValue="id" itemLabel="registrationNumber"/>
                 </form:select>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-sm btn-primary">Save</button>
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"
            role="button">Delete</a>

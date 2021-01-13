@@ -24,16 +24,14 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public List<Truck> listAll() {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
-                "t " +
-                "JOIN FETCH t.currentCity", Truck.class);
+                "t LEFT JOIN FETCH t.currentCity", Truck.class);
         return q.getResultList();
     }
 
     @Override
     public Truck showTruck(int id) {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
-                "t " +
-                "JOIN FETCH t.currentCity WHERE t.id=:id", Truck.class).setParameter("id", id);
+                "t LEFT JOIN FETCH t.currentCity WHERE t.id=:id", Truck.class).setParameter("id", id);
         return q.getSingleResult();
     }
 
@@ -59,9 +57,12 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public List<Driver> findCurrentDrivers(int id) {
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d " +
-                "WHERE d.currentTruck.id=:id", Driver.class).setParameter("id"
-                , id);
+                "Driver d WHERE d.truck.id=:id", Driver.class)
+                .setParameter("id", id);
+
+        for(Driver d : q.getResultList()) {
+            System.out.println(d);
+        }
 
         return q.getResultList();
     }

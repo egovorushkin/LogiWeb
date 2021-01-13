@@ -39,12 +39,12 @@
                         <c:choose>
                             <c:when test="${truck.teamSize == 1}">
                                 <label class="form-check-label" for="teamSize">
-                                        1 Driver
+                                    1 / ${numberOfDrivers}
                                 </label>
                             </c:when>
                             <c:otherwise>
                                 <label class="form-check-label" for="teamSize">
-                                        ${truck.teamSize} Drivers
+                                        ${truck.teamSize} / ${numberOfDrivers}
                                 </label>
                             </c:otherwise>
                         </c:choose>
@@ -110,49 +110,56 @@
         <h3>Current Drivers</h3>
         <hr>
     </div>
-    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
-        <thead>
-        <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Personal Number</th>
-            <th scope="col">Worked Hours / Month</th>
-            <th scope="col">Current Status</th>
-            <th scope="col">Current City</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${drivers}" var="driver">
-            <tr class='table-row'
-                data-href='${pageContext.request.contextPath}/drivers/${driver.id}'>
-                <td class="align-middle">${driver.firstName}</td>
-                <td class="align-middle">${driver.lastName}</td>
-                <td class="align-middle">${driver.personalNumber}</td>
-                <td class="align-middle">${driver.workedHoursPerMonth}</td>
-                <td class="align-middle">${driver.status}</td>
-                <td class="align-middle">${driver.currentCity.name}</td>
 
-                <!-- construct an "delete" link with driver id -->
-                <c:url var="deleteLink" value="/drivers/delete">
-                    <c:param name="driverId" value="${driver.id}"/>
-                </c:url>
-                <!-- construct an "update" link with driver id -->
-                <c:url var="updateLink" value="/drivers/edit">
-                    <c:param name="driverId" value="${driver.id}"/>
-                </c:url>
+    <c:choose>
+        <c:when test="${empty currentDrivers}">
+            <p>No drivers have been assigned for this truck yet</p>
+        </c:when>
+        <c:otherwise>
+            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Personal Number</th>
+                    <th scope="col">Worked Hours / Month</th>
+                    <th scope="col">Current Status</th>
+                    <th scope="col">Current City</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${currentDrivers}" var="currentDriver">
+                    <tr class='table-row'
+                        data-href='${pageContext.request.contextPath}/drivers/${currentDriver.id}'>
+                        <td class="align-middle">${currentDriver.firstName}</td>
+                        <td class="align-middle">${currentDriver.lastName}</td>
+                        <td class="align-middle">${currentDriver.personalNumber}</td>
+                        <td class="align-middle">${currentDriver.workedHoursPerMonth}</td>
+                        <td class="align-middle">${currentDriver.status.toString()}</td>
+                        <td class="align-middle">${currentDriver.currentCity.name}</td>
 
-                <td><a class="nav-link" href="${updateLink}"><span
-                        data-feather="edit"></span></a></td>
-                <td><a class="nav-link" href="${deleteLink}"
-                       onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"><span
-                        data-feather="x-square"></span></a></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+                        <!-- construct an "delete" link with driver id -->
+                        <c:url var="deleteLink" value="/drivers/delete">
+                            <c:param name="driverId" value="${currentDriver.id}"/>
+                        </c:url>
+                        <!-- construct an "update" link with driver id -->
+                        <c:url var="updateLink" value="/drivers/edit">
+                            <c:param name="driverId" value="${currentDriver.id}"/>
+                        </c:url>
 
+                        <td><a class="nav-link" href="${updateLink}"><span
+                                data-feather="edit"></span></a></td>
+                        <td><a class="nav-link" href="${deleteLink}"
+                               onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"><span
+                                data-feather="x-square"></span></a></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </main>
 
 <jsp:include page="../fragments/bootstrap-core-js.jsp"/>

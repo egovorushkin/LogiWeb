@@ -41,7 +41,7 @@
             <div class="col-sm-2">
                 <form:select class="form-control form-control-sm" path="status"
                              id="status" name="status">
-                    <form:options itemValue="name" itemLabel="name"
+                    <form:options itemValue="title" itemLabel="name"
                                   items="${statuses}"/>
                 </form:select>
             </div>

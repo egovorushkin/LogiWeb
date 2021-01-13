@@ -2,6 +2,7 @@ package com.egovorushkin.logiweb.services.impl;
 
 import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.entities.Order;
+import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order showOrder(int id) {
         return orderDao.showOrder(id);
+    }
+
+    @Override
+    public List<Truck> findAvailableTrucks(Order order) {
+        return orderDao.findAvailableTrucks(order);
     }
 
     @Override
