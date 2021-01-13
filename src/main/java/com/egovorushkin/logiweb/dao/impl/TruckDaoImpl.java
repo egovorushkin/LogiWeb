@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.dao.impl;
 import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Repository
 public class TruckDaoImpl implements TruckDao {
+
+    private static final Logger logger = Logger.getLogger(TruckDaoImpl.class.getName());
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -25,6 +28,9 @@ public class TruckDaoImpl implements TruckDao {
     public List<Truck> listAll() {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
                 "t LEFT JOIN FETCH t.currentCity", Truck.class);
+
+        logger.info("list all trucks");
+
         return q.getResultList();
     }
 
@@ -66,5 +72,6 @@ public class TruckDaoImpl implements TruckDao {
 
         return q.getResultList();
     }
+
 
 }

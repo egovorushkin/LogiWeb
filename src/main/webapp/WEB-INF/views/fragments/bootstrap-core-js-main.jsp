@@ -13,10 +13,8 @@
 <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/feather.min.js"></script>
-
-<script>
-    feather.replace()
-</script>
+<script src="https://kit.fontawesome.com/daa4b0d652.js" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
 
 <script>
     jQuery(document).ready(function ($) {
@@ -24,6 +22,14 @@
             window.document.location = $(this).data("href");
         });
     });
+
+    feather.replace();
+
+    $(document).ready(function() {
+        $('#example').dataTable();
+    });
+
 </script>
+
 </body>
 </html>

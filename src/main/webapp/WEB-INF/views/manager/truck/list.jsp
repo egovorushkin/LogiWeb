@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="../fragments/page-before-title.jsp"/>
+<jsp:include page="../../fragments/before-title-main.jsp"/>
 
 <title>Trucks</title>
 
-<jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
+<jsp:include page="../../fragments/after-title-with-nav-manager.jsp"/>
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
@@ -13,7 +13,7 @@
         <h1 class="h2"><i class="fas fa-truck-moving"></i> <i class="fas fa-truck-moving"></i> | Trucks</h1>
     </div>
 
-    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+    <table id="example" class="dataTable">
         <thead>
         <tr>
             <th scope="col">Registration Number</th>
@@ -62,4 +62,4 @@
         Truck</a>
 </main>
 
-<jsp:include page="../fragments/bootstrap-core-js.jsp"/>
+<jsp:include page="../../fragments/bootstrap-core-js-main.jsp"/>

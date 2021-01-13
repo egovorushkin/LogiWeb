@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<jsp:include page="../fragments/page-before-title.jsp"/>
+<jsp:include page="../../fragments/before-title-main.jsp"/>
 
 <title>Edit Driver</title>
 
-<jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
+<jsp:include page="../../fragments/after-title-with-nav-manager.jsp"/>
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
@@ -90,5 +90,5 @@
     </form:form>
 </main>
 
-<jsp:include page="../fragments/bootstrap-core-js.jsp"/>
+<jsp:include page="../../fragments/bootstrap-core-js-main.jsp"/>
 

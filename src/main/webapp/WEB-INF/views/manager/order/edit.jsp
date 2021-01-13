@@ -7,11 +7,11 @@
     <c:param name="orderId" value="${order.id}"/>
 </c:url>
 
-<jsp:include page="../fragments/page-before-title.jsp"/>
+<jsp:include page="../../fragments/before-title-main.jsp"/>
 
 <title>Edit Order</title>
 
-<jsp:include page="../fragments/page-after-title-with-navs.jsp"/>
+<jsp:include page="../../fragments/after-title-with-nav-manager.jsp"/>
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
@@ -123,7 +123,7 @@
 </div>
 </div>
 
-<jsp:include page="../fragments/bootstrap-core-js.jsp"/>
+<jsp:include page="../../fragments/bootstrap-core-js-main.jsp"/>
 
 
 

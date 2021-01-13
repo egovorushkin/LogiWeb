@@ -23,9 +23,9 @@
         <hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
         <mysql-connector.version>8.0.22</mysql-connector.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <thymeleaf.version>3.0.12.RELEASE</thymeleaf.version>
         <jstl.version>1.2</jstl.version>
         <c3p0.version>0.9.5.5</c3p0.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>
@@ -144,13 +144,12 @@
             <version>${c3p0.version}</version>
         </dependency>
 
-<!--        &lt;!&ndash;Logger for JDBC&ndash;&gt;-->
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.googlecode.log4jdbc/log4jdbc &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.googlecode.log4jdbc</groupId>-->
-<!--            <artifactId>log4jdbc</artifactId>-->
-<!--            <version>1.2</version>-->
-<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>

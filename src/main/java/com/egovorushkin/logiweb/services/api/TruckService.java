@@ -20,4 +20,5 @@ public interface TruckService {
     Truck showTruck(int id);
 
     List<Driver> findCurrentDrivers(int id) throws Exception;
+
 }
