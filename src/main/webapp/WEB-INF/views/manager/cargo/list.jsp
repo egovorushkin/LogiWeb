@@ -13,7 +13,7 @@
         <h1 class="h2"><i class="fas fa-boxes"></i> | Cargoes</h1>
     </div>
 
-    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+    <table id="tables" class="table-hover table-striped">
         <thead>
         <tr>
             <th scope="col">Id</th>
@@ -42,9 +42,9 @@
                     <c:param name="cargoId" value="${cargo.id}"/>
                 </c:url>
 
-                <td><a class="nav-link" href="${updateLink}"><i class="fas fa-edit fa-sm"></i></a></td>
+                <td><a class="nav-link" href="${updateLink}"><span class="fas fa-edit fa-sm"></span></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
-                       onclick="if (!(confirm('Are you sure you want to delete this cargo?'))) return false"><i class="fas fa-trash-alt fa-sm" style="color: red"></i></a></td>
+                       onclick="if (!(confirm('Are you sure you want to delete this cargo?'))) return false"><span class="fas fa-trash-alt fa-sm" style="color: red"></span></a></td>
             </tr>
         </c:forEach>
         </tbody>

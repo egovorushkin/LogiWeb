@@ -12,7 +12,7 @@
         <h1 class="h2"><i class="fas fa-users"></i> | Drivers</h1>
     </div>
 
-    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+    <table id="tables" class="table-hover table-striped">
         <thead>
         <tr>
             <th scope="col">First Name</th>
