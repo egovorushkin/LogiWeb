@@ -4,22 +4,12 @@ import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "driver")
-public class Driver implements Serializable {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+public class Driver extends User implements Serializable {
 
     @Column(name = "personal_number")
     private int personalNumber;
@@ -42,40 +32,13 @@ public class Driver implements Serializable {
     public Driver() {
     }
 
-    public Driver(String firstName, String lastName, int personalNumber,
-                  int workedHoursPerMonth, DriverStatus driverStatus, City currentCity,
-                  Truck currentTruck) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Driver(int id, String username, String password, String email, List<Role> roles, int personalNumber, int workedHoursPerMonth, DriverStatus status, City currentCity, Truck truck) {
+        super(id, username, password, email, roles);
         this.personalNumber = personalNumber;
         this.workedHoursPerMonth = workedHoursPerMonth;
-        this.status = driverStatus;
+        this.status = status;
         this.currentCity = currentCity;
-        this.truck = currentTruck;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.truck = truck;
     }
 
     public int getPersonalNumber() {
@@ -98,8 +61,8 @@ public class Driver implements Serializable {
         return status;
     }
 
-    public void setStatus(DriverStatus driverStatus) {
-        this.status = driverStatus;
+    public void setStatus(DriverStatus status) {
+        this.status = status;
     }
 
     public City getCurrentCity() {
@@ -114,34 +77,32 @@ public class Driver implements Serializable {
         return truck;
     }
 
-    public void setTruck(Truck currentTruck) {
-        this.truck = currentTruck;
+    public void setTruck(Truck truck) {
+        this.truck = truck;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Driver driver = (Driver) o;
         return personalNumber == driver.personalNumber;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(personalNumber);
+        return Objects.hash(super.hashCode(), personalNumber);
     }
 
     @Override
     public String toString() {
         return "Driver{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", personalNumber=" + personalNumber +
+                "personalNumber=" + personalNumber +
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
                 ", status=" + status +
                 ", currentCity=" + currentCity +
-                ", currentTruck=" + truck +
+                ", truck=" + truck +
                 '}';
     }
 }

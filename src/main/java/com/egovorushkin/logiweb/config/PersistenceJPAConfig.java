@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,8 @@ import java.util.Properties;
 @PropertySource({"classpath:datasource.properties", "classpath:security-persistence" +
         ".properties"})
 public class PersistenceJPAConfig {
+
+    private static final Logger LOGGER = Logger.getLogger(PersistenceJPAConfig.class.getName());
 
     @Autowired
     private Environment env;
@@ -65,6 +68,9 @@ public class PersistenceJPAConfig {
         } catch (PropertyVetoException exc) {
             throw new RuntimeException(exc);
         }
+
+        LOGGER.info("jdbc.url=" + env.getProperty("jdbc.url"));
+        LOGGER.info("jdbc.user=" + env.getProperty("jdbc.user"));
 
         // set database connection props
         securityDataSource.setJdbcUrl(env.getProperty("security.jdbc.url"));
