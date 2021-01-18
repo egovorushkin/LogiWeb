@@ -7,27 +7,21 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "truck")
-public class Truck implements Serializable {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Truck extends AbstractEntity {
 
     @NotEmpty(message = "Registration Number should not be empty")
     @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number" +
             " must be 2" +
             " characters and 5 digits (ex. \"AB12345\")")
-    @Column(name = "registration_number", unique = true)
+    @Column(name = "registration_number", unique = true, nullable = false,length = 7)
     private String registrationNumber;
 
     @Range(max = 2, message = "Team size should be greater than 0 and less or" +
-            " equals 3.")
+            " equals 2.")
     @Column(name = "team_size")
     private int teamSize;
 
@@ -43,40 +37,11 @@ public class Truck implements Serializable {
     @Column(name = "state")
     private TruckState state;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "city_id")
     private City currentCity;
 
     public Truck() {
-    }
-
-    public Truck(Integer id, @NotEmpty(message = "Registration Number should not " +
-            "be empty")
-    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number" +
-            " must be 2" +
-            " characters and 5 digits (ex. \"AB12345\")") String registrationNumber,
-                 @Range(max = 2, message = "Team size should be greater than " +
-                         "0 and less" +
-                         " or equals 3.") int teamSize,
-                 @Range(max = 28000, message = "Capacity should be less or " +
-                         "equals 28000" +
-                         " kg.") int capacity,
-                 TruckStatus status, TruckState state, City currentCity) {
-        this.id = id;
-        this.registrationNumber = registrationNumber;
-        this.teamSize = teamSize;
-        this.capacity = capacity;
-        this.status = status;
-        this.state = state;
-        this.currentCity = currentCity;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getRegistrationNumber() {
@@ -138,19 +103,6 @@ public class Truck implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, registrationNumber);
-    }
-
-    @Override
-    public String toString() {
-        return "Truck{" +
-                "id=" + id +
-                ", registrationNumber='" + registrationNumber + '\'' +
-                ", teamSize=" + teamSize +
-                ", capacity=" + capacity +
-                ", status=" + status +
-                ", state=" + state +
-                ", currentCity=" + currentCity +
-                '}';
+        return Objects.hash(registrationNumber);
     }
 }

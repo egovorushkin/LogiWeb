@@ -1,55 +1,64 @@
 package com.egovorushkin.logiweb.services.impl;
 
 import com.egovorushkin.logiweb.dao.api.CargoDao;
+import com.egovorushkin.logiweb.dto.CargoDto;
 import com.egovorushkin.logiweb.entities.Cargo;
 import com.egovorushkin.logiweb.services.api.CargoService;
+import org.apache.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CargoServiceImpl implements CargoService {
 
+    private static final Logger LOGGER =
+            Logger.getLogger(CargoServiceImpl.class.getName());
+
+
     private final CargoDao cargoDao;
+    private final ModelMapper modelMapper;
+
 
     @Autowired
-    public CargoServiceImpl(CargoDao cargoDao) {
+    public CargoServiceImpl(CargoDao cargoDao,ModelMapper modelMapper) {
         this.cargoDao = cargoDao;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public Cargo getCargoById(int id) {
-        return cargoDao.getCargoById(id);
+    public CargoDto getCargoById(long id) {
+        return modelMapper.map(cargoDao.getCargoById(id), CargoDto.class);
     }
 
     @Override
-    public List listAll() {
-        return cargoDao.listAll();
-    }
-
-    @Override
-    public Cargo showCargo(int id) {
-        return cargoDao.showCargo(id);
-    }
-
-    @Override
-    @Transactional
-    public void saveCargo(Cargo cargo) {
-        cargoDao.saveCargo(cargo);
+    public List<CargoDto> getAllCargoes() {
+        List<Cargo> cargoes = cargoDao.getAllCargoes();
+        return cargoes.stream()
+                .map(cargo -> modelMapper.map(cargo, CargoDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public void update(Cargo cargo) {
-        cargoDao.update(cargo);
+    public void createCargo(CargoDto cargoDto) {
+        cargoDao.createCargo(modelMapper.map(cargoDto, Cargo.class));
     }
 
     @Override
     @Transactional
-    public void delete(int id) {
-        cargoDao.delete(id);
+    public void updateCargo(CargoDto cargoDto) {
+        cargoDao.updateCargo(modelMapper.map(cargoDto, Cargo.class));
+    }
+
+    @Override
+    @Transactional
+    public void deleteCargo(long id) {
+        cargoDao.deleteCargo(id);
     }
 
 }

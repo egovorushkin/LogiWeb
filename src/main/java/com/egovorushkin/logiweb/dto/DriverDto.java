@@ -1,45 +1,33 @@
-package com.egovorushkin.logiweb.entities;
+package com.egovorushkin.logiweb.dto;
 
+import com.egovorushkin.logiweb.entities.City;
+import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
-
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "driver")
-public class Driver extends AbstractEntity {
+public class DriverDto implements Serializable {
 
-    @Column(name = "username")
+    private long id;
     private String username;
-
-    @Column(name = "username", insertable = false, updatable = false)
     private String password;
-
-    @Column(name = "first_name")
     private String firstName;
-
-    @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "personal_number")
     private int personalNumber;
-
-    @Column(name = "worked_hours_per_month")
     private int workedHoursPerMonth;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private DriverStatus status;
-
-    @ManyToOne
-    @JoinColumn(name = "city_id")
     private City currentCity;
+    private TruckDto truck;
 
-    @ManyToOne
-    @JoinColumn(name = "truck_id")
-    private Truck truck;
+    public DriverDto() {
+    }
 
-    public Driver() {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -94,8 +82,8 @@ public class Driver extends AbstractEntity {
         return status;
     }
 
-    public void setStatus(DriverStatus driverStatus) {
-        this.status = driverStatus;
+    public void setStatus(DriverStatus status) {
+        this.status = status;
     }
 
     public City getCurrentCity() {
@@ -106,20 +94,20 @@ public class Driver extends AbstractEntity {
         this.currentCity = currentCity;
     }
 
-    public Truck getTruck() {
+    public TruckDto getTruck() {
         return truck;
     }
 
-    public void setTruck(Truck currentTruck) {
-        this.truck = currentTruck;
+    public void setTruck(TruckDto truck) {
+        this.truck = truck;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Driver driver = (Driver) o;
-        return personalNumber == driver.personalNumber;
+        DriverDto driverDto = (DriverDto) o;
+        return personalNumber == driverDto.personalNumber;
     }
 
     @Override
@@ -129,8 +117,9 @@ public class Driver extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Driver{" +
-                "username='" + username + '\'' +
+        return "DriverDto{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", personalNumber=" + personalNumber +
@@ -138,7 +127,6 @@ public class Driver extends AbstractEntity {
                 ", status=" + status +
                 ", currentCity=" + currentCity +
                 ", truck=" + truck +
-                ", id=" + id +
                 '}';
     }
 }

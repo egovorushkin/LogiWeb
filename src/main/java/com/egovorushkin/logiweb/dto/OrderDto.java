@@ -1,38 +1,32 @@
-package com.egovorushkin.logiweb.entities;
+package com.egovorushkin.logiweb.dto;
 
+import com.egovorushkin.logiweb.entities.Cargo;
+import com.egovorushkin.logiweb.entities.City;
+import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
-@Table(name = "orders")
-public class Order extends AbstractEntity {
+public class OrderDto {
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    private long id;
     private OrderStatus status;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "from_city_id")
     private City fromCity;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "to_city_id")
     private City toCity;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cargo_id")
     private Cargo cargo;
-
-    @Column(name = "distance")
     private Integer distance;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "truck_id")
+    private double duration;
     private Truck truck;
 
-    public Order() {
+    public OrderDto() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public OrderStatus getStatus() {
@@ -75,6 +69,14 @@ public class Order extends AbstractEntity {
         this.distance = distance;
     }
 
+    public double getDuration() {
+        return distance / 80;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
     public Truck getTruck() {
         return truck;
     }
@@ -87,8 +89,8 @@ public class Order extends AbstractEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id;
+        OrderDto orderDto = (OrderDto) o;
+        return id == orderDto.id;
     }
 
     @Override
@@ -98,7 +100,7 @@ public class Order extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "OrderDto{" +
                 "id=" + id +
                 ", status=" + status +
                 ", fromCity=" + fromCity +

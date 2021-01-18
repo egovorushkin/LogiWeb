@@ -10,7 +10,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-truck-moving"></i> | Trucks</h1>
+        <h4 class="h4"><i class="fas fa-truck-moving"></i> | Trucks</h4>
     </div>
 
     <table id="tables" class="table-hover table-striped">
@@ -19,7 +19,7 @@
             <th scope="col">Registration Number</th>
             <th scope="col">Team Size</th>
             <th scope="col">Capacity (kg)</th>
-            <th scope="col">Condition</th>
+            <th scope="col">State</th>
             <th scope="col">Status</th>
             <th scope="col">Current City</th>
             <th scope="col">Edit</th>
@@ -32,7 +32,7 @@
             <tr class='table-row'
                 data-href='${pageContext.request.contextPath}/trucks/${truck.id}'>
                 <td class="align-middle">${truck.registrationNumber}</td>
-                <td class="align-middle">${truck.teamSize}</td>
+                <td class="align-middle">${truck.teamSize} / ${truck.currentNumberOfDrivers}</td>
                 <td class="align-middle">${truck.capacity}</td>
                 <td class="align-middle">${truck.state.toString()}</td>
                 <td class="align-middle">${truck.status.toString()}</td>

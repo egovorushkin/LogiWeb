@@ -1,24 +1,24 @@
 package com.egovorushkin.logiweb.services.api;
 
-import com.egovorushkin.logiweb.entities.Driver;
-import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.dto.DriverDto;
+import com.egovorushkin.logiweb.dto.TruckDto;
 
 import java.util.List;
 
 public interface TruckService {
 
-    Truck getTruckById(int id);
+    TruckDto getTruckById(long id);
 
-    List<Truck> listAll();
+    List<TruckDto> getAllTrucks();
 
-    void saveTruck(Truck truck);
+    void createTruck(TruckDto truckDto);
 
-    void update(Truck truck);
+    void updateTruck(TruckDto truckDto);
 
-    void delete(int id);
+    void deleteTruck(long id);
 
-    Truck showTruck(int id);
+    List<DriverDto> findCurrentDriversByTruckId(long id) throws Exception;
 
-    List<Driver> findCurrentDrivers(int id) throws Exception;
+    List<DriverDto> findAvailableDriversByTruck(TruckDto truckDto);
 
 }

@@ -11,21 +11,26 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-edit"></i> | Edit Truck</h1>
+        <h4 class="h4"><i class="fas fa-edit"></i> | Edit Truck ${truck.registrationNumber}</h4>
     </div>
 
-    <form:form modelAttribute="truck" action="${pageContext.request.contextPath}/trucks/update" method="post">
+    <form:form modelAttribute="truck"
+               action="${pageContext.request.contextPath}/trucks/update"
+               method="post">
 
         <form:hidden path="id"/>
 
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration Number:</label>
+            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration
+                Number:</label>
             <div class="col-sm-2 ">
-                <form:input path="registrationNumber" type="text" class="form-control form-control-sm"
+                <form:input path="registrationNumber" type="text"
+                            class="form-control form-control-sm"
                             id="registrationNumber"
                             name="registrationNumber"/>
             </div>
-            <form:errors path="registrationNumber" cssClass="alert alert-danger"/>
+            <form:errors path="registrationNumber"
+                         cssClass="alert alert-danger"/>
         </div>
 
         <formfieldset class="form-group">
@@ -73,7 +78,7 @@
             <form:errors path="capacity" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Condition:</label>
+            <label class="col-sm-2 col-form-label">State:</label>
             <div class="col-sm-2">
                 <form:select class="form-control form-control-sm" path="state"
                              id="state" name="name">
@@ -112,8 +117,58 @@
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"
            role="button">Delete</a>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/trucks/list"
+        <a class="btn btn-sm btn-secondary"
+           href="${pageContext.request.contextPath}/trucks/list"
            role="button">Cancel</a>
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h4 class="h4">Available Drivers</h4>
+            <hr>
+        </div>
+        <c:choose>
+            <c:when test="${empty availableDrivers}">
+                <p>No available drivers fo this truck</p>
+            </c:when>
+            <c:otherwise>
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Personal Number</th>
+                        <th scope="col">Worked Hours / Month</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Truck</th>
+                        <th scope="col">Add To Truck</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${availableDrivers}"
+                               var="availableDriver">
+                        <tr class='table-row'
+                            data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
+                            <td class="align-middle">${availableDriver.firstName}</td>
+                            <td class="align-middle">${availableDriver.lastName}</td>
+                            <td class="align-middle">${availableDriver.personalNumber}</td>
+                            <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
+                            <td class="align-middle">${availableDriver.status.toString()}</td>
+                            <td class="align-middle">${availableDriver.currentCity.name}</td>
+                            <td class="align-middle">${availableDriver.truck.registrationNumber}</td>
+
+                            <!-- construct an "add" link with order id -->
+                            <c:url var="addDriverLink" value="/drivers/updateTruckForDriver">
+<%--                                <c:param name="availableDriverId" value="${availableDrivers.id}"/>--%>
+                                <c:param name="truckId" value="${truck.id}"/>
+                            </c:url>
+
+                            <td><a class="nav-link" href="${addDriverLink}"><i class="fas fa-plus" style="color: #008000"></i></a></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:otherwise>
+        </c:choose>
     </form:form>
 </main>
 

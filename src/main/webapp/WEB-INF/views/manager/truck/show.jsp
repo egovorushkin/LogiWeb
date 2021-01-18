@@ -11,12 +11,14 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Truck</h1>
+        <h4 class="h4">Truck ${truck.registrationNumber}</h4>
     </div>
 
     <form:form modelAttribute="truck"
                action="${pageContext.request.contextPath}/trucks/${truck.id}">
+
         <form:hidden path="id"/>
+
         <div class="row mb-3">
             <label for="registrationNumber" class="col-sm-2 col-form-label">Registration
                 Number:</label>
@@ -142,11 +144,13 @@
 
                         <!-- construct an "delete" link with driver id -->
                         <c:url var="deleteLink" value="/drivers/delete">
-                            <c:param name="driverId" value="${currentDriver.id}"/>
+                            <c:param name="driverId"
+                                     value="${currentDriver.id}"/>
                         </c:url>
                         <!-- construct an "update" link with driver id -->
                         <c:url var="updateLink" value="/drivers/edit">
-                            <c:param name="driverId" value="${currentDriver.id}"/>
+                            <c:param name="driverId"
+                                     value="${currentDriver.id}"/>
                         </c:url>
 
                         <td><a class="nav-link" href="${updateLink}"><span

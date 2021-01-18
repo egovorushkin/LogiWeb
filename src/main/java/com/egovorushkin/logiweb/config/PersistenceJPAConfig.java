@@ -1,7 +1,6 @@
 package com.egovorushkin.logiweb.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -25,8 +24,11 @@ import java.util.Properties;
         ".properties"})
 public class PersistenceJPAConfig {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
+
+    public PersistenceJPAConfig(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -55,23 +57,19 @@ public class PersistenceJPAConfig {
     @Bean
     public DataSource securityDataSource() {
 
-        // create connection pool
         ComboPooledDataSource securityDataSource
                 = new ComboPooledDataSource();
 
-        // set the jdbc driver class
         try {
             securityDataSource.setDriverClass(env.getProperty("security.jdbc.driver"));
         } catch (PropertyVetoException exc) {
             throw new RuntimeException(exc);
         }
 
-        // set database connection props
         securityDataSource.setJdbcUrl(env.getProperty("security.jdbc.url"));
         securityDataSource.setUser(env.getProperty("security.jdbc.user"));
         securityDataSource.setPassword(env.getProperty("security.jdbc.password"));
 
-        // set connection pool props
         securityDataSource.setInitialPoolSize(
                 getIntProperty("security.connection.pool.initialPoolSize"));
 
@@ -87,9 +85,6 @@ public class PersistenceJPAConfig {
         return securityDataSource;
     }
 
-
-    // A helper method
-    // read environment property and convert to int
 
     private int getIntProperty(String propName) {
 

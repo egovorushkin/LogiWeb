@@ -16,43 +16,15 @@ public class CityDaoImpl implements CityDao {
     private EntityManager entityManager;
 
     @Override
-    public City getCityById(int id) {
+    public City getCityById(long id) {
         return entityManager.find(City.class, id);
     }
 
     @Override
-    public List<City> listAll() {
+    public List<City> getAllCities() {
         TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c",
                 City.class);
         return q.getResultList();
-    }
-
-    @Override
-    public City showCity(int id) {
-        City city;
-        TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c WHERE c" +
-                ".id=:id", City.class).setParameter("id", id);
-        city = q.getSingleResult();
-        return city;
-    }
-
-    @Override
-    public void saveCity(City city) {
-        entityManager.persist(city);
-    }
-
-    @Override
-    public void update(City city) {
-        entityManager.merge(city);
-    }
-
-    @Override
-    public void delete(int id) {
-        City city = entityManager.find(City.class, id);
-
-        if (city != null) {
-            entityManager.remove(city);
-        }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.egovorushkin.logiweb.config;
+package com.egovorushkin.logiweb.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

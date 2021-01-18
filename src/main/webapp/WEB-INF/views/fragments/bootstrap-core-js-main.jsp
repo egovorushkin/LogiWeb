@@ -16,22 +16,27 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.5.1.slim.min.js"></script>
 <!-- FeatherIcons -->
 <script src="${pageContext.request.contextPath}/resources/js/feather.min.js"></script>
-<!-- jQuery DataTables -->
+<!-- FontAwesome Icons -->
 <script src="https://kit.fontawesome.com/daa4b0d652.js" crossorigin="anonymous"></script>
+<!-- jQuery DataTables -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
 
 <script>
-    jQuery(document).ready(function ($) {
+    // Clickable table rows
+    $(document).ready(function ($) {
         $(".table-row").click(function () {
             window.document.location = $(this).data("href");
         });
     });
 
+    // For Feather Icons
     feather.replace();
 
+
+    // Using DataTable
     $(document).ready(function() {
         $('#tables').dataTable({
-            "lengthMenu": [ 1, 3, 5, 7, 10],
+            "lengthMenu": [[ 1, 3, 5, 7, 10, -1], [ 1, 3, 5, 7, 10, "All"]],
             "pageLength": 7
         });
     });

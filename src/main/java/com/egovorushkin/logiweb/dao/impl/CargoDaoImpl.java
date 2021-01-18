@@ -15,38 +15,29 @@ public class CargoDaoImpl implements CargoDao {
     private EntityManager entityManager;
 
     @Override
-    public Cargo getCargoById(int id) {
+    public Cargo getCargoById(long id) {
         return entityManager.find(Cargo.class, id);
     }
 
     @Override
-    public List<Cargo> listAll() {
+    public List<Cargo> getAllCargoes() {
         TypedQuery<Cargo> q = entityManager.createQuery("SELECT t FROM Cargo t",
                 Cargo.class);
         return q.getResultList();
     }
 
     @Override
-    public Cargo showCargo(int id) {
-        Cargo cargo;
-        TypedQuery<Cargo> q = entityManager.createQuery("SELECT c FROM Cargo c WHERE c" +
-                ".id=:id", Cargo.class).setParameter("id", id);
-        cargo = q.getSingleResult();
-        return cargo;
-    }
-
-    @Override
-    public void saveCargo(Cargo cargo) {
+    public void createCargo(Cargo cargo) {
         entityManager.persist(cargo);
     }
 
     @Override
-    public void update(Cargo cargo) {
+    public void updateCargo(Cargo cargo) {
         entityManager.merge(cargo);
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteCargo(long id) {
         Cargo cargo = entityManager.find(Cargo.class, id);
 
         if (cargo != null) {

@@ -1,20 +1,19 @@
 package com.egovorushkin.logiweb.services.api;
 
-import com.egovorushkin.logiweb.entities.Cargo;
+import com.egovorushkin.logiweb.dto.CargoDto;
 
 import java.util.List;
 
 public interface CargoService {
 
-    Cargo getCargoById(int id);
+    CargoDto getCargoById(long id);
 
-    List<Cargo> listAll();
+    List<CargoDto> getAllCargoes();
 
-    void saveCargo(Cargo cargo);
+    void createCargo(CargoDto cargoDto);
 
-    void update(Cargo cargo);
+    void updateCargo(CargoDto cargoDto);
 
-    void delete(int id);
+    void deleteCargo(long id);
 
-    Cargo showCargo(int id);
 }

@@ -6,15 +6,14 @@ import java.util.List;
 
 public interface CargoDao {
 
-    Cargo getCargoById(int id);
+    Cargo getCargoById(long id);
 
-    List<Cargo> listAll();
+    List<Cargo> getAllCargoes();
 
-    void saveCargo(Cargo cargo);
+    void createCargo(Cargo cargo);
 
-    void update(Cargo cargo);
+    void updateCargo(Cargo cargo);
 
-    void delete(int id);
+    void deleteCargo(long id);
 
-    Cargo showCargo(int id);
 }

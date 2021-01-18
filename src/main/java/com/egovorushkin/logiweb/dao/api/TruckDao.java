@@ -7,18 +7,18 @@ import java.util.List;
 
 public interface TruckDao {
 
-    Truck getTruckById(int id);
+    Truck getTruckById(long id);
 
-    List<Truck> listAll();
+    List<Truck> getAllTrucks();
 
-    void saveTruck(Truck truck);
+    void createTruck(Truck truck);
 
-    void update(Truck truck);
+    void updateTruck(Truck truck);
 
-    void delete(int id);
+    void deleteTruck(long id);
 
-    Truck showTruck(int id);
+    List<Driver> findCurrentDriversByTruckId(long id);
 
-    List<Driver> findCurrentDrivers(int id) throws Exception;
+    List<Driver> findAvailableDriversByTruck(Truck truck);
 
 }

@@ -1,29 +1,25 @@
-package com.egovorushkin.logiweb.entities;
+package com.egovorushkin.logiweb.dto;
 
 import com.egovorushkin.logiweb.entities.enums.CargoStatus;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
 import java.util.Objects;
 
-@Entity
-@Table(name = "cargo")
-public class Cargo extends AbstractEntity {
+public class CargoDto {
 
-    @Column(name = "name")
+    private long id;
     private String name;
-
-    @Column(name = "weight")
     private int weight;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private CargoStatus status;
 
-    public Cargo() {
+    public CargoDto() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -54,8 +50,8 @@ public class Cargo extends AbstractEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cargo cargo = (Cargo) o;
-        return id == cargo.id;
+        CargoDto cargoDto = (CargoDto) o;
+        return id == cargoDto.id;
     }
 
     @Override
@@ -65,6 +61,6 @@ public class Cargo extends AbstractEntity {
 
     @Override
     public String toString() {
-        return name + " " + weight + " " + status;
+        return name + " (" + weight + " kg) - " + status;
     }
 }

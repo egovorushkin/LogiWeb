@@ -19,7 +19,7 @@
 </head>
 
 <body class="text-center">
-<form class="form-signin" action="${pageContext.request.contextPath}/authenticateTheUser" method="POST">
+<form class="form-signin" action="${pageContext.request.contextPath}/login" method="POST">
     <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
 
     <!-- Place for messages: error, alert etc ... -->
@@ -53,9 +53,9 @@
     <!-- Login/Submit Button -->
     <button class="btn btn-lg btn-dark btn-block" type="submit">Sign in</button>
 
-    <input type="hidden"
-           name="${_csrf.parameterName}"
-           value="${_csrf.token}"/>
+<%--    <input type="hidden"--%>
+<%--           name="${_csrf.parameterName}"--%>
+<%--           value="${_csrf.token}"/>--%>
 </form>
 </body>
 </html>

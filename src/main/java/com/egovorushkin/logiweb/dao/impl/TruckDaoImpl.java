@@ -14,45 +14,49 @@ import java.util.List;
 @Repository
 public class TruckDaoImpl implements TruckDao {
 
-    private static final Logger logger = Logger.getLogger(TruckDaoImpl.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(TruckDaoImpl.class.getName());
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public Truck getTruckById(int id) {
+    public Truck getTruckById(long id) {
+
+        LOGGER.debug("Finding truck by id");
+
         return entityManager.find(Truck.class, id);
     }
 
     @Override
-    public List<Truck> listAll() {
+    public List<Truck> getAllTrucks() {
+
+        LOGGER.debug("Retrieving all trucks");
+
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
                 "t LEFT JOIN FETCH t.currentCity", Truck.class);
-
-        logger.info("list all trucks");
 
         return q.getResultList();
     }
 
     @Override
-    public Truck showTruck(int id) {
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
-                "t LEFT JOIN FETCH t.currentCity WHERE t.id=:id", Truck.class).setParameter("id", id);
-        return q.getSingleResult();
-    }
+    public void createTruck(Truck truck) {
 
-    @Override
-    public void saveTruck(Truck truck) {
+        LOGGER.debug("Adding new truck");
+
         entityManager.persist(truck);
     }
 
     @Override
-    public void update(Truck truck) {
+    public void updateTruck(Truck truck) {
         entityManager.merge(truck);
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteTruck(long id) {
+
+        LOGGER.debug("Updating truck");
+
         Truck truck = entityManager.find(Truck.class, id);
 
         if (truck != null) {
@@ -61,14 +65,27 @@ public class TruckDaoImpl implements TruckDao {
     }
 
     @Override
-    public List<Driver> findCurrentDrivers(int id) {
+    public List<Driver> findCurrentDriversByTruckId(long id) {
+
+        LOGGER.debug("Finding drivers of truck with id = " + id);
+
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
                 "Driver d WHERE d.truck.id=:id", Driver.class)
                 .setParameter("id", id);
 
-        for(Driver d : q.getResultList()) {
-            System.out.println(d);
-        }
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Driver> findAvailableDriversByTruck(Truck truck) {
+
+        LOGGER.debug("Finding available drivers for truck with id = " + truck.getId());
+
+        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
+                "Driver d" +
+                " WHERE d.status='RESTING' AND d" +
+                ".currentCity=:truckCurrentCity", Driver.class)
+                .setParameter("truckCurrentCity", truck.getCurrentCity());
 
         return q.getResultList();
     }

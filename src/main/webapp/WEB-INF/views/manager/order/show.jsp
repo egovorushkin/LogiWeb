@@ -11,21 +11,12 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Order</h1>
+        <h4 class="h4">Order №${order.id}</h4>
     </div>
 
     <form:form modelAttribute="order"
                action="${pageContext.request.contextPath}/orders/${order.id}">
 
-        <div class="row mb-3">
-            <label for="id" class="col-sm-2 col-form-label">Unique
-                Number:</label>
-            <div class="col-sm-2">
-                <form:input path="id" class="form-control form-control-sm"
-                            id="id"
-                            name="id" value="${order.id}" disabled="true"/>
-            </div>
-        </div>
         <div class="row mb-3">
             <label for="status" class="col-sm-2 col-form-label">Status:</label>
             <div class="col-sm-2">
@@ -61,6 +52,15 @@
             </div>
         </div>
         <div class="row mb-3">
+            <label for="distance" class="col-sm-2 col-form-label">Travel time
+                (hr):</label>
+            <div class="col-sm-2">
+                <form:input path="duration" type="text"
+                            class="form-control form-control-sm" id="duration"
+                            name="duration" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
             <label for="cargo" class="col-sm-2 col-form-label">Cargo:</label>
             <div class="col-sm-2">
                 <form:input path="cargo.name" type="text"
@@ -83,6 +83,45 @@
                 </c:choose>
             </div>
         </div>
+
+        <!-- Show Current Drivers-->
+        <div class="page-header">
+            <h5>Current Drivers</h5>
+            <hr>
+        </div>
+
+        <c:choose>
+            <c:when test="${empty currentDrivers}">
+                <p>No drivers have been assigned for this order yet</p>
+            </c:when>
+            <c:otherwise>
+                <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Personal Number</th>
+                        <th scope="col">Worked Hours / Month</th>
+                        <th scope="col">Current Status</th>
+                        <th scope="col">Current City</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${currentDrivers}" var="currentDriver">
+                        <tr class='table-row'
+                            data-href='${pageContext.request.contextPath}/drivers/${currentDriver.id}'>
+                            <td class="align-middle">${currentDriver.firstName}</td>
+                            <td class="align-middle">${currentDriver.lastName}</td>
+                            <td class="align-middle">${currentDriver.personalNumber}</td>
+                            <td class="align-middle">${currentDriver.workedHoursPerMonth}</td>
+                            <td class="align-middle">${currentDriver.status.toString()}</td>
+                            <td class="align-middle">${currentDriver.currentCity.name}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:otherwise>
+        </c:choose>
 
         <!-- construct an "delete" link with order id -->
         <c:url var="deleteLink" value="/orders/delete">

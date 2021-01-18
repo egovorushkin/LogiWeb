@@ -1,12 +1,11 @@
 package com.egovorushkin.logiweb.controllers;
 
-import com.egovorushkin.logiweb.entities.Order;
+import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import com.egovorushkin.logiweb.services.api.CargoService;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.TruckService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +17,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
-
-    private static final Logger logger = Logger.getLogger(OrderController.class.getName());
 
     private final OrderService orderService;
     private final CityService cityService;
@@ -37,101 +34,71 @@ public class OrderController {
         this.truckService = truckService;
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping("/list")
     public String showAllOrders(Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("showAllOrders is executed");
-        }
-
-        model.addAttribute("orders", orderService.listAll());
+        model.addAttribute("orders", orderService.getAllOrders());
         return "manager/order/list";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("show is executed");
-        }
-
-        model.addAttribute("order", orderService.showOrder(id));
-        model.addAttribute("trucks", truckService.listAll());
+    public String showOrder(@PathVariable("id") long id, Model model) throws Exception {
+        model.addAttribute("order", orderService.getOrderById(id));
+        model.addAttribute("truck", orderService.getOrderById(id).getTruck());
+        model.addAttribute("currentDrivers",
+                truckService.findCurrentDriversByTruckId(orderService.
+                        getOrderById(id).getTruck().getId()));
         return "manager/order/show";
     }
 
-    @GetMapping(value = "/create")
-    public String createOrderForm(Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("createOrderForm is executed");
-        }
-
-        model.addAttribute("order", new Order());
-        model.addAttribute("cities", cityService.listAll());
-        model.addAttribute("cargoes", cargoService.listAll());
-        model.addAttribute("trucks", truckService.listAll());
+    @GetMapping("/create")
+    public String showCreateOrderForm(Model model) {
+        model.addAttribute("order", new OrderDto());
+        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("cargoes", cargoService.getAllCargoes());
+        model.addAttribute("trucks", truckService.getAllTrucks());
         return "manager/order/create";
     }
 
-    @PostMapping(value = "/save")
-    public String saveOrder(@ModelAttribute("order") @Valid Order order,
-                            BindingResult bindingResult, Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("saveOrder is executed");
-        }
-
+    @PostMapping("/save")
+    public String createOrder(@ModelAttribute("order") @Valid OrderDto orderDto,
+                              BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("cities", cityService.listAll());
-            model.addAttribute("cargoes", cargoService.listAll());
-            model.addAttribute("trucks", truckService.listAll());
+            model.addAttribute("cities", cityService.getAllCities());
+            model.addAttribute("cargoes", cargoService.getAllCargoes());
+            model.addAttribute("trucks", truckService.getAllTrucks());
             return "manager/order/create";
         }
-        orderService.saveOrder(order);
+        orderService.createOrder(orderDto);
         return "redirect:/orders/list";
     }
 
-    @GetMapping(value = "/edit")
-    public String editOrderForm(@RequestParam("orderId") int id, Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("editOrderForm is executed");
-        }
-
-        Order order = orderService.getOrderById(id);
-        model.addAttribute("order", order);
+    @GetMapping("/edit")
+    public String showEditOrderForm(@RequestParam("orderId") long id,
+                                    Model model) {
+        model.addAttribute("order", orderService.getOrderById(id));
         model.addAttribute("statuses", OrderStatus.values());
-        model.addAttribute("cities", cityService.listAll());
-        model.addAttribute("cargoes", cargoService.listAll());
-        model.addAttribute("trucks", truckService.listAll());
-        model.addAttribute("availableTrucks", orderService.findAvailableTrucks(orderService.getOrderById(id)));
+        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("cargoes", cargoService.getAllCargoes());
+        model.addAttribute("trucks", truckService.getAllTrucks());
+        model.addAttribute("availableTrucks",
+                orderService.findAvailableTrucks(orderService.getOrderById(id)));
+
         return "manager/order/edit";
     }
 
     @PostMapping("/update")
-    public String updateOrder(@ModelAttribute("order") @Valid Order order,
+    public String updateOrder(@ModelAttribute("order") @Valid OrderDto orderDto,
                               BindingResult bindingResult) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("updateOrder is executed");
-        }
-
         if (bindingResult.hasErrors()) {
             return "manager/order/edit";
         }
-        orderService.update(order);
+        orderService.updateOrder(orderDto);
         return "redirect:/orders/list";
     }
 
-    @GetMapping(value = "/delete")
-    public String deleteOrder(@RequestParam("orderId") int id) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("deleteOrder is executed");
-        }
-
-        orderService.delete(id);
+    @GetMapping("/delete")
+    public String deleteOrder(@RequestParam("orderId") long id) {
+        orderService.deleteOrder(id);
         return "redirect:/orders/list";
     }
 }

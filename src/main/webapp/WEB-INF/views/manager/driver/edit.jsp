@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-user-edit"></i> | Edit Driver</h1>
+        <h4 class="h4"><i class="fas fa-user-edit"></i> | Edit Driver</h4>
     </div>
 
     <form:form modelAttribute="driver" action="${pageContext.request.contextPath}/drivers/update" method="post">
@@ -72,10 +72,27 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Truck:</label>
             <div class="col-sm-2">
+                <c:choose>
+                    <c:when test="${empty driver.truck}">
+                        <input value="None"
+                               class="form-control form-control-sm" id="none"
+                               name="none" disabled/>
+                    </c:when>
+                    <c:otherwise>
+                        <input value="${driver.truck.registrationNumber}"
+                               class="form-control form-control-sm"
+                               id="currentTruck"
+                               name="currentTruck" disabled/>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <hr/>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Available Trucks:</label>
+            <div class="col-sm-2">
                 <form:select path="truck.id" cssClass="form-control form-control-sm">
-                    <c:if test="${empty driver.truck}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
                     <form:options items="${trucks}" itemValue="id" itemLabel="registrationNumber"/>
                 </form:select>
             </div>

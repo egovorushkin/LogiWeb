@@ -1,24 +1,25 @@
 package com.egovorushkin.logiweb.services.api;
 
+import com.egovorushkin.logiweb.dto.OrderDto;
+import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Order;
-import com.egovorushkin.logiweb.entities.Truck;
 
 import java.util.List;
 
 public interface OrderService {
 
-    Order getOrderById(int id);
+    OrderDto getOrderById(long id);
 
-    List<Order> listAll();
+    List<OrderDto> getAllOrders();
 
-    void saveOrder(Order order);
+    void createOrder(OrderDto orderDto);
 
-    void update(Order order);
+    void updateOrder(OrderDto orderDto);
 
-    void delete(int id);
+    void deleteOrder(long id);
 
-    Order showOrder(int id);
+    List<TruckDto> findAvailableTrucks(OrderDto orderDto);
 
-    List<Truck> findAvailableTrucks(Order order);
+    List<OrderDto> findCurrentOrders(long id);
 
 }

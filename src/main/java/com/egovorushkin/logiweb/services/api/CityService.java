@@ -1,20 +1,12 @@
 package com.egovorushkin.logiweb.services.api;
 
-import com.egovorushkin.logiweb.entities.City;
-
+import com.egovorushkin.logiweb.dto.CityDto;
 import java.util.List;
 
 public interface CityService {
 
-    City getCityById(int id);
+    CityDto getCityById(long id);
 
-    List<City> listAll();
+    List<CityDto> getAllCities();
 
-    void saveCity(City city);
-
-    void update(City city);
-
-    void delete(int id);
-
-    City showCity(int id);
 }

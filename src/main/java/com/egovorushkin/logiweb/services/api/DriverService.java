@@ -1,20 +1,21 @@
 package com.egovorushkin.logiweb.services.api;
 
-import com.egovorushkin.logiweb.entities.Driver;
+import com.egovorushkin.logiweb.dto.DriverDto;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface DriverService {
 
-    Driver getDriverById(int id);
+    DriverDto getDriverById(long id);
 
-    List<Driver> listAll();
+    List<DriverDto> getAllDrivers();
 
-    void saveDriver(Driver driver);
+    void createDriver(DriverDto driverDto);
 
-    void update(Driver driver);
+    void updateDriver(DriverDto driverDto);
 
-    void delete(int id);
+    void deleteDriver(long id);
 
-    Driver showDriver(int id);
+    DriverDto getDriverByUsername();
 }

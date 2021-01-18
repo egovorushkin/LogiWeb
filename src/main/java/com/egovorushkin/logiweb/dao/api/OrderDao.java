@@ -7,18 +7,18 @@ import java.util.List;
 
 public interface OrderDao {
 
-    Order getOrderById(int id);
+    Order getOrderById(long id);
 
-    List<Order> listAll();
+    List<Order> getAllOrders();
 
-    void saveOrder(Order order);
+    void createOrder(Order order);
 
-    void update(Order order);
+    void updateOrder(Order order);
 
-    void delete(int id);
-
-    Order showOrder(int id);
+    void deleteOrder(long id);
 
     List<Truck> findAvailableTrucks(Order order);
+
+    List<Order> findCurrentOrders(long id);
 
 }

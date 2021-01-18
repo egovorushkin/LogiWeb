@@ -2,8 +2,8 @@ package com.egovorushkin.logiweb.entities.enums;
 
 public enum OrderStatus {
 
-    COMPLETED("COMPLETED", "Completed"),
-    NOT_COMPLETED("NOT_COMPLETED", "Not completed");
+    NOT_COMPLETED("NOT_COMPLETED", "Not completed"),
+    COMPLETED("COMPLETED", "Completed");
 
     String title;
     String name;

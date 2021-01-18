@@ -6,15 +6,8 @@ import java.util.List;
 
 public interface CityDao {
 
-    City getCityById(int id);
+    City getCityById(long id);
 
-    List<City> listAll();
+    List<City> getAllCities();
 
-    void saveCity(City city);
-
-    void update(City city);
-
-    void delete(int id);
-
-    City showCity(int id);
 }

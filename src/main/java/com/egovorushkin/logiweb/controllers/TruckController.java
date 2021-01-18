@@ -1,27 +1,24 @@
 package com.egovorushkin.logiweb.controllers;
 
-import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.TruckService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/trucks")
 public class TruckController {
 
-    private static final Logger logger = Logger.getLogger(TruckController.class.getName());
-
     private final TruckService truckService;
     private final CityService cityService;
+
 
     @Autowired
     public TruckController(TruckService truckService, CityService cityService) {
@@ -29,97 +26,64 @@ public class TruckController {
         this.cityService = cityService;
     }
 
-    @GetMapping(value = "/list")
-    public String showAllTrucks(Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("showAllTrucks is executed");
-        }
-
-        model.addAttribute("trucks", truckService.listAll());
+    @GetMapping("/list")
+    public String getAllTrucks(Model model) {
+        model.addAttribute("trucks", truckService.getAllTrucks());
         return "manager/truck/list";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) throws Exception {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("show is executed");
-        }
-
-        model.addAttribute("truck", truckService.showTruck(id));
+    public String showTruck(@PathVariable("id") long id, Model model) throws Exception {
+        model.addAttribute("truck", truckService.getTruckById(id));
         model.addAttribute("states", TruckState.values());
-        model.addAttribute("currentDrivers", truckService.findCurrentDrivers(id));
-        model.addAttribute("numberOfDrivers", truckService.findCurrentDrivers(id).size());
+        model.addAttribute("currentDrivers", truckService.findCurrentDriversByTruckId(id));
+        model.addAttribute("numberOfDrivers", truckService.findCurrentDriversByTruckId(id).size());
         return "manager/truck/show";
     }
 
-    @GetMapping(value = "/create")
-    public String createTruckForm(Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("createTruckForm is executed");
-        }
-
-        model.addAttribute("truck", new Truck());
-        model.addAttribute("cities", cityService.listAll());
+    @GetMapping("/create")
+    public String showCreateTruckForm(Model model) {
+        model.addAttribute("truck", new TruckDto());
+        model.addAttribute("cities", cityService.getAllCities());
         return "manager/truck/create";
     }
 
-    @PostMapping(value = "/save")
-    public String saveTruck(@ModelAttribute("truck") @Valid Truck truck,
+    @PostMapping("/save")
+    public String createTruck(@ModelAttribute("truck") @Valid TruckDto truckDto,
                             BindingResult bindingResult, Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("saveTruck is executed");
-        }
-
         if (bindingResult.hasErrors()) {
-            model.addAttribute("cities", cityService.listAll());
+            model.addAttribute("cities", cityService.getAllCities());
             return "manager/truck/create";
         }
-        truckService.saveTruck(truck);
+        truckService.createTruck(truckDto);
         return "redirect:/trucks/list";
     }
 
-    @GetMapping(value = "/edit")
-    public String editTruckForm(@RequestParam("truckId") int id, Model model) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("editTruckForm is executed");
-        }
-
-        Truck truck = truckService.getTruckById(id);
-        model.addAttribute("truck", truck);
-        model.addAttribute("cities", cityService.listAll());
+    @GetMapping("/edit")
+    public String showEditTruckForm(@RequestParam("truckId") long id, Model model) throws Exception {
+        model.addAttribute("truck", truckService.getTruckById(id));
+        model.addAttribute("cities", cityService.getAllCities());
         model.addAttribute("states", TruckState.values());
         model.addAttribute("statuses", TruckStatus.values());
+        model.addAttribute("currentDrivers", truckService.findCurrentDriversByTruckId(id));
+        model.addAttribute("availableDrivers",
+                truckService.findAvailableDriversByTruck(truckService.getTruckById(id)));
         return "manager/truck/edit";
     }
 
     @PostMapping("/update")
-    public String updateTruck(@ModelAttribute("truck") @Valid Truck truck,
+    public String updateTruck(@ModelAttribute("truck") @Valid TruckDto truckDto,
                               BindingResult bindingResult) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("updateTruck is executed");
-        }
-
         if (bindingResult.hasErrors()) {
             return "manager/truck/edit";
         }
-        truckService.update(truck);
+        truckService.updateTruck(truckDto);
         return "redirect:/trucks/list";
     }
 
-    @GetMapping(value = "/delete")
-    public String deleteTruck(@RequestParam("truckId") int id) {
-
-        if (logger.isDebugEnabled()){
-            logger.debug("deleteTruck is executed");
-        }
-
-        truckService.delete(id);
+    @GetMapping("/delete")
+    public String deleteTruck(@RequestParam("truckId") long id) {
+        truckService.deleteTruck(id);
         return "redirect:/trucks/list";
     }
 }

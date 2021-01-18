@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class MainController {
 
-    @GetMapping()
+    @GetMapping
     public String showMainPage() {
-        return "common/main";
+        return "admin";
     }
 }

@@ -6,15 +6,17 @@ import java.util.List;
 
 public interface DriverDao {
 
-    Driver getDriverById(int id);
+    Driver getDriverById(long id);
 
-    List<Driver> listAll();
+    List<Driver> getAllDrivers();
 
     void saveDriver(Driver driver);
 
-    void update(Driver driver);
+    void updateDriver(Driver driver);
 
-    void delete(int id);
+    void deleteDriver(long id);
 
-    Driver showDriver(int id);
+    Driver getDriverByUsername(String username);
+
+
 }
