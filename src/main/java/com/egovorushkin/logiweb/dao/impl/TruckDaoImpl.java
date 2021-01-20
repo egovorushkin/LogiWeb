@@ -55,13 +55,16 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public void deleteTruck(long id) {
 
-        LOGGER.debug("Updating truck");
+        LOGGER.debug("deleteTruck executed");
 
         Truck truck = entityManager.find(Truck.class, id);
+        List<Driver> currentDrivers = truck.getCurrentDrivers();
 
-        if (truck != null) {
-            entityManager.remove(truck);
+        for (Driver d : currentDrivers){
+            d.setTruck(null);
         }
+
+        entityManager.remove(truck);
     }
 
     @Override
@@ -82,10 +85,10 @@ public class TruckDaoImpl implements TruckDao {
         LOGGER.debug("Finding available drivers for truck with id = " + truck.getId());
 
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d" +
-                " WHERE d.status='RESTING' AND d" +
-                ".currentCity=:truckCurrentCity", Driver.class)
-                .setParameter("truckCurrentCity", truck.getCurrentCity());
+                "Driver d WHERE d.status='RESTING' AND d" +
+                ".currentCity=:truckCurrentCity AND (d.truck.id<>:truckId OR d.truck.id IS NULL)", Driver.class)
+                .setParameter("truckCurrentCity", truck.getCurrentCity())
+                .setParameter("truckId", truck.getId());
 
         return q.getResultList();
     }

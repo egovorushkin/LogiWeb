@@ -32,7 +32,7 @@
             <tr class='table-row'
                 data-href='${pageContext.request.contextPath}/trucks/${truck.id}'>
                 <td class="align-middle">${truck.registrationNumber}</td>
-                <td class="align-middle">${truck.teamSize} / ${truck.currentNumberOfDrivers}</td>
+                <td class="align-middle">${truck.teamSize}</td>
                 <td class="align-middle">${truck.capacity}</td>
                 <td class="align-middle">${truck.state.toString()}</td>
                 <td class="align-middle">${truck.status.toString()}</td>

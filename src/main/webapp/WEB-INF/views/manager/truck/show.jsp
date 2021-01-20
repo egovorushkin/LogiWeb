@@ -164,6 +164,57 @@
             </table>
         </c:otherwise>
     </c:choose>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4 class="h4">Available Drivers</h4>
+        <hr>
+    </div>
+
+    <c:choose>
+        <c:when test="${empty availableDrivers}">
+            <p>No available drivers fo this truck</p>
+        </c:when>
+        <c:otherwise>
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Personal Number</th>
+                    <th scope="col">Worked Hours / Month</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Truck</th>
+                    <th scope="col">Add To Truck</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${availableDrivers}"
+                           var="availableDriver">
+                    <tr class='table-row'
+                        data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
+                        <td class="align-middle">${availableDriver.firstName}</td>
+                        <td class="align-middle">${availableDriver.lastName}</td>
+                        <td class="align-middle">${availableDriver.personalNumber}</td>
+                        <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
+                        <td class="align-middle">${availableDriver.status.toString()}</td>
+                        <td class="align-middle">${availableDriver.currentCity.name}</td>
+                        <td class="align-middle">${availableDriver.truck.registrationNumber}</td>
+
+                        <!-- construct an "add" link with order id -->
+                        <c:url var="addDriverLink" value="/drivers/add-driver">
+                            <%--                                <c:param name="availableDriverId" value="${availableDrivers.id}"/>--%>
+                            <c:param name="truckId" value="${truck.id}"/>
+                            <c:param name="driverId" value="${availableDriver.id}"/>
+                        </c:url>
+
+                        <td><a class="nav-link" href="${addDriverLink}"><i class="fas fa-plus" style="color: #008000"></i></a></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </main>
 
 <jsp:include page="../../fragments/bootstrap-core-js-main.jsp"/>

@@ -31,7 +31,7 @@ public class Driver extends AbstractEntity {
     @Column(name = "status")
     private DriverStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id")
     private City currentCity;
 

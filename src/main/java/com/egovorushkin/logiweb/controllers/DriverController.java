@@ -89,12 +89,15 @@ public class DriverController {
         return "redirect:/drivers/list";
     }
 
-//    @GetMapping("/updateTruckForDriver")
-//    public String updateTruckForDriver(@RequestParam("availableDriverId")
-//    long driverId, @RequestParam("truckId") long truckId){
-//        DriverDto driverDto = driverService.getDriverById(driverId);
-//        driverDto.setTruck(truckService.getTruckById(truckId));
-//        driverService.updateDriver(driverDto);
-//        return "manager/driver/edit";
-//    }
+    @GetMapping("/add-driver")
+    public String addDriverForTruck(@RequestParam("truckId") long truckId, @RequestParam("driverId") long driverId){
+
+        System.out.println("truckId = " + truckId);
+        System.out.println("driverId = " + driverId);
+
+        DriverDto driverDto = driverService.getDriverById(driverId);
+        driverDto.setTruck(truckService.getTruckById(truckId));
+        driverService.updateDriver(driverDto);
+        return "redirect:/truck/{truckId}";
+    }
 }

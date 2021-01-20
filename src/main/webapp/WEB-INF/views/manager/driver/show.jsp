@@ -52,7 +52,7 @@
             <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked
                 Hours / Month:</label>
             <div class="col-sm-2">
-                <input class="form-control form-control-sm" disabled="true"
+                <input class="form-control form-control-sm" disabled
                        id="workedHoursPerMonth"
                        name="workedHoursPerMonth" type="number"
                        value="${driver.workedHoursPerMonth}">

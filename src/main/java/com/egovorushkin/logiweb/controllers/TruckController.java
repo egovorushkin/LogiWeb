@@ -1,9 +1,11 @@
 package com.egovorushkin.logiweb.controllers;
 
+import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.services.api.CityService;
+import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,12 +20,14 @@ public class TruckController {
 
     private final TruckService truckService;
     private final CityService cityService;
+    private final DriverService driverService;
 
 
     @Autowired
-    public TruckController(TruckService truckService, CityService cityService) {
+    public TruckController(TruckService truckService, CityService cityService, DriverService driverService) {
         this.truckService = truckService;
         this.cityService = cityService;
+        this.driverService = driverService;
     }
 
     @GetMapping("/list")
@@ -86,4 +90,6 @@ public class TruckController {
         truckService.deleteTruck(id);
         return "redirect:/trucks/list";
     }
+
+
 }

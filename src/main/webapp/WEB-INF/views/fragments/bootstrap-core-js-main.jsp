@@ -41,6 +41,11 @@
         });
     });
 
+    // For refresh Page
+    $('#refresh').click(function() {
+        location.reload();
+    });
+
 </script>
 
 </body>

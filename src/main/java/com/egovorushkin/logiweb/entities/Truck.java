@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -40,6 +42,9 @@ public class Truck extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City currentCity;
+
+    @OneToMany(mappedBy = "truck", fetch = FetchType.EAGER)
+    private List<Driver> currentDrivers = new ArrayList<>();
 
     public Truck() {
     }
@@ -90,6 +95,24 @@ public class Truck extends AbstractEntity {
 
     public void setCurrentCity(City currentCity) {
         this.currentCity = currentCity;
+    }
+
+    public List<Driver> getCurrentDrivers() {
+        return currentDrivers;
+    }
+
+    public void setCurrentDrivers(List<Driver> currentDrivers) {
+        this.currentDrivers = currentDrivers;
+    }
+
+    public void addDriver(Driver driver) {
+        currentDrivers.add(driver);
+        driver.setTruck(this);
+    }
+
+    public void removeDriver(Driver driver) {
+        currentDrivers.remove(driver);
+        driver.setTruck(null);
     }
 
     @Override
