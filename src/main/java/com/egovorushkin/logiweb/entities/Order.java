@@ -10,22 +10,22 @@ import java.util.Objects;
 public class Order extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private OrderStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "from_city_id")
+    @JoinColumn(name = "from_city_id", nullable = false)
     private City fromCity;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "to_city_id")
+    @JoinColumn(name = "to_city_id", nullable = false)
     private City toCity;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cargo_id")
+    @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;
 
-    @Column(name = "distance")
+    @Column(name = "distance", nullable = false)
     private Integer distance;
 
     @ManyToOne(fetch = FetchType.EAGER)

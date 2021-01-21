@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 
 @Controller
@@ -88,9 +90,9 @@ public class DriverController {
         driverService.deleteDriver(id);
         return "redirect:/drivers/list";
     }
-
-    @GetMapping("/add-driver")
-    public String addDriverForTruck(@RequestParam("truckId") long truckId, @RequestParam("driverId") long driverId){
+    @GetMapping
+    public ModelAndView addDriverForTruck(@RequestParam("truckId") long truckId, @RequestParam("driverId") long driverId) {
+        ModelAndView modelAndView = new ModelAndView("edit");
 
         System.out.println("truckId = " + truckId);
         System.out.println("driverId = " + driverId);
@@ -98,6 +100,19 @@ public class DriverController {
         DriverDto driverDto = driverService.getDriverById(driverId);
         driverDto.setTruck(truckService.getTruckById(truckId));
         driverService.updateDriver(driverDto);
-        return "redirect:/truck/{truckId}";
+
+        return modelAndView;
     }
+
+//    @GetMapping("/add-driver")
+//    public String addDriverForTruck(@RequestParam("truckId") long truckId, @RequestParam("driverId") long driverId){
+//
+//        System.out.println("truckId = " + truckId);
+//        System.out.println("driverId = " + driverId);
+//
+//        DriverDto driverDto = driverService.getDriverById(driverId);
+//        driverDto.setTruck(truckService.getTruckById(truckId));
+//        driverService.updateDriver(driverDto);
+//        return "redirect:/truck/{truckId}";
+//    }
 }

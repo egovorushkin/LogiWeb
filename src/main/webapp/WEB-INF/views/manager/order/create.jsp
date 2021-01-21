@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -20,8 +20,8 @@
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
                 <form:select class="form-control form-control-sm" path="status" id="status"
-                             name="status">
-                    <form:options itemValue="title" itemLabel="name" items="${statuses}"/>
+                             name="status" disabled="true">
+                    <form:options itemValue="title" itemLabel="name"  items="${statuses}"/>
                 </form:select>
             </div>
         </div>

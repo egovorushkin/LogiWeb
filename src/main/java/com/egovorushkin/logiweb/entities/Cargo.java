@@ -1,26 +1,32 @@
 package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.enums.CargoStatus;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Objects;
 
 @Entity
 @Table(name = "cargo")
 public class Cargo extends AbstractEntity {
 
-    @Column(name = "name")
+    @Min(value = 2, message = "Name of cargo cannot be less than 2 characters")
+    @Max(value = 50, message = "Name of cargo cannot be more than 50 characters")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "weight")
+    @Range(min = 5000, max = 40000, message = "Weight should be between 5000 and 40000 kg.")
+    @Column(name = "weight", nullable = false)
     private int weight;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private CargoStatus status;
 
     public Cargo() {

@@ -11,7 +11,6 @@ import java.util.Objects;
 public class City extends AbstractEntity {
 
     @Column(name = "name", unique = true, nullable = false)
-    @NotNull
     private String name;
 
     public City() {

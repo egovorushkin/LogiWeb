@@ -32,15 +32,15 @@
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Team Size:</legend>
                 <div class="col-sm-10">
-                    <div class="form-check form-check-inline">
-                        <form:radiobutton path="teamSize"
-                                          class="form-check-input"
-                                          name="oneDriver" value="0"
-                                          id="oneDriver"/>
-                        <label class="form-check-label" for="oneDriver">
-                            None
-                        </label>
-                    </div>
+<%--                    <div class="form-check form-check-inline">--%>
+<%--                        <form:radiobutton path="teamSize"--%>
+<%--                                          class="form-check-input"--%>
+<%--                                          name="oneDriver" value="0"--%>
+<%--                                          id="oneDriver"/>--%>
+<%--                        <label class="form-check-label" for="oneDriver">--%>
+<%--                            None--%>
+<%--                        </label>--%>
+<%--                    </div>--%>
                     <div class="form-check form-check-inline">
                         <form:radiobutton path="teamSize"
                                           class="form-check-input"

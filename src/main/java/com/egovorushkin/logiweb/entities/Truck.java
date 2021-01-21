@@ -19,28 +19,26 @@ public class Truck extends AbstractEntity {
     @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number" +
             " must be 2" +
             " characters and 5 digits (ex. \"AB12345\")")
-    @Column(name = "registration_number", unique = true, nullable = false,length = 7)
+    @Column(name = "registration_number", unique = true, nullable = false, length = 7)
     private String registrationNumber;
 
-    @Range(max = 2, message = "Team size should be greater than 0 and less or" +
-            " equals 2.")
-    @Column(name = "team_size")
+    @Column(name = "team_size", nullable = false)
     private int teamSize;
 
-    @Range(max = 28000, message = "Capacity should be less or equals 28000 kg.")
-    @Column(name = "capacity")
+    @Range(min = 5000, max = 40000, message = "Capacity should be between 5000 and 40000 kg.")
+    @Column(name = "capacity", nullable = false)
     private int capacity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private TruckStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state")
+    @Column(name = "state", nullable = false)
     private TruckState state;
 
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id", nullable = false)
     private City currentCity;
 
     @OneToMany(mappedBy = "truck", fetch = FetchType.EAGER)
