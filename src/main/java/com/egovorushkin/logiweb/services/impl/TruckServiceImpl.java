@@ -1,11 +1,11 @@
 package com.egovorushkin.logiweb.services.impl;
 
-import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ *  Declares the methods which provide CRUD operations
+ *  for TruckDao.
+ */
 
 @Service
 public class TruckServiceImpl implements TruckService {
@@ -34,9 +39,21 @@ public class TruckServiceImpl implements TruckService {
     @Override
     @Transactional
     public TruckDto getTruckById(long id) {
-        return modelMapper.map(truckDao.getTruckById(id), TruckDto.class);
+
+        Truck truck = truckDao.getTruckById(id);
+
+        if (truck == null) {
+            throw new EntityNotFoundException("Truck with id = " + id + " is not found");
+        }
+        return modelMapper.map(truck, TruckDto.class);
     }
 
+    /**
+     * Finds all TruckDto from the database.
+     * @return  A list that contains the information of the found
+     *          TruckDto. If no TruckDto, this method returns an empty list.
+     * @return
+     */
     @Override
     @Transactional
     public List<TruckDto> getAllTrucks() {

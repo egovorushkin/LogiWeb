@@ -80,7 +80,10 @@ public class TruckDto implements Serializable {
     }
 
     public int getCurrentNumberOfDrivers() {
-        return currentNumberOfDrivers;
+        if (currentDrivers != null) {
+            return currentDrivers.size();
+        }
+        return 0;
     }
 
     public void setCurrentNumberOfDrivers(int currentNumberOfDrivers) {

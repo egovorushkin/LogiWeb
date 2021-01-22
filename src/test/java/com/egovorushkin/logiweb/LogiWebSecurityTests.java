@@ -1,14 +1,9 @@
 package com.egovorushkin.logiweb;
 
-import com.egovorushkin.logiweb.config.PersistenceJPAConfig;
-import com.egovorushkin.logiweb.config.SpringMvcDispatcherServletInitializer;
-import com.egovorushkin.logiweb.config.WebConfig;
-import com.egovorushkin.logiweb.config.security.AuthenticationFacade;
-import com.egovorushkin.logiweb.config.security.CustomAuthenticationSuccessHandler;
-import com.egovorushkin.logiweb.config.security.SecurityConfig;
-import com.egovorushkin.logiweb.config.security.SecurityWebApplicationInitializer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,12 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {SecurityConfig.class, WebConfig.class,
-        AuthenticationFacade.class, CustomAuthenticationSuccessHandler.class,
-        SecurityWebApplicationInitializer.class,
-        SpringMvcDispatcherServletInitializer.class,
-        PersistenceJPAConfig.class})
-@AutoConfigureMockMvc
 public class LogiWebSecurityTests {
 
     @Autowired

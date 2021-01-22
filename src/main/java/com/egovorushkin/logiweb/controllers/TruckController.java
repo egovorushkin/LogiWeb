@@ -20,14 +20,11 @@ public class TruckController {
 
     private final TruckService truckService;
     private final CityService cityService;
-    private final DriverService driverService;
-
 
     @Autowired
     public TruckController(TruckService truckService, CityService cityService, DriverService driverService) {
         this.truckService = truckService;
         this.cityService = cityService;
-        this.driverService = driverService;
     }
 
     @GetMapping("/list")
