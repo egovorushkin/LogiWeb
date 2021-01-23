@@ -1,7 +1,9 @@
 package com.egovorushkin.logiweb;
 
 import com.egovorushkin.logiweb.controllers.TruckController;
+import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static com.egovorushkin.logiweb.config.WebTestConfig.*;
 import static org.hamcrest.Matchers.*;
@@ -28,14 +31,12 @@ public class TruckCrudControllerTest {
 
     private TruckRequestBuilder requestBuilder;
     private TruckService truckService;
-    private DriverService driverService;
-    private CityService cityService;
 
     @BeforeEach
     void configureSystemUnderTest() {
         truckService = mock(TruckService.class);
-        driverService = mock(DriverService.class);
-        cityService = mock(CityService.class);
+        DriverService driverService = mock(DriverService.class);
+        CityService cityService = mock(CityService.class);
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new TruckController(truckService, cityService, driverService))
                 .setHandlerExceptionResolvers(exceptionResolver())
@@ -239,11 +240,118 @@ public class TruckCrudControllerTest {
                 private final String REGISTRATION_NUMBER = "XX00000";
                 private final int TEAM_SIZE = 2;
                 private final int CAPACITY = 25000;
-                private final int CURRENT_NUMBER_OF_DRIVERS = 0;
                 private final TruckStatus STATUS_PARKED = TruckStatus.PARKED;
                 private final TruckState STATE_SERVICEABLE = TruckState.SERVICEABLE;
 
-                // TODO need to complete this test
+                private final long DRIVER_ID = 10L;
+                private final String DRIVER_FIRST_NAME = "Alex";
+                private final String DRIVER_LAST_NAME = "Alexeev";
+                private final int DRIVER_PERSONAL_NUMBER = 12345;
+                private final int DRIVER_WORKED_HOURS = 100;
+                private final DriverStatus DRIVER_RESTING = DriverStatus.RESTING;
+
+                @BeforeEach
+                void truckServiceReturnsParkedAndServiceableTruckWithOneDriver() {
+                    TruckDto truck = new TruckDto();
+                    truck.setId(TRUCK_ID);
+                    truck.setRegistrationNumber(REGISTRATION_NUMBER);
+                    truck.setTeamSize(TEAM_SIZE);
+                    truck.setCapacity(CAPACITY);
+                    truck.setStatus(STATUS_PARKED);
+                    truck.setState(STATE_SERVICEABLE);
+
+                    DriverDto driver = new DriverDto();
+                    driver.setId(DRIVER_ID);
+                    driver.setFirstName(DRIVER_FIRST_NAME);
+                    driver.setLastName(DRIVER_LAST_NAME);
+                    driver.setPersonalNumber(DRIVER_PERSONAL_NUMBER);
+                    driver.setWorkedHoursPerMonth(DRIVER_WORKED_HOURS);
+                    driver.setStatus(DRIVER_RESTING);
+
+                    truck.setCurrentDrivers(Collections.singleton(driver));
+
+                    given(truckService.getTruckById(TRUCK_ID)).willReturn(truck);
+                }
+
+                @Test
+                @DisplayName("Should return the HTTP status code 200")
+                void shouldReturnHttpStatusCodeOk() throws Exception {
+                    requestBuilder.findById(TRUCK_ID).andExpect(status().isOk());
+                }
+
+                @Test
+                @DisplayName("Should render the view truck")
+                void shouldRenderViewTodoItemView() throws Exception {
+                    requestBuilder.findById(TRUCK_ID).andExpect(view().name("manager/truck/show"));
+                }
+
+                @Test
+                @DisplayName("Should display the information of the correct truck")
+                void shouldDisplayInformationOfCorrectTruck() throws Exception {
+                    requestBuilder.findById(TRUCK_ID)
+                            .andExpect(model().attribute(
+                                    "truck",
+                                    hasProperty("id", equalTo(TRUCK_ID))
+                            ));
+                }
+
+                @Test
+                @DisplayName("Should display the correct information of truck")
+                void shouldDisplayCorrectInformationOfTruck() throws Exception {
+                    requestBuilder.findById(TRUCK_ID)
+                            .andExpect(model().attribute(
+                                    "truck",
+                                    allOf(
+                                            hasProperty("registrationNumber", equalTo(REGISTRATION_NUMBER)),
+                                            hasProperty("teamSize", equalTo(TEAM_SIZE)),
+                                            hasProperty("capacity", equalTo(CAPACITY)),
+                                            hasProperty("status", equalTo(STATUS_PARKED)),
+                                            hasProperty("state", equalTo(STATE_SERVICEABLE))
+                                    )
+                            ));
+                }
+
+                @Test
+                @DisplayName("Should display a parked truck")
+                void shouldDisplayParkedTruck() throws Exception {
+                    requestBuilder.findById(TRUCK_ID)
+                            .andExpect(model().attribute(
+                                    "truck",
+                                    hasProperty("status", equalTo(STATUS_PARKED))
+                            ));
+                }
+
+                @Test
+                @DisplayName("Should display a truck that has one driver")
+                void shouldDisplayTruckThanHasOneDriver() throws Exception {
+                    requestBuilder.findById(TRUCK_ID)
+                            .andExpect(model().attribute(
+                                    "truck",
+                                    hasProperty("currentDrivers", hasSize(1))
+                            ));
+                }
+
+                @Test
+                @DisplayName("Should display the information of the found driver")
+                void shouldDisplayInformationOfFoundDriver() throws Exception {
+                    requestBuilder.findById(TRUCK_ID)
+                            .andExpect(model().attribute(
+                                    "truck",
+                                    hasProperty("currentDrivers", hasItem(
+                                            allOf(
+                                                    hasProperty("id", equalTo(DRIVER_ID)),
+                                                    hasProperty("firstName", equalTo(DRIVER_FIRST_NAME)),
+                                                    hasProperty("lastName", equalTo(DRIVER_LAST_NAME)),
+                                                    hasProperty("personalNumber", equalTo(DRIVER_PERSONAL_NUMBER)),
+                                                    hasProperty("workedHoursPerMonth", equalTo(DRIVER_WORKED_HOURS)),
+                                                    hasProperty("status", equalTo(DRIVER_RESTING))
+                                            )
+                                    ))
+                            ));
+                }
+
+
+
 
             }
         }
