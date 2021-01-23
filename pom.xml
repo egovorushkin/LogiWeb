@@ -30,6 +30,7 @@
         <mockito-junit-jupiter.version>3.7.7</mockito-junit-jupiter.version>
         <spring-test.version>5.3.3</spring-test.version>
         <spring-security-test.version>5.3.6.RELEASE</spring-security-test.version>
+        <hamcrest-library.version>2.2</hamcrest-library.version>
     </properties>
 
     <dependencies>
@@ -173,6 +174,13 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito-junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>${hamcrest-library.version}</version>
             <scope>test</scope>
         </dependency>
 
