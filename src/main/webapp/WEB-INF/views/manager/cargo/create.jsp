@@ -36,17 +36,6 @@
             </div>
             <form:errors path="weight" cssClass="alert alert-danger"/>
         </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current Status:</label>
-            <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status"
-                             id="status" name="status">
-                    <form:options itemValue="title" itemLabel="name"
-                                  items="${statuses}"/>
-                </form:select>
-            </div>
-        </div>
-
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary"
            href="${pageContext.request.contextPath}/cargoes/list"

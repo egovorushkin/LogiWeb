@@ -16,7 +16,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-edit"></i> | Edit Order №${order.id}
+        <h4><i class="fas fa-clipboard-list"></i> | Edit Order №${order.id}
         </h4>
     </div>
 
@@ -74,7 +74,7 @@
             <form:errors path="distance" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="distance" class="col-sm-2 col-form-label">Travel time
+            <label for="distance" class="col-sm-2 col-form-label">~Travel time
                 (hr):</label>
             <div class="col-sm-2">
                 <form:input path="duration" type="text"
@@ -106,8 +106,11 @@
                                     name="registrationNumber" readonly="true"/>
                     </c:when>
                     <c:otherwise>
-                        <input value="None" class="form-control form-control-sm"
-                               disabled/>
+                        <label>
+                            <input value="None"
+                                   class="form-control form-control-sm"
+                                   disabled/>
+                        </label>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -120,30 +123,61 @@
         <a class="btn btn-sm btn-secondary"
            href="${pageContext.request.contextPath}/orders/list"
            role="button">Cancel</a>
-
-
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h4 class="h4">Available Trucks</h4>
-            <hr>
-        </div>
-        <div class="col-sm-2">
-        <c:choose>
-            <c:when test="${empty availableTrucks}">
-                <p>No available trucks fo this order</p>
-            </c:when>
-            <c:otherwise>
-                <form:select path="truck.id"
-                             cssClass="form-control form-control-sm">
-                    <form:options items="${availableTrucks}" itemValue="id"
-                                  itemLabel="registrationNumber"/>
-                </form:select>
-            </c:otherwise>
-        </c:choose>
-    </div>
     </form:form>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4>Available Trucks</h4>
+        <hr>
+    </div>
+    <c:choose>
+        <c:when test="${empty availableTrucks}">
+            <h6>No available trucks fo this order</h6>
+        </c:when>
+        <c:otherwise>
+
+            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Registration Number</th>
+                    <th scope="col">Team Size</th>
+                    <th scope="col">Capacity (kg)</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Current City</th>
+                    <th scope="col">Bind truck</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${availableTrucks}"
+                           var="availableTruck">
+                    <tr class='table-row'
+                        data-href='${pageContext.request.contextPath}/trucks/${order.truck.id}'>
+                        <td class="align-middle">${availableTruck.registrationNumber}</td>
+                        <td class="align-middle">${availableTruck.teamSize}</td>
+                        <td class="align-middle">${availableTruck.capacity}</td>
+                        <td class="align-middle">${availableTruck.state.toString()}</td>
+                        <td class="align-middle">${availableTruck.status.toString()}</td>
+                        <td class="align-middle">${availableTruck.currentCity.name}</td>
+
+                        <c:url var="bindTruckLink"
+                               value="/orders/unbind-truck">
+                            <c:param name="truckId"
+                                     value="${order.truck.id}"/>
+                            <c:param name="orderId"
+                                     value="${order.id}"/>
+                        </c:url>
+
+                        <td><a class="nav-link"
+                               href="${bindTruckLink}"><i
+                                class="fas fa-plus"
+                                style="color: limegreen"></i></a></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </main>
-</div>
-</div>
 
 <jsp:include page="../../fragments/bootstrap-core-js-main.jsp"/>
 

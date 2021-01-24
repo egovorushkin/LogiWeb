@@ -1,22 +1,42 @@
 package com.egovorushkin.logiweb.dto;
 
 import com.egovorushkin.logiweb.entities.City;
-import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
 public class DriverDto implements Serializable {
 
     private long id;
+
     private String username;
+
     private String password;
+
+    @Pattern(regexp = "[A-Z][a-z]*", message =
+            "Firstname must be like \"Ivan\"")
+    @NotEmpty(message = "Firstname should not be empty.")
     private String firstName;
+
+    @Pattern(regexp = "[A-Z][a-z]*", message =
+            "Lastname must be like \"Ivanov\"")
+    @NotEmpty(message = "Lastname should not be empty.")
     private String lastName;
+
     private int personalNumber;
+
+    @Range(min = 0, max = 176, message = "Worked hours should be between 0 " +
+            "and 176.")
     private int workedHoursPerMonth;
+
     private DriverStatus status;
+
     private City currentCity;
+
     private TruckDto truck;
 
     public DriverDto() {

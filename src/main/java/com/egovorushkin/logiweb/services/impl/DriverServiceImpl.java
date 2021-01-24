@@ -3,7 +3,10 @@ package com.egovorushkin.logiweb.services.impl;
 import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
+import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
+import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -36,6 +39,12 @@ public class DriverServiceImpl implements DriverService {
     @Override
     @Transactional
     public DriverDto getDriverById(long id) {
+
+        Driver driver = driverDao.getDriverById(id);
+
+        if(driver == null) {
+            throw new EntityNotFoundException("Driver with id = " + id + " is not found");
+        }
         return modelMapper.map(driverDao.getDriverById(id), DriverDto.class);
     }
 
@@ -71,6 +80,17 @@ public class DriverServiceImpl implements DriverService {
     public DriverDto getDriverByUsername() {
         Authentication authentication = authenticationFacade.getAuthentication();
         return modelMapper.map(driverDao.getDriverByUsername(authentication.getName()), DriverDto.class);
+    }
+
+    @Override
+    @Transactional
+    public List<TruckDto> findAvailableTrucksByDriver(DriverDto driverDto) {
+        List<Truck> availableTrucks =
+                driverDao.findAvailableTrucksByDriver(modelMapper.map(driverDto
+                        , Driver.class));
+        return availableTrucks.stream()
+                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .collect(Collectors.toList());
     }
 
 }

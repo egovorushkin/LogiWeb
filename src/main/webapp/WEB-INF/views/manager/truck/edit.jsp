@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-edit"></i> | Edit Truck ${truck.registrationNumber}</h4>
+        <h4 class="h4"><i class="fas fa-truck-moving"></i> | Edit Truck ${truck.registrationNumber}</h4>
     </div>
 
     <form:form modelAttribute="truck"
@@ -37,15 +37,6 @@
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Team Size:</legend>
                 <div class="col-sm-10">
-                    <div class="form-check form-check-inline">
-                        <form:radiobutton path="teamSize"
-                                          class="form-check-input"
-                                          name="oneDriver" value="0"
-                                          id="oneDriver"/>
-                        <label class="form-check-label" for="oneDriver">
-                            None
-                        </label>
-                    </div>
                     <div class="form-check form-check-inline">
                         <form:radiobutton path="teamSize"
                                           class="form-check-input"
@@ -108,7 +99,6 @@
             </div>
         </div>
 
-        <!-- construct an "delete" link with truck id -->
         <c:url var="deleteLink" value="/trucks/delete">
             <c:param name="truckId" value="${truck.id}"/>
         </c:url>
@@ -129,7 +119,7 @@
 
     <c:choose>
         <c:when test="${empty availableDrivers}">
-            <p>No available drivers fo this truck</p>
+            <h6>No available drivers for this truck</h6>
         </c:when>
         <c:otherwise>
             <table class="table table-hover table-striped table-bordered">
@@ -142,12 +132,11 @@
                     <th scope="col">Status</th>
                     <th scope="col">City</th>
                     <th scope="col">Truck</th>
-                    <th scope="col">Add To Truck</th>
+                    <th scope="col">Bind To Truck</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${availableDrivers}"
-                           var="availableDriver">
+                <c:forEach items="${availableDrivers}" var="availableDriver">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
                         <td class="align-middle">${availableDriver.firstName}</td>
@@ -158,14 +147,12 @@
                         <td class="align-middle">${availableDriver.currentCity.name}</td>
                         <td class="align-middle">${availableDriver.truck.registrationNumber}</td>
 
-                        <!-- construct an "add" link with order id -->
-                        <c:url var="addDriverLink" value="/drivers/add-driver">
-                            <%--                                <c:param name="availableDriverId" value="${availableDrivers.id}"/>--%>
+                        <c:url var="bindDriverLink" value="/trucks/bind-driver">
                             <c:param name="truckId" value="${truck.id}"/>
                             <c:param name="driverId" value="${availableDriver.id}"/>
                         </c:url>
 
-                        <td><a class="nav-link" id="refresh" href="${addDriverLink}"><i class="fas fa-plus" style="color: #008000"></i></a></td>
+                        <td><a class="nav-link" href="${bindDriverLink}"><i class="fas fa-plus" style="color: #008000"></i></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

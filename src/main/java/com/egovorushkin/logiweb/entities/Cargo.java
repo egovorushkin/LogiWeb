@@ -16,12 +16,8 @@ import java.util.Objects;
 @Table(name = "cargo")
 public class Cargo extends AbstractEntity {
 
-    @Min(value = 2, message = "Name of cargo cannot be less than 2 characters")
-    @Max(value = 50, message = "Name of cargo cannot be more than 50 characters")
-    @Column(name = "name", nullable = false)
     private String name;
 
-    @Range(min = 5000, max = 40000, message = "Weight should be between 5000 and 40000 kg.")
     @Column(name = "weight", nullable = false)
     private int weight;
 

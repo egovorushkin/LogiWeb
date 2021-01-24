@@ -11,7 +11,8 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4">Truck ${truck.registrationNumber}</h4>
+        <h4 class="h4"><i class="fas fa-truck-moving"></i> | Truck
+            №${truck.registrationNumber}</h4>
     </div>
 
     <form:form modelAttribute="truck"
@@ -89,17 +90,16 @@
             </div>
         </div>
 
-        <!-- construct an "delete" link with truck id -->
         <c:url var="deleteLink" value="/trucks/delete">
             <c:param name="truckId" value="${truck.id}"/>
         </c:url>
 
-        <!-- construct an "update" link with truck id -->
         <c:url var="updateLink" value="/trucks/edit">
             <c:param name="truckId" value="${truck.id}"/>
         </c:url>
 
-        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit</a>
+        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit/Add
+            drivers</a>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"
            role="button">Delete</a>
@@ -107,15 +107,14 @@
            href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
     </form:form>
 
-    <!-- Show Current Drivers-->
     <div class="page-header">
-        <h3>Current Drivers</h3>
+        <h4>Current Drivers</h4>
         <hr>
     </div>
 
     <c:choose>
         <c:when test="${empty currentDrivers}">
-            <p>No drivers have been assigned for this truck yet</p>
+            <h6>No drivers has been assigned for this truck yet</h6>
         </c:when>
         <c:otherwise>
             <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -127,8 +126,7 @@
                     <th scope="col">Worked Hours / Month</th>
                     <th scope="col">Current Status</th>
                     <th scope="col">Current City</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col">Delete from truck</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -142,73 +140,15 @@
                         <td class="align-middle">${currentDriver.status.toString()}</td>
                         <td class="align-middle">${currentDriver.currentCity.name}</td>
 
-                        <!-- construct an "delete" link with driver id -->
-                        <c:url var="deleteLink" value="/drivers/delete">
-                            <c:param name="driverId"
-                                     value="${currentDriver.id}"/>
-                        </c:url>
-                        <!-- construct an "update" link with driver id -->
-                        <c:url var="updateLink" value="/drivers/edit">
-                            <c:param name="driverId"
-                                     value="${currentDriver.id}"/>
-                        </c:url>
-
-                        <td><a class="nav-link" href="${updateLink}"><span
-                                data-feather="edit"></span></a></td>
-                        <td><a class="nav-link" href="${deleteLink}"
-                               onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"><span
-                                data-feather="x-square"></span></a></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </c:otherwise>
-    </c:choose>
-
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4">Available Drivers</h4>
-        <hr>
-    </div>
-
-    <c:choose>
-        <c:when test="${empty availableDrivers}">
-            <p>No available drivers fo this truck</p>
-        </c:when>
-        <c:otherwise>
-            <table class="table table-hover table-striped table-bordered">
-                <thead>
-                <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Personal Number</th>
-                    <th scope="col">Worked Hours / Month</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Truck</th>
-                    <th scope="col">Add To Truck</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${availableDrivers}"
-                           var="availableDriver">
-                    <tr class='table-row'
-                        data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
-                        <td class="align-middle">${availableDriver.firstName}</td>
-                        <td class="align-middle">${availableDriver.lastName}</td>
-                        <td class="align-middle">${availableDriver.personalNumber}</td>
-                        <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
-                        <td class="align-middle">${availableDriver.status.toString()}</td>
-                        <td class="align-middle">${availableDriver.currentCity.name}</td>
-                        <td class="align-middle">${availableDriver.truck.registrationNumber}</td>
-
-                        <!-- construct an "add" link with order id -->
-                        <c:url var="addDriverLink" value="/drivers/add-driver">
-                            <%--                                <c:param name="availableDriverId" value="${availableDrivers.id}"/>--%>
+                        <c:url var="unbindDriverLink" value="/trucks/unbind-driver">
                             <c:param name="truckId" value="${truck.id}"/>
-                            <c:param name="driverId" value="${availableDriver.id}"/>
+                            <c:param name="driverId" value="${currentDriver.id}"/>
                         </c:url>
 
-                        <td><a class="nav-link" href="${addDriverLink}"><i class="fas fa-plus" style="color: #008000"></i></a></td>
+                        <td><a class="nav-link" href="${unbindDriverLink}"
+                               onclick="if (!(confirm('Are you sure you want to delete this driver from truck?'))) return false"><i
+                                class="fas fa-minus" style="color: red"></i></a>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

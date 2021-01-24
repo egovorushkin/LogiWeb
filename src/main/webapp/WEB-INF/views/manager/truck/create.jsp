@@ -32,20 +32,11 @@
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Team Size:</legend>
                 <div class="col-sm-10">
-<%--                    <div class="form-check form-check-inline">--%>
-<%--                        <form:radiobutton path="teamSize"--%>
-<%--                                          class="form-check-input"--%>
-<%--                                          name="oneDriver" value="0"--%>
-<%--                                          id="oneDriver"/>--%>
-<%--                        <label class="form-check-label" for="oneDriver">--%>
-<%--                            None--%>
-<%--                        </label>--%>
-<%--                    </div>--%>
                     <div class="form-check form-check-inline">
                         <form:radiobutton path="teamSize"
                                           class="form-check-input"
                                           name="oneDriver" value="1"
-                                          id="oneDriver"/>
+                                          id="oneDriver" checked="true"/>
                         <label class="form-check-label" for="oneDriver">
                             1
                         </label>
@@ -66,8 +57,7 @@
             <label for="capacity" class="col-sm-2 col-form-label">Capacity
                 (kg):</label>
             <div class="col-sm-2">
-                <form:input path="capacity" type="number"
-                            class="form-control form-control-sm" id="capacity"
+                <form:input path="capacity" class="form-control form-control-sm" id="capacity"
                             name="capacity"/>
             </div>
             <form:errors path="capacity" cssClass="alert alert-danger"/>
@@ -79,16 +69,6 @@
                              id="state" name="name">
                     <form:options itemValue="title" itemLabel="name"
                                   items="${states}"/>
-                </form:select>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current Status:</label>
-            <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status"
-                             id="status" name="name">
-                    <form:options itemValue="title" itemLabel="name"
-                                  items="${statuses}"/>
                 </form:select>
             </div>
         </div>
@@ -109,6 +89,52 @@
         <a class="btn btn-sm btn-secondary"
            href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
     </form:form>
+
+    <c:choose>
+        <c:when test="${empty availableDrivers}">
+            <p>No available drivers fo this truck</p>
+        </c:when>
+        <c:otherwise>
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Personal Number</th>
+                    <th scope="col">Worked Hours / Month</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Truck</th>
+                    <th scope="col">Add To Truck</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${availableDrivers}"
+                           var="availableDriver">
+                    <tr class='table-row'
+                        data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
+                        <td class="align-middle">${availableDriver.firstName}</td>
+                        <td class="align-middle">${availableDriver.lastName}</td>
+                        <td class="align-middle">${availableDriver.personalNumber}</td>
+                        <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
+                        <td class="align-middle">${availableDriver.status.toString()}</td>
+                        <td class="align-middle">${availableDriver.currentCity.name}</td>
+                        <td class="align-middle">${availableDriver.truck.registrationNumber}</td>
+
+                        <!-- construct an "add" link with order id -->
+                        <c:url var="addDriverLink" value="/drivers/add-driver">
+                            <%--                                <c:param name="availableDriverId" value="${availableDrivers.id}"/>--%>
+                            <c:param name="truckId" value="${truck.id}"/>
+                            <c:param name="driverId" value="${availableDriver.id}"/>
+                        </c:url>
+
+                        <td><a class="nav-link" href="${addDriverLink}"><i class="fas fa-plus" style="color: #008000"></i></a></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </main>
 
 <jsp:include page="../../fragments/bootstrap-core-js-main.jsp"/>

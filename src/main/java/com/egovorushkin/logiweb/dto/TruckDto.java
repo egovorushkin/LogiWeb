@@ -3,7 +3,10 @@ package com.egovorushkin.logiweb.dto;
 import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -11,12 +14,23 @@ import java.util.Set;
 public class TruckDto implements Serializable {
 
     private long id;
+
+    @NotEmpty(message = "Registration Number should not be empty")
+    @Pattern(regexp = "^[A-Z]{2}[0-9]{5}$", message = "Registration Number" +
+            " must be 2" +
+            " characters and 5 digits (ex. \"AB12345\")")
     private String registrationNumber;
+
+
     private int teamSize;
+
+    @Range(min = 5000, max = 40000, message = "Capacity should be between " +
+            "5000 and 40000 kg.")
     private int capacity;
     private int currentNumberOfDrivers;
     private TruckStatus status;
     private TruckState state;
+    private boolean isBusy;
     private City currentCity;
     private Set<DriverDto> currentDrivers;
 
@@ -40,6 +54,7 @@ public class TruckDto implements Serializable {
     }
 
     public int getTeamSize() {
+
         return teamSize;
     }
 
@@ -69,6 +84,14 @@ public class TruckDto implements Serializable {
 
     public void setState(TruckState state) {
         this.state = state;
+    }
+
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public void setBusy(boolean busy) {
+        isBusy = busy;
     }
 
     public City getCurrentCity() {
@@ -135,7 +158,9 @@ public class TruckDto implements Serializable {
                 ", currentNumberOfDrivers=" + currentNumberOfDrivers +
                 ", status=" + status +
                 ", state=" + state +
+                ", isBusy=" + isBusy +
                 ", currentCity=" + currentCity +
+                ", currentDrivers=" + currentDrivers +
                 '}';
     }
 }

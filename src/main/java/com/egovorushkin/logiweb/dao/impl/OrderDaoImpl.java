@@ -54,7 +54,8 @@ public class OrderDaoImpl implements OrderDao {
     public List<Truck> findAvailableTrucks(Order order) {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM " +
                         "Truck t WHERE t.state='SERVICEABLE' AND t.status='PARKED' " +
-                        "AND t.capacity>=:cargoWeight AND t.currentCity.id=:fromCity",
+                        "AND t.capacity>=:cargoWeight AND t.currentCity.id=:fromCity " +
+                        "AND t.isBusy=false",
                 Truck.class)
                 .setParameter("cargoWeight", order.getCargo().getWeight())
                 .setParameter("fromCity", order.getFromCity().getId());

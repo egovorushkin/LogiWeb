@@ -2,7 +2,9 @@ package com.egovorushkin.logiweb.dao.impl;
 
 import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.entities.Driver;
+import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -50,9 +52,23 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Driver getDriverByUsername(String username) {
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM Driver d " +
-                "WHERE d.username=:username", Driver.class).setParameter("username", username);
+        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
+                "Driver d " +
+                "WHERE d.username=:username", Driver.class).setParameter(
+                        "username", username);
         return q.getSingleResult();
+    }
+
+    @Override
+    public List<Truck> findAvailableTrucksByDriver(Driver driver) {
+
+        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM " +
+                "Truck t WHERE t.status='PARKED' AND t.state='SERVICEABLE' " +
+                "AND t.currentCity=:driverCurrentCity",
+                Truck.class)
+                .setParameter("driverCurrentCity", driver.getCurrentCity());
+
+        return q.getResultList();
     }
 
 }

@@ -2,8 +2,9 @@ package com.egovorushkin.logiweb.entities.enums;
 
 public enum TruckStatus {
 
-    ON_THE_WAY("ON_THE_WAY", "On the way"),
-    PARKED("PARKED", "Parked");
+    PARKED("PARKED", "Parked"),
+    ON_THE_WAY("ON_THE_WAY", "On the way");
+
 
     String title;
     String name;

@@ -22,7 +22,7 @@ public class CityDaoImpl implements CityDao {
 
     @Override
     public List<City> getAllCities() {
-        TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c",
+        TypedQuery<City> q = entityManager.createQuery("SELECT c FROM City c ORDER BY c.name",
                 City.class);
         return q.getResultList();
     }

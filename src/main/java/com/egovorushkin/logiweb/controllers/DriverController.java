@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
+import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.DriverService;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -41,7 +42,6 @@ public class DriverController {
     public String showDriver(@PathVariable("id") long id, Model model) {
         model.addAttribute("driver", driverService.getDriverById(id));
         model.addAttribute("cities", cityService.getAllCities());
-        model.addAttribute("statuses", DriverStatus.values());
         model.addAttribute("trucks", truckService.getAllTrucks());
         return "manager/driver/show";
     }
@@ -49,6 +49,7 @@ public class DriverController {
     @GetMapping("/create")
     public String showCreateDriverForm(Model model) {
         model.addAttribute("driver", new DriverDto());
+        model.addAttribute("statuses", DriverStatus.values());
         model.addAttribute("trucks", truckService.getAllTrucks());
         model.addAttribute("cities", cityService.getAllCities());
         return "manager/driver/create";
@@ -58,19 +59,22 @@ public class DriverController {
     public String saveDriver(@ModelAttribute("driver") @Valid DriverDto driverDto,
                              BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("statuses", DriverStatus.values());
             model.addAttribute("trucks", truckService.getAllTrucks());
             model.addAttribute("cities", cityService.getAllCities());
             return "manager/driver/create";
         }
         driverService.createDriver(driverDto);
-        return "redirect:/drivers/list";
+        return "redirect:manager/driver/list";
     }
 
     @GetMapping("/edit")
-    public String showEditDriverForm(@RequestParam("driverId") long id, Model model) {
+    public String showEditDriverForm(@RequestParam("driverId") long id,
+                                     Model model) {
         model.addAttribute("driver", driverService.getDriverById(id));
         model.addAttribute("statuses", DriverStatus.values());
-        model.addAttribute("trucks", truckService.getAllTrucks());
+        model.addAttribute("availableTrucks",
+                driverService.findAvailableTrucksByDriver(driverService.getDriverById(id)));
         model.addAttribute("cities", cityService.getAllCities());
         return "manager/driver/edit";
     }
@@ -82,37 +86,43 @@ public class DriverController {
             return "manager/driver/edit";
         }
         driverService.updateDriver(driverDto);
-        return "redirect:/drivers/list";
+        return "redirect:manager/driver/list";
     }
 
     @GetMapping("/delete")
     public String deleteDriver(@RequestParam("driverId") long id) {
         driverService.deleteDriver(id);
-        return "redirect:/drivers/list";
-    }
-    @GetMapping
-    public ModelAndView addDriverForTruck(@RequestParam("truckId") long truckId, @RequestParam("driverId") long driverId) {
-        ModelAndView modelAndView = new ModelAndView("edit");
-
-        System.out.println("truckId = " + truckId);
-        System.out.println("driverId = " + driverId);
-
-        DriverDto driverDto = driverService.getDriverById(driverId);
-        driverDto.setTruck(truckService.getTruckById(truckId));
-        driverService.updateDriver(driverDto);
-
-        return modelAndView;
+        return "redirect:manager/driver/list";
     }
 
-//    @GetMapping("/add-driver")
-//    public String addDriverForTruck(@RequestParam("truckId") long truckId, @RequestParam("driverId") long driverId){
-//
-//        System.out.println("truckId = " + truckId);
-//        System.out.println("driverId = " + driverId);
-//
-//        DriverDto driverDto = driverService.getDriverById(driverId);
-//        driverDto.setTruck(truckService.getTruckById(truckId));
-//        driverService.updateDriver(driverDto);
-//        return "redirect:/truck/{truckId}";
-//    }
+    @GetMapping("/bind-truck")
+    public String bindTruckForDriver(@RequestParam("truckId") long truckId,
+                                    @RequestParam("driverId") long driverId,
+                                    RedirectAttributes redirectAttributes) {
+        TruckDto truck = truckService.getTruckById(truckId);
+        DriverDto driver = driverService.getDriverById(driverId);
+        if (truck.getCurrentNumberOfDrivers() < truck.getTeamSize()) {
+            driver.setTruck(truck);
+            driverService.updateDriver(driver);
+        }
+
+        redirectAttributes.addAttribute("driverId", driverId);
+        return "redirect:{driverId}";
+    }
+
+    @GetMapping("/unbind-truck")
+    public String unbindDriverForTruck(@RequestParam("truckId") long truckId,
+                                       @RequestParam("driverId") long driverId,
+                                       RedirectAttributes redirectAttributes) {
+        DriverDto driver = driverService.getDriverById(driverId);
+        if (driver.getTruck() != null) {
+            driver.setTruck(null);
+            driverService.updateDriver(driver);
+        }
+
+        redirectAttributes.addAttribute("driverId", driverId);
+        return "redirect:{driverId}";
+    }
+
+
 }

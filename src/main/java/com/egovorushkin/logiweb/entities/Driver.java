@@ -1,12 +1,8 @@
 package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
@@ -19,22 +15,16 @@ public class Driver extends AbstractEntity {
     @Column(name = "username", insertable = false, updatable = false)
     private String password;
 
-    @Pattern(regexp = "^[a-zA-Z]$")
-    @Min(value = 2, message = "Firstname cannot be less than 2 characters")
-    @Max(value = 50, message = "Firstname cannot be more than 50 characters")
+
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Pattern(regexp = "^[a-zA-Z]$")
-    @Min(value = 2, message = "Lastname cannot be less than 2 characters")
-    @Max(value = 50, message = "Lastname cannot be more than 50 characters")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Column(name = "personal_number", nullable = false)
     private int personalNumber;
 
-    @Range(min = 0, max = 176, message = "Worked hours should be between 0 and 176.")
     @Column(name = "worked_hours_per_month", nullable = false)
     private int workedHoursPerMonth;
 

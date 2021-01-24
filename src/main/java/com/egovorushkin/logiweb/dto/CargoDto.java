@@ -1,14 +1,24 @@
 package com.egovorushkin.logiweb.dto;
 
 import com.egovorushkin.logiweb.entities.enums.CargoStatus;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 public class CargoDto {
 
     private long id;
+
+    @Pattern(regexp = "[A-Z][a-z]*", message = "Name of cargo must be like \"Stone\"")
+    @NotEmpty(message = "Cargo name should not be empty.")
     private String name;
+
+    @Range(min = 5000, max = 40000, message = "Weight of cargo should be " +
+            "between 5000 and 40000 kg.")
     private int weight;
+
     private CargoStatus status;
 
     public CargoDto() {

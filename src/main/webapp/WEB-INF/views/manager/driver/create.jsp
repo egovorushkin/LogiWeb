@@ -47,15 +47,6 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Current Status:</label>
-            <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status" id="driverStatus"
-                             name="driverStatus">
-                    <form:options itemValue="title" itemLabel="name" items="${statuses}"/>
-                </form:select>
-            </div>
-        </div>
-        <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current City:</label>
             <div class="col-sm-2">
                 <form:select path="currentCity.id" cssClass="form-control form-control-sm">

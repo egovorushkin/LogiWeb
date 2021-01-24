@@ -12,7 +12,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">My Information</h1>
     </div>
-    <form:form modelAttribute="user" action="${pageContext.request.contextPath}/driver/update-status" method="post">
+    <form:form modelAttribute="user" action="${pageContext.request.contextPath}/driver/${user.id}">
         <div class="row mb-3">
             <label for="personalNumber" class="col-sm-2 col-form-label">Personal Number:</label>
             <div class="col-sm-2 ">
@@ -52,19 +52,17 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status" id="driverStatus"
-                             name="driverStatus">
-                    <form:options itemValue="title" itemLabel="name" items="${statuses}"/>
-                </form:select>
+                <form:input path="status.name" class="form-control form-control-sm" id="status"
+                            name="status" readonly="true"/>
             </div>
         </div>
 
         <!-- construct an "update" link with cargo id -->
-        <c:url var="updateLink" value="/driver/update-status">
-            <c:param name="userId" value="${user.id}"/>
+        <c:url var="updateLink" value="/cargoes/edit">
+            <c:param name="cargoId" value="${user.id}"/>
         </c:url>
 
-        <a class="btn btn-sm btn-success" role="button" href="${updateLink}">Save Status</a>
+        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit</a>
     </form:form>
 
 </main>

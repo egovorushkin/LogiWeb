@@ -15,17 +15,15 @@ import java.util.Objects;
 @Table(name = "truck")
 public class Truck extends AbstractEntity {
 
-    @NotEmpty(message = "Registration Number should not be empty")
-    @Pattern(regexp = "^[a-zA-Z]{2}[0-9]{5}$", message = "Registration Number" +
-            " must be 2" +
-            " characters and 5 digits (ex. \"AB12345\")")
-    @Column(name = "registration_number", unique = true, nullable = false, length = 7)
+
+    @Column(name = "registration_number", unique = true, nullable = false,
+            length = 7)
     private String registrationNumber;
 
     @Column(name = "team_size", nullable = false)
     private int teamSize;
 
-    @Range(min = 5000, max = 40000, message = "Capacity should be between 5000 and 40000 kg.")
+
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
@@ -36,6 +34,9 @@ public class Truck extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
     private TruckState state;
+
+    @Column(name = "busy")
+    private boolean isBusy;
 
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
@@ -85,6 +86,14 @@ public class Truck extends AbstractEntity {
 
     public void setState(TruckState state) {
         this.state = state;
+    }
+
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public void setBusy(boolean busy) {
+        isBusy = busy;
     }
 
     public City getCurrentCity() {

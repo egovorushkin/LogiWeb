@@ -1,8 +1,6 @@
 package com.egovorushkin.logiweb.dto;
 
-import com.egovorushkin.logiweb.entities.Cargo;
 import com.egovorushkin.logiweb.entities.City;
-import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 
 import java.util.Objects;
@@ -13,10 +11,9 @@ public class OrderDto {
     private OrderStatus status;
     private City fromCity;
     private City toCity;
-    private Cargo cargo;
+    private CargoDto cargo;
     private Integer distance;
-    private double duration;
-    private Truck truck;
+    private TruckDto truck;
 
     public OrderDto() {
     }
@@ -53,11 +50,11 @@ public class OrderDto {
         this.toCity = toCity;
     }
 
-    public Cargo getCargo() {
+    public CargoDto getCargo() {
         return cargo;
     }
 
-    public void setCargo(Cargo cargo) {
+    public void setCargo(CargoDto cargo) {
         this.cargo = cargo;
     }
 
@@ -70,18 +67,14 @@ public class OrderDto {
     }
 
     public double getDuration() {
-        return distance / 80;
+        return distance / 80.0;
     }
 
-    public void setDuration(double duration) {
-        this.duration = duration;
-    }
-
-    public Truck getTruck() {
+    public TruckDto getTruck() {
         return truck;
     }
 
-    public void setTruck(Truck truck) {
+    public void setTruck(TruckDto truck) {
         this.truck = truck;
     }
 

@@ -3,7 +3,6 @@ package com.egovorushkin.logiweb.dao.impl;
 import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
-import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
@@ -26,9 +25,7 @@ public class TruckDaoImpl implements TruckDao {
 
         LOGGER.debug("Finding truck by id");
 
-        Truck truck = entityManager.find(Truck.class, id);
-
-        return truck;
+        return entityManager.find(Truck.class, id);
     }
 
     @Override
@@ -89,12 +86,10 @@ public class TruckDaoImpl implements TruckDao {
 
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
                 "Driver d WHERE d.status='RESTING' AND d" +
-                ".currentCity=:truckCurrentCity AND (d.truck.id<>:truckId OR d.truck.id IS NULL)", Driver.class)
-                .setParameter("truckCurrentCity", truck.getCurrentCity())
-                .setParameter("truckId", truck.getId());
+                ".currentCity=:truckCurrentCity", Driver.class)
+                .setParameter("truckCurrentCity", truck.getCurrentCity());
 
         return q.getResultList();
     }
-
 
 }
