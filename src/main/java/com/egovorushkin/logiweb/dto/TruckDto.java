@@ -120,20 +120,6 @@ public class TruckDto implements Serializable {
         this.currentDrivers = currentDrivers;
     }
 
-    public void addDriver(DriverDto driverDto) throws Exception {
-        if (currentNumberOfDrivers < teamSize) {
-            currentDrivers.add(driverDto);
-            driverDto.setTruck(this);
-        } else {
-            throw new Exception("The truck shift is complete!");
-        }
-    }
-
-    public void removeDriver(DriverDto driverDto) {
-        currentDrivers.remove(driverDto);
-        driverDto.setTruck(null);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
