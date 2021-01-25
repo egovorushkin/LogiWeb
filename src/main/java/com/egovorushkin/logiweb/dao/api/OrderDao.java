@@ -19,6 +19,6 @@ public interface OrderDao {
 
     List<Truck> findAvailableTrucks(Order order);
 
-    List<Order> findCurrentOrders(long id);
+    List<Order> findCurrentOrdersForTruck(long id);
 
 }

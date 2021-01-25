@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.dao.impl;
 
 import com.egovorushkin.logiweb.dao.api.OrderDao;
+import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
@@ -64,9 +65,18 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findCurrentOrders(long id) {
+    public List<Order> findCurrentOrdersForTruck(long id) {
         TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o " +
                 "WHERE o.truck.id=:id", Order.class).setParameter("id", id);
+        return q.getResultList();
+    }
+
+    public List<Driver> findAvailableDriversForOrder(Truck truck) {
+        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
+                "Driver d WHERE d.status='RESTING' AND d" +
+                ".currentCity=:truckCurrentCity", Driver.class)
+                .setParameter("truckCurrentCity", truck.getCurrentCity());
+
         return q.getResultList();
     }
 

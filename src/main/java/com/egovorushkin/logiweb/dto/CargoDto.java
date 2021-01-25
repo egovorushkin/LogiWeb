@@ -22,6 +22,7 @@ public class CargoDto {
     private CargoStatus status;
 
     public CargoDto() {
+        status = CargoStatus.PREPARED;
     }
 
     public long getId() {

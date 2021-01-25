@@ -1,6 +1,5 @@
 package com.egovorushkin.logiweb.services.impl;
 
-import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
@@ -10,7 +9,6 @@ import com.egovorushkin.logiweb.services.api.OrderService;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -24,23 +22,26 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderDao orderDao;
     private final ModelMapper modelMapper;
-    private final IAuthenticationFacade authenticationFacade;
 
     @Autowired
-    public OrderServiceImpl(OrderDao orderDao, ModelMapper modelMapper,
-                            IAuthenticationFacade authenticationFacade) {
+    public OrderServiceImpl(OrderDao orderDao, ModelMapper modelMapper) {
         this.orderDao = orderDao;
         this.modelMapper = modelMapper;
-        this.authenticationFacade = authenticationFacade;
     }
 
     @Override
     public OrderDto getOrderById(long id) {
+
+        LOGGER.debug("getOrderById() executed");
+
         return modelMapper.map(orderDao.getOrderById(id), OrderDto.class);
     }
 
     @Override
     public List<OrderDto> getAllOrders() {
+
+        LOGGER.debug("getAllOrders() executed");
+
         List<Order> orders = orderDao.getAllOrders();
         return orders.stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
@@ -55,12 +56,12 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
-    // TODO Complete this method
     @Override
-    public List<OrderDto> findCurrentOrders(long id) {
-        Authentication authentication = authenticationFacade.getAuthentication();
-
-        return null;
+    public List<OrderDto> findCurrentOrdersForTruck(long id) {
+        List<Order> orders = orderDao.findCurrentOrdersForTruck(id);
+        return orders.stream()
+                .map(order -> modelMapper.map(order, OrderDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override

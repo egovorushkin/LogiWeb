@@ -64,7 +64,7 @@ public class TruckController {
             return "manager/truck/create";
         }
         truckService.createTruck(truckDto);
-        return "redirect:/manager/truck/list";
+        return "redirect:/trucks/list";
     }
 
     @GetMapping("/edit")

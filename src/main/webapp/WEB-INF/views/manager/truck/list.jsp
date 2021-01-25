@@ -16,7 +16,7 @@
     <table id="tables" class="table-hover table-striped">
         <thead>
         <tr>
-            <th scope="col">Registration Number</th>
+            <th scope="col">Registration №</th>
             <th scope="col">Team Size</th>
             <th scope="col">Capacity (kg)</th>
             <th scope="col">State</th>

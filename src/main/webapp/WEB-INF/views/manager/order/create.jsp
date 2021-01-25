@@ -11,11 +11,22 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4>Create New Order</h4>
+        <h4><i class="fas fa-clipboard-list"></i> | Create New Order</h4>
     </div>
 
     <form:form modelAttribute="order" action="${pageContext.request.contextPath}/orders/save" method="post">
 
+<%--        <div class="row mb-3">--%>
+<%--            <label class="col-sm-2 col-form-label">Status:</label>--%>
+<%--            <div class="col-sm-2">--%>
+<%--                <form:select path="fromCity.id" cssClass="form-control form-control-sm">--%>
+<%--                    <c:if test="${empty order.fromCity}">--%>
+<%--                        <form:option value="" disabled="true" selected="true"/>--%>
+<%--                    </c:if>--%>
+<%--                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>--%>
+<%--                </form:select>--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">From City:</label>
             <div class="col-sm-2">

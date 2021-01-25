@@ -10,20 +10,13 @@
 
 <main class="col-md-auto ml-sm-auto col-lg-10 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">My Information</h1>
+        <h4><i class="far fa-address-card"></i> | My Information</h4>
     </div>
     <form:form modelAttribute="user" action="${pageContext.request.contextPath}/driver/update-status" method="post">
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">Personal Number:</label>
+            <label for="personalNumber" class="col-sm-2 col-form-label">Personal №:</label>
             <div class="col-sm-2 ">
                 <form:input path="personalNumber" type="text" class="form-control form-control-sm" id="personalNumber" name="personalNumber"
-                            disabled="true"/>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="username" class="col-sm-2 col-form-label">Username:</label>
-            <div class="col-sm-2">
-                <form:input path="username" type="text" class="form-control form-control-sm" id="username" name="username"
                             disabled="true"/>
             </div>
         </div>
@@ -42,7 +35,7 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked hours:</label>
+            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Hours worked this month:</label>
             <div class="col-sm-2">
                 <form:input path="workedHoursPerMonth" class="form-control form-control-sm" id="workedHoursPerMonth"
                             name="workedHoursPerMonth" readonly="true"/>
@@ -66,6 +59,40 @@
 
         <a class="btn btn-sm btn-success" role="button" href="${updateLink}">Save Status</a>
     </form:form>
+
+    <div>
+        <h4>My colleague(s)</h4>
+    </div>
+
+    <c:choose>
+        <c:when test="${empty user.truck.currentDrivers}">
+            <h6>No colleague(s).</h6>
+        </c:when>
+        <c:otherwise>
+            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Personal №</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Worked Hours / Month</th>
+                    <th scope="col">Current Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${user.truck.currentDrivers}" var="currentDriver">
+                    <tr>
+                        <td class="align-middle">${currentDriver.personalNumber}</td>
+                        <td class="align-middle">${currentDriver.firstName}</td>
+                        <td class="align-middle">${currentDriver.lastName}</td>
+                        <td class="align-middle">${currentDriver.workedHoursPerMonth}</td>
+                        <td class="align-middle">${currentDriver.status.toString()}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 
 </main>
 

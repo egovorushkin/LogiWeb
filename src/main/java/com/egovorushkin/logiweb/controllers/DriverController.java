@@ -65,7 +65,7 @@ public class DriverController {
             return "manager/driver/create";
         }
         driverService.createDriver(driverDto);
-        return "redirect:manager/driver/list";
+        return "redirect:/drivers/list";
     }
 
     @GetMapping("/edit")
@@ -86,13 +86,13 @@ public class DriverController {
             return "manager/driver/edit";
         }
         driverService.updateDriver(driverDto);
-        return "redirect:manager/driver/list";
+        return "redirect:/drivers/list";
     }
 
     @GetMapping("/delete")
     public String deleteDriver(@RequestParam("driverId") long id) {
         driverService.deleteDriver(id);
-        return "redirect:manager/driver/list";
+        return "redirect:/drivers/list";
     }
 
     @GetMapping("/bind-truck")
@@ -123,6 +123,5 @@ public class DriverController {
         redirectAttributes.addAttribute("driverId", driverId);
         return "redirect:{driverId}";
     }
-
 
 }

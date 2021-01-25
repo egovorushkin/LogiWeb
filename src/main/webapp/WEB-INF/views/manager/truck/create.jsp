@@ -18,8 +18,7 @@
                action="${pageContext.request.contextPath}/trucks/save"
                method="post">
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration
-                Number:</label>
+            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration №:</label>
             <div class="col-sm-2">
                 <form:input path="registrationNumber" type="text"
                             class="form-control form-control-sm"
@@ -100,7 +99,7 @@
                 <tr>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
-                    <th scope="col">Personal Number</th>
+                    <th scope="col">Personal №</th>
                     <th scope="col">Worked Hours / Month</th>
                     <th scope="col">Status</th>
                     <th scope="col">City</th>

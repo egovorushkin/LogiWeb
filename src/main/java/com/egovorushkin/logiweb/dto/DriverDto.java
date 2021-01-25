@@ -40,6 +40,7 @@ public class DriverDto implements Serializable {
     private TruckDto truck;
 
     public DriverDto() {
+        status = DriverStatus.RESTING;
     }
 
     public long getId() {

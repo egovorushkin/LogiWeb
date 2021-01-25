@@ -38,8 +38,7 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">Personal
-                Number:</label>
+            <label for="personalNumber" class="col-sm-2 col-form-label">Personal №:</label>
             <div class="col-sm-2">
                 <form:input path="personalNumber" type="number"
                             class="form-control form-control-sm"
@@ -107,7 +106,7 @@
             <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">Registration Number</th>
+                    <th scope="col">Registration №</th>
                     <th scope="col">Team Size</th>
                     <th scope="col">Capacity (kg)</th>
                     <th scope="col">State</th>

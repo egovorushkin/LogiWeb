@@ -20,8 +20,6 @@ public class TruckDto implements Serializable {
             " must be 2" +
             " characters and 5 digits (ex. \"AB12345\")")
     private String registrationNumber;
-
-
     private int teamSize;
 
     @Range(min = 5000, max = 40000, message = "Capacity should be between " +
@@ -35,6 +33,7 @@ public class TruckDto implements Serializable {
     private Set<DriverDto> currentDrivers;
 
     public TruckDto() {
+        status = TruckStatus.PARKED;
     }
 
     public String getRegistrationNumber() {

@@ -16,6 +16,7 @@ public class OrderDto {
     private TruckDto truck;
 
     public OrderDto() {
+        status = OrderStatus.NOT_COMPLETED;
     }
 
     public long getId() {

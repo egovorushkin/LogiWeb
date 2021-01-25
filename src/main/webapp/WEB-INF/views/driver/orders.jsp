@@ -16,7 +16,7 @@
     <table id="tables" class="table-hover table-striped">
         <thead>
         <tr>
-            <th scope="col">Number</th>
+            <th scope="col">№</th>
             <th scope="col">Status</th>
             <th scope="col">From City</th>
             <th scope="col">To City</th>
@@ -25,7 +25,6 @@
             <th scope="col">Cargo</th>
             <th scope="col">Truck</th>
             <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -40,19 +39,11 @@
                 <td class="align-middle">${order.cargo.name}</td>
                 <td class="align-middle">${order.truck.registrationNumber}</td>
 
-                <!-- construct an "delete" link with order id -->
-                <c:url var="deleteLink" value="/orders/delete">
-                    <c:param name="orderId" value="${order.id}"/>
-                </c:url>
-                <!-- construct an "update" link with order id -->
                 <c:url var="updateLink" value="/orders/edit">
                     <c:param name="orderId" value="${order.id}"/>
                 </c:url>
 
                 <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
-                <td><a class="nav-link" href="${deleteLink}"
-                       onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"><span
-                        data-feather="x-square"></span></a></td>
             </tr>
         </c:forEach>
         </tbody>

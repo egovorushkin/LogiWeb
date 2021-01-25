@@ -17,7 +17,7 @@
         <tr>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
-            <th scope="col">Personal Number</th>
+            <th scope="col">Personal №</th>
             <th scope="col">Worked Hours / Month</th>
             <th scope="col">Current Status</th>
             <th scope="col">Current City</th>

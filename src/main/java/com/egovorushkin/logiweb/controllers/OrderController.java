@@ -70,7 +70,7 @@ public class OrderController {
             return "manager/order/create";
         }
         orderService.createOrder(orderDto);
-        return "redirect:orders/list";
+        return "redirect:/orders/list";
     }
 
     @GetMapping("/edit")
@@ -94,13 +94,13 @@ public class OrderController {
             return "manager/order/edit";
         }
         orderService.updateOrder(orderDto);
-        return "redirect:orders/list";
+        return "redirect:/orders/list";
     }
 
     @GetMapping("/delete")
     public String deleteOrder(@RequestParam("orderId") long id) {
         orderService.deleteOrder(id);
-        return "redirect:orders/list";
+        return "redirect:/orders/list";
     }
 
     @GetMapping("/bind-truck")
@@ -114,20 +114,21 @@ public class OrderController {
         orderService.updateOrder(order);
 
         redirectAttributes.addAttribute("orderId", orderId);
-        return "redirect:{driverId}";
+        return "redirect:{orderId}";
     }
 
     @GetMapping("/unbind-truck")
     public String unbindTruckForOrder(@RequestParam("truckId") long truckId,
-                                       @RequestParam("driverId") long driverId,
+                                       @RequestParam("orderId") long orderId,
                                        RedirectAttributes redirectAttributes) {
-        DriverDto driver = driverService.getDriverById(driverId);
-        if (driver.getTruck() != null) {
-            driver.setTruck(null);
-            driverService.updateDriver(driver);
+        OrderDto order = orderService.getOrderById(orderId);
+        if (order.getTruck() != null) {
+            order.setTruck(null);
+            orderService.updateOrder(order);
         }
 
-        redirectAttributes.addAttribute("driverId", driverId);
-        return "redirect:{driverId}";
+        redirectAttributes.addAttribute("orderId", orderId);
+        return "redirect:{orderId}";
     }
+
 }

@@ -40,10 +40,13 @@ public class DriverServiceImpl implements DriverService {
     @Transactional
     public DriverDto getDriverById(long id) {
 
+        LOGGER.debug("getDriverById() executed");
+
         Driver driver = driverDao.getDriverById(id);
 
-        if(driver == null) {
-            throw new EntityNotFoundException("Driver with id = " + id + " is not found");
+        if (driver == null) {
+            throw new EntityNotFoundException("Driver with id = " + id + " is" +
+                    " not found");
         }
         return modelMapper.map(driverDao.getDriverById(id), DriverDto.class);
     }
@@ -79,7 +82,9 @@ public class DriverServiceImpl implements DriverService {
     @Transactional
     public DriverDto getDriverByUsername() {
         Authentication authentication = authenticationFacade.getAuthentication();
-        return modelMapper.map(driverDao.getDriverByUsername(authentication.getName()), DriverDto.class);
+        return modelMapper
+                .map(driverDao
+                        .getDriverByUsername(authentication.getName()), DriverDto.class);
     }
 
     @Override
@@ -92,5 +97,6 @@ public class DriverServiceImpl implements DriverService {
                 .map(truck -> modelMapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
     }
+
 
 }

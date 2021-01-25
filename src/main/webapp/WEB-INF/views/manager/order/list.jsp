@@ -15,7 +15,7 @@
     <table id="tables" class="table-hover table-striped">
         <thead>
         <tr>
-            <th scope="col">Number</th>
+            <th scope="col">№</th>
             <th scope="col">Status</th>
             <th scope="col">From City</th>
             <th scope="col">To City</th>

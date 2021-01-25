@@ -99,7 +99,7 @@
             <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">Registration Number</th>
+                    <th scope="col">Registration №</th>
                     <th scope="col">Team Size</th>
                     <th scope="col">Capacity (kg)</th>
                     <th scope="col">State</th>
@@ -131,12 +131,14 @@
             <hr>
 
             <div class="page-header">
-                <h6>Drivers carrying out the order</h6>
+                <h4>Drivers carrying out the order</h4>
             </div>
 
             <c:choose>
                 <c:when test="${empty order.truck.currentDrivers}">
                     <h6>No drivers has been assigned for this order yet.</h6>
+                    <a class="btn btn-success btn-sm"
+                       href="#" role="button">Add drivers</a>
                 </c:when>
                 <c:otherwise>
                     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -144,7 +146,7 @@
                         <tr>
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
-                            <th scope="col">Personal Number</th>
+                            <th scope="col">Personal №</th>
                             <th scope="col">Worked Hours / Month</th>
                             <th scope="col">Current Status</th>
                             <th scope="col">Current City</th>

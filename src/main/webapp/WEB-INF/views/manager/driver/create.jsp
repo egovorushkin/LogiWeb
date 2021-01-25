@@ -32,7 +32,7 @@
             <form:errors path="lastName" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">Personal Number:</label>
+            <label for="personalNumber" class="col-sm-2 col-form-label">Personal №:</label>
             <div class="col-sm-2">
                 <form:input path="personalNumber" type="number" class="form-control form-control-sm" id="personalNumber"
                             name="personalNumber"/>

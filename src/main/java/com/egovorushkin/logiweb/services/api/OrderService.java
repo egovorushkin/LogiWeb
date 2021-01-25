@@ -20,6 +20,6 @@ public interface OrderService {
 
     List<TruckDto> findAvailableTrucks(OrderDto orderDto);
 
-    List<OrderDto> findCurrentOrders(long id);
+    List<OrderDto> findCurrentOrdersForTruck(long id);
 
 }

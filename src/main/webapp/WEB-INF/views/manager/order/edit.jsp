@@ -99,21 +99,22 @@
             <label class="col-sm-2 col-form-label">Current Truck:</label>
             <div class="col-sm-2">
                 <c:choose>
-                    <c:when test="${not empty order.truck}">
-                        <form:input path="truck.registrationNumber" type="text"
-                                    class="form-control form-control-sm"
-                                    id="registrationNumber"
-                                    name="registrationNumber" readonly="true"/>
+                    <c:when test="${empty order.truck}">
+                        <label for="none"></label>
+                        <input value="None"
+                               class="form-control form-control-sm" id="none"
+                               name="none" disabled/>
                     </c:when>
                     <c:otherwise>
-                        <label>
-                            <input value="None"
-                                   class="form-control form-control-sm"
-                                   disabled/>
-                        </label>
+                        <label for="currentTruck"></label>
+                        <input value="${order.truck.registrationNumber}"
+                               class="form-control form-control-sm"
+                               id="currentTruck"
+                               name="currentTruck" disabled/>
                     </c:otherwise>
                 </c:choose>
             </div>
+            <hr/>
         </div>
 
         <button type="submit" class="btn btn-primary btn-sm">Update</button>
@@ -138,7 +139,7 @@
             <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">Registration Number</th>
+                    <th scope="col">Registration №</th>
                     <th scope="col">Team Size</th>
                     <th scope="col">Capacity (kg)</th>
                     <th scope="col">State</th>
@@ -151,7 +152,7 @@
                 <c:forEach items="${availableTrucks}"
                            var="availableTruck">
                     <tr class='table-row'
-                        data-href='${pageContext.request.contextPath}/trucks/${order.truck.id}'>
+                        data-href='${pageContext.request.contextPath}/trucks/${availableTruck.id}'>
                         <td class="align-middle">${availableTruck.registrationNumber}</td>
                         <td class="align-middle">${availableTruck.teamSize}</td>
                         <td class="align-middle">${availableTruck.capacity}</td>
@@ -159,18 +160,13 @@
                         <td class="align-middle">${availableTruck.status.toString()}</td>
                         <td class="align-middle">${availableTruck.currentCity.name}</td>
 
-                        <c:url var="bindTruckLink"
-                               value="/orders/unbind-truck">
-                            <c:param name="truckId"
-                                     value="${order.truck.id}"/>
-                            <c:param name="orderId"
-                                     value="${order.id}"/>
+                        <c:url var="bindTruckLink" value="/orders/bind-truck">
+                            <c:param name="truckId" value="${availableTruck.id}"/>
+                            <c:param name="orderId" value="${order.id}"/>
                         </c:url>
 
-                        <td><a class="nav-link"
-                               href="${bindTruckLink}"><i
-                                class="fas fa-plus"
-                                style="color: limegreen"></i></a></td>
+                        <td><a class="nav-link" href="${bindTruckLink}">
+                            <i class="fas fa-plus" style="color: limegreen"></i></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
