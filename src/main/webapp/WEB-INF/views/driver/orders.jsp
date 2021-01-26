@@ -29,7 +29,7 @@
         </thead>
         <tbody>
         <c:forEach items="${orders}" var="order">
-            <tr class='table-row' data-href='${pageContext.request.contextPath}/orders/${order.id}'>
+            <tr class='table-row' data-href='${updateLink}'>
                 <td class="align-middle">${order.id}</td>
                 <td class="align-middle">${order.status.toString()}</td>
                 <td class="align-middle">${order.fromCity.name}</td>
@@ -39,7 +39,7 @@
                 <td class="align-middle">${order.cargo.name}</td>
                 <td class="align-middle">${order.truck.registrationNumber}</td>
 
-                <c:url var="updateLink" value="/orders/edit">
+                <c:url var="updateLink" value="/orders/edit-user-order">
                     <c:param name="orderId" value="${order.id}"/>
                 </c:url>
 

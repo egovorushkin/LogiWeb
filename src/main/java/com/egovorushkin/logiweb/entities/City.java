@@ -3,7 +3,6 @@ package com.egovorushkin.logiweb.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -12,9 +11,6 @@ public class City extends AbstractEntity {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
-
-    public City() {
-    }
 
     public String getName() {
         return name;

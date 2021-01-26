@@ -1,15 +1,11 @@
 package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.enums.CargoStatus;
-import org.hibernate.validator.constraints.Range;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.util.Objects;
 
 @Entity
@@ -24,9 +20,6 @@ public class Cargo extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private CargoStatus status;
-
-    public Cargo() {
-    }
 
     public String getName() {
         return name;

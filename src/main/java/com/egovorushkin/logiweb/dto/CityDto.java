@@ -7,9 +7,6 @@ public class CityDto {
     private long id;
     private String name;
 
-    public CityDto() {
-    }
-
     public long getId() {
         return id;
     }

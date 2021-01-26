@@ -2,6 +2,7 @@ package com.egovorushkin.logiweb.dto;
 
 import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ public class OrderDto {
     private City fromCity;
     private City toCity;
     private CargoDto cargo;
+    @Range(min = 0, max = 10000, message = "Distance should be between 0 and 10000 km.")
     private Integer distance;
     private TruckDto truck;
 

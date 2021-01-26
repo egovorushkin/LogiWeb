@@ -11,24 +11,28 @@ import java.util.Properties;
 
 public final class WebTestConfig {
 
-    public WebTestConfig() {
+    private static final String ERROR_VALUE = "error/error";
+
+    private WebTestConfig() {
     }
 
     public static SimpleMappingExceptionResolver exceptionResolver() {
+
+
         SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
 
         Properties exceptionMappings = new Properties();
 
         exceptionMappings.put("com.egovorushkin.logiweb.exceptions.EntityNotFoundException", "error/404");
-        exceptionMappings.put("java.lang.Exception", "error/error");
-        exceptionMappings.put("java.lang.RuntimeException", "error/error");
+        exceptionMappings.put("java.lang.Exception", ERROR_VALUE);
+        exceptionMappings.put("java.lang.RuntimeException", ERROR_VALUE);
 
         exceptionResolver.setExceptionMappings(exceptionMappings);
 
         Properties statusCodes = new Properties();
 
         statusCodes.put("error/404", "404");
-        statusCodes.put("error/error", "500");
+        statusCodes.put(ERROR_VALUE, "500");
 
         exceptionResolver.setStatusCodes(statusCodes);
 

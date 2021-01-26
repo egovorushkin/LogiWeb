@@ -32,9 +32,6 @@ public class Order extends AbstractEntity {
     @JoinColumn(name = "truck_id")
     private Truck truck;
 
-    public Order() {
-    }
-
     public OrderStatus getStatus() {
         return status;
     }

@@ -29,8 +29,8 @@ public class DriverDto implements Serializable {
 
     private int personalNumber;
 
-    @Range(min = 0, max = 176, message = "Worked hours should be between 0 " +
-            "and 176.")
+    @Range(min = 0, max = 176,
+            message = "Worked hours should be between 0 and 176.")
     private int workedHoursPerMonth;
 
     private DriverStatus status;

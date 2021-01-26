@@ -2,10 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<!-- construct an "delete" link with order id -->
-<c:url var="deleteLink" value="/orders/delete">
-    <c:param name="orderId" value="${order.id}"/>
-</c:url>
 
 <jsp:include page="../../fragments/before-title-main.jsp"/>
 
@@ -116,6 +112,10 @@
             </div>
             <hr/>
         </div>
+
+        <c:url var="deleteLink" value="/orders/delete">
+            <c:param name="orderId" value="${order.id}"/>
+        </c:url>
 
         <button type="submit" class="btn btn-primary btn-sm">Update</button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"

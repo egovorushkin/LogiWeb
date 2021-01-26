@@ -40,9 +40,6 @@ public class Driver extends AbstractEntity {
     @JoinColumn(name = "truck_id")
     private Truck truck;
 
-    public Driver() {
-    }
-
     public String getUsername() {
         return username;
     }

@@ -1,8 +1,8 @@
 package com.egovorushkin.logiweb.controllers;
 
-import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.enums.CargoStatus;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import com.egovorushkin.logiweb.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,16 @@ public class OrderController {
     private final CityService cityService;
     private final CargoService cargoService;
     private final TruckService truckService;
-    private final DriverService driverService;
 
     @Autowired
     public OrderController(OrderService orderService,
                            CityService cityService,
                            CargoService cargoService,
-                           TruckService truckService,
-                           DriverService driverService) {
+                           TruckService truckService) {
         this.orderService = orderService;
         this.cityService = cityService;
         this.cargoService = cargoService;
         this.truckService = truckService;
-        this.driverService = driverService;
     }
 
     @GetMapping("/list")
@@ -74,7 +71,7 @@ public class OrderController {
     }
 
     @GetMapping("/edit")
-    public String showEditOrderForm(@RequestParam("orderId") long id,
+    public String showEditOrderFormForAdmin(@RequestParam("orderId") long id,
                                     Model model) {
         model.addAttribute("order", orderService.getOrderById(id));
         model.addAttribute("statuses", OrderStatus.values());
@@ -85,6 +82,15 @@ public class OrderController {
                 orderService.findAvailableTrucks(orderService.getOrderById(id)));
 
         return "manager/order/edit";
+    }
+
+    @GetMapping("/edit-user-order")
+    public String showEditOrderFormForUser(@RequestParam("orderId") long id,
+                                    Model model) {
+        model.addAttribute("userOrder", orderService.getOrderById(id));
+        model.addAttribute("orderStatuses", OrderStatus.values());
+        model.addAttribute("cargoStatuses", CargoStatus.values());
+        return "driver/edit-order";
     }
 
     @PostMapping("/update")

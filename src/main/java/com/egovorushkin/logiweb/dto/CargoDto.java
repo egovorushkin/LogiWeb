@@ -11,12 +11,13 @@ public class CargoDto {
 
     private long id;
 
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Name of cargo must be like \"Stone\"")
+    @Pattern(regexp = "[A-Z][a-z]*",
+            message = "Name of cargo must be like \"Stone\"")
     @NotEmpty(message = "Cargo name should not be empty.")
     private String name;
 
-    @Range(min = 5000, max = 40000, message = "Weight of cargo should be " +
-            "between 5000 and 40000 kg.")
+    @Range(min = 5000, max = 40000,
+            message = "Weight of cargo should be between 5000 and 40000 kg.")
     private int weight;
 
     private CargoStatus status;
