@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 public class TruckRequestBuilder {
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
     public TruckRequestBuilder(MockMvc mockMvc) {
         this.mockMvc = mockMvc;

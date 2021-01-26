@@ -38,6 +38,16 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public void updateDriver(Driver driver) {
+//         Driver existingDriver = entityManager.find(Driver.class, driver.getId());
+//
+//        System.out.println(existingDriver);
+//
+//         if (existingDriver != null) {
+//             existingDriver.setStatus(driver.getStatus());
+//
+//             entityManager.merge(existingDriver);
+//         }
+
         entityManager.merge(driver);
     }
 

@@ -1,11 +1,13 @@
 package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@DynamicUpdate(value = true)
 @Table(name = "driver")
 public class Driver extends AbstractEntity {
 

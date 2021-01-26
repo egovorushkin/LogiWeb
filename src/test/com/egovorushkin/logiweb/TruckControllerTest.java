@@ -1,5 +1,6 @@
 package com.egovorushkin.logiweb;
 
+
 import com.egovorushkin.logiweb.controllers.TruckController;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
@@ -27,7 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class TruckCrudControllerTest {
+public class TruckControllerTest {
 
     private TruckRequestBuilder requestBuilder;
     private TruckService truckService;
@@ -200,9 +201,6 @@ public class TruckCrudControllerTest {
                                         ))
                         );
             }
-
-
-
         }
 
         @Nested
@@ -287,7 +285,8 @@ public class TruckCrudControllerTest {
 
                 @Test
                 @DisplayName("Should display the information of the correct truck")
-                void shouldDisplayInformationOfCorrectTruck() throws Exception {
+                void
+                shouldDisplayInformationOfCorrectTruck() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
                                     "truck",
@@ -349,14 +348,7 @@ public class TruckCrudControllerTest {
                                     ))
                             ));
                 }
-
-
-
-
             }
         }
-
-
-
     }
 }

@@ -2,6 +2,7 @@ package com.egovorushkin.logiweb.services.api;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.Driver;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,8 +19,11 @@ public interface DriverService {
 
     void deleteDriver(long id);
 
-    DriverDto getDriverByUsername();
+    DriverDto getAuthorizedDriverByUsername();
 
     List<TruckDto> findAvailableTrucksByDriver(DriverDto driverDto);
 
+    List<DriverDto> findColleaguesAuthorizedDriverByUsername();
+
+    public void mergeWithExistingAndUpdate(DriverDto driverDto);
 }

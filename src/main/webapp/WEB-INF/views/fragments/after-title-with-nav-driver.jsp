@@ -14,7 +14,7 @@
 <body>
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow nav">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-2" href="${pageContext.request.contextPath}/">LogiWeb</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-2" href="#">LogiWeb</a>
     <ul class="navbar-nav px-2">
         <li class="nav-item text-nowrap d-inline-block">
 
@@ -37,13 +37,13 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/driver/info">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/user/info">
                             <span data-feather="user"></span>
                             My profile
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/driver/orders">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/user/orders">
                             <span data-feather="clipboard"></span>
                             My orders
                         </a>

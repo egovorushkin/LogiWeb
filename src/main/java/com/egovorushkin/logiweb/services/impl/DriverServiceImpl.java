@@ -15,7 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,7 @@ public class DriverServiceImpl implements DriverService {
     private final DriverDao driverDao;
     private final ModelMapper modelMapper;
     private final IAuthenticationFacade authenticationFacade;
+    private Authentication authentication;
 
     @Autowired
     public DriverServiceImpl(DriverDao driverDao, ModelMapper modelMapper,
@@ -80,8 +83,8 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public DriverDto getDriverByUsername() {
-        Authentication authentication = authenticationFacade.getAuthentication();
+    public DriverDto getAuthorizedDriverByUsername() {
+        authentication = authenticationFacade.getAuthentication();
         return modelMapper
                 .map(driverDao
                         .getDriverByUsername(authentication.getName()), DriverDto.class);
@@ -98,5 +101,28 @@ public class DriverServiceImpl implements DriverService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public List<DriverDto> findColleaguesAuthorizedDriverByUsername() {
+        authentication = authenticationFacade.getAuthentication();
+
+        DriverDto authorizedDriver = getAuthorizedDriverByUsername();
+        Set<DriverDto> setOfColleagues = authorizedDriver.getTruck().getCurrentDrivers();
+        List<DriverDto> listOfColleagues = new ArrayList<>(setOfColleagues);
+
+        return listOfColleagues.stream()
+                .filter(colleague -> authorizedDriver.getId() != colleague.getId())
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    @Transactional
+    public void mergeWithExistingAndUpdate(DriverDto driverDto) {
+        final DriverDto existingDriver = modelMapper.map(driverDao.getDriverById(driverDto.getId()), DriverDto.class);
+
+        existingDriver.setStatus(driverDto.getStatus());
+        driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
+    }
 
 }

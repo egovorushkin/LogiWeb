@@ -10,6 +10,6 @@ public class MainController {
 
     @GetMapping
     public String showMainPage() {
-        return "admin";
+        return "manager/manager-main-page";
     }
 }

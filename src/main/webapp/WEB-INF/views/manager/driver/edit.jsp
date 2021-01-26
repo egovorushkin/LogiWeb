@@ -18,6 +18,7 @@
                action="${pageContext.request.contextPath}/drivers/update"
                method="post">
         <form:hidden path="id"/>
+
         <div class="row mb-3">
             <label for="firstName" class="col-sm-2 col-form-label">First
                 Name:</label>
@@ -36,7 +37,7 @@
                 <form:input path="lastName" type="text"
                             class="form-control form-control-sm" id="lastName"
                             name="lastName"
-                            value="${driver.lastName}"/>
+                            value="${driver.lastName}" />
             </div>
             <form:errors path="lastName" cssClass="alert alert-danger"/>
         </div>

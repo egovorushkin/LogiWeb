@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/driver")
+@RequestMapping("/user")
 public class UserController {
 
     private final DriverService driverService;
@@ -24,34 +25,24 @@ public class UserController {
 
     @GetMapping("/info")
     public String showPersonalInfo(Model model) {
-        model.addAttribute("user", driverService.getDriverByUsername());
-        return "/driver/profile";
+        model.addAttribute("user", driverService.getAuthorizedDriverByUsername());
+        model.addAttribute("colleagues", driverService.findColleaguesAuthorizedDriverByUsername());
+        model.addAttribute("statuses", DriverStatus.values());
+        return "/user/profile";
     }
 
-//    @GetMapping("/edit")
-//    public String showEditDriverForm(@RequestParam("userId") long id, Model model) {
-//        model.addAttribute("user", driverService.getDriverById(id));
-//        model.addAttribute("statuses", DriverStatus.values());
-//        return "driver/edit-profile";
-//    }
-
     @PostMapping("/update-status")
-    public String updateDriver(@ModelAttribute("user") @Valid DriverDto driverDto,
-                               BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "driver/profile";
-        }
-
-        driverService.updateDriver(driverDto);
-        return "redirect:/driver/info";
+    public String updateStatusOfUser(@ModelAttribute("user") DriverDto driverDto) {
+        driverService.mergeWithExistingAndUpdate(driverDto);
+        return "redirect:/user/info";
     }
 
 
     @GetMapping("/orders")
     public String showOrders(Model model) {
-        DriverDto user = driverService.getDriverByUsername();
+        DriverDto user = driverService.getAuthorizedDriverByUsername();
         model.addAttribute("orders", orderService.
                 findCurrentOrdersForTruck(user.getTruck().getId()));
-        return "/driver/orders";
+        return "/user/orders";
     }
 }

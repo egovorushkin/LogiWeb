@@ -6,7 +6,7 @@
 
 <title>Order №${userOrder.id}</title>
 
-<jsp:include page="../../views/fragments/after-title-with-nav-manager.jsp"/>
+<jsp:include page="../../views/fragments/after-title-with-nav-driver.jsp"/>
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
@@ -93,7 +93,7 @@
             <label for="cargoStatus" class="col-sm-2 col-form-label">Cargo
                 Status:</label>
             <div class="col-sm-2">
-                <form:select path="cargo.id"
+                <form:select path="cargo.status"
                              cssClass="form-control form-control-sm"
                              id="cargoStatus" disabled="true">
                     <form:options items="${cargoStatuses}" itemValue="title"
