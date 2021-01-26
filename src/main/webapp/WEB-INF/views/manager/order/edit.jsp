@@ -173,6 +173,43 @@
                 </c:forEach>
                 </tbody>
             </table>
+
+            <div class="page-header">
+                <h4>Available drivers for this order and truck</h4>
+            </div>
+
+            <c:choose>
+                <c:when test="${empty availableDrivers}">
+                    <h6>No available drivers found for this order.</h6>
+                </c:when>
+                <c:otherwise>
+                    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Personal №</th>
+                            <th scope="col">Worked Hours / Month</th>
+                            <th scope="col">Current Status</th>
+                            <th scope="col">Current City</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${availableDrivers}" var="availableDriver">
+                            <tr class='table-row'
+                                data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
+                                <td class="align-middle">${availableDriver.firstName}</td>
+                                <td class="align-middle">${availableDriver.lastName}</td>
+                                <td class="align-middle">${availableDriver.personalNumber}</td>
+                                <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
+                                <td class="align-middle">${availableDriver.status.toString()}</td>
+                                <td class="align-middle">${availableDriver.currentCity.name}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </c:otherwise>
+            </c:choose>
         </c:otherwise>
     </c:choose>
 </main>

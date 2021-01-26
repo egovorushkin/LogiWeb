@@ -1,8 +1,10 @@
 package com.egovorushkin.logiweb.services.impl;
 
 import com.egovorushkin.logiweb.dao.api.OrderDao;
+import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.services.api.OrderService;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +53,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<TruckDto> findAvailableTrucks(OrderDto orderDto) {
-        List<Truck> trucks = orderDao.findAvailableTrucks(modelMapper.map(orderDto, Order.class));
+        List<Truck> trucks =
+                orderDao.findAvailableTrucks(modelMapper.map(orderDto,
+                        Order.class));
         return trucks.stream()
                 .map(truck -> modelMapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
@@ -61,6 +66,22 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderDao.findCurrentOrdersForTruck(id);
         return orders.stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DriverDto> findAvailableDriversForOrder(OrderDto orderDto) {
+        List<Driver> drivers =
+                orderDao.findAvailableDriversForOrder(modelMapper
+                        .map(orderDto, Order.class));
+        List<DriverDto> availableDrivers = drivers.stream()
+                .map(driver -> modelMapper.map(driver, DriverDto.class))
+                .collect(Collectors.toList());
+
+        return availableDrivers.stream()
+                .filter(availableDriver ->
+                        (availableDriver.getWorkedHoursPerMonth() +
+                                orderDto.getDuration() <= 176))
                 .collect(Collectors.toList());
     }
 

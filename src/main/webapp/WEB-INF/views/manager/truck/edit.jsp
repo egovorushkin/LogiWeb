@@ -119,6 +119,9 @@
     <c:choose>
         <c:when test="${empty availableDrivers}">
             <h6>No available drivers for this truck</h6>
+            <a class="btn btn-sm  btn-success"
+               href="${pageContext.request.contextPath}/drivers/create" role="button">Add
+                Driver</a>
         </c:when>
         <c:otherwise>
             <table class="table table-hover table-striped table-bordered">

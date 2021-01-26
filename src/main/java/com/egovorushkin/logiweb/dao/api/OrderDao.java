@@ -1,5 +1,6 @@
 package com.egovorushkin.logiweb.dao.api;
 
+import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 
@@ -20,5 +21,7 @@ public interface OrderDao {
     List<Truck> findAvailableTrucks(Order order);
 
     List<Order> findCurrentOrdersForTruck(long id);
+
+    List<Driver> findAvailableDriversForOrder(Order order);
 
 }

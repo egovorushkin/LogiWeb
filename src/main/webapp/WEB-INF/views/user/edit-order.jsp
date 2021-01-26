@@ -2,18 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<jsp:include page="../../views/fragments/before-title-main.jsp"/>
+<jsp:include page="../fragments/before-title-main.jsp"/>
 
 <title>Order №${userOrder.id}</title>
 
-<jsp:include page="../../views/fragments/after-title-with-nav-driver.jsp"/>
+<jsp:include page="../fragments/after-title-with-nav-driver.jsp"/>
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
     align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4><em class="fas fa-clipboard-list"></em> | Edit Order
-            №${userOrder.id}
+        <h4><em class="fas fa-clipboard-list"></em> | Edit Order №${userOrder.id}
         </h4>
     </div>
 
@@ -95,7 +94,7 @@
             <div class="col-sm-2">
                 <form:select path="cargo.status"
                              cssClass="form-control form-control-sm"
-                             id="cargoStatus" disabled="true">
+                             id="cargoStatus">
                     <form:options items="${cargoStatuses}" itemValue="title"
                                   itemLabel="name"/>
                 </form:select>
@@ -111,7 +110,7 @@
 
 </main>
 
-<jsp:include page="../../views/fragments/bootstrap-core-js-main.jsp"/>
+<jsp:include page="../fragments/bootstrap-core-js-main.jsp"/>
 
 
 

@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.dao.impl;
 
 import com.egovorushkin.logiweb.dao.api.OrderDao;
+import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
@@ -71,11 +72,12 @@ public class OrderDaoImpl implements OrderDao {
         return q.getResultList();
     }
 
-    public List<Driver> findAvailableDriversForOrder(Truck truck) {
+    @Override
+    public List<Driver> findAvailableDriversForOrder(Order order) {
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
                 "Driver d WHERE d.status='RESTING' AND d" +
                 ".currentCity=:truckCurrentCity", Driver.class)
-                .setParameter("truckCurrentCity", truck.getCurrentCity());
+                .setParameter("truckCurrentCity", order.getTruck().getCurrentCity());
 
         return q.getResultList();
     }

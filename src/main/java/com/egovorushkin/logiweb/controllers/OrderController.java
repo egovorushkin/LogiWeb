@@ -80,6 +80,7 @@ public class OrderController {
         model.addAttribute("trucks", truckService.getAllTrucks());
         model.addAttribute("availableTrucks",
                 orderService.findAvailableTrucks(orderService.getOrderById(id)));
+        model.addAttribute("availableDrivers", orderService.findAvailableDriversForOrder(orderService.getOrderById(id)));
 
         return "manager/order/edit";
     }
@@ -90,7 +91,7 @@ public class OrderController {
         model.addAttribute("userOrder", orderService.getOrderById(id));
         model.addAttribute("orderStatuses", OrderStatus.values());
         model.addAttribute("cargoStatuses", CargoStatus.values());
-        return "driver/edit-order";
+        return "user/edit-order";
     }
 
     @PostMapping("/update")

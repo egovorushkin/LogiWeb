@@ -1,5 +1,6 @@
 package com.egovorushkin.logiweb.services.api;
 
+import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Order;
@@ -21,5 +22,7 @@ public interface OrderService {
     List<TruckDto> findAvailableTrucks(OrderDto orderDto);
 
     List<OrderDto> findCurrentOrdersForTruck(long id);
+
+    List<DriverDto> findAvailableDriversForOrder(OrderDto orderDto);
 
 }
