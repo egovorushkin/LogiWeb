@@ -64,7 +64,7 @@ public class TruckControllerTest {
         }
 
         @Nested
-        @DisplayName("When no todo items is found from the database")
+        @DisplayName("When no trucks is found from the database")
         class WhenNoTodoItemsIsFoundFromDatabase {
 
             @BeforeEach
@@ -73,7 +73,7 @@ public class TruckControllerTest {
             }
 
             @Test
-            @DisplayName("Should display zero todo items")
+            @DisplayName("Should display zero trucks items")
             void shouldDisplayZeroTrucks() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("trucks", hasSize(0)));
             }
