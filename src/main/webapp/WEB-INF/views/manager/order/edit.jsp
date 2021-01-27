@@ -4,7 +4,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
-
 <jsp:include page="../../fragments/before-title-main.jsp"/>
 
 <title>Edit Order</title>
@@ -135,10 +134,15 @@
     <c:choose>
         <c:when test="${empty availableTrucks}">
             <h6>No available trucks fo this order</h6>
+            <a class="btn btn-sm btn-success"
+               href="${pageContext.request.contextPath}/trucks/create"
+               role="button">Add
+                Truck</a>
         </c:when>
         <c:otherwise>
 
-            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+            <table class="table table-hover table-responsive-sm table-striped
+            table-bordered table-sm">
                 <thead>
                 <tr>
                     <th scope="col">Registration №</th>
@@ -163,12 +167,14 @@
                         <td class="align-middle">${availableTruck.currentCity.name}</td>
 
                         <c:url var="bindTruckLink" value="/orders/bind-truck">
-                            <c:param name="truckId" value="${availableTruck.id}"/>
+                            <c:param name="truckId"
+                                     value="${availableTruck.id}"/>
                             <c:param name="orderId" value="${order.id}"/>
                         </c:url>
 
                         <td><a class="nav-link" href="${bindTruckLink}">
-                            <i class="fas fa-plus" style="color: limegreen"></i></a></td>
+                            <i class="fas fa-plus" style="color: limegreen"></i></a>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -181,6 +187,10 @@
             <c:choose>
                 <c:when test="${empty availableDrivers}">
                     <h6>No available drivers found for this order.</h6>
+                    <a class="btn btn-sm  btn-success"
+                       href="${pageContext.request.contextPath}/drivers/create"
+                       role="button">Add
+                        Driver</a>
                 </c:when>
                 <c:otherwise>
                     <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -192,10 +202,12 @@
                             <th scope="col">Worked Hours / Month</th>
                             <th scope="col">Current Status</th>
                             <th scope="col">Current City</th>
+                            <th scope="col">Bind To Truck</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${availableDrivers}" var="availableDriver">
+                        <c:forEach items="${availableDrivers}"
+                                   var="availableDriver">
                             <tr class='table-row'
                                 data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
                                 <td class="align-middle">${availableDriver.firstName}</td>
@@ -204,6 +216,19 @@
                                 <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
                                 <td class="align-middle">${availableDriver.status.toString()}</td>
                                 <td class="align-middle">${availableDriver.currentCity.name}</td>
+
+                                <c:url var="bindDriverLink"
+                                       value="/trucks/bind-driver">
+                                    <c:param name="truckId"
+                                             value="${order.truck.id}"/>
+                                    <c:param name="driverId"
+                                             value="${availableDriver.id}"/>
+                                </c:url>
+
+                                <td><a class="nav-link"
+                                       href="${bindDriverLink}"><i
+                                        class="fas fa-plus"
+                                        style="color: #008000"></i></a></td>
                             </tr>
                         </c:forEach>
                         </tbody>

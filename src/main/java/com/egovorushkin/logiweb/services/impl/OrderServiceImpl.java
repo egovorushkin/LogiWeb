@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,9 +57,20 @@ public class OrderServiceImpl implements OrderService {
         List<Truck> trucks =
                 orderDao.findAvailableTrucks(modelMapper.map(orderDto,
                         Order.class));
-        return trucks.stream()
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
-                .collect(Collectors.toList());
+
+        if (!trucks.isEmpty() && orderDto.getTruck() != null) {
+            List<TruckDto> availableTrucks = trucks.stream()
+                    .map(truck -> modelMapper.map(truck, TruckDto.class))
+                    .collect(Collectors.toList());
+
+            return availableTrucks.stream()
+                    .filter(availableTruck -> orderDto.getTruck().getId() != availableTruck.getId())
+                    .collect(Collectors.toList());
+
+        }
+
+        return Collections.emptyList();
+
     }
 
     @Override
@@ -71,9 +83,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<DriverDto> findAvailableDriversForOrder(OrderDto orderDto) {
-        List<Driver> drivers =
-                orderDao.findAvailableDriversForOrder(modelMapper
-                        .map(orderDto, Order.class));
+        List<Driver> drivers;
+        if (orderDto.getTruck() == null) {
+            return Collections.emptyList();
+        }
+        drivers = orderDao.findAvailableDriversForOrder(modelMapper
+                .map(orderDto, Order.class));
         List<DriverDto> availableDrivers = drivers.stream()
                 .map(driver -> modelMapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());

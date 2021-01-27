@@ -135,6 +135,7 @@
             <table id="tables" class="table-hover table-striped">
                 <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">Registration №</th>
                     <th scope="col">Team Size</th>
                     <th scope="col">Capacity (kg)</th>
@@ -149,6 +150,7 @@
                 <c:forEach items="${availableTrucks}" var="availableTruck">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/trucks/${availableTruck.id}'>
+                        <td class="align-middle"><i class="fas fa-truck-moving"></i></td>
                         <td class="align-middle">${availableTruck.registrationNumber}</td>
                         <td class="align-middle">${availableTruck.teamSize}</td>
                         <td class="align-middle">${availableTruck.capacity}</td>

@@ -72,7 +72,7 @@ public class OrderController {
 
     @GetMapping("/edit")
     public String showEditOrderFormForAdmin(@RequestParam("orderId") long id,
-                                    Model model) {
+                                            Model model) {
         model.addAttribute("order", orderService.getOrderById(id));
         model.addAttribute("statuses", OrderStatus.values());
         model.addAttribute("cities", cityService.getAllCities());
@@ -80,14 +80,15 @@ public class OrderController {
         model.addAttribute("trucks", truckService.getAllTrucks());
         model.addAttribute("availableTrucks",
                 orderService.findAvailableTrucks(orderService.getOrderById(id)));
-        model.addAttribute("availableDrivers", orderService.findAvailableDriversForOrder(orderService.getOrderById(id)));
+        model.addAttribute("availableDrivers",
+                orderService.findAvailableDriversForOrder(orderService.getOrderById(id)));
 
         return "manager/order/edit";
     }
 
     @GetMapping("/edit-user-order")
     public String showEditOrderFormForUser(@RequestParam("orderId") long id,
-                                    Model model) {
+                                           Model model) {
         model.addAttribute("userOrder", orderService.getOrderById(id));
         model.addAttribute("orderStatuses", OrderStatus.values());
         model.addAttribute("cargoStatuses", CargoStatus.values());
@@ -112,8 +113,8 @@ public class OrderController {
 
     @GetMapping("/bind-truck")
     public String bindTruckForOrder(@RequestParam("truckId") long truckId,
-                                     @RequestParam("orderId") long orderId,
-                                     RedirectAttributes redirectAttributes) {
+                                    @RequestParam("orderId") long orderId,
+                                    RedirectAttributes redirectAttributes) {
         TruckDto truck = truckService.getTruckById(truckId);
         OrderDto order = orderService.getOrderById(orderId);
 
@@ -126,8 +127,8 @@ public class OrderController {
 
     @GetMapping("/unbind-truck")
     public String unbindTruckForOrder(@RequestParam("truckId") long truckId,
-                                       @RequestParam("orderId") long orderId,
-                                       RedirectAttributes redirectAttributes) {
+                                      @RequestParam("orderId") long orderId,
+                                      RedirectAttributes redirectAttributes) {
         OrderDto order = orderService.getOrderById(orderId);
         if (order.getTruck() != null) {
             order.setTruck(null);

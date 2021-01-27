@@ -87,7 +87,8 @@ public class DriverServiceImpl implements DriverService {
         authentication = authenticationFacade.getAuthentication();
         return modelMapper
                 .map(driverDao
-                        .getDriverByUsername(authentication.getName()), DriverDto.class);
+                        .getDriverByUsername(authentication.getName()),
+                        DriverDto.class);
     }
 
     @Override
@@ -107,7 +108,8 @@ public class DriverServiceImpl implements DriverService {
         authentication = authenticationFacade.getAuthentication();
 
         DriverDto authorizedDriver = getAuthorizedDriverByUsername();
-        Set<DriverDto> setOfColleagues = authorizedDriver.getTruck().getCurrentDrivers();
+        Set<DriverDto> setOfColleagues =
+                authorizedDriver.getTruck().getCurrentDrivers();
         List<DriverDto> listOfColleagues = new ArrayList<>(setOfColleagues);
 
         return listOfColleagues.stream()
@@ -119,7 +121,9 @@ public class DriverServiceImpl implements DriverService {
     @Override
     @Transactional
     public void mergeWithExistingAndUpdate(DriverDto driverDto) {
-        final DriverDto existingDriver = modelMapper.map(driverDao.getDriverById(driverDto.getId()), DriverDto.class);
+        final DriverDto existingDriver =
+                modelMapper.map(driverDao.getDriverById(driverDto.getId()),
+                        DriverDto.class);
 
         existingDriver.setStatus(driverDto.getStatus());
         driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));

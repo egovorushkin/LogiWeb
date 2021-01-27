@@ -33,20 +33,12 @@
                 <legend class="col-form-label col-sm-2 pt-0">Team Size:</legend>
                 <div class="col-sm-10">
                     <div class="form-check form-check-inline">
-                        <form:radiobutton path="teamSize"
-                                          class="form-check-input"
-                                          name="teamSize" id="teamSize"
-                                          disabled="true"/>
                         <c:choose>
                             <c:when test="${truck.teamSize == 1}">
-                                <label class="form-check-label" for="teamSize">
-                                    1 / ${numberOfDrivers}
-                                </label>
+                                1 / ${numberOfDrivers}
                             </c:when>
                             <c:otherwise>
-                                <label class="form-check-label" for="teamSize">
-                                        ${truck.teamSize} / ${numberOfDrivers}
-                                </label>
+                                ${truck.teamSize} / ${numberOfDrivers}
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -118,19 +110,21 @@
             <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
                 <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Personal №</th>
                     <th scope="col">Worked Hours / Month</th>
                     <th scope="col">Current Status</th>
                     <th scope="col">Current City</th>
-                    <th scope="col">Delete from truck</th>
+                    <th scope="col">Unbind from truck</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${currentDrivers}" var="currentDriver">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/drivers/${currentDriver.id}'>
+                        <td class="align-middle"><i class="fas fa-user"></i></td>
                         <td class="align-middle">${currentDriver.firstName}</td>
                         <td class="align-middle">${currentDriver.lastName}</td>
                         <td class="align-middle">${currentDriver.personalNumber}</td>
@@ -144,7 +138,7 @@
                         </c:url>
 
                         <td><a class="nav-link" href="${unbindDriverLink}"
-                               onclick="if (!(confirm('Are you sure you want to delete this driver from truck?'))) return false"><i
+                               onclick="if (!(confirm('Are you sure you want to unbind this driver from truck?'))) return false"><i
                                 class="fas fa-minus" style="color: red"></i></a>
                         </td>
                     </tr>

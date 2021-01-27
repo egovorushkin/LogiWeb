@@ -127,6 +127,7 @@
             <table class="table table-hover table-striped table-bordered">
                 <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Personal №</th>
@@ -141,6 +142,7 @@
                 <c:forEach items="${availableDrivers}" var="availableDriver">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
+                        <td class="align-middle"><i class="fas fa-user"></i></td>
                         <td class="align-middle">${availableDriver.firstName}</td>
                         <td class="align-middle">${availableDriver.lastName}</td>
                         <td class="align-middle">${availableDriver.personalNumber}</td>
