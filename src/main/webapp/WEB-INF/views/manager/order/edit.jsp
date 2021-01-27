@@ -79,6 +79,8 @@
                             name="duration" readonly="true"/>
             </div>
         </div>
+        <h6>Cargo</h6>
+        <hr>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Cargo:</label>
             <div class="col-sm-2">

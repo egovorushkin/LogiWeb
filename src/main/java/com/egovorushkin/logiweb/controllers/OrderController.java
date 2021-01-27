@@ -118,6 +118,8 @@ public class OrderController {
         TruckDto truck = truckService.getTruckById(truckId);
         OrderDto order = orderService.getOrderById(orderId);
 
+        truck.setBusy(true);
+
         order.setTruck(truck);
         orderService.updateOrder(order);
 

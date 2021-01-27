@@ -21,7 +21,7 @@ public class Order extends AbstractEntity {
     @JoinColumn(name = "to_city_id", nullable = false)
     private City toCity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;
 

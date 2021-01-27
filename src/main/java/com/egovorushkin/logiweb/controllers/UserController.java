@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
+import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
@@ -35,6 +36,12 @@ public class UserController {
     public String updateStatusOfUser(@ModelAttribute("user") DriverDto driverDto) {
         driverService.mergeWithExistingAndUpdate(driverDto);
         return "redirect:/user/info";
+    }
+
+    @PostMapping("/update-order-status")
+    public String updateStatusOfUser(@ModelAttribute("user") OrderDto orderDto) {
+        orderService.mergeWithExistingAndUpdate(orderDto);
+        return "redirect:/user/orders";
     }
 
 

@@ -61,12 +61,29 @@
                             name="duration" readonly="true"/>
             </div>
         </div>
+        <h6>Cargo</h6>
+        <hr>
         <div class="row mb-3">
-            <label for="cargo" class="col-sm-2 col-form-label">Cargo:</label>
+            <label class="col-sm-2 col-form-label">Cargo:</label>
             <div class="col-sm-2">
-                <form:input path="cargo.name" type="text"
-                            class="form-control form-control-sm" id="cargo"
-                            name="cargo" readonly="true"/>
+                <form:input path="cargo.name" class="form-control form-control-sm" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="cargoWeight" class="col-sm-2 col-form-label">Cargo
+                Weight:</label>
+            <div class="col-sm-2">
+                <form:input path="cargo.weight" type="text"
+                            class="form-control form-control-sm"
+                            id="cargoWeight"
+                            name="cargoWeight" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Cargo
+                Status:</label>
+            <div class="col-sm-2">
+                <form:input path="cargo.status.name" class="form-control form-control-sm" readonly="true"/>
             </div>
         </div>
 

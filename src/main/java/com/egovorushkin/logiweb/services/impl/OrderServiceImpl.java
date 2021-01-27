@@ -57,20 +57,16 @@ public class OrderServiceImpl implements OrderService {
         List<Truck> trucks =
                 orderDao.findAvailableTrucks(modelMapper.map(orderDto,
                         Order.class));
+        List<TruckDto> availableTrucks = trucks.stream()
+                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .collect(Collectors.toList());
 
-        if (!trucks.isEmpty() && orderDto.getTruck() != null) {
-            List<TruckDto> availableTrucks = trucks.stream()
-                    .map(truck -> modelMapper.map(truck, TruckDto.class))
-                    .collect(Collectors.toList());
-
+        if (orderDto.getTruck() != null) {
             return availableTrucks.stream()
                     .filter(availableTruck -> orderDto.getTruck().getId() != availableTruck.getId())
                     .collect(Collectors.toList());
-
         }
-
-        return Collections.emptyList();
-
+        return availableTrucks;
     }
 
     @Override
@@ -116,6 +112,18 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void deleteOrder(long id) {
         orderDao.deleteOrder(id);
+    }
+
+    @Override
+    @Transactional
+    public void mergeWithExistingAndUpdate(OrderDto orderDto){
+        final OrderDto existingOrder =
+                modelMapper.map(orderDao.getOrderById(orderDto.getId()),
+                        OrderDto.class);
+
+        existingOrder.setStatus(orderDto.getStatus());
+        existingOrder.setCargo(orderDto.getCargo());
+        orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
     }
 
 }

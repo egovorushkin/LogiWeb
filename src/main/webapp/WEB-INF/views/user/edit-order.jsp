@@ -17,18 +17,18 @@
     </div>
 
     <form:form modelAttribute="userOrder"
-               action="${pageContext.request.contextPath}/orders/update"
+               action="${pageContext.request.contextPath}/user/update-order-status"
                method="post">
 
         <form:hidden path="id"/>
 
         <div class="row mb-3">
-            <label for="fromCity" class="col-sm-2 col-form-label">Current
+            <label for="status" class="col-sm-2 col-form-label">Current
                 Status:</label>
             <div class="col-sm-2">
                 <form:select class="form-control form-control-sm"
-                             path="fromCity.name"
-                             id="fromCity"
+                             path="status"
+                             id="status"
                              name="fromCity">
                     <form:options itemValue="title" itemLabel="name"
                                   items="${orderStatuses}"/>
@@ -36,11 +36,11 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">From City:</label>
+            <label for="fromCity" class="col-sm-2 col-form-label">From City:</label>
             <div class="col-sm-2">
-                <form:input path="toCity.name" type="text"
-                            class="form-control form-control-sm" id="toCity"
-                            name="toCity" readonly="true"/>
+                <form:input path="fromCity.name" type="text"
+                            class="form-control form-control-sm" id="fromCity"
+                            name="fromCity" readonly="true"/>
             </div>
         </div>
         <div class="row mb-3">
@@ -57,12 +57,12 @@
             <div class="col-sm-2">
                 <form:input path="distance" type="number"
                             class="form-control form-control-sm" id="distance"
-                            name="distance" disabled="true"/>
+                            name="distance" readonly="true"/>
             </div>
             <form:errors path="distance" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="distance" class="col-sm-2 col-form-label">~Travel time
+            <label for="duration" class="col-sm-2 col-form-label">~Travel time
                 (hr):</label>
             <div class="col-sm-2">
                 <form:input path="duration" type="text"
@@ -70,6 +70,8 @@
                             name="duration" readonly="true"/>
             </div>
         </div>
+        <h6>Cargo</h6>
+        <hr>
         <div class="row mb-3">
             <label for="cargo" class="col-sm-2 col-form-label">Cargo:</label>
             <div class="col-sm-2">

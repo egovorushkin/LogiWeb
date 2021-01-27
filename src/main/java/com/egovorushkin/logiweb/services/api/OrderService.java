@@ -25,4 +25,6 @@ public interface OrderService {
 
     List<DriverDto> findAvailableDriversForOrder(OrderDto orderDto);
 
+    public void mergeWithExistingAndUpdate(OrderDto orderDto);
+
 }
