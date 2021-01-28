@@ -21,4 +21,6 @@ public interface TruckDao {
 
     List<Driver> findAvailableDriversByTruck(Truck truck);
 
+    boolean truckExistsByRegistrationNumber(String registrationNumber);
+
 }

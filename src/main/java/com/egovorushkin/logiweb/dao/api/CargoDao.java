@@ -16,4 +16,6 @@ public interface CargoDao {
 
     void deleteCargo(long id);
 
+    boolean cargoExistsById(long id);
+
 }

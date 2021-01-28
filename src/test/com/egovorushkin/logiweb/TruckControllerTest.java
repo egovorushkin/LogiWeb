@@ -65,7 +65,7 @@ public class TruckControllerTest {
 
         @Nested
         @DisplayName("When no trucks is found from the database")
-        class WhenNoTodoItemsIsFoundFromDatabase {
+        class WhenNoTrucksIsFoundFromDatabase {
 
             @BeforeEach
             void serviceReturnsEmptyList() {
@@ -73,7 +73,7 @@ public class TruckControllerTest {
             }
 
             @Test
-            @DisplayName("Should display zero trucks items")
+            @DisplayName("Should display zero trucks")
             void shouldDisplayZeroTrucks() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("trucks", hasSize(0)));
             }
@@ -279,7 +279,7 @@ public class TruckControllerTest {
 
                 @Test
                 @DisplayName("Should render the view truck")
-                void shouldRenderViewTodoItemView() throws Exception {
+                void shouldRenderViewTruckView() throws Exception {
                     requestBuilder.findById(TRUCK_ID).andExpect(view().name("manager/truck/show"));
                 }
 

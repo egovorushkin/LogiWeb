@@ -3,8 +3,6 @@ package com.egovorushkin.logiweb.services.api;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
-import com.egovorushkin.logiweb.entities.Order;
-
 import java.util.List;
 
 public interface OrderService {
@@ -25,6 +23,6 @@ public interface OrderService {
 
     List<DriverDto> findAvailableDriversForOrder(OrderDto orderDto);
 
-    public void mergeWithExistingAndUpdate(OrderDto orderDto);
+    void mergeWithExistingAndUpdate(OrderDto orderDto);
 
 }

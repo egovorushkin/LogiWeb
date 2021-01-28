@@ -7,10 +7,7 @@ import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -27,7 +24,7 @@ public class UserController {
     @GetMapping("/info")
     public String showPersonalInfo(Model model) {
         model.addAttribute("user", driverService.getAuthorizedDriverByUsername());
-        model.addAttribute("colleagues", driverService.findColleaguesAuthorizedDriverByUsername());
+        model.addAttribute("colleague", driverService.findColleagueAuthorizedDriverByUsername());
         model.addAttribute("statuses", DriverStatus.values());
         return "/user/profile";
     }
@@ -43,7 +40,6 @@ public class UserController {
         orderService.mergeWithExistingAndUpdate(orderDto);
         return "redirect:/user/orders";
     }
-
 
     @GetMapping("/orders")
     public String showOrders(Model model) {

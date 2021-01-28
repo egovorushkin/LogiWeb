@@ -90,10 +90,7 @@ public class PersistenceJPAConfig {
 
         String propVal = env.getProperty(propName);
 
-        //convert to int
-        int intPropVal = Integer.parseInt(propVal);
-
-        return intPropVal;
+        return Integer.parseInt(propVal);
     }
 
     @Bean

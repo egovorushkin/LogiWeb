@@ -68,7 +68,8 @@ public class TruckController {
     }
 
     @GetMapping("/edit")
-    public String showEditTruckForm(@RequestParam("truckId") long id, Model model) throws Exception {
+    public String showEditTruckForm(@RequestParam("truckId") long id, Model model)
+            throws Exception {
         model.addAttribute("truck", truckService.getTruckById(id));
         model.addAttribute("cities", cityService.getAllCities());
         model.addAttribute("states", TruckState.values());

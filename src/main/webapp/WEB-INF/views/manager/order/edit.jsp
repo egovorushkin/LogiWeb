@@ -120,7 +120,8 @@
             <c:param name="orderId" value="${order.id}"/>
         </c:url>
 
-        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+        <button type="submit" class="btn btn-primary btn-sm">Update
+        </button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"
            role="button">Delete</a>

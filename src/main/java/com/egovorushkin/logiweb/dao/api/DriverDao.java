@@ -20,4 +20,7 @@ public interface DriverDao {
     Driver getDriverByUsername(String username);
 
     List<Truck> findAvailableTrucksByDriver(Driver driver);
+
+    boolean driverExistsById(long id);
+
 }

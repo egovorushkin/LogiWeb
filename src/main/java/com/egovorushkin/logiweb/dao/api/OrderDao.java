@@ -24,4 +24,6 @@ public interface OrderDao {
 
     List<Driver> findAvailableDriversForOrder(Order order);
 
+    boolean orderExistsById(long id);
+
 }

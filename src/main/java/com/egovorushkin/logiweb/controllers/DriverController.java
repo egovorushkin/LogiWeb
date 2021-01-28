@@ -111,8 +111,7 @@ public class DriverController {
     }
 
     @GetMapping("/unbind-truck")
-    public String unbindDriverForTruck(@RequestParam("truckId") long truckId,
-                                       @RequestParam("driverId") long driverId,
+    public String unbindDriverForTruck(@RequestParam("driverId") long driverId,
                                        RedirectAttributes redirectAttributes) {
         DriverDto driver = driverService.getDriverById(driverId);
         if (driver.getTruck() != null) {

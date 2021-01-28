@@ -95,8 +95,15 @@
             <c:param name="orderId" value="${order.id}"/>
         </c:url>
 
-        <a class="btn btn-success btn-sm"
-           href="${updateLink}" role="button">Edit</a>
+        <c:choose>
+            <c:when test="${order.status.title == 'COMPLETED'}">
+            </c:when>
+            <c:otherwise>
+                <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit
+                </a>
+            </c:otherwise>
+        </c:choose>
+
         <a class="btn btn-danger btn-sm" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"
            role="button">Delete</a>

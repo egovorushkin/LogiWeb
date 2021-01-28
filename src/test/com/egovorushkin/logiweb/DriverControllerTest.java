@@ -63,7 +63,7 @@ public class DriverControllerTest {
 
         @Nested
         @DisplayName("When no drivers is found from the database")
-        class WhenNoTodoItemsIsFoundFromDatabase {
+        class WhenNoDriversIsFoundFromDatabase {
 
             @BeforeEach
             void serviceReturnsEmptyList() {
@@ -71,7 +71,7 @@ public class DriverControllerTest {
             }
 
             @Test
-            @DisplayName("Should display zero drivers items")
+            @DisplayName("Should display zero drivers")
             void shouldDisplayZeroDrivers() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("drivers", hasSize(0)));
             }
@@ -281,7 +281,7 @@ public class DriverControllerTest {
 
                 @Test
                 @DisplayName("Should render the view driver")
-                void shouldRenderViewTodoItemView() throws Exception {
+                void shouldRenderViewDriverView() throws Exception {
                     requestBuilder.findById(DRIVER_ID).andExpect(view().name("manager/driver/show"));
                 }
 

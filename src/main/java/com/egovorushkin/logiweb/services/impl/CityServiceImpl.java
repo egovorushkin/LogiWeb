@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.services.impl;
 import com.egovorushkin.logiweb.dao.api.CityDao;
 import com.egovorushkin.logiweb.dto.CityDto;
 import com.egovorushkin.logiweb.entities.City;
+import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.services.api.CityService;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -29,12 +30,27 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    @Transactional
     public CityDto getCityById(long id) {
+
+        LOGGER.debug("getCityById() executed");
+
+        if (cityDao.getCityById(id) == null) {
+            throw new EntityNotFoundException("City with id = " + id + " is" +
+                    " not found");
+        }
+
+        LOGGER.info("Found city with id = " + id);
+
         return modelMapper.map(cityDao.getCityById(id), CityDto.class);
     }
 
     @Override
+    @Transactional
     public List<CityDto> getAllCities() {
+
+        LOGGER.debug("getAllCities() executed");
+
         List<City> cities = cityDao.getAllCities();
         return cities.stream()
                 .map(city -> modelMapper.map(city, CityDto.class))

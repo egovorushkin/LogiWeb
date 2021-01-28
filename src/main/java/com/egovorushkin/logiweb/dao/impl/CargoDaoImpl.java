@@ -45,4 +45,12 @@ public class CargoDaoImpl implements CargoDao {
         }
     }
 
+    @Override
+    public boolean cargoExistsById(long id) {
+        Long count = entityManager.createQuery("SELECT COUNT(c)  FROM Cargo " +
+                "c WHERE c.id=:id", Long.class).
+                setParameter("id", id).getSingleResult();
+        return count > 0;
+    }
+
 }

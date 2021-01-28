@@ -69,8 +69,8 @@ public class OrderDto {
         this.distance = distance;
     }
 
-    public double getDuration() {
-        return distance / 80.0;
+    public int getDuration() {
+        return distance / 80;
     }
 
     public TruckDto getTruck() {

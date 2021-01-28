@@ -71,4 +71,12 @@ public class DriverDaoImpl implements DriverDao {
         return q.getResultList();
     }
 
+    @Override
+    public boolean driverExistsById(long id) {
+        Long count = entityManager.createQuery("SELECT COUNT(d)  FROM Driver " +
+                "d WHERE d.id=:id", Long.class).
+                setParameter("id", id).getSingleResult();
+        return count > 0;
+    }
+
 }

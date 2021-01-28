@@ -43,12 +43,6 @@
         });
     });
 
-    // For refresh Page
-    $('#refresh').click(function () {
-        console.log("!!!refresh page button pressed!!!")
-        location.reload();
-    });
-
 </script>
 
 </body>

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@DynamicUpdate(value = true)
+@DynamicUpdate
 @Table(name = "driver")
 public class Driver extends AbstractEntity {
 

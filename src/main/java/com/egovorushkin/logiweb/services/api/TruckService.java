@@ -17,7 +17,7 @@ public interface TruckService {
 
     void deleteTruck(long id);
 
-    List<DriverDto> findCurrentDriversByTruckId(long id) throws Exception;
+    List<DriverDto> findCurrentDriversByTruckId(long id);
 
     List<DriverDto> findAvailableDriversByTruck(TruckDto truckDto);
 

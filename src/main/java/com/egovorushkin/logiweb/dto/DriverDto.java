@@ -5,6 +5,7 @@ import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,8 +15,6 @@ public class DriverDto implements Serializable {
     private long id;
 
     private String username;
-
-    private String password;
 
     @Pattern(regexp = "[A-Z][a-z]*", message =
             "Firstname must be like \"Ivan\"")
@@ -27,6 +26,7 @@ public class DriverDto implements Serializable {
     @NotEmpty(message = "Lastname should not be empty.")
     private String lastName;
 
+    @NotNull(message = "Personal number should not be empty.")
     private int personalNumber;
 
     @Range(min = 0, max = 176,
@@ -57,14 +57,6 @@ public class DriverDto implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {

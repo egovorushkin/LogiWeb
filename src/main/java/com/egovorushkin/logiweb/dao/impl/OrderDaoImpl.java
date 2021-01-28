@@ -1,7 +1,6 @@
 package com.egovorushkin.logiweb.dao.impl;
 
 import com.egovorushkin.logiweb.dao.api.OrderDao;
-import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
@@ -80,6 +79,14 @@ public class OrderDaoImpl implements OrderDao {
                 .setParameter("truckCurrentCity", order.getTruck().getCurrentCity());
 
         return q.getResultList();
+    }
+
+    @Override
+    public boolean orderExistsById(long id) {
+        Long count = entityManager.createQuery("SELECT COUNT(o) FROM Order " +
+                "o WHERE o.id=:id", Long.class).
+                setParameter("id", id).getSingleResult();
+        return count > 0;
     }
 
 }

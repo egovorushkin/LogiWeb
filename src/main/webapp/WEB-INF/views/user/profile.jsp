@@ -44,12 +44,12 @@
     </form:form>
 
     <div>
-        <h4>My colleague(s)</h4>
+        <h4>My colleague</h4>
     </div>
 
     <c:choose>
-        <c:when test="${empty user.truck.currentDrivers}">
-            <h6>No colleague(s).</h6>
+        <c:when test="${user.truck.currentDrivers.size() == 1}">
+            <h6>No colleague.</h6>
         </c:when>
         <c:otherwise>
             <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
@@ -63,7 +63,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${colleagues}" var="colleague">
+
                     <tr>
                         <td class="align-middle">${colleague.personalNumber}</td>
                         <td class="align-middle">${colleague.firstName}</td>
@@ -71,7 +71,7 @@
                         <td class="align-middle">${colleague.workedHoursPerMonth}</td>
                         <td class="align-middle">${colleague.status.toString()}</td>
                     </tr>
-                </c:forEach>
+
                 </tbody>
             </table>
         </c:otherwise>
