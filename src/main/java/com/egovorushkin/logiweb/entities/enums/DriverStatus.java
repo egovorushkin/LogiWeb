@@ -3,8 +3,9 @@ package com.egovorushkin.logiweb.entities.enums;
 public enum DriverStatus {
 
     RESTING("RESTING", "Resting"),
-    IN_SHIFT("IN_SHIFT", "In shift"),
-    DRIVING("DRIVING", "Driving");
+    DRIVING("DRIVING", "Driving"),
+    SECOND_DRIVER("SECOND_DRIVER", "Second driver"),
+    LOADING_UNLOADING("LOADING_UNLOADING", "Loading-Unloading Process");
 
     String title;
     String name;

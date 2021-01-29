@@ -33,6 +33,8 @@ public class DriverDto implements Serializable {
             message = "Worked hours should be between 0 and 176.")
     private int workedHoursPerMonth;
 
+    private boolean isInShift;
+
     private DriverStatus status;
 
     private City currentCity;
@@ -91,6 +93,14 @@ public class DriverDto implements Serializable {
         this.workedHoursPerMonth = workedHoursPerMonth;
     }
 
+    public boolean isInShift() {
+        return isInShift;
+    }
+
+    public void setInShift(boolean inShift) {
+        isInShift = inShift;
+    }
+
     public DriverStatus getStatus() {
         return status;
     }
@@ -137,6 +147,7 @@ public class DriverDto implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", personalNumber=" + personalNumber +
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
+                ", isInShift=" + isInShift +
                 ", status=" + status +
                 ", currentCity=" + currentCity +
                 ", truck=" + truck +

@@ -93,7 +93,7 @@ public class TruckController {
     @GetMapping("/delete")
     public String deleteTruck(@RequestParam("truckId") long id) {
         truckService.deleteTruck(id);
-        return "redirect:manager/truck/list";
+        return "redirect:/trucks/list";
     }
 
     @GetMapping("/bind-driver")

@@ -14,10 +14,6 @@ public class Driver extends AbstractEntity {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "username", insertable = false, updatable = false)
-    private String password;
-
-
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -30,15 +26,18 @@ public class Driver extends AbstractEntity {
     @Column(name = "worked_hours_per_month", nullable = false)
     private int workedHoursPerMonth;
 
+    @Column(name = "in_shift")
+    private boolean isInShift;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private DriverStatus status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = false)
     private City currentCity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "truck_id")
     private Truck truck;
 
@@ -48,14 +47,6 @@ public class Driver extends AbstractEntity {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -88,6 +79,14 @@ public class Driver extends AbstractEntity {
 
     public void setWorkedHoursPerMonth(int workedHoursPerMonth) {
         this.workedHoursPerMonth = workedHoursPerMonth;
+    }
+
+    public boolean isInShift() {
+        return isInShift;
+    }
+
+    public void setInShift(boolean inShift) {
+        isInShift = inShift;
     }
 
     public DriverStatus getStatus() {
@@ -135,6 +134,7 @@ public class Driver extends AbstractEntity {
                 ", lastName='" + lastName + '\'' +
                 ", personalNumber=" + personalNumber +
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
+                ", isInShift=" + isInShift +
                 ", status=" + status +
                 ", currentCity=" + currentCity +
                 ", truck=" + truck +

@@ -87,7 +87,7 @@ public class DriverControllerTest {
             private final String DRIVER_ONE_FIRST_NAME = "Ivan";
             private final String DRIVER_ONE_LAST_NAME = "Ivanov";
             private final int DRIVER_ONE_WORKED_HOURS = 100;
-            private final DriverStatus STATUS_RESTING = DriverStatus.RESTING;
+            private final DriverStatus STATUS_DRIVING = DriverStatus.DRIVING;
 
             private final long DRIVER_TWO_ID = 3L;
             private final int DRIVER_TWO_PERSONAL_NUMBER = 99999;
@@ -95,7 +95,7 @@ public class DriverControllerTest {
             private final String DRIVER_TWO_FIRST_NAME = "Alex";
             private final String DRIVER_TWO_LAST_NAME = "Alexeev";
             private final int DRIVER_TWO_WORKED_HOURS = 150;
-            private final DriverStatus STATUS_IN_SHIFT = DriverStatus.IN_SHIFT;
+            private final DriverStatus STATUS_RESTING = DriverStatus.RESTING;
 
             @BeforeEach
             void driverServiceReturnTwoDrivers() {
@@ -106,7 +106,7 @@ public class DriverControllerTest {
                 first.setFirstName(DRIVER_ONE_FIRST_NAME);
                 first.setLastName(DRIVER_ONE_LAST_NAME);
                 first.setWorkedHoursPerMonth(DRIVER_ONE_WORKED_HOURS);
-                first.setStatus(STATUS_RESTING);
+                first.setStatus(STATUS_DRIVING);
 
                 DriverDto second = new DriverDto();
                 second.setId(DRIVER_TWO_ID);
@@ -115,7 +115,7 @@ public class DriverControllerTest {
                 second.setFirstName(DRIVER_TWO_FIRST_NAME);
                 second.setLastName(DRIVER_TWO_LAST_NAME);
                 second.setWorkedHoursPerMonth(DRIVER_TWO_WORKED_HOURS);
-                second.setStatus(STATUS_IN_SHIFT);
+                second.setStatus(STATUS_RESTING);
 
 
                 given(driverService.getAllDrivers()).willReturn(Arrays.asList(first, second));
@@ -145,7 +145,7 @@ public class DriverControllerTest {
                                         hasProperty("firstName", equalTo(DRIVER_ONE_FIRST_NAME)),
                                         hasProperty("lastName", equalTo(DRIVER_ONE_LAST_NAME)),
                                         hasProperty("workedHoursPerMonth", equalTo(DRIVER_ONE_WORKED_HOURS)),
-                                        hasProperty("status", equalTo(STATUS_RESTING))
+                                        hasProperty("status", equalTo(STATUS_DRIVING))
                                         )))
                         );
             }
@@ -163,7 +163,7 @@ public class DriverControllerTest {
                                                 hasProperty("firstName", equalTo(DRIVER_TWO_FIRST_NAME)),
                                                 hasProperty("lastName", equalTo(DRIVER_TWO_LAST_NAME)),
                                                 hasProperty("workedHoursPerMonth", equalTo(DRIVER_TWO_WORKED_HOURS)),
-                                                hasProperty("status", equalTo(STATUS_IN_SHIFT))
+                                                hasProperty("status", equalTo(STATUS_RESTING))
                                         )))
                         );
             }
@@ -186,7 +186,7 @@ public class DriverControllerTest {
                                                         hasProperty("firstName", equalTo(DRIVER_ONE_FIRST_NAME)),
                                                         hasProperty("lastName", equalTo(DRIVER_ONE_LAST_NAME)),
                                                         hasProperty("workedHoursPerMonth", equalTo(DRIVER_ONE_WORKED_HOURS)),
-                                                        hasProperty("status", equalTo(STATUS_RESTING))
+                                                        hasProperty("status", equalTo(STATUS_DRIVING))
                                                 ),
                                                 allOf(
                                                         hasProperty("id", equalTo(DRIVER_TWO_ID)),
@@ -195,7 +195,7 @@ public class DriverControllerTest {
                                                         hasProperty("firstName", equalTo(DRIVER_TWO_FIRST_NAME)),
                                                         hasProperty("lastName", equalTo(DRIVER_TWO_LAST_NAME)),
                                                         hasProperty("workedHoursPerMonth", equalTo(DRIVER_TWO_WORKED_HOURS)),
-                                                        hasProperty("status", equalTo(STATUS_IN_SHIFT))
+                                                        hasProperty("status", equalTo(STATUS_RESTING))
                                                 )
                                         ))
                         );

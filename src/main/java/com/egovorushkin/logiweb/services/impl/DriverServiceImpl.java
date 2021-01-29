@@ -6,6 +6,7 @@ import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
@@ -19,11 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class DriverServiceImpl implements DriverService {
+
+    private static final String DRIVER = "Driver with id = ";
+    private static final String CHANGE_STATUS = "change status for ";
 
     private static final Logger LOGGER =
             Logger.getLogger(DriverServiceImpl.class.getName());
@@ -48,7 +51,7 @@ public class DriverServiceImpl implements DriverService {
         LOGGER.debug("getDriverById() executed");
 
         if (driverDao.getDriverById(id) == null) {
-            throw new EntityNotFoundException("Driver with id = " + id + " is" +
+            throw new EntityNotFoundException(DRIVER + id + " is" +
                     " not found");
         }
 
@@ -77,11 +80,11 @@ public class DriverServiceImpl implements DriverService {
 
         if (driverDao.driverExistsById(driverDto.getId())) {
             throw new ServiceException(String.format("Driver with id" +
-                            " %s already exists", driverDto.getId()));
+                    " %s already exists", driverDto.getId()));
         }
         driverDao.saveDriver(modelMapper.map(driverDto, Driver.class));
 
-        LOGGER.info("Driver with id = " + driverDto.getId() + " created");
+        LOGGER.info(DRIVER + driverDto.getId() + " created");
     }
 
     @Override
@@ -93,11 +96,11 @@ public class DriverServiceImpl implements DriverService {
         try {
             driverDao.updateDriver(modelMapper.map(driverDto, Driver.class));
         } catch (NoResultException e) {
-            throw new EntityNotFoundException(String.format("Driver with id " +
+            throw new EntityNotFoundException(String.format(DRIVER +
                     "%s does not exist", driverDto.getId()));
         }
 
-        LOGGER.info("Driver with id = " + driverDto.getId() + " updated");
+        LOGGER.info(DRIVER + driverDto.getId() + " updated");
     }
 
     @Override
@@ -108,7 +111,7 @@ public class DriverServiceImpl implements DriverService {
 
         driverDao.deleteDriver(id);
 
-        LOGGER.info("Driver with id = " + id + " deleted");
+        LOGGER.info(DRIVER + id + " deleted");
     }
 
     @Override
@@ -123,7 +126,7 @@ public class DriverServiceImpl implements DriverService {
                 authentication.getName() + " found");
         return modelMapper
                 .map(driverDao
-                        .getDriverByUsername(authentication.getName()),
+                                .getDriverByUsername(authentication.getName()),
                         DriverDto.class);
     }
 
@@ -144,28 +147,6 @@ public class DriverServiceImpl implements DriverService {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    @Transactional
-//    public List<DriverDto> findColleaguesAuthorizedDriverByUsername() {
-//
-//        LOGGER.debug("findColleaguesAuthorizedDriverByUsername() executed");
-//
-//        authentication = authenticationFacade.getAuthentication();
-//
-//        DriverDto authorizedDriver = getAuthorizedDriverByUsername();
-//        Set<DriverDto> setOfColleagues =
-//                authorizedDriver.getTruck().getCurrentDrivers();
-//        List<DriverDto> listOfColleagues = new ArrayList<>(setOfColleagues);
-//
-//
-//        LOGGER.info("Colleagues of Authorized driver found");
-//
-//        return listOfColleagues.stream()
-//                .filter(colleague -> authorizedDriver.getId() != colleague.getId())
-//                .collect(Collectors.toList());
-//
-//    }
-
     @Override
     @Transactional
     public DriverDto findColleagueAuthorizedDriverByUsername() {
@@ -175,9 +156,9 @@ public class DriverServiceImpl implements DriverService {
         authentication = authenticationFacade.getAuthentication();
 
         DriverDto authorizedDriver = getAuthorizedDriverByUsername();
-        Set<DriverDto> setOfColleagues =
-                authorizedDriver.getTruck().getCurrentDrivers();
-        List<DriverDto> listOfColleagues = new ArrayList<>(setOfColleagues);
+
+        List<DriverDto> listOfColleagues =
+                new ArrayList<>(authorizedDriver.getTruck().getCurrentDrivers());
 
         LOGGER.info("Colleague of Authorized driver found");
 
@@ -187,16 +168,104 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public void mergeWithExistingAndUpdate(DriverDto driverDto) {
+    public void updateStatus(DriverDto driverDto) {
 
-        LOGGER.debug("mergeWithExistingAndUpdate() executed");
+        LOGGER.debug("updateStatus() executed");
 
         final DriverDto existingDriver =
                 modelMapper.map(driverDao.getDriverById(driverDto.getId()),
                         DriverDto.class);
 
-        existingDriver.setStatus(driverDto.getStatus());
+        DriverDto colleague = findColleagueAuthorizedDriverByUsername();
+
+        switch (driverDto.getStatus().getName()) {
+            case "DRIVING":
+                existingDriver.setStatus(driverDto.getStatus());
+                driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
+
+                LOGGER.info(DRIVER + driverDto.getId() + CHANGE_STATUS
+                        + driverDto.getStatus().getTitle());
+
+                if (colleague != null) {
+                    colleague.setStatus(DriverStatus.SECOND_DRIVER);
+                    driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
+
+                    LOGGER.info(DRIVER + colleague.getId() + CHANGE_STATUS
+                            + DriverStatus.SECOND_DRIVER);
+                }
+                break;
+            case "SECOND_DRIVER":
+                existingDriver.setStatus(driverDto.getStatus());
+                driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
+
+                LOGGER.info(DRIVER + driverDto.getId() + CHANGE_STATUS
+                        + driverDto.getStatus().getTitle());
+
+                if (colleague != null) {
+                    colleague.setStatus(DriverStatus.DRIVING);
+                    driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
+
+                    LOGGER.info(DRIVER + colleague.getId() + CHANGE_STATUS
+                            + DriverStatus.DRIVING);
+                }
+                break;
+            case "LOADING_UNLOADING":
+                existingDriver.setStatus(driverDto.getStatus());
+                driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
+
+                LOGGER.info(DRIVER + driverDto.getId() + CHANGE_STATUS
+                        + driverDto.getStatus().getTitle());
+
+                if (colleague != null) {
+                    colleague.setStatus(DriverStatus.LOADING_UNLOADING);
+                    driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
+
+                    LOGGER.info(DRIVER + colleague.getId() + CHANGE_STATUS
+                            + DriverStatus.LOADING_UNLOADING);
+                }
+                break;
+            default:
+                // for "RESTING" status
+                existingDriver.setStatus(driverDto.getStatus());
+                driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
+
+                LOGGER.info(DRIVER + driverDto.getId() + CHANGE_STATUS
+                        + driverDto.getStatus().getTitle());
+
+                if (colleague != null) {
+                    colleague.setStatus(DriverStatus.RESTING);
+                    driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
+
+                    LOGGER.info(DRIVER + colleague.getId() + CHANGE_STATUS
+                            + DriverStatus.RESTING);
+                }
+                break;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateState(DriverDto driverDto) {
+
+        LOGGER.debug("updateState() executed");
+
+        final DriverDto existingDriver =
+                modelMapper.map(driverDao.getDriverById(driverDto.getId()),
+                        DriverDto.class);
+        DriverDto colleague = findColleagueAuthorizedDriverByUsername();
+
+        if (!existingDriver.getTruck().getCurrentOrders().isEmpty()) {
+            if (colleague != null) {
+                colleague.setInShift(true);
+            }
+            existingDriver.setInShift(true);
+        }
+
         driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
+
+        LOGGER.info("For " + DRIVER + driverDto.getId() + "updated status = "
+                + driverDto.getStatus().getName());
+
     }
 
 }

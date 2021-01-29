@@ -20,9 +20,9 @@ public interface DriverService {
 
     List<TruckDto> findAvailableTrucksByDriver(DriverDto driverDto);
 
-//    List<DriverDto> findColleaguesAuthorizedDriverByUsername();
-
     DriverDto findColleagueAuthorizedDriverByUsername();
 
-    void mergeWithExistingAndUpdate(DriverDto driverDto);
+    void updateStatus(DriverDto driverDto);
+
+    void updateState(DriverDto driverDto);
 }

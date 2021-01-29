@@ -5,9 +5,10 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CargoDto {
+public class CargoDto implements Serializable {
 
     private long id;
 

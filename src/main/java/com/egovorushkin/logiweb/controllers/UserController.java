@@ -30,8 +30,14 @@ public class UserController {
     }
 
     @PostMapping("/update-status")
-    public String updateStatusOfUser(@ModelAttribute("user") DriverDto driverDto) {
-        driverService.mergeWithExistingAndUpdate(driverDto);
+    public String updateStatusOfDriver(@ModelAttribute("user") DriverDto driverDto) {
+        driverService.updateStatus(driverDto);
+        return "redirect:/user/info";
+    }
+
+    @PostMapping("/update-state")
+    public String updateStateOfDriver(@ModelAttribute("user") DriverDto driverDto) {
+        driverService.updateState(driverDto);
         return "redirect:/user/info";
     }
 

@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4><i class="fas fa-user-edit"></i> | Edit Driver</h4>
+        <h4><em class="fas fa-user-edit"></em> | Edit Driver</h4>
     </div>
 
     <form:form modelAttribute="driver"
@@ -133,6 +133,7 @@
         </c:when>
         <c:otherwise>
             <table id="tables" class="table-hover table-striped">
+                <caption>Available Trucks</caption>
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -164,8 +165,8 @@
                             <c:param name="driverId" value="${driver.id}"/>
                         </c:url>
 
-                        <td><a class="nav-link" href="${bindTruckLink}"><i
-                                class="fas fa-plus" style="color: #008000"></i></a>
+                        <td><a class="nav-link" href="${bindTruckLink}"><em
+                                class="fas fa-plus" style="color: #008000"></em></a>
                         </td>
                     </tr>
                 </c:forEach>

@@ -4,9 +4,10 @@ import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import org.hibernate.validator.constraints.Range;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class OrderDto {
+public class OrderDto implements Serializable {
 
     private long id;
     private OrderStatus status;
