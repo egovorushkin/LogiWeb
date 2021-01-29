@@ -13,22 +13,22 @@ public class Order extends AbstractEntity {
     @Column(name = "status", nullable = false)
     private OrderStatus status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_city_id", nullable = false)
     private City fromCity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_city_id", nullable = false)
     private City toCity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;
 
     @Column(name = "distance", nullable = false)
     private Integer distance;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "truck_id")
     private Truck truck;
 

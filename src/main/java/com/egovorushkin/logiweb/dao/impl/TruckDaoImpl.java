@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class TruckDaoImpl implements TruckDao {
@@ -18,13 +19,18 @@ public class TruckDaoImpl implements TruckDao {
 
     @Override
     public Truck getTruckById(long id) {
-        return entityManager.find(Truck.class, id);
+        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
+                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t.currentOrders " +
+                "JOIN FETCH t.currentCity WHERE t.id=:id", Truck.class)
+                .setParameter("id", id);
+
+        return q.getSingleResult();
     }
 
     @Override
     public List<Truck> getAllTrucks() {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
-                "t LEFT JOIN FETCH t.currentCity", Truck.class);
+                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t.currentOrders", Truck.class);
 
         return q.getResultList();
     }
@@ -42,7 +48,7 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public void deleteTruck(long id) {
         Truck truck = entityManager.find(Truck.class, id);
-        List<Driver> currentDrivers = truck.getCurrentDrivers();
+        Set<Driver> currentDrivers = truck.getCurrentDrivers();
 
         for (Driver d : currentDrivers){
             d.setTruck(null);

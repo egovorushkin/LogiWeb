@@ -18,15 +18,19 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Driver getDriverById(long id) {
-        return entityManager.find(Driver.class, id);
+        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
+                        "Driver d LEFT JOIN FETCH d.currentCity LEFT JOIN FETCH " +
+                        "d.truck WHERE d.id=:id", Driver.class)
+                .setParameter("id", id);
+
+        return q.getSingleResult();
     }
 
     @Override
     public List<Driver> getAllDrivers() {
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d " +
-                "LEFT JOIN FETCH d.currentCity currentCity LEFT JOIN FETCH d" +
-                ".truck currentTruck", Driver.class);
+                "Driver d LEFT JOIN FETCH d.currentCity LEFT JOIN FETCH d.truck",
+                Driver.class);
 
         return q.getResultList();
     }
@@ -61,9 +65,8 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public List<Truck> findAvailableTrucksByDriver(Driver driver) {
-
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM " +
-                "Truck t WHERE t.status='PARKED' AND t.state='SERVICEABLE' " +
+                "Truck t LEFT JOIN FETCH t.currentCity WHERE t.status='PARKED' AND t.state='SERVICEABLE' " +
                 "AND t.currentCity=:driverCurrentCity",
                 Truck.class)
                 .setParameter("driverCurrentCity", driver.getCurrentCity());

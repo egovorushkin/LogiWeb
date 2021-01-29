@@ -31,6 +31,7 @@ public class TruckDto implements Serializable {
     private boolean isBusy;
     private City currentCity;
     private Set<DriverDto> currentDrivers;
+    private Set<OrderDto> currentOrders;
 
     public TruckDto() {
         status = TruckStatus.PARKED;
@@ -120,6 +121,14 @@ public class TruckDto implements Serializable {
         this.currentDrivers = currentDrivers;
     }
 
+    public Set<OrderDto> getCurrentOrders() {
+        return currentOrders;
+    }
+
+    public void setCurrentOrders(Set<OrderDto> currentOrders) {
+        this.currentOrders = currentOrders;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -145,7 +154,6 @@ public class TruckDto implements Serializable {
                 ", state=" + state +
                 ", isBusy=" + isBusy +
                 ", currentCity=" + currentCity +
-                ", currentDrivers=" + currentDrivers +
                 '}';
     }
 }

@@ -13,6 +13,7 @@ import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import org.apache.log4j.Logger;
+import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private static final String ORDER = "Order with id = ";
+
     private static final Logger LOGGER =
             Logger.getLogger(OrderServiceImpl.class.getName());
 
@@ -34,8 +37,10 @@ public class OrderServiceImpl implements OrderService {
     private final ModelMapper modelMapper;
     private final DriverDao driverDao;
 
+
     @Autowired
-    public OrderServiceImpl(OrderDao orderDao, DriverService driverService, ModelMapper modelMapper, DriverDao driverDao) {
+    public OrderServiceImpl(OrderDao orderDao, DriverService driverService,
+                            ModelMapper modelMapper, DriverDao driverDao) {
         this.orderDao = orderDao;
         this.driverService = driverService;
         this.modelMapper = modelMapper;
@@ -48,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.debug("getOrderById() executed");
 
         if (orderDao.getOrderById(id) == null) {
-            throw new EntityNotFoundException("Order with id = " + id + " is" +
+            throw new EntityNotFoundException(ORDER + id + " is" +
                     " not found");
         }
 
@@ -61,6 +66,10 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> getAllOrders() {
 
         LOGGER.debug("getAllOrders() executed");
+
+        modelMapper.getConfiguration()
+                .setPropertyCondition(context ->
+                        !(context.getSource() instanceof PersistentCollection));
 
         List<Order> orders = orderDao.getAllOrders();
         return orders.stream()
@@ -143,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderDao.createOrder(modelMapper.map(orderDto, Order.class));
 
-        LOGGER.info("Order with id = " + orderDto.getId() + " created");
+        LOGGER.info(ORDER + orderDto.getId() + " created");
     }
 
     @Override
@@ -155,11 +164,11 @@ public class OrderServiceImpl implements OrderService {
         try {
             orderDao.updateOrder(modelMapper.map(orderDto, Order.class));
         } catch (NoResultException e) {
-            throw new EntityNotFoundException(String.format("Order with id " +
+            throw new EntityNotFoundException(String.format(ORDER +
                     "%s does not exist", orderDto.getId()));
         }
 
-        LOGGER.info("Order with id = " + orderDto.getId() + " updated");
+        LOGGER.info(ORDER + orderDto.getId() + " updated");
     }
 
     @Override
@@ -170,7 +179,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderDao.deleteOrder(id);
 
-        LOGGER.info("Order with id = " + id + " deleted");
+        LOGGER.info(ORDER + id + " deleted");
     }
 
     @Override
@@ -179,14 +188,14 @@ public class OrderServiceImpl implements OrderService {
 
         LOGGER.debug("mergeWithExistingAndUpdate() executed");
         DriverDto driver = driverService.getAuthorizedDriverByUsername();
-        DriverDto colleague = driverService.findColleagueAuthorizedDriverByUsername();
+        DriverDto colleague =
+                driverService.findColleagueAuthorizedDriverByUsername();
 
         final OrderDto existingOrder =
                 modelMapper.map(orderDao.getOrderById(orderDto.getId()),
                         OrderDto.class);
 
         existingOrder.setStatus(orderDto.getStatus());
-//        existingOrder.setCargo(orderDto.getCargo());
         if (orderDto.getDuration() <= 12) {
             driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration());
         } else {
@@ -199,5 +208,4 @@ public class OrderServiceImpl implements OrderService {
         orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
 
     }
-
 }

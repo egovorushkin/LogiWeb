@@ -19,15 +19,18 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order getOrderById(long id) {
-        return entityManager.find(Order.class, id);
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o " +
+                        "JOIN FETCH o.cargo JOIN FETCH o.truck JOIN FETCH o.fromCity " +
+                        "JOIN FETCH o.toCity WHERE o.id=:id", Order.class)
+                .setParameter("id", id);
+        return q.getSingleResult();
     }
 
     @Override
     public List<Order> getAllOrders() {
-        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order " +
-                        "o LEFT JOIN FETCH o.fromCity LEFT JOIN FETCH o" +
-                        ".toCity LEFT JOIN FETCH o.cargo LEFT JOIN FETCH o" +
-                        ".truck",
+        TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o " +
+                        "JOIN FETCH o.cargo JOIN FETCH o.truck JOIN FETCH o.fromCity " +
+                        "JOIN FETCH o.toCity",
                 Order.class);
         return q.getResultList();
     }
@@ -55,7 +58,8 @@ public class OrderDaoImpl implements OrderDao {
     public List<Truck> findAvailableTrucks(Order order) {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM " +
                         "Truck t WHERE t.state='SERVICEABLE' AND t.status='PARKED' " +
-                        "AND t.capacity>=:cargoWeight AND t.currentCity.id=:fromCity " +
+                        "AND t.capacity>=:cargoWeight " +
+                        "AND t.currentCity.id=:fromCity " +
                         "AND t.isBusy=false",
                 Truck.class)
                 .setParameter("cargoWeight", order.getCargo().getWeight())
@@ -67,7 +71,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> findCurrentOrdersForTruck(long id) {
         TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o " +
-                "WHERE o.truck.id=:id", Order.class).setParameter("id", id);
+                "WHERE o.truck.id=:id", Order.class)
+                .setParameter("id", id);
         return q.getResultList();
     }
 

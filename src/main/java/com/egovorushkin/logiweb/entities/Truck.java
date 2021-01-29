@@ -3,9 +3,7 @@ package com.egovorushkin.logiweb.entities;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "truck")
@@ -38,8 +36,11 @@ public class Truck extends AbstractEntity {
     @JoinColumn(name = "city_id", nullable = false)
     private City currentCity;
 
-    @OneToMany(mappedBy = "truck", fetch = FetchType.EAGER)
-    private List<Driver> currentDrivers = new ArrayList<>();
+    @OneToMany(mappedBy = "truck")
+    private Set<Driver> currentDrivers = new HashSet<>();
+
+    @OneToMany(mappedBy = "truck")
+    private Set<Order> currentOrders = new HashSet<>();
 
     public String getRegistrationNumber() {
         return registrationNumber;
@@ -97,12 +98,20 @@ public class Truck extends AbstractEntity {
         this.currentCity = currentCity;
     }
 
-    public List<Driver> getCurrentDrivers() {
+    public Set<Driver> getCurrentDrivers() {
         return currentDrivers;
     }
 
-    public void setCurrentDrivers(List<Driver> currentDrivers) {
+    public void setCurrentDrivers(Set<Driver> currentDrivers) {
         this.currentDrivers = currentDrivers;
+    }
+
+    public Set<Order> getCurrentOrders() {
+        return currentOrders;
+    }
+
+    public void setCurrentOrders(Set<Order> currentOrders) {
+        this.currentOrders = currentOrders;
     }
 
     @Override
