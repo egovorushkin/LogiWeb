@@ -91,7 +91,7 @@
     </div>
 
     <c:choose>
-        <c:when test="${user.truck.currentDrivers.size() == 1}">
+        <c:when test="${colleague eq null}">
             <h6>No colleague.</h6>
         </c:when>
         <c:otherwise>
@@ -107,7 +107,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 <tr>
                     <td class="align-middle">${colleague.personalNumber}</td>
                     <td class="align-middle">${colleague.firstName}</td>
@@ -115,7 +114,6 @@
                     <td class="align-middle">${colleague.workedHoursPerMonth}</td>
                     <td class="align-middle">${colleague.status.toString()}</td>
                 </tr>
-
                 </tbody>
             </table>
         </c:otherwise>

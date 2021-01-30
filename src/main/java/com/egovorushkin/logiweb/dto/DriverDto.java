@@ -43,6 +43,7 @@ public class DriverDto implements Serializable {
 
     public DriverDto() {
         status = DriverStatus.RESTING;
+        workedHoursPerMonth = 0;
     }
 
     public long getId() {
@@ -149,8 +150,6 @@ public class DriverDto implements Serializable {
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
                 ", isInShift=" + isInShift +
                 ", status=" + status +
-                ", currentCity=" + currentCity +
-                ", truck=" + truck +
                 '}';
     }
 }

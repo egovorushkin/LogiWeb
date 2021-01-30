@@ -17,7 +17,6 @@
         <thead>
         <tr>
             <th scope="col">Registration №</th>
-            <th scope="col">Team Size</th>
             <th scope="col">Capacity (kg)</th>
             <th scope="col">State</th>
             <th scope="col">Status</th>
@@ -32,7 +31,6 @@
             <tr class='table-row'
                 data-href='${pageContext.request.contextPath}/trucks/${truck.id}'>
                 <td class="align-middle">${truck.registrationNumber}</td>
-                <td class="align-middle">${truck.teamSize}</td>
                 <td class="align-middle">${truck.capacity}</td>
                 <td class="align-middle">${truck.state.toString()}</td>
                 <td class="align-middle">${truck.status.toString()}</td>

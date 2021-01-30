@@ -147,6 +147,7 @@ public class DriverServiceImpl implements DriverService {
                 .collect(Collectors.toList());
     }
 
+    // TODO need to complete this method if colleague not found
     @Override
     @Transactional
     public DriverDto findColleagueAuthorizedDriverByUsername() {
@@ -157,12 +158,18 @@ public class DriverServiceImpl implements DriverService {
 
         DriverDto authorizedDriver = getAuthorizedDriverByUsername();
 
+        if (authorizedDriver.getTruck() == null) {
+            return new DriverDto();
+        }
         List<DriverDto> listOfColleagues =
                 new ArrayList<>(authorizedDriver.getTruck().getCurrentDrivers());
+        DriverDto colleague = listOfColleagues.stream()
+                .filter(driver -> driver.getId() != authorizedDriver.getId())
+                .findFirst().orElse(null);
 
         LOGGER.info("Colleague of Authorized driver found");
 
-        return listOfColleagues.get(0);
+        return colleague;
 
     }
 

@@ -39,13 +39,13 @@
             </div>
             <form:errors path="personalNumber" cssClass="alert alert-danger"/>
         </div>
-        <div class="row mb-3">
-            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked Hours / Month:</label>
-            <div class="col-sm-2">
-                <input class="form-control form-control-sm" id="workedHoursPerMonth" name="workedHoursPerMonth"
-                       type="number">
-            </div>
-        </div>
+<%--        <div class="row mb-3">--%>
+<%--            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked Hours / Month:</label>--%>
+<%--            <div class="col-sm-2">--%>
+<%--                <input class="form-control form-control-sm" id="workedHoursPerMonth" name="workedHoursPerMonth"--%>
+<%--                       type="number">--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current City:</label>
             <div class="col-sm-2">
