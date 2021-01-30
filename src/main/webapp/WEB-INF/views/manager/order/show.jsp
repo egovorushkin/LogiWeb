@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-clipboard-list"></i> | Order
+        <h4 class="h4"><em class="fas fa-clipboard-list"></em> | Order
             №${order.id}</h4>
     </div>
 
@@ -128,7 +128,6 @@
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Registration №</th>
-                    <th scope="col">Team Size</th>
                     <th scope="col">Capacity (kg)</th>
                     <th scope="col">State</th>
                     <th scope="col">Status</th>
@@ -139,10 +138,9 @@
                 <tbody>
                 <tr class='table-row'
                     data-href='${pageContext.request.contextPath}/trucks/${order.truck.id}'>
-                    <td class="align-middle"><i class="fas fa-truck-moving"></i>
+                    <td class="align-middle"><em class="fas fa-truck-moving"></em>
                     </td>
                     <td class="align-middle">${order.truck.registrationNumber}</td>
-                    <td class="align-middle">${order.truck.teamSize}</td>
                     <td class="align-middle">${order.truck.capacity}</td>
                     <td class="align-middle">${order.truck.state.toString()}</td>
                     <td class="align-middle">${order.truck.status.toString()}</td>
@@ -153,8 +151,8 @@
                         <c:param name="orderId" value="${order.id}"/>
                     </c:url>
 
-                    <td><a class="nav-link" href="${unbindOrderLink}"><i
-                            class="fas fa-minus" style="color: red"></i></a>
+                    <td><a class="nav-link" href="${unbindOrderLink}"><em
+                            class="fas fa-minus" style="color: red"></em></a>
                     </td>
                 </tr>
                 </tbody>
@@ -192,8 +190,8 @@
                                    var="currentDriver">
                             <tr class='table-row'
                                 data-href='${pageContext.request.contextPath}/drivers/${currentDriver.id}'>
-                                <td class="align-middle"><i
-                                        class="fas fa-user-alt"></i></td>
+                                <td class="align-middle"><em
+                                        class="fas fa-user-alt"></em></td>
                                 <td class="align-middle">${currentDriver.firstName}</td>
                                 <td class="align-middle">${currentDriver.lastName}</td>
                                 <td class="align-middle">${currentDriver.personalNumber}</td>
@@ -213,9 +211,9 @@
                                        href="${unbindDriverLink}"
                                        onclick="if (!(confirm
                                        ('Are you sure you want to unbind this ' +
-                                        'driver from truck?'))) return false"><i
+                                        'driver from truck?'))) return false"><em
                                         class="fas fa-minus"
-                                        style="color: red"></i></a>
+                                        style="color: red"></em></a>
                                 </td>
                             </tr>
                         </c:forEach>

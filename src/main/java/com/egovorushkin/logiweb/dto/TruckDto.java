@@ -35,6 +35,7 @@ public class TruckDto implements Serializable {
 
     public TruckDto() {
         status = TruckStatus.PARKED;
+        isBusy = false;
     }
 
     public String getRegistrationNumber() {

@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4><i class="fas fa-user-alt"></i> | Driver №${driver.personalNumber}</h4>
+        <h4><em class="fas fa-user-alt"></em> | Driver №${driver.personalNumber}</h4>
     </div>
 
     <form:form modelAttribute="driver"
@@ -108,7 +108,6 @@
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Registration №</th>
-                    <th scope="col">Team Size</th>
                     <th scope="col">Capacity (kg)</th>
                     <th scope="col">State</th>
                     <th scope="col">Status</th>
@@ -119,9 +118,8 @@
                 <tbody>
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/trucks/${driver.truck.id}'>
-                        <td class="align-middle"><i class="fas fa-truck-moving"></i></td>
+                        <td class="align-middle"><em class="fas fa-truck-moving"></em></td>
                         <td class="align-middle">${driver.truck.registrationNumber}</td>
-                        <td class="align-middle">${driver.truck.teamSize}</td>
                         <td class="align-middle">${driver.truck.capacity}</td>
                         <td class="align-middle">${driver.truck.state.toString()}</td>
                         <td class="align-middle">${driver.truck.status.toString()}</td>
