@@ -9,6 +9,7 @@ import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
+import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,10 @@ public class TruckServiceImpl implements TruckService {
     public TruckServiceImpl(TruckDao truckDao, ModelMapper modelMapper) {
         this.truckDao = truckDao;
         this.modelMapper = modelMapper;
+
+        modelMapper.getConfiguration()
+                .setPropertyCondition(context ->
+                        !(context.getSource() instanceof PersistentCollection));
     }
 
     @Override

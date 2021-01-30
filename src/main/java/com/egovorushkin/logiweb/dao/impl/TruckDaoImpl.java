@@ -20,7 +20,8 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public Truck getTruckById(long id) {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
-                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t.currentOrders " +
+                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t" +
+                ".currentOrders " +
                 "JOIN FETCH t.currentCity WHERE t.id=:id", Truck.class)
                 .setParameter("id", id);
 
@@ -30,7 +31,8 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public List<Truck> getAllTrucks() {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
-                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t.currentOrders", Truck.class);
+                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t" +
+                ".currentOrders LEFT JOIN FETCH t.currentCity", Truck.class);
 
         return q.getResultList();
     }
@@ -50,7 +52,7 @@ public class TruckDaoImpl implements TruckDao {
         Truck truck = entityManager.find(Truck.class, id);
         Set<Driver> currentDrivers = truck.getCurrentDrivers();
 
-        for (Driver d : currentDrivers){
+        for (Driver d : currentDrivers) {
             d.setTruck(null);
         }
 
@@ -60,7 +62,8 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public List<Driver> findCurrentDriversByTruckId(long id) {
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d WHERE d.truck.id=:id", Driver.class)
+                "Driver d LEFT JOIN FETCH d.truck LEFT JOIN FETCH d" +
+                ".currentCity WHERE d.truck.id=:id", Driver.class)
                 .setParameter("id", id);
 
         return q.getResultList();
@@ -69,7 +72,8 @@ public class TruckDaoImpl implements TruckDao {
     @Override
     public List<Driver> findAvailableDriversByTruck(Truck truck) {
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d WHERE d.status='RESTING' AND d" +
+                "Driver d LEFT JOIN FETCH d.truck LEFT JOIN FETCH d" +
+                ".currentCity WHERE d.status='RESTING' AND d" +
                 ".currentCity=:truckCurrentCity", Driver.class)
                 .setParameter("truckCurrentCity", truck.getCurrentCity());
 
