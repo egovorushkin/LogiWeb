@@ -5,7 +5,7 @@ public enum DriverStatus {
     RESTING("RESTING", "Resting"),
     DRIVING("DRIVING", "Driving"),
     SECOND_DRIVER("SECOND_DRIVER", "Second driver"),
-    LOADING_UNLOADING("LOADING_UNLOADING", "Loading-Unloading Process");
+    LOADING_UNLOADING("LOADING_UNLOADING", "Loading-Unloading");
 
     String title;
     String name;

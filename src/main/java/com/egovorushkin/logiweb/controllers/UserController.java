@@ -29,15 +29,15 @@ public class UserController {
         return "/user/profile";
     }
 
-    @PostMapping("/update-status")
-    public String updateStatusOfDriver(@ModelAttribute("user") DriverDto driverDto) {
-        driverService.updateStatus(driverDto);
+    @GetMapping("/update-status")
+    public String updateStatusOfDriver(@RequestParam("userStatus") DriverStatus userStatus) {
+        driverService.updateStatus(userStatus);
         return "redirect:/user/info";
     }
 
-    @PostMapping("/update-state")
-    public String updateStateOfDriver(@ModelAttribute("user") DriverDto driverDto) {
-        driverService.updateState(driverDto);
+    @GetMapping("/update-state")
+    public String updateStateOfDriver(@RequestParam("userState") boolean userState) {
+        driverService.updateState(userState);
         return "redirect:/user/info";
     }
 
@@ -51,7 +51,7 @@ public class UserController {
     public String showOrders(Model model) {
         DriverDto user = driverService.getAuthorizedDriverByUsername();
         model.addAttribute("orders", orderService.
-                findCurrentOrdersForTruck(user.getTruck().getId()));
+                findCurrentOrdersForTruck(user.getTruck()));
         return "/user/orders";
     }
 }

@@ -45,6 +45,14 @@ public class OrderServiceImpl implements OrderService {
         this.driverService = driverService;
         this.modelMapper = modelMapper;
         this.driverDao = driverDao;
+
+        /*
+         * for avoiding Lazy Initialization Exception in Model mapper
+         *
+         */
+        modelMapper.getConfiguration()
+                .setPropertyCondition(context ->
+                        !(context.getSource() instanceof PersistentCollection));
     }
 
     @Override
@@ -67,11 +75,8 @@ public class OrderServiceImpl implements OrderService {
 
         LOGGER.debug("getAllOrders() executed");
 
-        modelMapper.getConfiguration()
-                .setPropertyCondition(context ->
-                        !(context.getSource() instanceof PersistentCollection));
-
         List<Order> orders = orderDao.getAllOrders();
+
         return orders.stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
@@ -102,13 +107,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> findCurrentOrdersForTruck(long id) {
+    public List<OrderDto> findCurrentOrdersForTruck(TruckDto truckDto) {
 
         LOGGER.debug("findCurrentOrdersForTruck() executed");
 
-        List<Order> orders = orderDao.findCurrentOrdersForTruck(id);
+        if (truckDto == null) {
+            return Collections.emptyList();
+        }
 
-        LOGGER.info("Orders for truck with id = " + id + " found");
+        List<Order> orders = orderDao.findCurrentOrdersForTruck(truckDto.getId());
+
+        if (orders.isEmpty()) {
+
+            LOGGER.info("Orders for truck with id = " + truckDto.getId() + " not found");
+
+            return Collections.emptyList();
+        }
+
+        LOGGER.info("Orders for truck with id = " + truckDto.getId() + " found");
 
         return orders.stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))

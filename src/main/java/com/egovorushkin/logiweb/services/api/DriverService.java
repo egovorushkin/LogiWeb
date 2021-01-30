@@ -2,6 +2,8 @@ package com.egovorushkin.logiweb.services.api;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
+
 import java.util.List;
 
 public interface DriverService {
@@ -22,7 +24,7 @@ public interface DriverService {
 
     DriverDto findColleagueAuthorizedDriverByUsername();
 
-    void updateStatus(DriverDto driverDto);
+    void updateStatus(DriverStatus driverStatus);
 
-    void updateState(DriverDto driverDto);
+    void updateState(boolean userState);
 }
