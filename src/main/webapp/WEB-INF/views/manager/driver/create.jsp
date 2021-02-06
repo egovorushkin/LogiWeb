@@ -11,7 +11,7 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-user-plus"></i> | Create New Driver</h4>
+        <h4 class="h4"><em class="fas fa-user-plus"></em> | Create New Driver</h4>
     </div>
 
     <form:form modelAttribute="driver" action="${pageContext.request.contextPath}/drivers/save" method="post">

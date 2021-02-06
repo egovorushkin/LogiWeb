@@ -19,22 +19,22 @@ public class TruckDaoImpl implements TruckDao {
 
     @Override
     public Truck getTruckById(long id) {
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
-                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t" +
-                ".currentOrders " +
-                "JOIN FETCH t.currentCity WHERE t.id=:id", Truck.class)
-                .setParameter("id", id);
-
-        return q.getSingleResult();
+        return entityManager
+                .createQuery("SELECT t FROM Truck t " +
+                                "LEFT JOIN FETCH t.currentDrivers " +
+                                "LEFT JOIN FETCH t.currentOrders " +
+                                "LEFT JOIN FETCH t.currentCity WHERE t.id=:id",
+                        Truck.class)
+                .setParameter("id", id).getSingleResult();
     }
 
     @Override
     public List<Truck> getAllTrucks() {
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck " +
+        return entityManager
+                .createQuery("SELECT t FROM Truck " +
                 "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t" +
-                ".currentOrders LEFT JOIN FETCH t.currentCity", Truck.class);
-
-        return q.getResultList();
+                ".currentOrders LEFT JOIN FETCH t.currentCity", Truck.class)
+                .getResultList();
     }
 
     @Override
@@ -61,32 +61,34 @@ public class TruckDaoImpl implements TruckDao {
 
     @Override
     public List<Driver> findCurrentDriversByTruckId(long id) {
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d LEFT JOIN FETCH d.truck LEFT JOIN FETCH d" +
-                ".currentCity WHERE d.truck.id=:id", Driver.class)
-                .setParameter("id", id);
-
-        return q.getResultList();
+        return entityManager
+                .createQuery("SELECT d FROM Driver d " +
+                        "LEFT JOIN FETCH d.truck " +
+                        "LEFT JOIN FETCH d.currentCity WHERE d.truck.id=:id",
+                        Driver.class)
+                .setParameter("id", id).getResultList();
     }
 
     @Override
     public List<Driver> findAvailableDriversByTruck(Truck truck) {
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d LEFT JOIN FETCH d.truck LEFT JOIN FETCH d" +
-                ".currentCity WHERE d.status='RESTING' AND d" +
-                ".currentCity=:truckCurrentCity", Driver.class)
-                .setParameter("truckCurrentCity", truck.getCurrentCity());
-
-        return q.getResultList();
+        return entityManager
+                .createQuery("SELECT d FROM Driver d " +
+                        "LEFT JOIN FETCH d.truck " +
+                        "LEFT JOIN FETCH d.currentCity WHERE d.status='RESTING' " +
+                        "AND d.currentCity=:truckCurrentCity", Driver.class)
+                .setParameter("truckCurrentCity", truck.getCurrentCity())
+                .getResultList();
     }
 
     @Override
     public boolean truckExistsByRegistrationNumber(String registrationNumber) {
-        Long count = entityManager.createQuery("SELECT COUNT(t)  FROM Truck " +
-                "t WHERE t.registrationNumber=:registrationNumber", Long.class).
+
+        return entityManager
+                .createQuery("SELECT COUNT(t)  FROM Truck t " +
+                        "WHERE t.registrationNumber=:registrationNumber",
+                        Long.class).
                 setParameter("registrationNumber", registrationNumber)
-                .getSingleResult();
-        return count > 0;
+                .getSingleResult() > 0;
     }
 
 }

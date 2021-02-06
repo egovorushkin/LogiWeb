@@ -1,20 +1,14 @@
-package com.egovorushkin.logiweb.dto;
+package com.egovorushkin.logiweb.entities;
 
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Objects;
 
-public class CityDto implements Serializable {
+@Entity
+@Table(name = "roles")
+public class Role extends AbstractEntity {
 
-    private long id;
+    @Column(name = "name")
     private String name;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -28,20 +22,19 @@ public class CityDto implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CityDto cityDto = (CityDto) o;
-        return id == cityDto.id;
+        Role role = (Role) o;
+        return name.equals(role.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
-        return "CityDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+        return "Role{" +
+                "name='" + name + '\'' +
                 '}';
     }
 }

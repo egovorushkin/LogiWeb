@@ -34,7 +34,8 @@ public class PersistenceJPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em =
                 new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
+//        em.setDataSource(dataSource());
+        em.setDataSource(securityDataSource());
         em.setPackagesToScan("com.egovorushkin.logiweb.entities");
 
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -44,15 +45,15 @@ public class PersistenceJPAConfig {
         return em;
     }
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(env.getProperty("jdbc.url"));
-        dataSource.setUsername(env.getProperty("jdbc.user"));
-        dataSource.setPassword(env.getProperty("jdbc.password"));
-        return dataSource;
-    }
+//    @Bean
+//    public DataSource dataSource() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//        dataSource.setUrl(env.getProperty("jdbc.url"));
+//        dataSource.setUsername(env.getProperty("jdbc.user"));
+//        dataSource.setPassword(env.getProperty("jdbc.password"));
+//        return dataSource;
+//    }
 
     @Bean
     public DataSource securityDataSource() {

@@ -1,5 +1,6 @@
 package com.egovorushkin.logiweb.dao.api;
 
+import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
@@ -25,5 +26,7 @@ public interface OrderDao {
     List<Driver> findAvailableDriversForOrder(Order order);
 
     boolean orderExistsById(long id);
+
+    List<Order> getLatestOrders();
 
 }

@@ -18,6 +18,8 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Driver getDriverById(long id) {
+
+        // TODO remove TypedQuery
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
                         "Driver d LEFT JOIN FETCH d.currentCity LEFT JOIN FETCH " +
                         "d.truck WHERE d.id=:id", Driver.class)
@@ -28,6 +30,7 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public List<Driver> getAllDrivers() {
+        // TODO remove TypedQuery
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
                 "Driver d LEFT JOIN FETCH d.currentCity LEFT JOIN FETCH d.truck",
                 Driver.class);
@@ -56,15 +59,16 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Driver getDriverByUsername(String username) {
+        // TODO remove TypedQuery
         TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d " +
-                "WHERE d.username=:username", Driver.class).setParameter(
+                "Driver d WHERE d.username=:username", Driver.class).setParameter(
                         "username", username);
         return q.getSingleResult();
     }
 
     @Override
     public List<Truck> findAvailableTrucksByDriver(Driver driver) {
+        // TODO remove TypedQuery
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM " +
                 "Truck t LEFT JOIN FETCH t.currentCity WHERE t.status='PARKED' AND t.state='SERVICEABLE' " +
                 "AND t.currentCity=:driverCurrentCity",

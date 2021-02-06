@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
     private static final Logger LOGGER = Logger
             .getLogger(LoginController.class.getName());
 
-    @GetMapping
+    @GetMapping("/login")
     public String loginPage() {
 
         if (LOGGER.isDebugEnabled()){

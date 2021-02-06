@@ -4,12 +4,14 @@ import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
+import com.egovorushkin.logiweb.dto.OrderDtoT;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
+import com.egovorushkin.logiweb.publisher.JmsPublisher;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import org.apache.log4j.Logger;
@@ -36,15 +38,18 @@ public class OrderServiceImpl implements OrderService {
     private final DriverService driverService;
     private final ModelMapper modelMapper;
     private final DriverDao driverDao;
+    private final JmsPublisher jmsPublisher;
 
 
     @Autowired
     public OrderServiceImpl(OrderDao orderDao, DriverService driverService,
-                            ModelMapper modelMapper, DriverDao driverDao) {
+                            ModelMapper modelMapper, DriverDao driverDao,
+                            JmsPublisher jmsPublisher) {
         this.orderDao = orderDao;
         this.driverService = driverService;
         this.modelMapper = modelMapper;
         this.driverDao = driverDao;
+        this.jmsPublisher = jmsPublisher;
 
         /*
          * for avoiding Lazy Initialization Exception in Model mapper
@@ -168,6 +173,9 @@ public class OrderServiceImpl implements OrderService {
 
         orderDao.createOrder(modelMapper.map(orderDto, Order.class));
 
+        System.out.println("Sending message to topic");
+        jmsPublisher.send(orderDto);
+
         LOGGER.info(ORDER + orderDto.getId() + " created");
     }
 
@@ -223,5 +231,17 @@ public class OrderServiceImpl implements OrderService {
         driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
         orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
 
+    }
+
+    @Override
+    public List<OrderDtoT> getLatestOrders() {
+
+        LOGGER.debug("getLatestOrders() executed");
+
+        List<Order> latestOrders = orderDao.getLatestOrders();
+
+        return latestOrders.stream()
+                .map(order -> modelMapper.map(order, OrderDtoT.class))
+                .collect(Collectors.toList());
     }
 }

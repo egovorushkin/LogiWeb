@@ -96,13 +96,13 @@ public class Order extends AbstractEntity {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
                 ", status=" + status +
                 ", fromCity=" + fromCity +
                 ", toCity=" + toCity +
                 ", cargo=" + cargo +
                 ", distance=" + distance +
                 ", truck=" + truck +
+                ", id=" + id +
                 '}';
     }
 }

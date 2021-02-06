@@ -2,6 +2,7 @@ package com.egovorushkin.logiweb.services.api;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
+import com.egovorushkin.logiweb.dto.OrderDtoT;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import java.util.List;
 
@@ -25,4 +26,5 @@ public interface OrderService {
 
     void mergeWithExistingAndUpdate(OrderDto orderDto);
 
+    List<OrderDtoT> getLatestOrders();
 }

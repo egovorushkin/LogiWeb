@@ -133,10 +133,16 @@ public class DriverServiceImpl implements DriverService {
         Authentication authentication =
                 authenticationFacade.getAuthentication();
 
+        String authorizedDriver = authentication.getName();
+
         LOGGER.info("Authorized driver with username = " +
-                authentication.getName() + " found");
+                authorizedDriver + " found");
+
+        System.out.println(authorizedDriver);
+        System.out.println(authorizedDriver);
+        System.out.println(authorizedDriver);
         return modelMapper
-                .map(driverDao.getDriverByUsername(authentication.getName()),
+                .map(driverDao.getDriverByUsername(authorizedDriver),
                         DriverDto.class);
     }
 

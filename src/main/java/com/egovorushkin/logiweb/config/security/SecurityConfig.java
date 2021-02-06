@@ -1,12 +1,16 @@
 package com.egovorushkin.logiweb.config.security;
 
+import com.egovorushkin.logiweb.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,53 +21,57 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final DataSource securityDataSource;
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    // add a reference to our security data source
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public SecurityConfig(DataSource securityDataSource, AuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.securityDataSource = securityDataSource;
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-    }
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(securityDataSource);
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .authorizeRequests()
-                    .antMatchers( "/resources/**").permitAll()
-                    .antMatchers("/admin").hasRole("ADMIN")
-                    .antMatchers("/trucks/**").hasRole("ADMIN")
-                    .antMatchers("/drivers/**").hasRole("ADMIN")
-                    .antMatchers("/order/**").hasRole("ADMIN")
-                    .antMatchers("/cargo/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()
+        http.authorizeRequests()
+                .antMatchers("/register/**").not().fullyAuthenticated()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/scoreboard/**").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/trucks/**").hasRole("ADMIN")
+                .antMatchers("/drivers/**").hasRole("ADMIN")
+                .antMatchers("/order/**").hasRole("ADMIN")
+                .antMatchers("/cargo/**").hasRole("ADMIN")
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .successHandler(authenticationSuccessHandler)
-                    .permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/authenticateTheUser")
+                .successHandler(customAuthenticationSuccessHandler)
+                .permitAll()
                 .and()
-                    .logout().permitAll()
+                .logout().permitAll()
                 .and()
-                    .exceptionHandling().accessDeniedPage("/access-denied")
-                .and().csrf().disable();
+                .exceptionHandling().accessDeniedPage("/access-denied");
+
     }
 
+    //beans
+    //bcrypt bean definition
     @Bean
-    public UserDetailsManager userDetailsManager() {
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
-
-        jdbcUserDetailsManager.setDataSource(securityDataSource);
-
-        return jdbcUserDetailsManager;
+    //authenticationProvider bean definition
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService); //set the custom user details service
+        auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
+        return auth;
     }
 
 }

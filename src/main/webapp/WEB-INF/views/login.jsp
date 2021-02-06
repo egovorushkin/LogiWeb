@@ -19,10 +19,9 @@
 </head>
 
 <body class="text-center">
-<form class="form-signin" action="${pageContext.request.contextPath}/login" method="POST">
+<form class="form-signin" action="${pageContext.request.contextPath}/authenticateTheUser" method="POST">
     <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
 
-    <!-- Place for messages: error, alert etc ... -->
     <div class="form-group">
         <div class="col-xs-15">
             <div>
@@ -44,18 +43,21 @@
 
     <!-- User name -->
     <label for="username" class="sr-only">Username</label>
-    <input type="text" name="username" id="username" class="form-control" placeholder="username">
+    <input type="text" name="username" id="username" class="form-control form-control-sm" placeholder="username">
 
     <!-- Password -->
     <label for="password" class="sr-only">Password</label>
-    <input type="password" name="password" id="password" class="form-control" placeholder="password">
+    <input type="password" name="password" id="password" class="form-control form-control-sm" placeholder="password">
 
     <!-- Login/Submit Button -->
-    <button class="btn btn-lg btn-dark btn-block" type="submit">Sign in</button>
+    <button class="btn btn-dark btn-block" type="submit">Sign in</button>
+    <hr>
+    Don't have an account yet?
+    <a href="${pageContext.request.contextPath}/register/showRegistrationForm">Sign Up</a>
 
-<%--    <input type="hidden"--%>
-<%--           name="${_csrf.parameterName}"--%>
-<%--           value="${_csrf.token}"/>--%>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 </body>
 </html>
