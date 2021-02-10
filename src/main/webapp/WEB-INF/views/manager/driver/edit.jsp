@@ -10,7 +10,8 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4><em class="fas fa-user-edit"></em> | Edit Driver</h4>
     </div>
 
@@ -42,7 +43,9 @@
             <form:errors path="lastName" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">Personal №:</label>
+            <label for="personalNumber" class="col-sm-2 col-form-label">
+                Personal №:
+            </label>
             <div class="col-sm-2">
                 <form:input path="personalNumber" type="number"
                             class="form-control form-control-sm"
@@ -53,8 +56,8 @@
             <form:errors path="personalNumber" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked
-                Hours / Month:</label>
+            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">
+                Worked Hours / Month:</label>
             <div class="col-sm-2">
                 <input class="form-control form-control-sm"
                        id="workedHoursPerMonth" name="workedHoursPerMonth"
@@ -114,7 +117,8 @@
 
         <button type="submit" class="btn btn-sm btn-primary">Update</button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this driver?')))
+               return false"
            role="button">Delete</a>
         <a class="btn btn-sm btn-secondary"
            href="${pageContext.request.contextPath}/drivers/list"
@@ -122,7 +126,8 @@
     </form:form>
 
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4>Available Trucks</h4>
         <hr>
     </div>
@@ -150,12 +155,24 @@
                 <c:forEach items="${availableTrucks}" var="availableTruck">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/trucks/${availableTruck.id}'>
-                        <td class="align-middle"><em class="fas fa-truck-moving"></em></td>
-                        <td class="align-middle">${availableTruck.registrationNumber}</td>
-                        <td class="align-middle">${availableTruck.capacity}</td>
-                        <td class="align-middle">${availableTruck.state.toString()}</td>
-                        <td class="align-middle">${availableTruck.status.toString()}</td>
-                        <td class="align-middle">${availableTruck.currentCity.name}</td>
+                        <td class="align-middle">
+                            <em class="fas fa-truck-moving"></em>
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.registrationNumber}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.capacity}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.state.toString()}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.status.toString()}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.currentCity.name}
+                        </td>
 
                         <c:url var="bindTruckLink" value="/drivers/bind-truck">
                             <c:param name="truckId"

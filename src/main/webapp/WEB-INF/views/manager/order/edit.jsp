@@ -124,14 +124,16 @@
         <button type="submit" class="btn btn-primary btn-sm">Update
         </button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this order?')))
+               return false"
            role="button">Delete</a>
         <a class="btn btn-sm btn-secondary"
            href="${pageContext.request.contextPath}/orders/list"
            role="button">Cancel</a>
     </form:form>
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+    align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4>Available Trucks</h4>
         <hr>
     </div>
@@ -215,12 +217,24 @@
                                    var="availableDriver">
                             <tr class='table-row'
                                 data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
-                                <td class="align-middle">${availableDriver.firstName}</td>
-                                <td class="align-middle">${availableDriver.lastName}</td>
-                                <td class="align-middle">${availableDriver.personalNumber}</td>
-                                <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
-                                <td class="align-middle">${availableDriver.status.toString()}</td>
-                                <td class="align-middle">${availableDriver.currentCity.name}</td>
+                                <td class="align-middle">
+                                        ${availableDriver.firstName}
+                                </td>
+                                <td class="align-middle">
+                                        ${availableDriver.lastName}
+                                </td>
+                                <td class="align-middle">
+                                        ${availableDriver.personalNumber}
+                                </td>
+                                <td class="align-middle">
+                                        ${availableDriver.workedHoursPerMonth}
+                                </td>
+                                <td class="align-middle">
+                                        ${availableDriver.status.toString()}
+                                </td>
+                                <td class="align-middle">
+                                        ${availableDriver.currentCity.name}
+                                </td>
 
                                 <c:url var="bindDriverLink"
                                        value="/trucks/bind-driver">

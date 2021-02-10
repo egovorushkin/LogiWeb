@@ -12,7 +12,9 @@
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
                 align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4><em class="fas fa-user-alt"></em> | Driver №${driver.personalNumber}</h4>
+        <h4><em class="fas fa-user-alt"></em> |
+            Driver №${driver.personalNumber}
+        </h4>
     </div>
 
     <form:form modelAttribute="driver"
@@ -51,8 +53,9 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked
-                Hours / Month:</label>
+            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">
+                Worked Hours / Month:
+            </label>
             <div class="col-sm-2">
                 <input class="form-control form-control-sm" disabled
                        id="workedHoursPerMonth"
@@ -87,9 +90,12 @@
             <c:param name="driverId" value="${driver.id}"/>
         </c:url>
 
-        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit/Set Truck</a>
+        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">
+            Edit/Set Truck
+        </a>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this driver?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this driver?')))
+               return false"
            role="button">Delete</a>
         <a class="btn btn-sm btn-secondary"
            href="${pageContext.request.contextPath}/drivers/list"
@@ -123,12 +129,24 @@
                 <tbody>
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/trucks/${driver.truck.id}'>
-                        <td class="align-middle"><em class="fas fa-truck-moving"></em></td>
-                        <td class="align-middle">${driver.truck.registrationNumber}</td>
-                        <td class="align-middle">${driver.truck.capacity}</td>
-                        <td class="align-middle">${driver.truck.state.toString()}</td>
-                        <td class="align-middle">${driver.truck.status.toString()}</td>
-                        <td class="align-middle">${driver.truck.currentCity.name}</td>
+                        <td class="align-middle">
+                            <em class="fas fa-truck-moving"></em>
+                        </td>
+                        <td class="align-middle">
+                                ${driver.truck.registrationNumber}
+                        </td>
+                        <td class="align-middle">
+                                ${driver.truck.capacity}
+                        </td>
+                        <td class="align-middle">
+                                ${driver.truck.state.toString()}
+                        </td>
+                        <td class="align-middle">
+                                ${driver.truck.status.toString()}
+                        </td>
+                        <td class="align-middle">
+                                ${driver.truck.currentCity.name}
+                        </td>
 
                         <c:url var="unbindTruckLink" value="/drivers/unbind-truck">
                             <c:param name="truckId" value="${driver.truck.id}"/>
