@@ -10,7 +10,8 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4><em class="fas fa-user-alt"></em> | Driver №${driver.personalNumber}</h4>
     </div>
 
@@ -38,7 +39,9 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">Personal №:</label>
+            <label for="personalNumber" class="col-sm-2 col-form-label">
+                Personal №:
+            </label>
             <div class="col-sm-2">
                 <form:input path="personalNumber" type="number"
                             class="form-control form-control-sm"
@@ -103,7 +106,9 @@
             <h6>No truck has been assigned for this driver yet.</h6>
         </c:when>
         <c:otherwise>
-            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+            <table class="table table-hover table-responsive-sm table-striped
+                            table-bordered table-sm">
+                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -130,7 +135,8 @@
                             <c:param name="driverId" value="${driver.id}"/>
                         </c:url>
 
-                        <td><a class="nav-link" href="${unbindTruckLink}"><i class="fas fa-minus" style="color: red"></i></a></td>
+                        <td><a class="nav-link" href="${unbindTruckLink}">
+                            <em class="fas fa-minus" style="color: red"></em></a></td>
                     </tr>
                 </tbody>
             </table>

@@ -10,8 +10,12 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-truck-moving"></i> | Edit Truck ${truck.registrationNumber}</h4>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+    align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4 class="h4">
+            <em class="fas fa-truck-moving"></em> | Edit Truck
+            ${truck.registrationNumber}
+        </h4>
     </div>
 
     <form:form modelAttribute="truck"
@@ -21,7 +25,9 @@
         <form:hidden path="id"/>
 
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration №:</label>
+            <label for="registrationNumber" class="col-sm-2 col-form-label">
+                Registration №:
+            </label>
             <div class="col-sm-2 ">
                 <form:input path="registrationNumber" type="text"
                             class="form-control form-control-sm"
@@ -111,7 +117,8 @@
            role="button">Cancel</a>
     </form:form>
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4 class="h4">Available Drivers</h4>
         <hr>
     </div>
@@ -120,11 +127,13 @@
         <c:when test="${empty availableDrivers}">
             <h6>No available drivers for this truck</h6>
             <a class="btn btn-sm  btn-success"
-               href="${pageContext.request.contextPath}/drivers/create" role="button">Add
+               href="${pageContext.request.contextPath}/drivers/create"
+               role="button">Add
                 Driver</a>
         </c:when>
         <c:otherwise>
             <table class="table table-hover table-striped table-bordered">
+                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -142,21 +151,39 @@
                 <c:forEach items="${availableDrivers}" var="availableDriver">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
-                        <td class="align-middle"><i class="fas fa-user"></i></td>
-                        <td class="align-middle">${availableDriver.firstName}</td>
-                        <td class="align-middle">${availableDriver.lastName}</td>
-                        <td class="align-middle">${availableDriver.personalNumber}</td>
-                        <td class="align-middle">${availableDriver.workedHoursPerMonth}</td>
-                        <td class="align-middle">${availableDriver.status.toString()}</td>
-                        <td class="align-middle">${availableDriver.currentCity.name}</td>
-                        <td class="align-middle">${availableDriver.truck.registrationNumber}</td>
+                        <td class="align-middle"><em class="fas fa-user"></em>
+                        </td>
+                        <td class="align-middle">
+                                ${availableDriver.firstName}
+                        </td>
+                        <td class="align-middle">
+                                ${availableDriver.lastName}
+                        </td>
+                        <td class="align-middle">
+                                ${availableDriver.personalNumber}
+                        </td>
+                        <td class="align-middle">
+                                ${availableDriver.workedHoursPerMonth}
+                        </td>
+                        <td class="align-middle">
+                                ${availableDriver.status.toString()}
+                        </td>
+                        <td class="align-middle">
+                                ${availableDriver.currentCity.name}
+                        </td>
+                        <td class="align-middle">
+                                ${availableDriver.truck.registrationNumber}
+                        </td>
 
                         <c:url var="bindDriverLink" value="/trucks/bind-driver">
                             <c:param name="truckId" value="${truck.id}"/>
-                            <c:param name="driverId" value="${availableDriver.id}"/>
+                            <c:param name="driverId"
+                                     value="${availableDriver.id}"/>
                         </c:url>
 
-                        <td><a class="nav-link" href="${bindDriverLink}"><i class="fas fa-plus" style="color: #008000"></i></a></td>
+                        <td><a class="nav-link" href="${bindDriverLink}">
+                            <em class="fas fa-plus" style="color: #008000"></em></a>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

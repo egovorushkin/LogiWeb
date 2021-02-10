@@ -9,11 +9,13 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-truck-moving"></i> | Trucks</h4>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4 class="h4"><em class="fas fa-truck-moving"></em> | Trucks</h4>
     </div>
 
     <table id="tables" class="table-hover table-striped">
+        <caption></caption>
         <thead>
         <tr>
             <th scope="col">Registration №</th>
@@ -48,7 +50,8 @@
                 <td><a class="nav-link" href="${updateLink}"><span
                         data-feather="edit"></span></a></td>
                 <td><a class="nav-link" href="${deleteLink}"
-                       onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"><span
+                       onclick="if (!(confirm('Are you sure you want to delete ' +
+                        'this truck?'))) return false"><span
                         data-feather="x-square"></span></a></td>
             </tr>
         </c:forEach>

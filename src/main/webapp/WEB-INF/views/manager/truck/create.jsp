@@ -10,7 +10,8 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4 class="h4">Create New Truck</h4>
     </div>
 
@@ -18,7 +19,9 @@
                action="${pageContext.request.contextPath}/trucks/save"
                method="post">
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration №:</label>
+            <label for="registrationNumber" class="col-sm-2 col-form-label">
+                Registration №:
+            </label>
             <div class="col-sm-2">
                 <form:input path="registrationNumber" type="text"
                             class="form-control form-control-sm"
@@ -56,8 +59,8 @@
             <label for="capacity" class="col-sm-2 col-form-label">Capacity
                 (kg):</label>
             <div class="col-sm-2">
-                <form:input path="capacity" class="form-control form-control-sm" id="capacity"
-                            name="capacity"/>
+                <form:input path="capacity" class="form-control form-control-sm"
+                            id="capacity" name="capacity"/>
             </div>
             <form:errors path="capacity" cssClass="alert alert-danger"/>
         </div>
@@ -86,7 +89,9 @@
         </div>
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary"
-           href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
+           href="${pageContext.request.contextPath}/trucks/list" role="button">
+            Back
+        </a>
     </form:form>
 </main>
 

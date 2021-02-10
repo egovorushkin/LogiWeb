@@ -1,7 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -14,17 +14,8 @@
     <link rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 
-    <style>
-        .error {
-            color: red
-        }
-    </style>
-
 </head>
-
 <body>
-
-
 <div class="card bg-light">
     <article class="card-body mx-auto" style="max-width: 400px;">
         <h4 class="card-title mt-3 text-center">Create Account</h4>

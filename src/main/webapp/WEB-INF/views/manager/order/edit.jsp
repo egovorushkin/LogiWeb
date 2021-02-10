@@ -12,7 +12,8 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4><em class="fas fa-clipboard-list"></em> | Edit Order №${order.id}
         </h4>
     </div>
@@ -146,6 +147,7 @@
 
             <table class="table table-hover table-responsive-sm table-striped
             table-bordered table-sm">
+                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col">Registration №</th>
@@ -174,7 +176,7 @@
                         </c:url>
 
                         <td><a class="nav-link" href="${bindTruckLink}">
-                            <i class="fas fa-plus" style="color: limegreen"></i></a>
+                            <em class="fas fa-plus" style="color: limegreen"></em></a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -190,11 +192,13 @@
                     <h6>No available drivers found for this order.</h6>
                     <a class="btn btn-sm  btn-success"
                        href="${pageContext.request.contextPath}/drivers/create"
-                       role="button">Add
-                        Driver</a>
+                       role="button">Add Driver
+                    </a>
                 </c:when>
                 <c:otherwise>
-                    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+                    <table class="table table-hover table-responsive-sm
+                                    table-striped table-bordered table-sm">
+                        <caption></caption>
                         <thead>
                         <tr>
                             <th scope="col">First Name</th>
@@ -227,9 +231,9 @@
                                 </c:url>
 
                                 <td><a class="nav-link"
-                                       href="${bindDriverLink}"><i
-                                        class="fas fa-plus"
-                                        style="color: #008000"></i></a></td>
+                                       href="${bindDriverLink}">
+                                    <em class="fas fa-plus"
+                                        style="color: #008000"></em></a></td>
                             </tr>
                         </c:forEach>
                         </tbody>

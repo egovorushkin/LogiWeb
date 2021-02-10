@@ -10,55 +10,62 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><em class="fas fa-user-plus"></em> | Create New Driver</h4>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4 class="h4"><em class="fas fa-user-plus"></em> | Create New Driver
+        </h4>
     </div>
 
-    <form:form modelAttribute="driver" action="${pageContext.request.contextPath}/drivers/save" method="post">
+    <form:form modelAttribute="driver"
+               action="${pageContext.request.contextPath}/drivers/save"
+               method="post">
         <div class="row mb-3">
-            <label for="firstName" class="col-sm-2 col-form-label">First Name:</label>
+            <label for="firstName" class="col-sm-2 col-form-label">First
+                Name:</label>
             <div class="col-sm-2">
-                <form:input path="firstName" type="text" class="form-control form-control-sm" id="firstName"
+                <form:input path="firstName" type="text"
+                            class="form-control form-control-sm" id="firstName"
                             name="firstName"/>
             </div>
             <form:errors path="firstName" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="lastName" class="col-sm-2 col-form-label">Last Name:</label>
+            <label for="lastName" class="col-sm-2 col-form-label">Last
+                Name:</label>
             <div class="col-sm-2">
-                <form:input path="lastName" type="text" class="form-control form-control-sm" id="lastName"
+                <form:input path="lastName" type="text"
+                            class="form-control form-control-sm" id="lastName"
                             name="lastName"/>
             </div>
             <form:errors path="lastName" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">Personal №:</label>
+            <label for="personalNumber" class="col-sm-2 col-form-label">Personal
+                №:</label>
             <div class="col-sm-2">
-                <form:input path="personalNumber" type="number" class="form-control form-control-sm" id="personalNumber"
+                <form:input path="personalNumber" type="number"
+                            class="form-control form-control-sm"
+                            id="personalNumber"
                             name="personalNumber"/>
             </div>
             <form:errors path="personalNumber" cssClass="alert alert-danger"/>
         </div>
-<%--        <div class="row mb-3">--%>
-<%--            <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Worked Hours / Month:</label>--%>
-<%--            <div class="col-sm-2">--%>
-<%--                <input class="form-control form-control-sm" id="workedHoursPerMonth" name="workedHoursPerMonth"--%>
-<%--                       type="number">--%>
-<%--            </div>--%>
-<%--        </div>--%>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current City:</label>
             <div class="col-sm-2">
-                <form:select path="currentCity.id" cssClass="form-control form-control-sm">
+                <form:select path="currentCity.id"
+                             cssClass="form-control form-control-sm">
                     <c:if test="${empty driver.currentCity}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${cities}" itemValue="id" itemLabel="name"/>
+                    <form:options items="${cities}" itemValue="id"
+                                  itemLabel="name"/>
                 </form:select>
             </div>
         </div>
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/drivers/list"
+        <a class="btn btn-sm btn-secondary"
+           href="${pageContext.request.contextPath}/drivers/list"
            role="button">Back</a>
     </form:form>
 </main>

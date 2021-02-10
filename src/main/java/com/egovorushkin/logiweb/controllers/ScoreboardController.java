@@ -30,7 +30,7 @@ public class ScoreboardController {
 
     @RequestMapping("/orders")
     public List<OrderDto> getLatestOrders() {
-        return orderService.getLatestOrders2();
+        return orderService.getLatestOrders();
     }
 
     @RequestMapping("/trucks")

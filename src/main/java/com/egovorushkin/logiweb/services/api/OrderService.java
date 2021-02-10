@@ -25,7 +25,5 @@ public interface OrderService {
 
     void mergeWithExistingAndUpdate(OrderDto orderDto);
 
-    String getLatestOrders();
-
-    List<OrderDto> getLatestOrders2();
+    List<OrderDto> getLatestOrders();
 }

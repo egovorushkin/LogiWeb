@@ -13,7 +13,6 @@ import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
-import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
@@ -229,26 +228,10 @@ public class OrderServiceImpl implements OrderService {
         driverDao.updateDriver(modelMapper.map(driver, Driver.class));
         driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
         orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
-
     }
 
     @Override
-    public String getLatestOrders() {
-
-        LOGGER.debug("getLatestOrders() executed");
-
-        List<Order> orders = orderDao.getLatestOrders();
-
-        List<OrderDto> lastestOrders = orders.stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
-                .collect(Collectors.toList());
-
-        return new Gson().toJson(lastestOrders);
-    }
-
-    @Override
-    public List<OrderDto> getLatestOrders2() {
-
+    public List<OrderDto> getLatestOrders() {
         List<Order> orders = orderDao.getLatestOrders();
 
         return orders.stream()

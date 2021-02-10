@@ -133,7 +133,7 @@
         </c:when>
         <c:otherwise>
             <table id="tables" class="table-hover table-striped">
-                <caption>Available Trucks</caption>
+                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -150,7 +150,7 @@
                 <c:forEach items="${availableTrucks}" var="availableTruck">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/trucks/${availableTruck.id}'>
-                        <td class="align-middle"><i class="fas fa-truck-moving"></i></td>
+                        <td class="align-middle"><em class="fas fa-truck-moving"></em></td>
                         <td class="align-middle">${availableTruck.registrationNumber}</td>
                         <td class="align-middle">${availableTruck.capacity}</td>
                         <td class="align-middle">${availableTruck.state.toString()}</td>

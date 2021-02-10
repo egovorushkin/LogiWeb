@@ -273,8 +273,9 @@
             <h6>No colleague.</h6>
         </c:when>
         <c:otherwise>
-            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
-                <caption>My colleague</caption>
+            <table class="table table-hover table-responsive-sm table-striped
+                            table-bordered table-sm">
+                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col">Personal №</th>

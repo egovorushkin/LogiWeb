@@ -10,7 +10,8 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4 class="h4"><em class="fas fa-clipboard-list"></em> | Order
             №${order.id}</h4>
     </div>
@@ -66,12 +67,14 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Cargo:</label>
             <div class="col-sm-2">
-                <form:input path="cargo.name" class="form-control form-control-sm" readonly="true"/>
+                <form:input path="cargo.name" class="form-control
+                        form-control-sm" readonly="true"/>
             </div>
         </div>
         <div class="row mb-3">
-            <label for="cargoWeight" class="col-sm-2 col-form-label">Cargo
-                Weight:</label>
+            <label for="cargoWeight" class="col-sm-2 col-form-label">
+                Cargo Weight:
+            </label>
             <div class="col-sm-2">
                 <form:input path="cargo.weight" type="text"
                             class="form-control form-control-sm"
@@ -83,7 +86,8 @@
             <label class="col-sm-2 col-form-label">Cargo
                 Status:</label>
             <div class="col-sm-2">
-                <form:input path="cargo.status.name" class="form-control form-control-sm" readonly="true"/>
+                <form:input path="cargo.status.name" class="form-control
+                        form-control-sm" readonly="true"/>
             </div>
         </div>
 
@@ -99,16 +103,21 @@
             <c:when test="${order.status.title == 'COMPLETED'}">
             </c:when>
             <c:otherwise>
-                <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit
+                <a class="btn btn-sm btn-success" href="${updateLink}"
+                   role="button">
+                    Edit
                 </a>
             </c:otherwise>
         </c:choose>
 
         <a class="btn btn-danger btn-sm" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this order?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this order?')))
+               return false"
            role="button">Delete</a>
         <a class="btn btn-secondary btn-sm"
-           href="${pageContext.request.contextPath}/orders/list" role="button">Back</a>
+           href="${pageContext.request.contextPath}/orders/list" role="button">
+            Back
+        </a>
     </form:form>
 
     <div class="page-header">
@@ -123,7 +132,9 @@
                role="button">AddTruck</a>
         </c:when>
         <c:otherwise>
-            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+            <table class="table table-hover table-responsive-sm table-striped
+                            table-bordered table-sm">
+                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -172,7 +183,9 @@
                        role="button">Add Driver</a>
                 </c:when>
                 <c:otherwise>
-                    <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+                    <table class="table table-hover table-responsive-sm
+                                    table-striped table-bordered table-sm">
+                        <caption></caption>
                         <thead>
                         <tr>
                             <th scope="col"></th>

@@ -10,40 +10,47 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-box"></i> | Edit Cargo</h4>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4 class="h4"><em class="fas fa-box"></em> | Edit Cargo</h4>
     </div>
 
-    <form:form modelAttribute="cargo" action="${pageContext.request.contextPath}/cargoes/update" method="post">
+    <form:form modelAttribute="cargo"
+               action="${pageContext.request.contextPath}/cargoes/update"
+               method="post">
 
         <form:hidden path="id"/>
 
         <div class="row mb-3">
             <label for="id" class="col-sm-2 col-form-label">Id:</label>
             <div class="col-sm-2 ">
-                <form:input path="id" type="text" class="form-control form-control-sm" id="id" name="id"
-                            disabled="true"/>
+                <form:input path="id" type="text" class="form-control
+                            form-control-sm" id="id" name="id" disabled="true"/>
             </div>
         </div>
         <div class="row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Name:</label>
             <div class="col-sm-2">
-                <form:input path="name" type="text" class="form-control form-control-sm" id="name" name="name"/>
+                <form:input path="name" type="text" class="form-control
+                            form-control-sm" id="name" name="name"/>
             </div>
             <form:errors path="name" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
             <label for="weight" class="col-sm-2 col-form-label">Weight (kg):</label>
             <div class="col-sm-2">
-                <form:input path="weight" type="number" class="form-control form-control-sm" id="weight" name="weight"/>
+                <form:input path="weight" type="number" class="form-control
+                            form-control-sm" id="weight" name="weight"/>
             </div>
             <form:errors path="weight" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Current Status:</label>
             <div class="col-sm-2">
-                <form:select class="form-control form-control-sm" path="status" id="status" name="status">
-                    <form:options itemValue="title" itemLabel="name" items="${statuses}"/>
+                <form:select class="form-control form-control-sm" path="status"
+                             id="status" name="status">
+                    <form:options itemValue="title" itemLabel="name"
+                                  items="${statuses}"/>
                 </form:select>
             </div>
         </div>
@@ -55,9 +62,11 @@
 
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this cargo?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this cargo?')))
+               return false"
            role="button">Delete</a>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/cargoes/list"
+        <a class="btn btn-sm btn-secondary"
+                    href="${pageContext.request.contextPath}/cargoes/list"
            role="button">Cancel</a>
     </form:form>
 </main>

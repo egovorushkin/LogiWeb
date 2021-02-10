@@ -4,12 +4,7 @@
 
 <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
 
-<!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/dashboard.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
 <body>
 

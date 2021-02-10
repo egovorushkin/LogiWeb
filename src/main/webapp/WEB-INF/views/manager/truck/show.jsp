@@ -10,8 +10,11 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 class="h4"><i class="fas fa-truck-moving"></i> | Truck №${truck.registrationNumber}</h4>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+    align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4 class="h4"><em class="fas fa-truck-moving"></em> |
+            Truck №${truck.registrationNumber}
+        </h4>
     </div>
 
     <form:form modelAttribute="truck"
@@ -20,7 +23,9 @@
         <form:hidden path="id"/>
 
         <div class="row mb-3">
-            <label for="registrationNumber" class="col-sm-2 col-form-label">Registration №:</label>
+            <label for="registrationNumber" class="col-sm-2 col-form-label">
+                Registration №:
+            </label>
             <div class="col-sm-2 ">
                 <form:input path="registrationNumber" type="text"
                             class="form-control form-control-sm"
@@ -88,13 +93,17 @@
             <c:param name="truckId" value="${truck.id}"/>
         </c:url>
 
-        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit/Add
-            drivers</a>
+        <a class="btn btn-sm btn-success" href="${updateLink}" role="button">
+            Edit/Add drivers
+        </a>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this truck?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this truck?')))
+               return false"
            role="button">Delete</a>
         <a class="btn btn-sm btn-secondary"
-           href="${pageContext.request.contextPath}/trucks/list" role="button">Back</a>
+           href="${pageContext.request.contextPath}/trucks/list" role="button">
+            Back
+        </a>
     </form:form>
 
     <div class="page-header">
@@ -107,7 +116,9 @@
             <h6>No drivers has been assigned for this truck yet</h6>
         </c:when>
         <c:otherwise>
-            <table class="table table-hover table-responsive-sm table-striped table-bordered table-sm">
+            <table class="table table-hover table-responsive-sm table-striped
+                            table-bordered table-sm">
+                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -124,7 +135,7 @@
                 <c:forEach items="${currentDrivers}" var="currentDriver">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/drivers/${currentDriver.id}'>
-                        <td class="align-middle"><i class="fas fa-user"></i></td>
+                        <td class="align-middle"><em class="fas fa-user"></em></td>
                         <td class="align-middle">${currentDriver.firstName}</td>
                         <td class="align-middle">${currentDriver.lastName}</td>
                         <td class="align-middle">${currentDriver.personalNumber}</td>
@@ -138,8 +149,9 @@
                         </c:url>
 
                         <td><a class="nav-link" href="${unbindDriverLink}"
-                               onclick="if (!(confirm('Are you sure you want to unbind this driver from truck?'))) return false"><i
-                                class="fas fa-minus" style="color: red"></i></a>
+                               onclick="if (!(confirm('Are you sure you want to ' +
+                                'unbind this driver from truck?'))) return false">
+                            <em class="fas fa-minus" style="color: red"></em></a>
                         </td>
                     </tr>
                 </c:forEach>

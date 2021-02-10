@@ -10,30 +10,32 @@
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4><i class="fas fa-box"></i> | Cargo</h4>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
+                align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h4><em class="fas fa-box"></em> | Cargo</h4>
     </div>
 
-    <form:form modelAttribute="cargo" action="${pageContext.request.contextPath}/cargoes/${cargo.id}">
+    <form:form modelAttribute="cargo"
+               action="${pageContext.request.contextPath}/cargoes/${cargo.id}">
         <div class="row mb-3">
             <label for="id" class="col-sm-2 col-form-label">Id:</label>
             <div class="col-sm-2 ">
-                <form:input path="id" type="text" class="form-control form-control-sm" id="id" name="id"
-                            disabled="true"/>
+                <form:input path="id" type="text" class="form-control
+                     form-control-sm" id="id" name="id" disabled="true"/>
             </div>
         </div>
         <div class="row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Name:</label>
             <div class="col-sm-2">
-                <form:input path="name" type="text" class="form-control form-control-sm" id="name" name="name"
-                            disabled="true"/>
+                <form:input path="name" type="text" class="form-control
+                    form-control-sm" id="name" name="name" disabled="true"/>
             </div>
         </div>
         <div class="row mb-3">
             <label for="weight" class="col-sm-2 col-form-label">Weight (kg):</label>
             <div class="col-sm-2">
-                <form:input path="weight" type="number" class="form-control form-control-sm" id="weight" name="weight"
-                            disabled="true"/>
+                <form:input path="weight" type="number" class="form-control
+                    form-control-sm" id="weight" name="weight" disabled="true"/>
             </div>
         </div>
         <div class="row mb-3">
@@ -56,10 +58,13 @@
 
         <a class="btn btn-sm btn-success" href="${updateLink}" role="button">Edit</a>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
-           onclick="if (!(confirm('Are you sure you want to delete this cargo?'))) return false"
+           onclick="if (!(confirm('Are you sure you want to delete this cargo?')))
+               return false"
            role="button">Delete</a>
-        <a class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/cargoes/list"
-           role="button">Back</a>
+        <a class="btn btn-sm btn-secondary"
+           href="${pageContext.request.contextPath}/cargoes/list"
+           role="button">Back
+        </a>
     </form:form>
 </main>
 
