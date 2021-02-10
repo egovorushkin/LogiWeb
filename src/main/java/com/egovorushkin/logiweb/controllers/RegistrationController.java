@@ -6,6 +6,7 @@ import com.egovorushkin.logiweb.dto.UserDto;
 import com.egovorushkin.logiweb.entities.User;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.api.DriverService;
+import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,41 +14,41 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
 
-    private Map<String, String> roles;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static final String USER_DTO = "userDto";
+    private static final String REGISTRATION_FORM = "registration-form";
+
     private final UserService userService;
     private final DriverService driverService;
     private final CityService cityService;
     private final RoleDao roleDao;
+    private final ScoreboardService scoreboardService;
 
-    private final Logger LOGGER = Logger.getLogger(RegistrationController.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(RegistrationController.class.getName());
 
     @Autowired
     public RegistrationController(UserService userService,
-                                  DriverService driverService, CityService cityService, RoleDao roleDao) {
+                                  DriverService driverService,
+                                  CityService cityService, RoleDao roleDao,
+                                  ScoreboardService scoreboardService) {
         this.userService = userService;
         this.driverService = driverService;
         this.cityService = cityService;
         this.roleDao = roleDao;
+        this.scoreboardService = scoreboardService;
     }
 
     @InitBinder
@@ -57,45 +58,45 @@ public class RegistrationController {
     }
 
     @GetMapping("/showRegistrationForm")
-    public String showMyLoginPage(Model theModel) {
-        theModel.addAttribute("userDto", new UserDto());
-        theModel.addAttribute("cities", cityService.getAllCities());
-        theModel.addAttribute("roles", roleDao.getAllRoles());
+    public String showMyLoginPage(Model model) {
+        model.addAttribute(USER_DTO, new UserDto());
+        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("roles", roleDao.getAllRoles());
 
-        return "registration-form";
+        return REGISTRATION_FORM;
     }
 
     @PostMapping("/processRegistrationForm")
-    public String processRegistrationForm(@Valid @ModelAttribute("userDto") UserDto userDto,
-                                          BindingResult theBindingResult, Model theModel) {
+    public String processRegistrationForm(@Valid @ModelAttribute(USER_DTO) UserDto userDto,
+                                          BindingResult theBindingResult,
+                                          Model model) {
 
         String userName = userDto.getUserName();
 
         if (theBindingResult.hasErrors()) {
-            theModel.addAttribute("userDto", new UserDto());
-            theModel.addAttribute("roles", roles);
-            theModel.addAttribute("registrationError", "User name/password can not be empty.");
-            theModel.addAttribute("cities", cityService.getAllCities());
+            model.addAttribute(USER_DTO, new UserDto());
+            model.addAttribute("roles", roleDao.getAllRoles());
+            model.addAttribute("registrationError", "User name/password " +
+                    "can not be empty.");
+            model.addAttribute("cities", cityService.getAllCities());
 
             LOGGER.warn("User name/password can not be empty.");
 
-            return "registration-form";
+            return REGISTRATION_FORM;
         }
 
         User existing = userService.findByUserName(userName);
         if (existing != null) {
-            theModel.addAttribute("userDto", new UserDto());
-            theModel.addAttribute("registrationError", "User name already exists.");
+            model.addAttribute(USER_DTO, new UserDto());
+            model.addAttribute("registrationError", "User name already " +
+                    "exists.");
 
             LOGGER.warn("User name already exists.");
-            return "registration-form";
+            return REGISTRATION_FORM;
         }
 
-        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-
-        encodedPassword = "{bcrypt}" + encodedPassword;
-
-        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList();
+        List<GrantedAuthority> authorities =
+                AuthorityUtils.createAuthorityList();
         authorities.add(new SimpleGrantedAuthority("ROLE_DRIVER"));
 
         String formRole = userDto.getFormRole();
@@ -108,10 +109,11 @@ public class RegistrationController {
         driverDto.setUsername(userDto.getUserName());
         driverDto.setFirstName(userDto.getFirstName());
         driverDto.setLastName(userDto.getLastName());
-        // TODO refactor this
-        driverDto.setPersonalNumber(new Random().nextInt(1000 - 1) + 1);
+
         driverDto.setCurrentCity(userDto.getCurrentCity());
         driverService.createDriver(driverDto);
+
+        scoreboardService.updateScoreboard();
 
         userService.save(userDto);
 

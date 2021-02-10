@@ -13,7 +13,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
                 align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4><em class="fas fa-user-alt"></em> |
-            Driver №${driver.personalNumber}
+            Driver №${driver.id}
         </h4>
     </div>
 
@@ -41,15 +41,15 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">
+            <label for="id" class="col-sm-2 col-form-label">
                 Personal №:
             </label>
             <div class="col-sm-2">
-                <form:input path="personalNumber" type="number"
+                <form:input path="id" type="number"
                             class="form-control form-control-sm"
-                            id="personalNumber"
-                            name="personalNumber"
-                            value="${driver.personalNumber}" disabled="true"/>
+                            id="id"
+                            name="id"
+                            value="${driver.id}" disabled="true"/>
             </div>
         </div>
         <div class="row mb-3">

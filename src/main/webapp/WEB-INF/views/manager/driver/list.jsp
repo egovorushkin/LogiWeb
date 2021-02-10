@@ -34,7 +34,7 @@
                 data-href='${pageContext.request.contextPath}/drivers/${driver.id}'>
                 <td class="align-middle">${driver.firstName}</td>
                 <td class="align-middle">${driver.lastName}</td>
-                <td class="align-middle">${driver.personalNumber}</td>
+                <td class="align-middle">${driver.id}</td>
                 <td class="align-middle">${driver.workedHoursPerMonth}</td>
                 <td class="align-middle">${driver.status.toString()}</td>
                 <td class="align-middle">${driver.currentCity.name}</td>

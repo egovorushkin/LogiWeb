@@ -224,7 +224,7 @@
                                         ${availableDriver.lastName}
                                 </td>
                                 <td class="align-middle">
-                                        ${availableDriver.personalNumber}
+                                        ${availableDriver.id}
                                 </td>
                                 <td class="align-middle">
                                         ${availableDriver.workedHoursPerMonth}

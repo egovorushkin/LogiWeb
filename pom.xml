@@ -26,6 +26,7 @@
         <c3p0.version>0.9.5.5</c3p0.version>
         <modelmapper.version>2.3.9</modelmapper.version>
         <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
         <junit-jupiter-api.version>5.7.0</junit-jupiter-api.version>
         <mockito-junit-jupiter.version>3.7.7</mockito-junit-jupiter.version>
         <spring-test.version>5.3.3</spring-test.version>
@@ -152,6 +153,17 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <!--ModelMapper-->

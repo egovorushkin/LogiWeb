@@ -8,6 +8,7 @@ import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
+import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
 import org.hibernate.collection.spi.PersistentCollection;
@@ -25,14 +26,18 @@ public class TruckServiceImpl implements TruckService {
 
     private static final Logger LOGGER =
             Logger.getLogger(TruckServiceImpl.class.getName());
+    private static final String TRUCK = "Truck with id = ";
 
     private final TruckDao truckDao;
     private final ModelMapper modelMapper;
+    private final ScoreboardService scoreboardService;
 
     @Autowired
-    public TruckServiceImpl(TruckDao truckDao, ModelMapper modelMapper) {
+    public TruckServiceImpl(TruckDao truckDao, ModelMapper modelMapper,
+                            ScoreboardService scoreboardService) {
         this.truckDao = truckDao;
         this.modelMapper = modelMapper;
+        this.scoreboardService = scoreboardService;
 
         modelMapper.getConfiguration()
                 .setPropertyCondition(context ->
@@ -48,7 +53,7 @@ public class TruckServiceImpl implements TruckService {
         Truck truck = truckDao.getTruckById(id);
 
         if (truck == null) {
-            throw new EntityNotFoundException("Truck with id = " + id + " is " +
+            throw new EntityNotFoundException(TRUCK + id + " is " +
                     "not found");
         }
 
@@ -83,7 +88,9 @@ public class TruckServiceImpl implements TruckService {
         }
         truckDao.createTruck(modelMapper.map(truckDto, Truck.class));
 
-        LOGGER.info("Truck with id = " + truckDto.getId() + " created");
+        scoreboardService.updateScoreboard();
+
+        LOGGER.info(TRUCK + truckDto.getId() + " created");
     }
 
     @Override
@@ -101,7 +108,9 @@ public class TruckServiceImpl implements TruckService {
                     truckDto.getRegistrationNumber()));
         }
 
-        LOGGER.info("Truck with id = " + truckDto.getId() + " updated");
+        scoreboardService.updateScoreboard();
+
+        LOGGER.info(TRUCK + truckDto.getId() + " updated");
     }
 
     @Override
@@ -112,7 +121,9 @@ public class TruckServiceImpl implements TruckService {
 
         truckDao.deleteTruck(id);
 
-        LOGGER.info("Truck with id = " + id + " deleted");
+        scoreboardService.updateScoreboard();
+
+        LOGGER.info(TRUCK + id + " deleted");
     }
 
     @Override
@@ -142,8 +153,8 @@ public class TruckServiceImpl implements TruckService {
     }
 
     /*
-    This method returns drivers statistics
-    like total, available and not available drivers
+    This method returns truck statistics
+    like total, available, busy and faulty trucks
      */
     @Override
     public TruckStatsDto getStats() {

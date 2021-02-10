@@ -20,9 +20,6 @@ public class Driver extends AbstractEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "personal_number", nullable = false)
-    private int personalNumber;
-
     @Column(name = "worked_hours_per_month", nullable = false)
     private int workedHoursPerMonth;
 
@@ -63,14 +60,6 @@ public class Driver extends AbstractEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getPersonalNumber() {
-        return personalNumber;
-    }
-
-    public void setPersonalNumber(int personalNumber) {
-        this.personalNumber = personalNumber;
     }
 
     public int getWorkedHoursPerMonth() {
@@ -118,12 +107,12 @@ public class Driver extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Driver driver = (Driver) o;
-        return personalNumber == driver.personalNumber;
+        return id == driver.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(personalNumber);
+        return Objects.hash(id);
     }
 
     @Override
@@ -132,7 +121,6 @@ public class Driver extends AbstractEntity {
                 "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", personalNumber=" + personalNumber +
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
                 ", isInShift=" + isInShift +
                 ", status=" + status +

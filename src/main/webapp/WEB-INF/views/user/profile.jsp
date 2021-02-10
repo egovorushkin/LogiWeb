@@ -11,7 +11,7 @@
 <main class="col-md-auto ml-sm-auto col-lg-10 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4><em class="far fa-address-card"></em>
-            | ${user.firstName} ${user.lastName}, №${user.personalNumber}</h4>
+            | ${user.firstName} ${user.lastName}, №${user.id}</h4>
     </div>
     <div class="row mb-3">
         <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">Hours
@@ -288,7 +288,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="align-middle">${colleague.personalNumber}</td>
+                    <td class="align-middle">${colleague.id}</td>
                     <td class="align-middle">${colleague.firstName}</td>
                     <td class="align-middle">${colleague.lastName}</td>
                     <td class="align-middle">${colleague.workedHoursPerMonth}</td>

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -18,24 +17,19 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Driver getDriverById(long id) {
-
-        // TODO remove TypedQuery
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                        "Driver d LEFT JOIN FETCH d.currentCity LEFT JOIN FETCH " +
-                        "d.truck WHERE d.id=:id", Driver.class)
-                .setParameter("id", id);
-
-        return q.getSingleResult();
+        return entityManager.createQuery("SELECT d FROM Driver d " +
+                "LEFT JOIN FETCH d.currentCity " +
+                "LEFT JOIN FETCH d.truck WHERE d.id=:id", Driver.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     @Override
     public List<Driver> getAllDrivers() {
-        // TODO remove TypedQuery
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d LEFT JOIN FETCH d.currentCity LEFT JOIN FETCH d.truck",
-                Driver.class);
-
-        return q.getResultList();
+        return entityManager.createQuery("SELECT d FROM Driver d " +
+                        "LEFT JOIN FETCH d.currentCity " +
+                        "LEFT JOIN FETCH d.truck", Driver.class)
+                .getResultList();
     }
 
     @Override
@@ -59,23 +53,21 @@ public class DriverDaoImpl implements DriverDao {
 
     @Override
     public Driver getDriverByUsername(String username) {
-        // TODO remove TypedQuery
-        TypedQuery<Driver> q = entityManager.createQuery("SELECT d FROM " +
-                "Driver d WHERE d.username=:username", Driver.class).setParameter(
-                        "username", username);
-        return q.getSingleResult();
+        return entityManager.createQuery("SELECT d FROM Driver d " +
+                "WHERE d.username=:username", Driver.class)
+                .setParameter("username", username)
+                .getSingleResult();
     }
 
     @Override
     public List<Truck> findAvailableTrucksByDriver(Driver driver) {
-        // TODO remove TypedQuery
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM " +
-                "Truck t LEFT JOIN FETCH t.currentCity WHERE t.status='PARKED' AND t.state='SERVICEABLE' " +
-                "AND t.currentCity=:driverCurrentCity",
-                Truck.class)
-                .setParameter("driverCurrentCity", driver.getCurrentCity());
-
-        return q.getResultList();
+        return entityManager.createQuery("SELECT t FROM Truck t " +
+                        "LEFT JOIN FETCH t.currentCity " +
+                        "WHERE t.status='PARKED' " +
+                        "AND t.state='SERVICEABLE' " +
+                        "AND t.currentCity=:driverCurrentCity", Truck.class)
+                .setParameter("driverCurrentCity", driver.getCurrentCity())
+                .getResultList();
     }
 
     @Override

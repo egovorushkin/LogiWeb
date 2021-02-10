@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Set;
 
@@ -82,7 +81,6 @@ public class TruckDaoImpl implements TruckDao {
 
     @Override
     public boolean truckExistsByRegistrationNumber(String registrationNumber) {
-
         return entityManager
                 .createQuery("SELECT COUNT(t)  FROM Truck t " +
                         "WHERE t.registrationNumber=:registrationNumber",

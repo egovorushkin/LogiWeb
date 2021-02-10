@@ -23,6 +23,13 @@ public class OrderController {
     private final CargoService cargoService;
     private final TruckService truckService;
 
+    private static final String ORDER = "order";
+    private static final String STATUSES = "statuses";
+    private static final String CITIES = "cities";
+    private static final String CARGOES = "cargoes";
+    private static final String TRUCKS = "trucks";
+    private static final String REDIRECT_ORDERS_LIST = "redirect:/orders/list";
+
     @Autowired
     public OrderController(OrderService orderService,
                            CityService cityService,
@@ -42,17 +49,17 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public String showOrder(@PathVariable("id") long id, Model model) {
-        model.addAttribute("order", orderService.getOrderById(id));
+        model.addAttribute(ORDER, orderService.getOrderById(id));
         return "manager/order/show";
     }
 
     @GetMapping("/create")
     public String showCreateOrderForm(Model model) {
-        model.addAttribute("order", new OrderDto());
-        model.addAttribute("statuses", OrderStatus.values());
-        model.addAttribute("cities", cityService.getAllCities());
-        model.addAttribute("cargoes", cargoService.getAllCargoes());
-        model.addAttribute("trucks", truckService.getAllTrucks());
+        model.addAttribute(ORDER, new OrderDto());
+        model.addAttribute(STATUSES, OrderStatus.values());
+        model.addAttribute(CITIES, cityService.getAllCities());
+        model.addAttribute(CARGOES, cargoService.getAllCargoes());
+        model.addAttribute(TRUCKS, truckService.getAllTrucks());
         return "manager/order/create";
     }
 
@@ -60,24 +67,24 @@ public class OrderController {
     public String createOrder(@ModelAttribute("order") @Valid OrderDto orderDto,
                               BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("cities", cityService.getAllCities());
-            model.addAttribute("cargoes", cargoService.getAllCargoes());
-            model.addAttribute("trucks", truckService.getAllTrucks());
-            model.addAttribute("statuses", OrderStatus.values());
+            model.addAttribute(CITIES, cityService.getAllCities());
+            model.addAttribute(CARGOES, cargoService.getAllCargoes());
+            model.addAttribute(TRUCKS, truckService.getAllTrucks());
+            model.addAttribute(STATUSES, OrderStatus.values());
             return "manager/order/create";
         }
         orderService.createOrder(orderDto);
-        return "redirect:/orders/list";
+        return REDIRECT_ORDERS_LIST;
     }
 
     @GetMapping("/edit")
     public String showEditOrderFormForAdmin(@RequestParam("orderId") long id,
                                             Model model) {
-        model.addAttribute("order", orderService.getOrderById(id));
-        model.addAttribute("statuses", OrderStatus.values());
-        model.addAttribute("cities", cityService.getAllCities());
-        model.addAttribute("cargoes", cargoService.getAllCargoes());
-        model.addAttribute("trucks", truckService.getAllTrucks());
+        model.addAttribute(ORDER, orderService.getOrderById(id));
+        model.addAttribute(STATUSES, OrderStatus.values());
+        model.addAttribute(CITIES, cityService.getAllCities());
+        model.addAttribute(CARGOES, cargoService.getAllCargoes());
+        model.addAttribute(TRUCKS, truckService.getAllTrucks());
         model.addAttribute("availableTrucks",
                 orderService.findAvailableTrucks(orderService.getOrderById(id)));
         model.addAttribute("availableDrivers",
@@ -102,13 +109,13 @@ public class OrderController {
             return "manager/order/edit";
         }
         orderService.updateOrder(orderDto);
-        return "redirect:/orders/list";
+        return REDIRECT_ORDERS_LIST;
     }
 
     @GetMapping("/delete")
     public String deleteOrder(@RequestParam("orderId") long id) {
         orderService.deleteOrder(id);
-        return "redirect:/orders/list";
+        return REDIRECT_ORDERS_LIST;
     }
 
     @GetMapping("/bind-truck")

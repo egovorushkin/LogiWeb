@@ -5,7 +5,6 @@ import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
@@ -25,9 +24,6 @@ public class DriverDto implements Serializable {
             "Lastname must be like \"Ivanov\"")
     @NotEmpty(message = "Lastname should not be empty.")
     private String lastName;
-
-    @NotNull(message = "Personal number should not be empty.")
-    private int personalNumber;
 
     @Range(min = 0, max = 176,
             message = "Worked hours should be between 0 and 176.")
@@ -78,14 +74,6 @@ public class DriverDto implements Serializable {
         this.lastName = lastName;
     }
 
-    public int getPersonalNumber() {
-        return personalNumber;
-    }
-
-    public void setPersonalNumber(int personalNumber) {
-        this.personalNumber = personalNumber;
-    }
-
     public int getWorkedHoursPerMonth() {
         return workedHoursPerMonth;
     }
@@ -131,12 +119,12 @@ public class DriverDto implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DriverDto driverDto = (DriverDto) o;
-        return personalNumber == driverDto.personalNumber;
+        return id == driverDto.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(personalNumber);
+        return Objects.hash(id);
     }
 
     @Override
@@ -146,7 +134,6 @@ public class DriverDto implements Serializable {
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", personalNumber=" + personalNumber +
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
                 ", isInShift=" + isInShift +
                 ", status=" + status +

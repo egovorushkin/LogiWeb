@@ -12,6 +12,7 @@ import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
+import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
 import org.hibernate.collection.spi.PersistentCollection;
@@ -39,16 +40,19 @@ public class DriverServiceImpl implements DriverService {
     private final TruckService truckService;
     private final ModelMapper modelMapper;
     private final IAuthenticationFacade authenticationFacade;
+    private final ScoreboardService scoreboardService;
 
     @Autowired
     public DriverServiceImpl(DriverDao driverDao,
                              TruckService truckService,
                              ModelMapper modelMapper,
-                             IAuthenticationFacade authenticationFacade) {
+                             IAuthenticationFacade authenticationFacade,
+                             ScoreboardService scoreboardService) {
         this.driverDao = driverDao;
         this.truckService = truckService;
         this.modelMapper = modelMapper;
         this.authenticationFacade = authenticationFacade;
+        this.scoreboardService = scoreboardService;
 
         modelMapper.getConfiguration()
                 .setPropertyCondition(context ->
@@ -95,6 +99,8 @@ public class DriverServiceImpl implements DriverService {
         }
         driverDao.saveDriver(modelMapper.map(driverDto, Driver.class));
 
+        scoreboardService.updateScoreboard();
+
         LOGGER.info(DRIVER + driverDto.getId() + " created");
     }
 
@@ -111,6 +117,8 @@ public class DriverServiceImpl implements DriverService {
                     "%s does not exist", driverDto.getId()));
         }
 
+        scoreboardService.updateScoreboard();
+
         LOGGER.info(DRIVER + driverDto.getId() + " updated");
     }
 
@@ -121,6 +129,8 @@ public class DriverServiceImpl implements DriverService {
         LOGGER.debug("deleteDriver() executed");
 
         driverDao.deleteDriver(id);
+
+        scoreboardService.updateScoreboard();
 
         LOGGER.info(DRIVER + id + " deleted");
     }
@@ -139,9 +149,6 @@ public class DriverServiceImpl implements DriverService {
         LOGGER.info("Authorized driver with username = " +
                 authorizedDriver + " found");
 
-        System.out.println(authorizedDriver);
-        System.out.println(authorizedDriver);
-        System.out.println(authorizedDriver);
         return modelMapper
                 .map(driverDao.getDriverByUsername(authorizedDriver),
                         DriverDto.class);
@@ -209,6 +216,8 @@ public class DriverServiceImpl implements DriverService {
                             Driver.class));
                     truckService.updateTruck(existingDriver.getTruck());
 
+                    scoreboardService.updateScoreboard();
+
                     LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
                             + existingDriver.getStatus().getName());
                     LOGGER.info("Truck with id = " + existingDriver.getTruck().getId() +
@@ -221,6 +230,8 @@ public class DriverServiceImpl implements DriverService {
                     driverDao.updateDriver(modelMapper.map(colleague,
                             Driver.class));
 
+                    scoreboardService.updateScoreboard();
+
                     LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
                             + DriverStatus.SECOND_DRIVER.getName());
                 }
@@ -230,6 +241,8 @@ public class DriverServiceImpl implements DriverService {
                 driverDao.updateDriver(modelMapper.map(existingDriver,
                         Driver.class));
 
+                scoreboardService.updateScoreboard();
+
                 LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
                         + existingDriver.getStatus().getName());
 
@@ -237,6 +250,8 @@ public class DriverServiceImpl implements DriverService {
                     colleague.setStatus(DriverStatus.DRIVING);
                     driverDao.updateDriver(modelMapper.map(colleague,
                             Driver.class));
+
+                    scoreboardService.updateScoreboard();
 
                     LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
                             + DriverStatus.DRIVING.getName());
@@ -247,6 +262,8 @@ public class DriverServiceImpl implements DriverService {
                 driverDao.updateDriver(modelMapper.map(existingDriver,
                         Driver.class));
 
+                scoreboardService.updateScoreboard();
+
                 LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
                         + existingDriver.getStatus().getName());
 
@@ -254,6 +271,8 @@ public class DriverServiceImpl implements DriverService {
                     colleague.setStatus(DriverStatus.LOADING_UNLOADING);
                     driverDao.updateDriver(modelMapper.map(colleague,
                             Driver.class));
+
+                    scoreboardService.updateScoreboard();
 
                     LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
                             + DriverStatus.LOADING_UNLOADING.getName());
@@ -268,6 +287,8 @@ public class DriverServiceImpl implements DriverService {
                             Driver.class));
                     truckService.updateTruck(existingDriver.getTruck());
 
+                    scoreboardService.updateScoreboard();
+
                     LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
                             + existingDriver.getStatus().getName());
                     LOGGER.info("Truck with id" + existingDriver.getTruck().getId() +
@@ -279,6 +300,8 @@ public class DriverServiceImpl implements DriverService {
                     colleague.setInShift(false);
                     driverDao.updateDriver(modelMapper.map(colleague,
                             Driver.class));
+
+                    scoreboardService.updateScoreboard();
 
                     LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
                             + DriverStatus.RESTING.getName());
@@ -307,6 +330,8 @@ public class DriverServiceImpl implements DriverService {
                 driverDao.updateDriver(modelMapper.map(colleague,
                         Driver.class));
 
+                scoreboardService.updateScoreboard();
+
                 LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS + colleague.getStatus().getName());
                 LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE + userState);
             }
@@ -317,6 +342,8 @@ public class DriverServiceImpl implements DriverService {
                 driverDao.updateDriver(modelMapper.map(colleague,
                         Driver.class));
 
+                scoreboardService.updateScoreboard();
+
                 LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE + userState);
                 LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS + colleague.getStatus().getName());
             }
@@ -325,6 +352,8 @@ public class DriverServiceImpl implements DriverService {
         existingDriver.setInShift(userState);
         existingDriver.setStatus(DriverStatus.RESTING);
         driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
+
+        scoreboardService.updateScoreboard();
 
         LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATE + userState);
         LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATUS + existingDriver.getStatus().getName());

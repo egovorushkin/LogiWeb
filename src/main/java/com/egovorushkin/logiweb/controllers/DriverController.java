@@ -2,11 +2,15 @@ package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.dto.UserDto;
+import com.egovorushkin.logiweb.entities.User;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
-import com.egovorushkin.logiweb.services.api.CityService;
-import com.egovorushkin.logiweb.services.api.DriverService;
-import com.egovorushkin.logiweb.services.api.TruckService;
+import com.egovorushkin.logiweb.services.api.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,22 +18,36 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/drivers")
 public class DriverController {
 
+    private static final Logger LOGGER =
+            Logger.getLogger(DriverController.class.getName());
+
+    private static final String CITIES = "cities";
+    private static final String USER_DTO = "userDto";
+    private static final String REDIRECT_DRIVERS_LIST = "redirect:/drivers/list";
+    private static final String MANAGER_DRIVER_CREATE = "manager/driver/create";
+
     private final DriverService driverService;
     private final TruckService truckService;
     private final CityService cityService;
+    private final UserService userService;
+    private final ScoreboardService scoreboardService;
 
     @Autowired
     public DriverController(DriverService driverService,
                             TruckService truckService,
-                            CityService cityService) {
+                            CityService cityService, UserService userService,
+                            ScoreboardService scoreboardService) {
         this.driverService = driverService;
         this.truckService = truckService;
         this.cityService = cityService;
+        this.userService = userService;
+        this.scoreboardService = scoreboardService;
     }
 
     @GetMapping("/list")
@@ -41,31 +59,70 @@ public class DriverController {
     @GetMapping("/{id}")
     public String showDriver(@PathVariable("id") long id, Model model) {
         model.addAttribute("driver", driverService.getDriverById(id));
-        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute("trucks", truckService.getAllTrucks());
         return "manager/driver/show";
     }
 
     @GetMapping("/create")
     public String showCreateDriverForm(Model model) {
-        model.addAttribute("driver", new DriverDto());
-        model.addAttribute("statuses", DriverStatus.values());
-        model.addAttribute("trucks", truckService.getAllTrucks());
-        model.addAttribute("cities", cityService.getAllCities());
-        return "manager/driver/create";
+        model.addAttribute(USER_DTO, new UserDto());
+        model.addAttribute(CITIES, cityService.getAllCities());
+        return MANAGER_DRIVER_CREATE;
     }
 
     @PostMapping("/save")
-    public String saveDriver(@ModelAttribute("driver") @Valid DriverDto driverDto,
-                             BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("statuses", DriverStatus.values());
-            model.addAttribute("trucks", truckService.getAllTrucks());
-            model.addAttribute("cities", cityService.getAllCities());
-            return "manager/driver/create";
+    public String saveDriver(@Valid @ModelAttribute(USER_DTO) UserDto userDto,
+                             BindingResult theBindingResult,
+                             Model model) {
+        String userName = userDto.getUserName();
+
+        if (theBindingResult.hasErrors()) {
+            model.addAttribute(USER_DTO, new UserDto());
+            model.addAttribute("registrationError", "User name/password " +
+                    "can not be empty.");
+            model.addAttribute(CITIES, cityService.getAllCities());
+
+            LOGGER.warn("User name/password can not be empty.");
+
+            return MANAGER_DRIVER_CREATE;
         }
+
+        User existing = userService.findByUserName(userName);
+        if (existing != null) {
+            model.addAttribute(USER_DTO, new UserDto());
+            model.addAttribute("registrationError", "User name already " +
+                    "exists.");
+
+            LOGGER.warn("User name already exists.");
+            return MANAGER_DRIVER_CREATE;
+        }
+
+        List<GrantedAuthority> authorities =
+                AuthorityUtils.createAuthorityList();
+        authorities.add(new SimpleGrantedAuthority("ROLE_DRIVER"));
+
+        String formRole = userDto.getFormRole();
+
+        if (!formRole.equals("ROLE_DRIVER")) {
+            authorities.add(new SimpleGrantedAuthority(formRole));
+        }
+
+        DriverDto driverDto = new DriverDto();
+        driverDto.setUsername(userDto.getUserName());
+        driverDto.setFirstName(userDto.getFirstName());
+        driverDto.setLastName(userDto.getLastName());
+
+        driverDto.setCurrentCity(userDto.getCurrentCity());
         driverService.createDriver(driverDto);
-        return "redirect:/drivers/list";
+
+        scoreboardService.updateScoreboard();
+
+        userService.save(userDto);
+
+        LOGGER.info("Successfully created user: " + userName);
+
+        return REDIRECT_DRIVERS_LIST;
     }
 
     @GetMapping("/edit")
@@ -75,7 +132,7 @@ public class DriverController {
         model.addAttribute("statuses", DriverStatus.values());
         model.addAttribute("availableTrucks",
                 driverService.findAvailableTrucksByDriver(driverService.getDriverById(id)));
-        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute(CITIES, cityService.getAllCities());
         return "manager/driver/edit";
     }
 
@@ -86,13 +143,13 @@ public class DriverController {
             return "manager/driver/edit";
         }
         driverService.updateDriver(driverDto);
-        return "redirect:/drivers/list";
+        return REDIRECT_DRIVERS_LIST;
     }
 
     @GetMapping("/delete")
     public String deleteDriver(@RequestParam("driverId") long id) {
         driverService.deleteDriver(id);
-        return "redirect:/drivers/list";
+        return REDIRECT_DRIVERS_LIST;
     }
 
     @GetMapping("/bind-truck")

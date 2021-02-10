@@ -39,7 +39,6 @@ public class OrderServiceImpl implements OrderService {
     private final DriverDao driverDao;
     private final ScoreboardService scoreboardService;
 
-
     @Autowired
     public OrderServiceImpl(OrderDao orderDao, DriverService driverService,
                             ModelMapper modelMapper, DriverDao driverDao,
@@ -52,7 +51,6 @@ public class OrderServiceImpl implements OrderService {
 
         /*
          * for avoiding Lazy Initialization Exception in Model mapper
-         *
          */
         modelMapper.getConfiguration()
                 .setPropertyCondition(context ->
@@ -174,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
 
         scoreboardService.updateScoreboard();
 
-        LOGGER.info(ORDER + orderDto.getId() + " created");
+        LOGGER.info(ORDER + " created");
     }
 
     @Override
@@ -190,6 +188,8 @@ public class OrderServiceImpl implements OrderService {
                     "%s does not exist", orderDto.getId()));
         }
 
+        scoreboardService.updateScoreboard();
+
         LOGGER.info(ORDER + orderDto.getId() + " updated");
     }
 
@@ -200,6 +200,8 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.debug("deleteOrder() executed");
 
         orderDao.deleteOrder(id);
+
+        scoreboardService.updateScoreboard();
 
         LOGGER.info(ORDER + id + " deleted");
     }
@@ -228,6 +230,8 @@ public class OrderServiceImpl implements OrderService {
         driverDao.updateDriver(modelMapper.map(driver, Driver.class));
         driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
         orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
+
+        scoreboardService.updateScoreboard();
     }
 
     @Override

@@ -7,9 +7,7 @@ import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
-import com.egovorushkin.logiweb.services.api.CityService;
-import com.egovorushkin.logiweb.services.api.DriverService;
-import com.egovorushkin.logiweb.services.api.TruckService;
+import com.egovorushkin.logiweb.services.api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -30,6 +28,11 @@ public class DriverControllerTest {
 
     private DriverRequestBuilder requestBuilder;
     private DriverService driverService;
+    private UserService userService;
+    private ScoreboardService scoreboardService;
+
+    public DriverControllerTest() {
+    }
 
     @BeforeEach
     void configureSystemUnderTest() {
@@ -37,7 +40,7 @@ public class DriverControllerTest {
         TruckService truckService = mock(TruckService.class);
         CityService cityService = mock(CityService.class);
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new DriverController(driverService, truckService, cityService))
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new DriverController(driverService, truckService, cityService, userService, scoreboardService))
                 .setHandlerExceptionResolvers(exceptionResolver())
                 .setLocaleResolver(fixedLocalResolver())
                 .setViewResolvers(jspViewResolver())
@@ -101,7 +104,6 @@ public class DriverControllerTest {
             void driverServiceReturnTwoDrivers() {
                 DriverDto first = new DriverDto();
                 first.setId(DRIVER_ONE_ID);
-                first.setPersonalNumber(DRIVER_ONE_PERSONAL_NUMBER);
                 first.setUsername(DRIVER_ONE_USERNAME);
                 first.setFirstName(DRIVER_ONE_FIRST_NAME);
                 first.setLastName(DRIVER_ONE_LAST_NAME);
@@ -110,7 +112,6 @@ public class DriverControllerTest {
 
                 DriverDto second = new DriverDto();
                 second.setId(DRIVER_TWO_ID);
-                second.setPersonalNumber(DRIVER_TWO_PERSONAL_NUMBER);
                 second.setUsername(DRIVER_TWO_USERNAME);
                 second.setFirstName(DRIVER_TWO_FIRST_NAME);
                 second.setLastName(DRIVER_TWO_LAST_NAME);
@@ -256,7 +257,6 @@ public class DriverControllerTest {
                     driver.setFirstName(DRIVER_FIRST_NAME);
                     driver.setLastName(DRIVER_LAST_NAME);
                     driver.setUsername(DRIVER_USERNAMME);
-                    driver.setPersonalNumber(DRIVER_PERSONAL_NUMBER);
                     driver.setWorkedHoursPerMonth(DRIVER_WORKED_HOURS);
                     driver.setStatus(DRIVER_RESTING);
 

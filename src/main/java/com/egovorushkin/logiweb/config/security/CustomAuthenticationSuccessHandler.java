@@ -2,14 +2,13 @@ package com.egovorushkin.logiweb.config.security;
 
 import com.egovorushkin.logiweb.entities.User;
 import com.egovorushkin.logiweb.services.api.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,22 +18,25 @@ import java.util.Set;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    private static final Logger LOGGER =
+            Logger.getLogger(CustomAuthenticationSuccessHandler.class.getName());
+
     @Autowired
     private UserService userService;
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
 
-        System.out.println("\n\nIn customAuthenticationSuccessHandler\n\n");
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication)
+            throws IOException {
 
         String userName = authentication.getName();
 
-        System.out.println("userName=" + userName);
+        LOGGER.info("userName=" + userName);
 
         User theUser = userService.findByUserName(userName);
 
-        // now place in the session
         HttpSession session = request.getSession();
         session.setAttribute("user", theUser);
 
@@ -46,8 +48,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         } else {
             response.sendRedirect("/driver");
         }
-
-        
     }
 
 }

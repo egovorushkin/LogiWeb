@@ -5,7 +5,6 @@ import com.egovorushkin.logiweb.entities.Cargo;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -21,9 +20,9 @@ public class CargoDaoImpl implements CargoDao {
 
     @Override
     public List<Cargo> getAllCargoes() {
-        TypedQuery<Cargo> q = entityManager.createQuery("SELECT t FROM Cargo t",
-                Cargo.class);
-        return q.getResultList();
+        return entityManager.createQuery("SELECT t FROM Cargo t",
+                Cargo.class)
+                .getResultList();
     }
 
     @Override

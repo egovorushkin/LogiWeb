@@ -207,7 +207,7 @@
                                         class="fas fa-user-alt"></em></td>
                                 <td class="align-middle">${currentDriver.firstName}</td>
                                 <td class="align-middle">${currentDriver.lastName}</td>
-                                <td class="align-middle">${currentDriver.personalNumber}</td>
+                                <td class="align-middle">${currentDriver.id}</td>
                                 <td class="align-middle">${currentDriver.workedHoursPerMonth}</td>
                                 <td class="align-middle">${currentDriver.status.toString()}</td>
                                 <td class="align-middle">${currentDriver.currentCity.name}</td>

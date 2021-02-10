@@ -43,17 +43,17 @@
             <form:errors path="lastName" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="personalNumber" class="col-sm-2 col-form-label">
+            <label for="id" class="col-sm-2 col-form-label">
                 Personal №:
             </label>
             <div class="col-sm-2">
-                <form:input path="personalNumber" type="number"
+                <form:input path="id" type="number"
                             class="form-control form-control-sm"
-                            id="personalNumber"
-                            name="personalNumber"
-                            value="${driver.personalNumber}"/>
+                            id="id"
+                            name="id"
+                            value="${driver.id}"/>
             </div>
-            <form:errors path="personalNumber" cssClass="alert alert-danger"/>
+            <form:errors path="id" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
             <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">

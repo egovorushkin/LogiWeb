@@ -72,11 +72,11 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> findCurrentOrdersForTruck(long id) {
         return entityManager.createQuery("SELECT o FROM Order o " +
-                "LEFT JOIN FETCH o.cargo " +
-                "LEFT JOIN FETCH o.truck " +
-                "LEFT JOIN FETCH o.fromCity " +
-                "LEFT JOIN FETCH o.toCity " +
-                "WHERE o.truck.id=:id", Order.class)
+                    "LEFT JOIN FETCH o.cargo " +
+                    "LEFT JOIN FETCH o.truck " +
+                    "LEFT JOIN FETCH o.fromCity " +
+                    "LEFT JOIN FETCH o.toCity " +
+                    "WHERE o.truck.id=:id", Order.class)
                 .setParameter("id", id)
                 .getResultList();
     }
@@ -84,9 +84,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Driver> findAvailableDriversForOrder(Order order) {
         return entityManager.createQuery("SELECT d FROM Driver d " +
-                "LEFT JOIN FETCH d.currentCity " +
-                "LEFT JOIN FETCH d.truck " +
-                "WHERE d.status='RESTING' AND d.currentCity=:truckCurrentCity",
+                    "LEFT JOIN FETCH d.currentCity " +
+                    "LEFT JOIN FETCH d.truck " +
+                    "WHERE d.status='RESTING' AND d.currentCity=:truckCurrentCity",
                 Driver.class)
                 .setParameter("truckCurrentCity",
                         order.getTruck().getCurrentCity())

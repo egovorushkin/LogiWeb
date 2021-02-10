@@ -22,11 +22,11 @@ public class CargoServiceImpl implements CargoService {
 
     private static final Logger LOGGER =
             Logger.getLogger(CargoServiceImpl.class.getName());
+    private static final String CARGO = "Cargo with id = ";
 
 
     private final CargoDao cargoDao;
     private final ModelMapper modelMapper;
-
 
     @Autowired
     public CargoServiceImpl(CargoDao cargoDao, ModelMapper modelMapper) {
@@ -44,7 +44,7 @@ public class CargoServiceImpl implements CargoService {
         LOGGER.debug("getCargoById() executed");
 
         if (cargoDao.getCargoById(id) == null) {
-            throw new EntityNotFoundException("Cargo with id = " + id + " is" +
+            throw new EntityNotFoundException(CARGO + id + " is" +
                     " not found");
         }
 
@@ -77,7 +77,7 @@ public class CargoServiceImpl implements CargoService {
 
         cargoDao.createCargo(modelMapper.map(cargoDto, Cargo.class));
 
-        LOGGER.info("Cargo with id = " + cargoDto.getId() + " created");
+        LOGGER.info(CARGO + cargoDto.getId() + " created");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class CargoServiceImpl implements CargoService {
                     "%s does not exist", cargoDto.getId()));
         }
 
-        LOGGER.info("Cargo with id = " + cargoDto.getId() + " updated");
+        LOGGER.info(CARGO + cargoDto.getId() + " updated");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class CargoServiceImpl implements CargoService {
 
         cargoDao.deleteCargo(id);
 
-        LOGGER.info("Cargo with id = " + id + " deleted");
+        LOGGER.info(CARGO + id + " deleted");
     }
 
 }

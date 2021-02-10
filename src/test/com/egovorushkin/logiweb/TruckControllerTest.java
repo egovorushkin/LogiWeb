@@ -244,7 +244,6 @@ public class TruckControllerTest {
                 private final long DRIVER_ID = 10L;
                 private final String DRIVER_FIRST_NAME = "Alex";
                 private final String DRIVER_LAST_NAME = "Alexeev";
-                private final int DRIVER_PERSONAL_NUMBER = 12345;
                 private final int DRIVER_WORKED_HOURS = 100;
                 private final DriverStatus DRIVER_RESTING = DriverStatus.RESTING;
 
@@ -262,7 +261,6 @@ public class TruckControllerTest {
                     driver.setId(DRIVER_ID);
                     driver.setFirstName(DRIVER_FIRST_NAME);
                     driver.setLastName(DRIVER_LAST_NAME);
-                    driver.setPersonalNumber(DRIVER_PERSONAL_NUMBER);
                     driver.setWorkedHoursPerMonth(DRIVER_WORKED_HOURS);
                     driver.setStatus(DRIVER_RESTING);
 
@@ -341,7 +339,6 @@ public class TruckControllerTest {
                                                     hasProperty("id", equalTo(DRIVER_ID)),
                                                     hasProperty("firstName", equalTo(DRIVER_FIRST_NAME)),
                                                     hasProperty("lastName", equalTo(DRIVER_LAST_NAME)),
-                                                    hasProperty("personalNumber", equalTo(DRIVER_PERSONAL_NUMBER)),
                                                     hasProperty("workedHoursPerMonth", equalTo(DRIVER_WORKED_HOURS)),
                                                     hasProperty("status", equalTo(DRIVER_RESTING))
                                             )
