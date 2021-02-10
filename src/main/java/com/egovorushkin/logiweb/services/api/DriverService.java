@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.services.api;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
+import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 
@@ -27,4 +28,6 @@ public interface DriverService {
     void updateStatus(DriverStatus driverStatus);
 
     void updateState(boolean userState);
+
+    DriverStatsDto getStats();
 }

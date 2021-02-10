@@ -1,20 +1,14 @@
 package com.egovorushkin.logiweb.controllers;
 
+import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
-import com.egovorushkin.logiweb.dto.OrderDtoT;
+import com.egovorushkin.logiweb.dto.TruckStatsDto;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,26 +29,18 @@ public class ScoreboardController {
     }
 
     @RequestMapping("/orders")
-    public List<OrderDtoT> getLatestOrders() {
-        return orderService.getLatestOrders();
+    public List<OrderDto> getLatestOrders() {
+        return orderService.getLatestOrders2();
     }
 
-    @RequestMapping("/students")
-    public List<Student> getStudents() {
+    @RequestMapping("/trucks")
+    public TruckStatsDto getTruckStats() {
+        return truckService.getStats();
+    }
 
-        List<Student> students = new ArrayList<>();
-
-        students.add(new Student("A", "A"));
-        students.add(new Student("B", "B"));
-        students.add(new Student("C", "C"));
-        students.add(new Student("D", "D"));
-        students.add(new Student("E", "E"));
-
-        for (Student s : students) {
-            System.out.println(s);
-        }
-
-        return students;
+    @RequestMapping("/drivers")
+    public DriverStatsDto getDriverStats() {
+        return driverService.getStats();
     }
 
 }

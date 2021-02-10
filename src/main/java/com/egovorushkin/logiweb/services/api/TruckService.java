@@ -2,6 +2,7 @@ package com.egovorushkin.logiweb.services.api;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.dto.TruckStatsDto;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface TruckService {
 
     List<DriverDto> findAvailableDriversByTruck(TruckDto truckDto);
 
+    TruckStatsDto getStats();
 }

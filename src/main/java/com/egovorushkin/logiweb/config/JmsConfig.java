@@ -18,7 +18,7 @@ public class JmsConfig {
     private static final String MESSAGE_BROKER_URL = "tcp://localhost:61616";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "admin";
-    private static final String TOPIC_NAME = "LogiWeb.Scoreboard";
+    private static final String TOPIC_NAME = "activemq/topic/ScoreboardTopic";
 
     @Bean
     public ActiveMQConnectionFactory connectionFactory() {

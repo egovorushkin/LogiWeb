@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.services.impl;
 import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.dto.TruckStatsDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
@@ -77,7 +78,7 @@ public class TruckServiceImpl implements TruckService {
 
         if (truckDao.truckExistsByRegistrationNumber(truckDto.getRegistrationNumber())) {
             throw new ServiceException(String.format("Truck with registration" +
-                    " number %s already exists",
+                            " number %s already exists",
                     truckDto.getRegistrationNumber()));
         }
         truckDao.createTruck(modelMapper.map(truckDto, Truck.class));
@@ -94,8 +95,9 @@ public class TruckServiceImpl implements TruckService {
         try {
             truckDao.updateTruck(modelMapper.map(truckDto, Truck.class));
         } catch (NoResultException e) {
-            throw new EntityNotFoundException(String.format("Truck with registration" +
-                    " number %s does not exist",
+            throw new EntityNotFoundException(String.format("Truck with " +
+                            "registration" +
+                            " number %s does not exist",
                     truckDto.getRegistrationNumber()));
         }
 
@@ -137,6 +139,26 @@ public class TruckServiceImpl implements TruckService {
         return availableDrivers.stream()
                 .map(driver -> modelMapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
+    }
+
+    /*
+    This method returns drivers statistics
+    like total, available and not available drivers
+     */
+    @Override
+    public TruckStatsDto getStats() {
+        TruckStatsDto truckStats = new TruckStatsDto();
+
+        truckStats.setTotal(truckDao.getAllTrucks().size());
+        truckStats.setFaulty(truckDao.getAllTrucks()
+                .stream()
+                .filter(truck ->
+                        truck.getState().getTitle().equals("FAULTY")).count());
+        truckStats.setBusy(truckDao.getAllTrucks()
+                .stream().filter(Truck::isBusy).count());
+        truckStats.setAvailable(truckStats.getTotal() - truckStats.getBusy()
+                - truckStats.getFaulty());
+        return truckStats;
     }
 
 }

@@ -1,10 +1,13 @@
 package com.egovorushkin.logiweb.publisher;
 
-import com.egovorushkin.logiweb.dto.OrderDto;
+import java.io.Serializable;
 
 public interface JmsPublisher {
 
-    void send (String message);
+    void send ();
 
-    void send (OrderDto orderDto);
+    void sendMessage(final String message);
+
+    void sendMessage(final Serializable message);
+
 }

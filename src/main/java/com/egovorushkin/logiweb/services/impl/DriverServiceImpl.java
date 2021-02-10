@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.services.impl;
 import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
+import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
@@ -327,5 +328,23 @@ public class DriverServiceImpl implements DriverService {
 
         LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATE + userState);
         LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATUS + existingDriver.getStatus().getName());
+    }
+
+    /*
+    This method returns drivers statistics
+    like total, available and not available drivers
+     */
+    @Override
+    public DriverStatsDto getStats() {
+        DriverStatsDto driverStats = new DriverStatsDto();
+
+        driverStats.setTotal(driverDao.getAllDrivers().size());
+        driverStats.setAvailable(driverDao.getAllDrivers()
+                .stream()
+                .filter(driver -> !driver.isInShift())
+                .count());
+        driverStats.setNotAvailable(driverStats.getTotal() - driverStats.getAvailable());
+
+        return driverStats;
     }
 }
