@@ -25,7 +25,7 @@
 
             <!-- Place for messages: error, alert etc ... -->
             <div class="form-group">
-                <div class="col-xs-15">
+                <div class="col-xs-10">
                     <div>
                         <!-- Check for registration error -->
                         <c:if test="${registrationError != null}">

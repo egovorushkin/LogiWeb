@@ -29,4 +29,5 @@ public interface OrderDao {
 
     List<Order> getLatestOrders();
 
+    Order findOrderByTruckId(long id);
 }

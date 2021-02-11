@@ -112,4 +112,16 @@ public class OrderDaoImpl implements OrderDao {
                 .getResultList();
     }
 
+    @Override
+    public Order findOrderByTruckId(long id) {
+        return entityManager.createQuery("SELECT o FROM Order o " +
+                        "LEFT JOIN FETCH o.cargo " +
+                        "LEFT JOIN FETCH o.truck " +
+                        "LEFT JOIN FETCH o.fromCity " +
+                        "LEFT JOIN FETCH o.toCity " +
+                        "WHERE o.truck.id=:id", Order.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
 }

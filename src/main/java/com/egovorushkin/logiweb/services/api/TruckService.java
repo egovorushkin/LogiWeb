@@ -23,4 +23,5 @@ public interface TruckService {
     List<DriverDto> findAvailableDriversByTruck(TruckDto truckDto);
 
     TruckStatsDto getStats();
+
 }

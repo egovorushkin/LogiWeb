@@ -42,8 +42,8 @@ public class UserController {
     }
 
     @PostMapping("/update-order-status")
-    public String updateStatusOfUser(@ModelAttribute("user") OrderDto orderDto) {
-        orderService.mergeWithExistingAndUpdate(orderDto);
+    public String updateStatusOfOrder(@ModelAttribute("user") OrderDto orderDto) {
+        orderService.updateStatusOfOrder(orderDto);
         return "redirect:/user/orders";
     }
 

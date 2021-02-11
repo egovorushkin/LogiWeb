@@ -8,6 +8,7 @@ import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.entities.enums.CargoStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
@@ -208,9 +209,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void mergeWithExistingAndUpdate(OrderDto orderDto) {
+    public void updateStatusOfOrder(OrderDto orderDto) {
 
-        LOGGER.debug("mergeWithExistingAndUpdate() executed");
+        LOGGER.debug("updateStatusOfOrder() executed");
         DriverDto driver = driverService.getAuthorizedDriverByUsername();
         DriverDto colleague =
                 driverService.findColleagueAuthorizedDriverByUsername();
@@ -220,6 +221,9 @@ public class OrderServiceImpl implements OrderService {
                         OrderDto.class);
 
         existingOrder.setStatus(orderDto.getStatus());
+        existingOrder.getCargo().setStatus(CargoStatus.DELIVERED);
+        orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
+
         if (orderDto.getDuration() <= 12) {
             driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration());
         } else {
@@ -229,7 +233,6 @@ public class OrderServiceImpl implements OrderService {
 
         driverDao.updateDriver(modelMapper.map(driver, Driver.class));
         driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
-        orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
 
         scoreboardService.updateScoreboard();
     }
@@ -241,6 +244,10 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
+    }
 
+    @Override
+    public OrderDto findOrderByTruckId(long id) {
+        return modelMapper.map(orderDao.findOrderByTruckId(id), OrderDto.class);
     }
 }

@@ -88,6 +88,7 @@ public class RegistrationController {
         User existing = userService.findByUserName(userName);
         if (existing != null) {
             model.addAttribute(USER_DTO, new UserDto());
+            model.addAttribute("cities", cityService.getAllCities());
             model.addAttribute("registrationError", "User name already " +
                     "exists.");
 

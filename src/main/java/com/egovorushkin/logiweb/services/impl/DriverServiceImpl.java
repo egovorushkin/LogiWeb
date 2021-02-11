@@ -2,16 +2,21 @@ package com.egovorushkin.logiweb.services.impl;
 
 import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.DriverDao;
+import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.DriverStatsDto;
+import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
+import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.entities.enums.CargoStatus;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
+import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
@@ -41,18 +46,21 @@ public class DriverServiceImpl implements DriverService {
     private final ModelMapper modelMapper;
     private final IAuthenticationFacade authenticationFacade;
     private final ScoreboardService scoreboardService;
+    private final OrderDao orderDao;
 
     @Autowired
     public DriverServiceImpl(DriverDao driverDao,
                              TruckService truckService,
                              ModelMapper modelMapper,
                              IAuthenticationFacade authenticationFacade,
-                             ScoreboardService scoreboardService) {
+                             ScoreboardService scoreboardService,
+                             OrderDao orderDao) {
         this.driverDao = driverDao;
         this.truckService = truckService;
         this.modelMapper = modelMapper;
         this.authenticationFacade = authenticationFacade;
         this.scoreboardService = scoreboardService;
+        this.orderDao = orderDao;
 
         modelMapper.getConfiguration()
                 .setPropertyCondition(context ->
@@ -207,14 +215,25 @@ public class DriverServiceImpl implements DriverService {
 
         DriverDto colleague = findColleagueAuthorizedDriverByUsername();
 
+        Order order = orderDao.findOrderByTruckId(existingDriver.getTruck().getId());
+
         switch (driverStatus.getTitle()) {
             case "DRIVING":
                 if (existingDriver.getTruck() != null) {
                     existingDriver.setStatus(driverStatus);
                     existingDriver.getTruck().setStatus(TruckStatus.ON_THE_WAY);
+
                     driverDao.updateDriver(modelMapper.map(existingDriver,
                             Driver.class));
                     truckService.updateTruck(existingDriver.getTruck());
+
+                    if (order != null) {
+                        if(order.getCargo().getStatus().getTitle().equals("PREPARED")) {
+                            order.getCargo().setStatus(CargoStatus.SHIPPED);
+                            orderDao.updateOrder(order);
+                        }
+
+                    }
 
                     scoreboardService.updateScoreboard();
 
@@ -307,9 +326,7 @@ public class DriverServiceImpl implements DriverService {
                             + DriverStatus.RESTING.getName());
                 }
                 break;
-
             default:
-
                 break;
         }
     }
@@ -332,8 +349,10 @@ public class DriverServiceImpl implements DriverService {
 
                 scoreboardService.updateScoreboard();
 
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS + colleague.getStatus().getName());
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE + userState);
+                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS
+                        + colleague.getStatus().getName());
+                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE
+                        + userState);
             }
         } else {
             if (findColleagueAuthorizedDriverByUsername() != null) {
@@ -344,8 +363,10 @@ public class DriverServiceImpl implements DriverService {
 
                 scoreboardService.updateScoreboard();
 
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE + userState);
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS + colleague.getStatus().getName());
+                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE
+                        + userState);
+                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS
+                        + colleague.getStatus().getName());
             }
         }
 
@@ -355,8 +376,10 @@ public class DriverServiceImpl implements DriverService {
 
         scoreboardService.updateScoreboard();
 
-        LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATE + userState);
-        LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATUS + existingDriver.getStatus().getName());
+        LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATE
+                + userState);
+        LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATUS
+                + existingDriver.getStatus().getName());
     }
 
     /*

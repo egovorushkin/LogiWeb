@@ -2,6 +2,7 @@ package com.egovorushkin.logiweb.controllers;
 
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.services.api.CityService;
@@ -20,12 +21,19 @@ import javax.validation.Valid;
 @RequestMapping("/trucks")
 public class TruckController {
 
+    private static final String TRUCK = "truck";
+    private static final String STATES = "states";
+    private static final String CITIES = "cities";
+    private static final String STATUSES = "statuses";
+
     private final TruckService truckService;
     private final CityService cityService;
     private final DriverService driverService;
 
     @Autowired
-    public TruckController(TruckService truckService, CityService cityService, DriverService driverService) {
+    public TruckController(TruckService truckService,
+                           CityService cityService,
+                           DriverService driverService) {
         this.truckService = truckService;
         this.cityService = cityService;
         this.driverService = driverService;
@@ -38,10 +46,10 @@ public class TruckController {
     }
 
     @GetMapping("/{id}")
-    public String showTruck(@PathVariable("id") long id, Model model) throws Exception {
-        model.addAttribute("truck", truckService.getTruckById(id));
-        model.addAttribute("states", TruckState.values());
-        model.addAttribute("statuses", TruckStatus.values());
+    public String showTruck(@PathVariable("id") long id, Model model){
+        model.addAttribute(TRUCK, truckService.getTruckById(id));
+        model.addAttribute(STATES, TruckState.values());
+        model.addAttribute(STATUSES, TruckStatus.values());
         model.addAttribute("currentDrivers", truckService.findCurrentDriversByTruckId(id));
         model.addAttribute("numberOfDrivers", truckService.findCurrentDriversByTruckId(id).size());
         return "manager/truck/show";
@@ -49,18 +57,18 @@ public class TruckController {
 
     @GetMapping("/create")
     public String showCreateTruckForm(Model model) {
-        model.addAttribute("truck", new TruckDto());
-        model.addAttribute("cities", cityService.getAllCities());
-        model.addAttribute("states", TruckState.values());
+        model.addAttribute(TRUCK, new TruckDto());
+        model.addAttribute(CITIES, cityService.getAllCities());
+        model.addAttribute(STATES, TruckState.values());
         return "manager/truck/create";
     }
 
     @PostMapping("/save")
-    public String createTruck(@ModelAttribute("truck") @Valid TruckDto truckDto,
+    public String createTruck(@ModelAttribute(TRUCK) @Valid TruckDto truckDto,
                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("statuses", TruckStatus.values());
-            model.addAttribute("cities", cityService.getAllCities());
+            model.addAttribute(STATUSES, TruckStatus.values());
+            model.addAttribute(CITIES, cityService.getAllCities());
             return "manager/truck/create";
         }
         truckService.createTruck(truckDto);
@@ -68,12 +76,11 @@ public class TruckController {
     }
 
     @GetMapping("/edit")
-    public String showEditTruckForm(@RequestParam("truckId") long id, Model model)
-            throws Exception {
-        model.addAttribute("truck", truckService.getTruckById(id));
-        model.addAttribute("cities", cityService.getAllCities());
-        model.addAttribute("states", TruckState.values());
-        model.addAttribute("statuses", TruckStatus.values());
+    public String showEditTruckForm(@RequestParam("truckId") long id, Model model) {
+        model.addAttribute(TRUCK, truckService.getTruckById(id));
+        model.addAttribute(CITIES, cityService.getAllCities());
+        model.addAttribute(STATES, TruckState.values());
+        model.addAttribute(STATUSES, TruckStatus.values());
         model.addAttribute("currentDrivers", truckService.findCurrentDriversByTruckId(id));
         model.addAttribute("availableDrivers",
                 truckService.findAvailableDriversByTruck(truckService.getTruckById(id)));
@@ -81,7 +88,7 @@ public class TruckController {
     }
 
     @PostMapping("/update")
-    public String updateTruck(@ModelAttribute("truck") @Valid TruckDto truckDto,
+    public String updateTruck(@ModelAttribute(TRUCK) @Valid TruckDto truckDto,
                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "manager/truck/edit";
@@ -102,7 +109,8 @@ public class TruckController {
                                     RedirectAttributes redirectAttributes){
         TruckDto truck = truckService.getTruckById(truckId);
         DriverDto driver = driverService.getDriverById(driverId);
-        if (truck.getCurrentDrivers().size() < truck.getTeamSize()) {
+
+        if (truckService.findCurrentDriversByTruckId(truckId).size() < truck.getTeamSize()) {
             driver.setTruck(truck);
             driverService.updateDriver(driver);
         }
@@ -115,9 +123,24 @@ public class TruckController {
     public String unbindDriverForTruck(@RequestParam("truckId") long truckId,
                                     @RequestParam("driverId") long driverId,
                                     RedirectAttributes redirectAttributes){
-        DriverDto driver = driverService.getDriverById(driverId);
-        driver.setTruck(null);
-        driverService.updateDriver(driver);
+        DriverDto driverDto = driverService.getDriverById(driverId);
+
+        DriverDto colleague = driverDto.getTruck().getCurrentDrivers().stream()
+                .filter(driver -> driver.getId() != driverDto.getId())
+                .findFirst().orElse(null);
+
+        if (colleague != null) {
+            colleague.setTruck(null);
+            colleague.setInShift(false);
+            colleague.setStatus(DriverStatus.RESTING);
+            driverService.updateDriver(colleague);
+        }
+
+        driverDto.setTruck(null);
+        driverDto.setInShift(false);
+        driverDto.setStatus(DriverStatus.RESTING);
+
+        driverService.updateDriver(driverDto);
 
         redirectAttributes.addAttribute("truckId", truckId);
         return "redirect:{truckId}";

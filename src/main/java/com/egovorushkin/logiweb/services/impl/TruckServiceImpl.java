@@ -8,6 +8,7 @@ import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
+import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
@@ -166,7 +167,8 @@ public class TruckServiceImpl implements TruckService {
                 .filter(truck ->
                         truck.getState().getTitle().equals("FAULTY")).count());
         truckStats.setBusy(truckDao.getAllTrucks()
-                .stream().filter(Truck::isBusy).count());
+                .stream().filter(truck -> truck.getStatus().getTitle().equals("ON_THE_WAY")).count());
+
         truckStats.setAvailable(truckStats.getTotal() - truckStats.getBusy()
                 - truckStats.getFaulty());
         return truckStats;
