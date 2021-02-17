@@ -74,7 +74,7 @@
             <form:errors path="distance" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="duration" class="col-sm-2 col-form-label">~Travel time
+            <label for="duration" class="col-sm-2 col-form-label">Travel time
                 (hr):</label>
             <div class="col-sm-2">
                 <form:input path="duration" type="text"

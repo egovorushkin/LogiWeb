@@ -1,8 +1,6 @@
 package com.egovorushkin.logiweb.dto;
 
-import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.validation.FieldMatch;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,7 +33,7 @@ public class UserDto implements Serializable {
 
     private String formRole;
 
-    private City currentCity;
+    private CityDto currentCity;
 
     public UserDto() {
         formRole = "ROLE_DRIVER";
@@ -89,11 +87,11 @@ public class UserDto implements Serializable {
         this.formRole = formRole;
     }
 
-    public City getCurrentCity() {
+    public CityDto getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(City currentCity) {
+    public void setCurrentCity(CityDto currentCity) {
         this.currentCity = currentCity;
     }
 }

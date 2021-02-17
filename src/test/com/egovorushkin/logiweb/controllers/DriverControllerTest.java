@@ -1,6 +1,5 @@
-package com.egovorushkin.logiweb;
+package com.egovorushkin.logiweb.controllers;
 
-import com.egovorushkin.logiweb.controllers.DriverController;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
@@ -28,19 +27,18 @@ public class DriverControllerTest {
 
     private DriverRequestBuilder requestBuilder;
     private DriverService driverService;
-    private UserService userService;
-    private ScoreboardService scoreboardService;
-
-    public DriverControllerTest() {
-    }
 
     @BeforeEach
     void configureSystemUnderTest() {
         driverService = mock(DriverService.class);
         TruckService truckService = mock(TruckService.class);
         CityService cityService = mock(CityService.class);
+        UserService userService = mock(UserService.class);
+        ScoreboardService scoreboardService = mock(ScoreboardService.class);
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new DriverController(driverService, truckService, cityService, userService, scoreboardService))
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(
+                new DriverController(driverService, truckService, cityService,
+                        userService, scoreboardService))
                 .setHandlerExceptionResolvers(exceptionResolver())
                 .setLocaleResolver(fixedLocalResolver())
                 .setViewResolvers(jspViewResolver())
@@ -85,7 +83,6 @@ public class DriverControllerTest {
         class WhenTwoDriversAreFoundFromTheDatabase {
 
             private final long DRIVER_ONE_ID = 1L;
-            private final int DRIVER_ONE_PERSONAL_NUMBER = 12345;
             private final String DRIVER_ONE_USERNAME = "driver1";
             private final String DRIVER_ONE_FIRST_NAME = "Ivan";
             private final String DRIVER_ONE_LAST_NAME = "Ivanov";
@@ -93,7 +90,6 @@ public class DriverControllerTest {
             private final DriverStatus STATUS_DRIVING = DriverStatus.DRIVING;
 
             private final long DRIVER_TWO_ID = 3L;
-            private final int DRIVER_TWO_PERSONAL_NUMBER = 99999;
             private final String DRIVER_TWO_USERNAME = "driver2";
             private final String DRIVER_TWO_FIRST_NAME = "Alex";
             private final String DRIVER_TWO_LAST_NAME = "Alexeev";
@@ -141,7 +137,6 @@ public class DriverControllerTest {
                                 model().attribute("drivers",
                                 hasItem(allOf(
                                         hasProperty("id", equalTo(DRIVER_ONE_ID)),
-                                        hasProperty("personalNumber", equalTo(DRIVER_ONE_PERSONAL_NUMBER)),
                                         hasProperty("username", equalTo(DRIVER_ONE_USERNAME)),
                                         hasProperty("firstName", equalTo(DRIVER_ONE_FIRST_NAME)),
                                         hasProperty("lastName", equalTo(DRIVER_ONE_LAST_NAME)),
@@ -159,7 +154,6 @@ public class DriverControllerTest {
                                 model().attribute("drivers",
                                         hasItem(allOf(
                                                 hasProperty("id", equalTo(DRIVER_TWO_ID)),
-                                                hasProperty("personalNumber", equalTo(DRIVER_TWO_PERSONAL_NUMBER)),
                                                 hasProperty("username", equalTo(DRIVER_TWO_USERNAME)),
                                                 hasProperty("firstName", equalTo(DRIVER_TWO_FIRST_NAME)),
                                                 hasProperty("lastName", equalTo(DRIVER_TWO_LAST_NAME)),
@@ -182,7 +176,6 @@ public class DriverControllerTest {
                                         contains(
                                                 allOf(
                                                         hasProperty("id", equalTo(DRIVER_ONE_ID)),
-                                                        hasProperty("personalNumber", equalTo(DRIVER_ONE_PERSONAL_NUMBER)),
                                                         hasProperty("username", equalTo(DRIVER_ONE_USERNAME)),
                                                         hasProperty("firstName", equalTo(DRIVER_ONE_FIRST_NAME)),
                                                         hasProperty("lastName", equalTo(DRIVER_ONE_LAST_NAME)),
@@ -191,7 +184,6 @@ public class DriverControllerTest {
                                                 ),
                                                 allOf(
                                                         hasProperty("id", equalTo(DRIVER_TWO_ID)),
-                                                        hasProperty("personalNumber", equalTo(DRIVER_TWO_PERSONAL_NUMBER)),
                                                         hasProperty("username", equalTo(DRIVER_TWO_USERNAME)),
                                                         hasProperty("firstName", equalTo(DRIVER_TWO_FIRST_NAME)),
                                                         hasProperty("lastName", equalTo(DRIVER_TWO_LAST_NAME)),
@@ -239,7 +231,6 @@ public class DriverControllerTest {
                 private final String DRIVER_FIRST_NAME = "Alex";
                 private final String DRIVER_LAST_NAME = "Alexeev";
                 private final String DRIVER_USERNAMME = "driver";
-                private final int DRIVER_PERSONAL_NUMBER = 12345;
                 private final int DRIVER_WORKED_HOURS = 100;
                 private final DriverStatus DRIVER_RESTING = DriverStatus.RESTING;
 
@@ -304,7 +295,6 @@ public class DriverControllerTest {
                                     "driver",
                                     allOf(
                                             hasProperty("id", equalTo(DRIVER_ID)),
-                                            hasProperty("personalNumber", equalTo(DRIVER_PERSONAL_NUMBER)),
                                             hasProperty("username", equalTo(DRIVER_USERNAMME)),
                                             hasProperty("firstName", equalTo(DRIVER_FIRST_NAME)),
                                             hasProperty("lastName", equalTo(DRIVER_LAST_NAME)),

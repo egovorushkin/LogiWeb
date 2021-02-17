@@ -51,7 +51,8 @@
                             class="form-control form-control-sm"
                             id="id"
                             name="id"
-                            value="${driver.id}"/>
+                            value="${driver.id}"
+                            disabled="true"/>
             </div>
             <form:errors path="id" cssClass="alert alert-danger"/>
         </div>
@@ -61,7 +62,8 @@
             <div class="col-sm-2">
                 <input class="form-control form-control-sm"
                        id="workedHoursPerMonth" name="workedHoursPerMonth"
-                       type="number" value="${driver.workedHoursPerMonth}">
+                       type="number" value="${driver.workedHoursPerMonth}"
+                        disabled>
             </div>
         </div>
         <div class="row mb-3">
@@ -125,19 +127,20 @@
            role="button">Cancel</a>
     </form:form>
 
+    <hr/>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
                 align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4>Available Trucks</h4>
-        <hr>
     </div>
 
     <c:choose>
         <c:when test="${empty availableTrucks}">
-            <h6>No available drivers for this truck.</h6>
+            <h6>No available trucks for this driver.</h6>
         </c:when>
         <c:otherwise>
-            <table id="tables" class="table-hover table-striped">
+            <table class="table table-hover table-responsive-sm
+                                    table-striped table-bordered table-sm">
                 <caption></caption>
                 <thead>
                 <tr>

@@ -23,4 +23,5 @@ public interface TruckDao {
 
     boolean truckExistsByRegistrationNumber(String registrationNumber);
 
+    Truck findByRegistrationNumber(String registrationNumber);
 }

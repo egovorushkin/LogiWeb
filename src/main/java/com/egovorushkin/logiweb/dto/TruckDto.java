@@ -1,6 +1,5 @@
 package com.egovorushkin.logiweb.dto;
 
-import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import org.hibernate.validator.constraints.Range;
@@ -8,7 +7,6 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Set;
 
 public class TruckDto implements Serializable {
@@ -26,24 +24,24 @@ public class TruckDto implements Serializable {
             "5000 and 40000 kg.")
     private int capacity;
     private int currentNumberOfDrivers;
-    private TruckStatus status;
-    private TruckState state;
-    private boolean isBusy;
-    private City currentCity;
+    private TruckStatus status = TruckStatus.PARKED;
+    private TruckState state = TruckState.SERVICEABLE;
+    private boolean isBusy = false;
+    private CityDto currentCity;
     private Set<DriverDto> currentDrivers;
     private Set<OrderDto> currentOrders;
 
     public TruckDto() {
-        status = TruckStatus.PARKED;
-        isBusy = false;
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public void setRegistrationNumber(String registrationNumber) {
+    public TruckDto(String registrationNumber,
+                    int teamSize,
+                    int capacity,
+                    CityDto currentCity) {
         this.registrationNumber = registrationNumber;
+        this.teamSize = teamSize;
+        this.capacity = capacity;
+        this.currentCity = currentCity;
     }
 
     public long getId() {
@@ -54,6 +52,14 @@ public class TruckDto implements Serializable {
         this.id = id;
     }
 
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+    
     public int getTeamSize() {
 
         return teamSize;
@@ -95,11 +101,11 @@ public class TruckDto implements Serializable {
         isBusy = busy;
     }
 
-    public City getCurrentCity() {
+    public CityDto getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(City currentCity) {
+    public void setCurrentCity(CityDto currentCity) {
         this.currentCity = currentCity;
     }
 
@@ -130,17 +136,24 @@ public class TruckDto implements Serializable {
         this.currentOrders = currentOrders;
     }
 
+    public void addDriver(DriverDto driverDto) {
+        currentDrivers.add(driverDto);
+        driverDto.setTruck(this);
+    }
+
+    public void removeDriver(DriverDto driverDto) {
+        currentDrivers.remove(driverDto);
+        driverDto.setTruck(null);
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TruckDto truckDto = (TruckDto) o;
-        return registrationNumber.equals(truckDto.registrationNumber);
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(registrationNumber);
+        return super.hashCode();
     }
 
     @Override

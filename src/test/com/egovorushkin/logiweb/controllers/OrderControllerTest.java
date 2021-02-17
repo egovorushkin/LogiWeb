@@ -1,6 +1,5 @@
-package com.egovorushkin.logiweb;
+package com.egovorushkin.logiweb.controllers;
 
-import com.egovorushkin.logiweb.controllers.OrderController;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import com.egovorushkin.logiweb.services.api.*;

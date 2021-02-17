@@ -29,13 +29,10 @@
                     <div>
                         <!-- Check for registration error -->
                         <c:if test="${registrationError != null}">
-
                             <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                                     ${registrationError}
                             </div>
-
                         </c:if>
-
                     </div>
                 </div>
             </div>

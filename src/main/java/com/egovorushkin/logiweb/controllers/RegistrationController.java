@@ -29,6 +29,7 @@ public class RegistrationController {
 
     private static final String USER_DTO = "userDto";
     private static final String REGISTRATION_FORM = "registration-form";
+    private static final String CITIES = "cities";
 
     private final UserService userService;
     private final DriverService driverService;
@@ -60,7 +61,7 @@ public class RegistrationController {
     @GetMapping("/showRegistrationForm")
     public String showMyLoginPage(Model model) {
         model.addAttribute(USER_DTO, new UserDto());
-        model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute("roles", roleDao.getAllRoles());
 
         return REGISTRATION_FORM;
@@ -78,7 +79,7 @@ public class RegistrationController {
             model.addAttribute("roles", roleDao.getAllRoles());
             model.addAttribute("registrationError", "User name/password " +
                     "can not be empty.");
-            model.addAttribute("cities", cityService.getAllCities());
+            model.addAttribute(CITIES, cityService.getAllCities());
 
             LOGGER.warn("User name/password can not be empty.");
 
@@ -88,7 +89,7 @@ public class RegistrationController {
         User existing = userService.findByUserName(userName);
         if (existing != null) {
             model.addAttribute(USER_DTO, new UserDto());
-            model.addAttribute("cities", cityService.getAllCities());
+            model.addAttribute(CITIES, cityService.getAllCities());
             model.addAttribute("registrationError", "User name already " +
                     "exists.");
 

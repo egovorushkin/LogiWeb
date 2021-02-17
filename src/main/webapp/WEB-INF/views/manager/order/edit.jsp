@@ -67,12 +67,12 @@
             <div class="col-sm-2">
                 <form:input path="distance" type="number"
                             class="form-control form-control-sm" id="distance"
-                            name="distance"/>
+                            name="distance" readonly="true"/>
             </div>
             <form:errors path="distance" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label for="distance" class="col-sm-2 col-form-label">~Travel time
+            <label for="distance" class="col-sm-2 col-form-label">Travel time
                 (hr):</label>
             <div class="col-sm-2">
                 <form:input path="duration" type="text"
@@ -184,76 +184,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-
-            <div class="page-header">
-                <h4>Available drivers for this order and truck</h4>
-            </div>
-
-            <c:choose>
-                <c:when test="${empty availableDrivers}">
-                    <h6>No available drivers found for this order.</h6>
-                    <a class="btn btn-sm  btn-success"
-                       href="${pageContext.request.contextPath}/drivers/create"
-                       role="button">Add Driver
-                    </a>
-                </c:when>
-                <c:otherwise>
-                    <table class="table table-hover table-responsive-sm
-                                    table-striped table-bordered table-sm">
-                        <caption></caption>
-                        <thead>
-                        <tr>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Personal №</th>
-                            <th scope="col">Worked Hours / Month</th>
-                            <th scope="col">Current Status</th>
-                            <th scope="col">Current City</th>
-                            <th scope="col">Bind To Truck</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${availableDrivers}"
-                                   var="availableDriver">
-                            <tr class='table-row'
-                                data-href='${pageContext.request.contextPath}/drivers/${availableDriver.id}'>
-                                <td class="align-middle">
-                                        ${availableDriver.firstName}
-                                </td>
-                                <td class="align-middle">
-                                        ${availableDriver.lastName}
-                                </td>
-                                <td class="align-middle">
-                                        ${availableDriver.id}
-                                </td>
-                                <td class="align-middle">
-                                        ${availableDriver.workedHoursPerMonth}
-                                </td>
-                                <td class="align-middle">
-                                        ${availableDriver.status.toString()}
-                                </td>
-                                <td class="align-middle">
-                                        ${availableDriver.currentCity.name}
-                                </td>
-
-                                <c:url var="bindDriverLink"
-                                       value="/trucks/bind-driver">
-                                    <c:param name="truckId"
-                                             value="${order.truck.id}"/>
-                                    <c:param name="driverId"
-                                             value="${availableDriver.id}"/>
-                                </c:url>
-
-                                <td><a class="nav-link"
-                                       href="${bindDriverLink}">
-                                    <em class="fas fa-plus"
-                                        style="color: #008000"></em></a></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </c:otherwise>
-            </c:choose>
         </c:otherwise>
     </c:choose>
 </main>

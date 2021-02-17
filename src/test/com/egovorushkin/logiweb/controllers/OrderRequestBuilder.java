@@ -1,4 +1,4 @@
-package com.egovorushkin.logiweb;
+package com.egovorushkin.logiweb.controllers;
 
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * provide CRUD operations for logiweb entities.
  */
 
-public class TruckRequestBuilder {
+public class OrderRequestBuilder {
 
     private final MockMvc mockMvc;
 
-    public TruckRequestBuilder(MockMvc mockMvc) {
+    public OrderRequestBuilder(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
     }
 
@@ -27,7 +27,7 @@ public class TruckRequestBuilder {
      */
 
     ResultActions findAll() throws Exception {
-        return mockMvc.perform(get("/trucks/list"));
+        return mockMvc.perform(get("/orders/list"));
     }
 
     /**
@@ -39,6 +39,6 @@ public class TruckRequestBuilder {
      * @throws Exception
      */
     ResultActions findById(Long id) throws Exception {
-        return mockMvc.perform(get("/trucks/{id}", id));
+        return mockMvc.perform(get("/orders/{id}", id));
     }
 }

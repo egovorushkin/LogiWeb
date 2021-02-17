@@ -8,11 +8,9 @@ import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
-import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
-import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,15 +32,11 @@ public class TruckServiceImpl implements TruckService {
     private final ScoreboardService scoreboardService;
 
     @Autowired
-    public TruckServiceImpl(TruckDao truckDao, ModelMapper modelMapper,
-                            ScoreboardService scoreboardService) {
+    public TruckServiceImpl(TruckDao truckDao,
+                            ModelMapper modelMapper, ScoreboardService scoreboardService) {
         this.truckDao = truckDao;
         this.modelMapper = modelMapper;
         this.scoreboardService = scoreboardService;
-
-        modelMapper.getConfiguration()
-                .setPropertyCondition(context ->
-                        !(context.getSource() instanceof PersistentCollection));
     }
 
     @Override
@@ -60,7 +54,18 @@ public class TruckServiceImpl implements TruckService {
 
         LOGGER.info("Found the truck with id = " + id);
 
-        return modelMapper.map(truck, TruckDto.class);
+        TruckDto  truckDto = modelMapper.map(truckDao.getTruckById(id), TruckDto.class);
+
+
+        // TODO: for testing
+        if(truckDto.getCurrentDrivers() != null) {
+            for (DriverDto d : truckDto.getCurrentDrivers()) {
+                System.out.println(d);
+            }
+        }
+
+
+        return truckDto;
     }
 
     @Override
@@ -172,6 +177,14 @@ public class TruckServiceImpl implements TruckService {
         truckStats.setAvailable(truckStats.getTotal() - truckStats.getBusy()
                 - truckStats.getFaulty());
         return truckStats;
+    }
+
+    @Override
+    public Truck findByRegistrationNumber(String registrationNumber) {
+
+        LOGGER.debug("findByRegistrationNumber() executed");
+
+        return truckDao.findByRegistrationNumber(registrationNumber);
     }
 
 }

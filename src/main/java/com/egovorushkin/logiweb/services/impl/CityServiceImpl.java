@@ -6,7 +6,6 @@ import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.services.api.CityService;
 import org.apache.log4j.Logger;
-import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +27,6 @@ public class CityServiceImpl implements CityService {
     public CityServiceImpl(CityDao cityDao, ModelMapper modelMapper) {
         this.cityDao = cityDao;
         this.modelMapper = modelMapper;
-
-        modelMapper.getConfiguration()
-                .setPropertyCondition(context ->
-                        !(context.getSource() instanceof PersistentCollection));
     }
 
     @Override

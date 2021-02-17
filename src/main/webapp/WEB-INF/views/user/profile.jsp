@@ -32,235 +32,223 @@
         </div>
     </div>
 
+    <div class="row mb-3">
+        <label for="userCity" class="col-sm-2 col-form-label">Current city:</label>
+        <div class="col-sm-2">
+            <input value="${user.currentCity.name}"
+                   class="form-control form-control-sm" id="userCity"
+                   name="userCity" disabled/>
+        </div>
+    </div>
+
     <hr>
 
-    <c:choose>
-        <c:when test="${user.inShift == false}">
-            <fieldset>
-                <legend>State</legend>
-                <c:url var="changeState" value="/user/update-state">
-                    <c:param name="userState" value="${user.inShift = true}"/>
-                </c:url>
-                <a href="${changeState}">
-                    <button class="btn btn-sm  btn-success">In shift</button>
-                </a>
-                <c:url var="changeState" value="/user/update-state">
-                    <c:param name="userState" value="${user.inShift = false}"/>
-                </c:url>
-                <a href="${changeState}">
-                    <button class="btn btn-sm  btn-danger" disabled>Not in
-                        Shift
-                    </button>
-                </a>
-            </fieldset>
-        </c:when>
-        <c:when test="${user.inShift == true}">
-            <fieldset>
-                <legend>State</legend>
-                <c:url var="changeState" value="/user/update-state">
-                    <c:param name="userState" value="${user.inShift = true}"/>
-                </c:url>
-                <a href="${changeState}">
-                    <button class="btn btn-sm  btn-danger" disabled>In shift
-                    </button>
-                </a>
-                <c:url var="changeState" value="/user/update-state">
-                    <c:param name="userState" value="${user.inShift = false}"/>
-                </c:url>
-                <a href="${changeState}">
-                    <button class="btn btn-sm  btn-success">Not in Shift
-                    </button>
-                </a>
-            </fieldset>
+    <h5>Current State:
+        <c:if test="${user.inShift == true}">
+            <span class="badge rounded-pill bg-primary text-light">In shift</span>
+        </c:if>
+        <c:if test="${user.inShift == false}">
+            <span class="badge rounded-pill bg-primary text-light">Not in shift</span>
+        </c:if>
+    </h5>
+    <h5>Current Status:
+        <c:if test="${user.status eq 'RESTING'}">
+            <span class="badge rounded-pill bg-primary text-light">Resting</span>
+        </c:if>
+        <c:if test="${user.status eq 'DRIVING'}">
+            <span class="badge rounded-pill bg-primary text-light">Driving</span>
+        </c:if>
+        <c:if test="${user.status eq 'SECOND_DRIVER'}">
+            <span class="badge rounded-pill bg-primary text-light">Second driver</span>
+        </c:if>
+    </h5>
+    <hr>
 
-            <c:if test="${user.status eq 'RESTING'}">
-                <legend>Status</legend>
-                <c:url var="changeStatusDriving"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'DRIVING'}"/>
-                </c:url>
-                <a href="${changeStatusDriving}">
-                    <button class="btn btn-sm  btn-success"
-                    >Driving
-                    </button>
-                </a>
+    <c:if test="${user.truck != null}">
+        <c:choose>
+            <c:when test="${user.inShift == false}">
+                <fieldset>
+                    <legend>Change State</legend>
+                    <c:url var="changeState" value="/user/update-state">
+                        <c:param name="userState" value="${user.inShift = true}"/>
+                    </c:url>
+                    <a href="${changeState}">
+                        <button class="btn btn-sm  btn-success">In shift</button>
+                    </a>
+                    <c:url var="changeState" value="/user/update-state">
+                        <c:param name="userState" value="${user.inShift = false}"/>
+                    </c:url>
+                </fieldset>
+            </c:when>
+            <c:when test="${user.inShift == true}">
+                <fieldset>
+                    <legend>Chahge State</legend>
+                    <c:url var="changeState" value="/user/update-state">
+                        <c:param name="userState" value="${user.inShift = true}"/>
+                    </c:url>
+                    <c:url var="changeState" value="/user/update-state">
+                        <c:param name="userState" value="${user.inShift = false}"/>
+                    </c:url>
+                    <a href="${changeState}">
+                        <button class="btn btn-sm  btn-success">Not in Shift
+                        </button>
+                    </a>
+                </fieldset>
 
-                <c:url var="changeStatusSecondDriver"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'SECOND_DRIVER'}"/>
-                </c:url>
-                <a href="${changeStatusSecondDriver}">
-                    <button class="btn btn-sm  btn-success"
-                    >Second Driver
-                    </button>
-                </a>
+                <c:if test="${user.status eq 'RESTING'}">
+                    <legend>Change Status</legend>
+                    <c:url var="changeStatusDriving"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'DRIVING'}"/>
+                    </c:url>
+                    <a href="${changeStatusDriving}">
+                        <button class="btn btn-sm  btn-success"
+                        >Driving
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'LOADING_UNLOADING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-success"
-                    >Loading-Unloading
-                    </button>
-                </a>
+                    <c:url var="changeStatusSecondDriver"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'SECOND_DRIVER'}"/>
+                    </c:url>
+                    <a href="${changeStatusSecondDriver}">
+                        <button class="btn btn-sm  btn-success"
+                        >Second Driver
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'RESTING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-danger" disabled
-                    >Resting
-                    </button>
-                </a>
-            </c:if>
+                    <c:url var="changeStatusLoadUnload"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'LOADING_UNLOADING'}"/>
+                    </c:url>
+                    <a href="${changeStatusLoadUnload}">
+                        <button class="btn btn-sm  btn-success"
+                        >Loading-Unloading
+                        </button>
+                    </a>
 
-            <c:if test="${user.status eq 'DRIVING'}">
-                <legend>Status</legend>
-                <c:url var="changeStatusDriving"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'DRIVING'}"/>
-                </c:url>
-                <a href="${changeStatusDriving}">
-                    <button class="btn btn-sm  btn-danger" disabled
-                    >Driving
-                    </button>
-                </a>
+                    <c:url var="changeStatusLoadUnload"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'RESTING'}"/>
+                    </c:url>
+                </c:if>
 
-                <c:url var="changeStatusSecondDriver"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'SECOND_DRIVER'}"/>
-                </c:url>
-                <a href="${changeStatusSecondDriver}">
-                    <button class="btn btn-sm  btn-success"
-                    >Second Driver
-                    </button>
-                </a>
+                <c:if test="${user.status eq 'DRIVING'}">
+                    <legend>Status</legend>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'LOADING_UNLOADING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-success"
-                    >Loading-Unloading
-                    </button>
-                </a>
+                    <c:url var="changeStatusSecondDriver"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'SECOND_DRIVER'}"/>
+                    </c:url>
+                    <a href="${changeStatusSecondDriver}">
+                        <button class="btn btn-sm  btn-success"
+                        >Second Driver
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'RESTING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-success"
-                    >Resting
-                    </button>
-                </a>
-            </c:if>
-            <c:if test="${user.status eq 'SECOND_DRIVER'}">
-                <legend>Status</legend>
-                <c:url var="changeStatusDriving"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'DRIVING'}"/>
-                </c:url>
-                <a href="${changeStatusDriving}">
-                    <button class="btn btn-sm  btn-success"
-                    >Driving
-                    </button>
-                </a>
+                    <c:url var="changeStatusLoadUnload"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'LOADING_UNLOADING'}"/>
+                    </c:url>
+                    <a href="${changeStatusLoadUnload}">
+                        <button class="btn btn-sm  btn-success"
+                        >Loading-Unloading
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusSecondDriver"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'SECOND_DRIVER'}"/>
-                </c:url>
-                <a href="${changeStatusSecondDriver}">
-                    <button class="btn btn-sm  btn-danger" disabled
-                    >Second Driver
-                    </button>
-                </a>
+                    <c:url var="changeStatusLoadUnload"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'RESTING'}"/>
+                    </c:url>
+                    <a href="${changeStatusLoadUnload}">
+                        <button class="btn btn-sm  btn-success"
+                        >Resting
+                        </button>
+                    </a>
+                </c:if>
+                <c:if test="${user.status eq 'SECOND_DRIVER'}">
+                    <legend>Change Status</legend>
+                    <c:url var="changeStatusDriving"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'DRIVING'}"/>
+                    </c:url>
+                    <a href="${changeStatusDriving}">
+                        <button class="btn btn-sm  btn-success"
+                        >Driving
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'LOADING_UNLOADING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-success"
-                    >Loading-Unloading
-                    </button>
-                </a>
+                    <c:url var="changeStatusLoadUnload"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'LOADING_UNLOADING'}"/>
+                    </c:url>
+                    <a href="${changeStatusLoadUnload}">
+                        <button class="btn btn-sm  btn-success"
+                        >Loading-Unloading
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'RESTING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-success"
-                    >Resting
-                    </button>
-                </a>
-            </c:if>
+                    <c:url var="changeStatusLoadUnload"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'RESTING'}"/>
+                    </c:url>
+                    <a href="${changeStatusLoadUnload}">
+                        <button class="btn btn-sm  btn-success"
+                        >Resting
+                        </button>
+                    </a>
+                </c:if>
 
-            <c:if test="${user.status eq 'LOADING_UNLOADING'}">
-                <legend>Status</legend>
-                <c:url var="changeStatusDriving"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'DRIVING'}"/>
-                </c:url>
-                <a href="${changeStatusDriving}">
-                    <button class="btn btn-sm  btn-success"
-                    >Driving
-                    </button>
-                </a>
+                <c:if test="${user.status eq 'LOADING_UNLOADING'}">
+                    <legend>Change Status</legend>
+                    <c:url var="changeStatusDriving"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'DRIVING'}"/>
+                    </c:url>
+                    <a href="${changeStatusDriving}">
+                        <button class="btn btn-sm  btn-success"
+                        >Driving
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusSecondDriver"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'SECOND_DRIVER'}"/>
-                </c:url>
-                <a href="${changeStatusSecondDriver}">
-                    <button class="btn btn-sm  btn-success"
-                    >Second Driver
-                    </button>
-                </a>
+                    <c:url var="changeStatusSecondDriver"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'SECOND_DRIVER'}"/>
+                    </c:url>
+                    <a href="${changeStatusSecondDriver}">
+                        <button class="btn btn-sm  btn-success"
+                        >Second Driver
+                        </button>
+                    </a>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'LOADING_UNLOADING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-danger" disabled
-                    >Loading-Unloading
-                    </button>
-                </a>
+                    <c:url var="changeStatusLoadUnload"
+                           value="/user/update-status">
+                        <c:param name="userStatus"
+                                 value="${user.status = 'RESTING'}"/>
+                    </c:url>
+                    <a href="${changeStatusLoadUnload}">
+                        <button class="btn btn-sm  btn-success"
+                        >Resting
+                        </button>
+                    </a>
+                </c:if>
+            </c:when>
+        </c:choose>
+    </c:if>
 
-                <c:url var="changeStatusLoadUnload"
-                       value="/user/update-status">
-                    <c:param name="userStatus"
-                             value="${user.status = 'RESTING'}"/>
-                </c:url>
-                <a href="${changeStatusLoadUnload}">
-                    <button class="btn btn-sm  btn-success"
-                    >Resting
-                    </button>
-                </a>
-            </c:if>
-        </c:when>
-    </c:choose>
+
 
     <hr>
 
@@ -270,7 +258,7 @@
 
     <c:choose>
         <c:when test="${colleague eq null}">
-            <h6>No colleague.</h6>
+            <h6>You don't have a colleague yet</h6>
         </c:when>
         <c:otherwise>
             <table class="table table-hover table-responsive-sm table-striped

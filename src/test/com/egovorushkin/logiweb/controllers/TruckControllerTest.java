@@ -1,7 +1,6 @@
-package com.egovorushkin.logiweb;
+package com.egovorushkin.logiweb.controllers;
 
 
-import com.egovorushkin.logiweb.controllers.TruckController;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;

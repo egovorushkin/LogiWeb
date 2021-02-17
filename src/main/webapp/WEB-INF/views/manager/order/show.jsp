@@ -105,7 +105,7 @@
             <c:otherwise>
                 <a class="btn btn-sm btn-success" href="${updateLink}"
                    role="button">
-                    Edit
+                    Edit / Add truck
                 </a>
             </c:otherwise>
         </c:choose>
@@ -119,6 +119,8 @@
             Back
         </a>
     </form:form>
+
+    <hr>
 
     <div class="page-header">
         <h4>The truck carrying out the order</h4>
@@ -143,7 +145,10 @@
                     <th scope="col">State</th>
                     <th scope="col">Status</th>
                     <th scope="col">Current City</th>
-                    <th scope="col">Unbind truck</th>
+                    <c:if test="${order.status.title == 'NOT_COMPLETED'}">
+                        <th scope="col">Unbind truck</th>
+                    </c:if>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -157,14 +162,17 @@
                     <td class="align-middle">${order.truck.status.toString()}</td>
                     <td class="align-middle">${order.truck.currentCity.name}</td>
 
-                    <c:url var="unbindOrderLink" value="/orders/unbind-truck">
-                        <c:param name="truckId" value="${order.truck.id}"/>
-                        <c:param name="orderId" value="${order.id}"/>
-                    </c:url>
+                    <c:if test="${order.status.title == 'NOT_COMPLETED'}">
+                        <c:url var="unbindOrderLink" value="/orders/unbind-truck">
+                            <c:param name="truckId" value="${order.truck.id}"/>
+                            <c:param name="orderId" value="${order.id}"/>
+                        </c:url>
 
-                    <td><a class="nav-link" href="${unbindOrderLink}"><em
-                            class="fas fa-minus" style="color: red"></em></a>
-                    </td>
+                        <td><a class="nav-link" href="${unbindOrderLink}"><em
+                                class="fas fa-minus" style="color: red"></em></a>
+                        </td>
+                    </c:if>
+
                 </tr>
                 </tbody>
             </table>
@@ -176,11 +184,8 @@
             </div>
 
             <c:choose>
-                <c:when test="${empty order.truck.currentDrivers}">
+                <c:when test="${currentDrivers == null}">
                     <h6>No drivers has been assigned for this order yet.</h6>
-                    <a class="btn btn-sm  btn-success"
-                       href="${pageContext.request.contextPath}/drivers/create"
-                       role="button">Add Driver</a>
                 </c:when>
                 <c:otherwise>
                     <table class="table table-hover table-responsive-sm
@@ -192,14 +197,13 @@
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
                             <th scope="col">Personal №</th>
-                            <th scope="col">Worked Hours / Month</th>
+                            <th scope="col">Worked Hours</th>
                             <th scope="col">Current Status</th>
                             <th scope="col">Current City</th>
-                            <th scope="col">Unbind from truck</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${order.truck.currentDrivers}"
+                        <c:forEach items="${currentDrivers}"
                                    var="currentDriver">
                             <tr class='table-row'
                                 data-href='${pageContext.request.contextPath}/drivers/${currentDriver.id}'>
@@ -211,23 +215,6 @@
                                 <td class="align-middle">${currentDriver.workedHoursPerMonth}</td>
                                 <td class="align-middle">${currentDriver.status.toString()}</td>
                                 <td class="align-middle">${currentDriver.currentCity.name}</td>
-
-                                <c:url var="unbindDriverLink"
-                                       value="/trucks/unbind-driver">
-                                    <c:param name="truckId"
-                                             value="${order.truck.id}"/>
-                                    <c:param name="driverId"
-                                             value="${currentDriver.id}"/>
-                                </c:url>
-
-                                <td><a class="nav-link"
-                                       href="${unbindDriverLink}"
-                                       onclick="if (!(confirm
-                                       ('Are you sure you want to unbind this ' +
-                                        'driver from truck?'))) return false"><em
-                                        class="fas fa-minus"
-                                        style="color: red"></em></a>
-                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>

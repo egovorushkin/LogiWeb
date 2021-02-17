@@ -7,8 +7,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "truck")
-public class Truck extends AbstractEntity {
-
+public class Truck extends AbstractEntity{
 
     @Column(name = "registration_number", unique = true, nullable = false,
             length = 7)
@@ -16,7 +15,6 @@ public class Truck extends AbstractEntity {
 
     @Column(name = "team_size", nullable = false)
     private int teamSize;
-
 
     @Column(name = "capacity", nullable = false)
     private int capacity;
@@ -104,6 +102,16 @@ public class Truck extends AbstractEntity {
 
     public void setCurrentDrivers(Set<Driver> currentDrivers) {
         this.currentDrivers = currentDrivers;
+    }
+
+    public void addDriver(Driver driver) {
+        currentDrivers.add(driver);
+        driver.setTruck(this);
+    }
+
+    public void removeDriver(Driver driver) {
+        currentDrivers.remove(driver);
+        driver.setTruck(null);
     }
 
     public Set<Order> getCurrentOrders() {

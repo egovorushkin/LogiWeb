@@ -3,9 +3,9 @@ package com.egovorushkin.logiweb.services.impl;
 import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.dao.api.OrderDao;
+import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.DriverStatsDto;
-import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
@@ -16,11 +16,9 @@ import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
-import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
-import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -49,6 +47,9 @@ public class DriverServiceImpl implements DriverService {
     private final OrderDao orderDao;
 
     @Autowired
+    private TruckDao truckDao;
+
+    @Autowired
     public DriverServiceImpl(DriverDao driverDao,
                              TruckService truckService,
                              ModelMapper modelMapper,
@@ -62,9 +63,6 @@ public class DriverServiceImpl implements DriverService {
         this.scoreboardService = scoreboardService;
         this.orderDao = orderDao;
 
-        modelMapper.getConfiguration()
-                .setPropertyCondition(context ->
-                        !(context.getSource() instanceof PersistentCollection));
     }
 
     @Override
@@ -222,7 +220,7 @@ public class DriverServiceImpl implements DriverService {
                 if (existingDriver.getTruck() != null) {
                     existingDriver.setStatus(driverStatus);
                     existingDriver.getTruck().setStatus(TruckStatus.ON_THE_WAY);
-
+                    existingDriver.getTruck().setBusy(true);
                     driverDao.updateDriver(modelMapper.map(existingDriver,
                             Driver.class));
                     truckService.updateTruck(existingDriver.getTruck());

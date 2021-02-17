@@ -6,9 +6,8 @@ import org.hibernate.validator.constraints.Range;
 
 import java.io.Serializable;
 
-public class OrderDto implements Serializable {
+public class OrderDto extends AbstractDto implements Serializable {
 
-    private long id;
     private OrderStatus status;
     private City fromCity;
     private City toCity;
@@ -20,14 +19,6 @@ public class OrderDto implements Serializable {
 
     public OrderDto() {
         status = OrderStatus.NOT_COMPLETED;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public OrderStatus getStatus() {
@@ -83,9 +74,19 @@ public class OrderDto implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "OrderDto{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", status=" + status +
                 ", fromCity=" + fromCity +
                 ", toCity=" + toCity +

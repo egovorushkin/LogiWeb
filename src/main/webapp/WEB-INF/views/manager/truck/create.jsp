@@ -15,9 +15,25 @@
         <h4 class="h4">Create New Truck</h4>
     </div>
 
-    <form:form modelAttribute="truck"
+    <form:form modelAttribute="truckDto"
                action="${pageContext.request.contextPath}/trucks/save"
                method="post">
+
+        <!-- Place for messages: error, alert etc ... -->
+        <div class="form-group">
+            <div class="col-xs-10">
+                <div>
+                    <!-- Check for registration error -->
+                    <c:if test="${createTruckError != null}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                ${createTruckError}
+                        </div>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+
+
         <div class="row mb-3">
             <label for="registrationNumber" class="col-sm-2 col-form-label">
                 Registration №:
@@ -79,7 +95,7 @@
             <div class="col-sm-2">
                 <form:select path="currentCity.id"
                              cssClass="form-control form-control-sm">
-                    <c:if test="${empty truck.currentCity}">
+                    <c:if test="${empty truckDto.currentCity}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
                     <form:options items="${cities}" itemValue="id"

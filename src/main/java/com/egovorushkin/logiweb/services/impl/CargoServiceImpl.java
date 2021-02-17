@@ -32,10 +32,6 @@ public class CargoServiceImpl implements CargoService {
     public CargoServiceImpl(CargoDao cargoDao, ModelMapper modelMapper) {
         this.cargoDao = cargoDao;
         this.modelMapper = modelMapper;
-
-        modelMapper.getConfiguration()
-                .setPropertyCondition(context ->
-                        !(context.getSource() instanceof PersistentCollection));
     }
 
     @Override

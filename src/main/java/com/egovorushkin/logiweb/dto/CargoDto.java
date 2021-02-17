@@ -6,13 +6,10 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Objects;
 
-public class CargoDto implements Serializable {
+public class CargoDto extends AbstractDto implements Serializable {
 
-    private long id;
-
-    @Pattern(regexp = "[A-Z][a-z]*",
+    @Pattern(regexp = "[A-Z]*[a-z]*",
             message = "Name of cargo must be like \"Stone\"")
     @NotEmpty(message = "Cargo name should not be empty.")
     private String name;
@@ -25,14 +22,6 @@ public class CargoDto implements Serializable {
 
     public CargoDto() {
         status = CargoStatus.PREPARED;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -61,19 +50,11 @@ public class CargoDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CargoDto cargoDto = (CargoDto) o;
-        return id == cargoDto.id;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return name + " (" + weight + " kg) - " + status;
+        return super.hashCode();
     }
 }

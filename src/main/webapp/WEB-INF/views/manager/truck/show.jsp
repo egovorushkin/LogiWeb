@@ -13,12 +13,12 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
     align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4 class="h4"><em class="fas fa-truck-moving"></em> |
-            Truck №${truck.registrationNumber}
+            Truck №${truckDto.registrationNumber}
         </h4>
     </div>
 
-    <form:form modelAttribute="truck"
-               action="${pageContext.request.contextPath}/trucks/${truck.id}">
+    <form:form modelAttribute="truckDto"
+               action="${pageContext.request.contextPath}/trucks/${truckDto.id}">
 
         <form:hidden path="id"/>
 
@@ -39,11 +39,11 @@
                 <div class="col-sm-10">
                     <div class="form-check form-check-inline">
                         <c:choose>
-                            <c:when test="${truck.teamSize == 1}">
+                            <c:when test="${truckDto.teamSize == 1}">
                                 1 / ${numberOfDrivers}
                             </c:when>
                             <c:otherwise>
-                                ${truck.teamSize} / ${numberOfDrivers}
+                                ${truckDto.teamSize} / ${numberOfDrivers}
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -79,22 +79,22 @@
             <label for="currentCity" class="col-sm-2 col-form-label">Current
                 City:</label>
             <div class="col-sm-2">
-                <input value="${truck.currentCity.toString()}"
+                <input value="${truckDto.currentCity.name}"
                        class="form-control form-control-sm" id="currentCity"
                        name="currentCity" disabled/>
             </div>
         </div>
 
         <c:url var="deleteLink" value="/trucks/delete">
-            <c:param name="truckId" value="${truck.id}"/>
+            <c:param name="truckId" value="${truckDto.id}"/>
         </c:url>
 
         <c:url var="updateLink" value="/trucks/edit">
-            <c:param name="truckId" value="${truck.id}"/>
+            <c:param name="truckId" value="${truckDto.id}"/>
         </c:url>
 
         <a class="btn btn-sm btn-success" href="${updateLink}" role="button">
-            Edit/Add drivers
+            Edit / Add drivers
         </a>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this truck?')))
@@ -106,9 +106,10 @@
         </a>
     </form:form>
 
+    <hr>
+
     <div class="page-header">
         <h4>Current Drivers</h4>
-        <hr>
     </div>
 
     <c:choose>
@@ -144,7 +145,7 @@
                         <td class="align-middle">${currentDriver.currentCity.name}</td>
 
                         <c:url var="unbindDriverLink" value="/trucks/unbind-driver">
-                            <c:param name="truckId" value="${truck.id}"/>
+                            <c:param name="truckId" value="${truckDto.id}"/>
                             <c:param name="driverId" value="${currentDriver.id}"/>
                         </c:url>
 

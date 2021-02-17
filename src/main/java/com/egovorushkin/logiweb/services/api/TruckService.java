@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.services.api;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.dto.TruckStatsDto;
+import com.egovorushkin.logiweb.entities.Truck;
 
 import java.util.List;
 
@@ -24,4 +25,5 @@ public interface TruckService {
 
     TruckStatsDto getStats();
 
+    Truck findByRegistrationNumber(String registrationNumber);
 }

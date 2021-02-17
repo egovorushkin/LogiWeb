@@ -14,11 +14,11 @@
     align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4 class="h4">
             <em class="fas fa-truck-moving"></em> | Edit Truck
-            ${truck.registrationNumber}
+            ${truckDto.registrationNumber}
         </h4>
     </div>
 
-    <form:form modelAttribute="truck"
+    <form:form modelAttribute="truckDto"
                action="${pageContext.request.contextPath}/trucks/update"
                method="post">
 
@@ -105,7 +105,7 @@
         </div>
 
         <c:url var="deleteLink" value="/trucks/delete">
-            <c:param name="truckId" value="${truck.id}"/>
+            <c:param name="truckId" value="${truckDto.id}"/>
         </c:url>
 
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
@@ -117,10 +117,25 @@
            role="button">Cancel</a>
     </form:form>
 
+    <hr>
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
                 align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4 class="h4">Available Drivers</h4>
-        <hr>
+    </div>
+
+    <!-- Place for messages: error, alert etc ... -->
+    <div class="form-group">
+        <div class="col-xs-10">
+            <div>
+                <!-- Check for registration error -->
+                <c:if test="${noSpaceInTheTruck != null}">
+                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            ${noSpaceInTheTruck}
+                    </div>
+                </c:if>
+            </div>
+        </div>
     </div>
 
     <c:choose>
@@ -172,11 +187,14 @@
                                 ${availableDriver.currentCity.name}
                         </td>
                         <td class="align-middle">
+                            <c:if test="${availableDriver.truck eq null}">
+                                None
+                            </c:if>
                                 ${availableDriver.truck.registrationNumber}
                         </td>
 
                         <c:url var="bindDriverLink" value="/trucks/bind-driver">
-                            <c:param name="truckId" value="${truck.id}"/>
+                            <c:param name="truckId" value="${truckDto.id}"/>
                             <c:param name="driverId"
                                      value="${availableDriver.id}"/>
                         </c:url>

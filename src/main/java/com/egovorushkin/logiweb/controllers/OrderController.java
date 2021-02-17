@@ -49,7 +49,12 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public String showOrder(@PathVariable("id") long id, Model model) {
-        model.addAttribute(ORDER, orderService.getOrderById(id));
+        OrderDto orderDto = orderService.getOrderById(id);
+        TruckDto truckDto = orderDto.getTruck();
+
+        model.addAttribute(ORDER, orderDto);
+        model.addAttribute("currentDrivers",
+                truckService.findCurrentDriversByTruckId(truckDto.getId()));
         return "manager/order/show";
     }
 
@@ -87,8 +92,6 @@ public class OrderController {
         model.addAttribute(TRUCKS, truckService.getAllTrucks());
         model.addAttribute("availableTrucks",
                 orderService.findAvailableTrucks(orderService.getOrderById(id)));
-        model.addAttribute("availableDrivers",
-                orderService.findAvailableDriversForOrder(orderService.getOrderById(id)));
 
         return "manager/order/edit";
     }
@@ -126,6 +129,7 @@ public class OrderController {
         OrderDto order = orderService.getOrderById(orderId);
 
         truck.setBusy(true);
+        truckService.updateTruck(truck);
 
         order.setTruck(truck);
         orderService.updateOrder(order);
@@ -135,13 +139,17 @@ public class OrderController {
     }
 
     @GetMapping("/unbind-truck")
-    public String unbindTruckForOrder(@RequestParam("truckId") long truckId,
-                                      @RequestParam("orderId") long orderId,
+    public String unbindTruckForOrder(@RequestParam("orderId") long orderId,
                                       RedirectAttributes redirectAttributes) {
         OrderDto order = orderService.getOrderById(orderId);
         if (order.getTruck() != null) {
+
+            order.getTruck().setBusy(false);
+            truckService.updateTruck(order.getTruck());
+
             order.setTruck(null);
             orderService.updateOrder(order);
+
         }
 
         redirectAttributes.addAttribute("orderId", orderId);

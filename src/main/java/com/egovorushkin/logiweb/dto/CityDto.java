@@ -1,19 +1,16 @@
 package com.egovorushkin.logiweb.dto;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-public class CityDto implements Serializable {
+public class CityDto extends AbstractDto implements Serializable {
 
-    private long id;
     private String name;
 
-    public long getId() {
-        return id;
+    public CityDto() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public CityDto(String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -26,22 +23,19 @@ public class CityDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CityDto cityDto = (CityDto) o;
-        return id == cityDto.id;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return super.hashCode();
     }
 
     @Override
     public String toString() {
         return "CityDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "id=" + super.getId() +
+                "name='" + name + '\'' +
                 '}';
     }
 }

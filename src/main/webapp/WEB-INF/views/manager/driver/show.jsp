@@ -54,7 +54,7 @@
         </div>
         <div class="row mb-3">
             <label for="workedHoursPerMonth" class="col-sm-2 col-form-label">
-                Worked Hours / Month:
+                Worked Hours:
             </label>
             <div class="col-sm-2">
                 <input class="form-control form-control-sm" disabled
@@ -75,7 +75,7 @@
             <label for="currentCity" class="col-sm-2 col-form-label">Current
                 City:</label>
             <div class="col-sm-2">
-                <input value="${driver.currentCity.toString()}"
+                <input value="${driver.currentCity.name}"
                        class="form-control form-control-sm" id="currentCity"
                        name="currentCity" disabled/>
             </div>
@@ -91,7 +91,7 @@
         </c:url>
 
         <a class="btn btn-sm btn-success" href="${updateLink}" role="button">
-            Edit/Set Truck
+            Edit / Set Truck
         </a>
         <a class="btn btn-sm btn-secondary btn-danger" href="${deleteLink}"
            onclick="if (!(confirm('Are you sure you want to delete this driver?')))
@@ -102,9 +102,10 @@
            role="button">Back</a>
     </form:form>
 
+    <hr>
+
     <div class="page-header">
         <h4>Current Truck</h4>
-        <hr>
     </div>
 
     <c:choose>

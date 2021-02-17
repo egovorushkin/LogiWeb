@@ -1,27 +1,23 @@
 package com.egovorushkin.logiweb.dto;
 
-import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Objects;
 
-public class DriverDto implements Serializable {
-
-    private long id;
+public class DriverDto extends AbstractDto implements Serializable {
 
     private String username;
 
     @Pattern(regexp = "[A-Z][a-z]*", message =
-            "Firstname must be like \"Ivan\"")
+            "Firstname must be like \"John\"")
     @NotEmpty(message = "Firstname should not be empty.")
     private String firstName;
 
     @Pattern(regexp = "[A-Z][a-z]*", message =
-            "Lastname must be like \"Ivanov\"")
+            "Lastname must be like \"Johnson\"")
     @NotEmpty(message = "Lastname should not be empty.")
     private String lastName;
 
@@ -33,21 +29,14 @@ public class DriverDto implements Serializable {
 
     private DriverStatus status;
 
-    private City currentCity;
+    private CityDto currentCity;
 
     private TruckDto truck;
+
 
     public DriverDto() {
         status = DriverStatus.RESTING;
         workedHoursPerMonth = 0;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -98,11 +87,11 @@ public class DriverDto implements Serializable {
         this.status = status;
     }
 
-    public City getCurrentCity() {
+    public CityDto getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(City currentCity) {
+    public void setCurrentCity(CityDto currentCity) {
         this.currentCity = currentCity;
     }
 
@@ -116,27 +105,26 @@ public class DriverDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DriverDto driverDto = (DriverDto) o;
-        return id == driverDto.id;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return super.hashCode();
     }
 
     @Override
     public String toString() {
         return "DriverDto{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+                "id=" + super.getId() +
+                "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", workedHoursPerMonth=" + workedHoursPerMonth +
                 ", isInShift=" + isInShift +
                 ", status=" + status +
+                ", currentCity=" + currentCity +
+                ", truck=" + truck +
                 '}';
     }
 }

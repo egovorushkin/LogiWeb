@@ -49,13 +49,6 @@ public class OrderServiceImpl implements OrderService {
         this.modelMapper = modelMapper;
         this.driverDao = driverDao;
         this.scoreboardService = scoreboardService;
-
-        /*
-         * for avoiding Lazy Initialization Exception in Model mapper
-         */
-        modelMapper.getConfiguration()
-                .setPropertyCondition(context ->
-                        !(context.getSource() instanceof PersistentCollection));
     }
 
     @Override
@@ -227,8 +220,8 @@ public class OrderServiceImpl implements OrderService {
         if (orderDto.getDuration() <= 12) {
             driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration());
         } else {
-            driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration() / 2);
-            colleague.setWorkedHoursPerMonth(colleague.getWorkedHoursPerMonth() + orderDto.getDuration() / 2);
+            driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration());
+            colleague.setWorkedHoursPerMonth(colleague.getWorkedHoursPerMonth() + orderDto.getDuration());
         }
 
         driverDao.updateDriver(modelMapper.map(driver, Driver.class));

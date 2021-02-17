@@ -41,7 +41,8 @@ public class DriverController {
     @Autowired
     public DriverController(DriverService driverService,
                             TruckService truckService,
-                            CityService cityService, UserService userService,
+                            CityService cityService,
+                            UserService userService,
                             ScoreboardService scoreboardService) {
         this.driverService = driverService;
         this.truckService = truckService;
@@ -88,9 +89,10 @@ public class DriverController {
             return MANAGER_DRIVER_CREATE;
         }
 
-        User existing = userService.findByUserName(userName);
-        if (existing != null) {
+        User existingUser = userService.findByUserName(userName);
+        if (existingUser != null) {
             model.addAttribute(USER_DTO, new UserDto());
+            model.addAttribute(CITIES, cityService.getAllCities());
             model.addAttribute("registrationError", "User name already " +
                     "exists.");
 
