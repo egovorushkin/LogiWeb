@@ -53,13 +53,13 @@
     </h5>
     <h5>Current Status:
         <c:if test="${user.status eq 'RESTING'}">
-            <span class="badge rounded-pill bg-primary text-light">Resting</span>
+            <span class="badge rounded-pill bg-warning text-light">Resting</span>
         </c:if>
         <c:if test="${user.status eq 'DRIVING'}">
-            <span class="badge rounded-pill bg-primary text-light">Driving</span>
+            <span class="badge rounded-pill bg-warning text-light">Driving</span>
         </c:if>
         <c:if test="${user.status eq 'SECOND_DRIVER'}">
-            <span class="badge rounded-pill bg-primary text-light">Second driver</span>
+            <span class="badge rounded-pill bg-warning text-light">Second driver</span>
         </c:if>
     </h5>
     <hr>
@@ -247,8 +247,6 @@
             </c:when>
         </c:choose>
     </c:if>
-
-
 
     <hr>
 

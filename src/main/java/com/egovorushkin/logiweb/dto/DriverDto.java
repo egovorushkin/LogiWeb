@@ -2,7 +2,6 @@ package com.egovorushkin.logiweb.dto;
 
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import org.hibernate.validator.constraints.Range;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;

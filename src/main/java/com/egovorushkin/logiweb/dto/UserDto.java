@@ -36,7 +36,6 @@ public class UserDto implements Serializable {
     private CityDto currentCity;
 
     public UserDto() {
-        formRole = "ROLE_DRIVER";
     }
 
     public String getFirstName() {

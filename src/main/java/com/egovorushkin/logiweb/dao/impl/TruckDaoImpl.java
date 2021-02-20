@@ -34,8 +34,7 @@ public class TruckDaoImpl  implements TruckDao {
     public List<Truck> getAllTrucks() {
         return entityManager
                 .createQuery("SELECT t FROM Truck " +
-                "t LEFT JOIN FETCH t.currentDrivers LEFT JOIN FETCH t" +
-                ".currentOrders LEFT JOIN FETCH t.currentCity", Truck.class)
+                "t LEFT JOIN FETCH t.currentCity", Truck.class)
                 .getResultList();
     }
 

@@ -28,11 +28,13 @@ public class OrderControllerTest {
         CityService cityService = mock(CityService.class);
         CargoService cargoService = mock(CargoService.class);
         TruckService truckService = mock(TruckService.class);
+        MapService mapService = mock(MapService.class);
 
         MockMvc mockMvc =
                 MockMvcBuilders.standaloneSetup(
                         new OrderController(orderService,
-                                cityService, cargoService, truckService))
+                                cityService, cargoService, truckService,
+                                mapService))
                         .setHandlerExceptionResolvers(exceptionResolver())
                         .setLocaleResolver(fixedLocalResolver())
                         .setViewResolvers(jspViewResolver())

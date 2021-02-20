@@ -1,8 +1,6 @@
 package com.egovorushkin.logiweb.controllers;
 
-import com.egovorushkin.logiweb.exceptions.SupportInfoException;
 import org.apache.log4j.Logger;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -10,9 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.Date;
@@ -35,7 +31,6 @@ public class ExceptionController {
         return "error";
     }
 
-
     /**
      * Convert a predefined exception to an HTTP Status code
      */
@@ -54,29 +49,11 @@ public class ExceptionController {
      * @return Exception view.
      */
     @ExceptionHandler({SQLException.class, DataAccessException.class})
-    public String databaseError(Exception exception) {
-        LOGGER.error("Request raised " + exception.getClass().getSimpleName());
+    public String databaseError(Exception ex, Model model) {
+        LOGGER.error("Request raised " + ex.getClass().getSimpleName());
+
+        model.addAttribute("exception", ex);
+        model.addAttribute("timestamp", new Date().toString());
         return "databaseError";
     }
-
-//    @ExceptionHandler(SupportInfoException.class)
-//    public ModelAndView handleError(HttpServletRequest req, Exception exception)
-//            throws Exception {
-//
-//        // Rethrow annotated exceptions or they will be processed here instead.
-//        if (AnnotationUtils.findAnnotation(exception.getClass(),
-//                ResponseStatus.class) != null)
-//            throw exception;
-//
-//        LOGGER.error("Request: " + req.getRequestURI() + " raised " + exception);
-//
-//        ModelAndView mav = new ModelAndView();
-//        mav.addObject("exception", exception);
-//        mav.addObject("url", req.getRequestURL());
-//        mav.addObject("timestamp", new Date().toString());
-//        mav.addObject("status", 500);
-//
-//        mav.setViewName("support");
-//        return mav;
-//    }
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,18 +55,7 @@ public class TruckServiceImpl implements TruckService {
 
         LOGGER.info("Found the truck with id = " + id);
 
-        TruckDto  truckDto = modelMapper.map(truckDao.getTruckById(id), TruckDto.class);
-
-
-        // TODO: for testing
-        if(truckDto.getCurrentDrivers() != null) {
-            for (DriverDto d : truckDto.getCurrentDrivers()) {
-                System.out.println(d);
-            }
-        }
-
-
-        return truckDto;
+        return modelMapper.map(truckDao.getTruckById(id), TruckDto.class);
     }
 
     @Override
@@ -140,10 +130,15 @@ public class TruckServiceImpl implements TruckService {
 
         List<Driver> currentDrivers = truckDao.findCurrentDriversByTruckId(id);
 
+        if (currentDrivers == null) {
+            return Collections.emptyList();
+        }
+
         return currentDrivers.stream()
                 .map(driver -> modelMapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<DriverDto> findAvailableDriversByTruck(TruckDto truckDto) {

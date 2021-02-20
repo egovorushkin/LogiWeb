@@ -15,6 +15,7 @@ public class OrderDto extends AbstractDto implements Serializable {
     @Range(min = 0, max = 10000, message = "Distance should be between 0 and " +
             "10000 km.")
     private Integer distance;
+    private Integer duration;
     private TruckDto truck;
 
     public OrderDto() {
@@ -61,8 +62,12 @@ public class OrderDto extends AbstractDto implements Serializable {
         this.distance = distance;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return distance / 80;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     public TruckDto getTruck() {

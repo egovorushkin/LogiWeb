@@ -5,6 +5,7 @@ import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.enums.CargoStatus;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import com.egovorushkin.logiweb.services.api.*;
+import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/orders")
@@ -22,6 +24,7 @@ public class OrderController {
     private final CityService cityService;
     private final CargoService cargoService;
     private final TruckService truckService;
+    private final MapService mapService;
 
     private static final String ORDER = "order";
     private static final String STATUSES = "statuses";
@@ -34,11 +37,12 @@ public class OrderController {
     public OrderController(OrderService orderService,
                            CityService cityService,
                            CargoService cargoService,
-                           TruckService truckService) {
+                           TruckService truckService, MapService mapService) {
         this.orderService = orderService;
         this.cityService = cityService;
         this.cargoService = cargoService;
         this.truckService = truckService;
+        this.mapService = mapService;
     }
 
     @GetMapping("/list")
@@ -51,7 +55,6 @@ public class OrderController {
     public String showOrder(@PathVariable("id") long id, Model model) {
         OrderDto orderDto = orderService.getOrderById(id);
         TruckDto truckDto = orderDto.getTruck();
-
         model.addAttribute(ORDER, orderDto);
         model.addAttribute("currentDrivers",
                 truckService.findCurrentDriversByTruckId(truckDto.getId()));
@@ -70,7 +73,8 @@ public class OrderController {
 
     @PostMapping("/save")
     public String createOrder(@ModelAttribute("order") @Valid OrderDto orderDto,
-                              BindingResult bindingResult, Model model) {
+                              BindingResult bindingResult, Model model)
+            throws InterruptedException, ApiException, IOException {
         if (bindingResult.hasErrors()) {
             model.addAttribute(CITIES, cityService.getAllCities());
             model.addAttribute(CARGOES, cargoService.getAllCargoes());
@@ -78,7 +82,11 @@ public class OrderController {
             model.addAttribute(STATUSES, OrderStatus.values());
             return "manager/order/create";
         }
+
+//        orderDto = mapService.evaluateDistanceAndDuration(orderDto);
+
         orderService.createOrder(orderDto);
+
         return REDIRECT_ORDERS_LIST;
     }
 

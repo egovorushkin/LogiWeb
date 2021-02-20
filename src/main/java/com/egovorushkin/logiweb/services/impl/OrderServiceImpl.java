@@ -158,7 +158,7 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.debug("createOrder() executed");
 
         if (orderDao.orderExistsById(orderDto.getId())) {
-            throw new ServiceException(String.format("Driver with id" +
+            throw new ServiceException(String.format("Order with id" +
                     " %s already exists", orderDto.getId()));
         }
 
@@ -209,13 +209,17 @@ public class OrderServiceImpl implements OrderService {
         DriverDto colleague =
                 driverService.findColleagueAuthorizedDriverByUsername();
 
-        final OrderDto existingOrder =
+        OrderDto existingOrder =
                 modelMapper.map(orderDao.getOrderById(orderDto.getId()),
                         OrderDto.class);
 
         existingOrder.setStatus(orderDto.getStatus());
-        existingOrder.getCargo().setStatus(CargoStatus.DELIVERED);
         orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
+
+        Order order = orderDao.getOrderById(existingOrder.getId());
+        order.getCargo().setStatus(CargoStatus.DELIVERED);
+        orderDao.updateOrder(order);
+
 
         if (orderDto.getDuration() <= 12) {
             driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration());

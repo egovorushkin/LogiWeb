@@ -100,15 +100,15 @@ public class DriverController {
             return MANAGER_DRIVER_CREATE;
         }
 
-        List<GrantedAuthority> authorities =
-                AuthorityUtils.createAuthorityList();
-        authorities.add(new SimpleGrantedAuthority("ROLE_DRIVER"));
+//        List<GrantedAuthority> authorities =
+//                AuthorityUtils.createAuthorityList();
+//        authorities.add(new SimpleGrantedAuthority("ROLE_DRIVER"));
+//
+//        String formRole = userDto.getFormRole();
 
-        String formRole = userDto.getFormRole();
-
-        if (!formRole.equals("ROLE_DRIVER")) {
-            authorities.add(new SimpleGrantedAuthority(formRole));
-        }
+//        if (!formRole.equals("ROLE_DRIVER")) {
+//            authorities.add(new SimpleGrantedAuthority(formRole));
+//        }
 
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(userDto.getUserName());
@@ -122,7 +122,7 @@ public class DriverController {
 
         userService.save(userDto);
 
-        LOGGER.info("Successfully created user: " + userName);
+        LOGGER.info("Successfully created driver: " + userName);
 
         return REDIRECT_DRIVERS_LIST;
     }

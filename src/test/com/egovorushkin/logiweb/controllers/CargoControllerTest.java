@@ -53,6 +53,12 @@ public class CargoControllerTest {
             requestBuilder.findAll().andExpect(view().name("manager/cargo/list"));
         }
 
+        @Test
+        @DisplayName("Should render the Cargo create view")
+        void shouldRenderCargoCreateView() throws Exception {
+            requestBuilder.create().andExpect(view().name("manager/cargo/create"));
+        }
+
         @Nested
         @DisplayName("When no cargoes is found from the database")
         class WhenNoCargoesIsFoundFromDatabase {

@@ -30,6 +30,10 @@ public class CargoRequestBuilder {
         return mockMvc.perform(get("/cargoes/list"));
     }
 
+    ResultActions create() throws Exception {
+        return mockMvc.perform(get("/cargoes/create"));
+    }
+
     /**
      * Creates and sends the HTTP request which gets the
      * HTML document that displays the information of the

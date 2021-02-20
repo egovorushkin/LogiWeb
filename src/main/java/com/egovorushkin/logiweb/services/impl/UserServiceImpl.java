@@ -53,6 +53,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public void saveAdmin(UserDto userDto) {
+        User user = new User();
+
+        user.setUserName(userDto.getUserName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setRoles(Collections.singletonList(roleDao.findRoleByName(
+                "ROLE_ADMIN")));
+        userDao.save(user);
+    }
+
+    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String userName) {
         User user = userDao.findByUserName(userName);
         if (user == null) {

@@ -66,6 +66,7 @@ public class TruckController {
     @GetMapping("/create")
     public String showCreateTruckForm(Model model) {
         model.addAttribute(TRUCK_DTO, new TruckDto());
+        model.addAttribute(TRUCK_DTO, new Truck());
         model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute(STATES, TruckState.values());
         return MANAGER_TRUCK_CREATE;
@@ -98,6 +99,7 @@ public class TruckController {
         truckService.createTruck(truckDto);
         return REDIRECT_TRUCKS_LIST;
     }
+
 
     @GetMapping("/edit")
     public String showEditTruckForm(@RequestParam("truckId") long id, Model model) {
@@ -133,6 +135,7 @@ public class TruckController {
                                     Model model,
                                     RedirectAttributes redirectAttributes){
         TruckDto truck = truckService.getTruckById(truckId);
+
         DriverDto driver = driverService.getDriverById(driverId);
 
         if (truckService.findCurrentDriversByTruckId(truckId).size() >= truck.getTeamSize()) {
@@ -162,18 +165,18 @@ public class TruckController {
                                     RedirectAttributes redirectAttributes){
         DriverDto driverDto = driverService.getDriverById(driverId);
 
-//        if (driverDto.getTruck().getCurrentDrivers() != null) {
-//            DriverDto colleague = driverDto.getTruck().getCurrentDrivers().stream()
-//                    .filter(driver -> driver.getId() != driverDto.getId())
-//                    .findFirst().orElse(null);
-//
-//            if (colleague != null) {
-//                colleague.setTruck(null);
-//                colleague.setInShift(false);
-//                colleague.setStatus(DriverStatus.RESTING);
-//                driverService.updateDriver(colleague);
-//            }
-//        }
+        if (driverDto.getTruck().getCurrentDrivers() != null) {
+            DriverDto colleague = driverDto.getTruck().getCurrentDrivers().stream()
+                    .filter(driver -> driver.getId() != driverDto.getId())
+                    .findFirst().orElse(null);
+
+            if (colleague != null) {
+                colleague.setTruck(null);
+                colleague.setInShift(false);
+                colleague.setStatus(DriverStatus.RESTING);
+                driverService.updateDriver(colleague);
+            }
+        }
 
         if (truckService.findCurrentDriversByTruckId(driverDto.getTruck().getId()).size() == 1) {
             driverDto.getTruck().setStatus(TruckStatus.PARKED);
