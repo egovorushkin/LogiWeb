@@ -286,7 +286,7 @@ public class TruckControllerTest {
                 shouldDisplayInformationOfCorrectTruck() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
-                                    "truck",
+                                    "truckDto",
                                     hasProperty("id", equalTo(TRUCK_ID))
                             ));
                 }
@@ -296,7 +296,7 @@ public class TruckControllerTest {
                 void shouldDisplayCorrectInformationOfTruck() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
-                                    "truck",
+                                    "truckDto",
                                     allOf(
                                             hasProperty("registrationNumber", equalTo(REGISTRATION_NUMBER)),
                                             hasProperty("teamSize", equalTo(TEAM_SIZE)),
@@ -312,7 +312,7 @@ public class TruckControllerTest {
                 void shouldDisplayParkedTruck() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
-                                    "truck",
+                                    "truckDto",
                                     hasProperty("status", equalTo(STATUS_PARKED))
                             ));
                 }
@@ -322,7 +322,7 @@ public class TruckControllerTest {
                 void shouldDisplayTruckThanHasOneDriver() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
-                                    "truck",
+                                    "truckDto",
                                     hasProperty("currentDrivers", hasSize(1))
                             ));
                 }
@@ -332,7 +332,7 @@ public class TruckControllerTest {
                 void shouldDisplayInformationOfFoundDriver() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
-                                    "truck",
+                                    "truckDto",
                                     hasProperty("currentDrivers", hasItem(
                                             allOf(
                                                     hasProperty("id", equalTo(DRIVER_ID)),
