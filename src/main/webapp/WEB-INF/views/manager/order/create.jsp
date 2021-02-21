@@ -19,51 +19,33 @@
                action="${pageContext.request.contextPath}/orders/save"
                method="post">
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">From City:</label>
-            <div class="col-sm-2">
-                <form:select path="fromCity.id"
-                             cssClass="form-control form-control-sm">
-                    <c:if test="${empty order.fromCity}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${cities}" itemValue="id"
-                                  itemLabel="name"/>
-                </form:select>
+            <label for="fromCity" class="col-sm-2 col-form-label">From City</label>
+            <div class="col-sm-3">
+                <form:input path="fromCity" type="text"
+                            class="form-control form-control-sm" id="fromCity"
+                            name="fromCity"/>
             </div>
+            <form:errors path="fromCity" cssClass="alert alert-danger"/>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">To City:</label>
-            <div class="col-sm-2">
-                <form:select path="toCity.id"
-                             cssClass="form-control form-control-sm">
-                    <c:if test="${empty order.toCity}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${cities}" itemValue="id"
-                                  itemLabel="name"/>
-                </form:select>
+            <label for="toCity" class="col-sm-2 col-form-label">To City</label>
+            <div class="col-sm-3">
+                <form:input path="toCity" type="text"
+                            class="form-control form-control-sm" id="tCity"
+                            name="tCity"/>
             </div>
+            <form:errors path="toCity" cssClass="alert alert-danger"/>
         </div>
-        <div class="row mb-3">
-            <label for="distance" class="col-sm-2 col-form-label">Distance
-                (km):</label>
-            <div class="col-sm-2">
-                <form:input path="distance" type="number"
-                            class="form-control form-control-sm" id="distance"
-                            name="distance"/>
-            </div>
-            <form:errors path="distance" cssClass="alert alert-danger"/>
-        </div>
+
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Cargo:</label>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <form:select path="cargo.id"
                              cssClass="form-control form-control-sm">
                     <c:if test="${empty order.cargo}">
                         <form:option value="" disabled="true" selected="true"/>
                     </c:if>
-                    <form:options items="${cargoes}" itemValue="id"
-                                  itemLabel="name"/>
+                    <form:options items="${cargoes}" itemValue="id"/>
                 </form:select>
             </div>
         </div>

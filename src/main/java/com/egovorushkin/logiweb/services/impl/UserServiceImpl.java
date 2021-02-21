@@ -6,7 +6,6 @@ import com.egovorushkin.logiweb.dto.UserDto;
 import com.egovorushkin.logiweb.entities.Role;
 import com.egovorushkin.logiweb.entities.User;
 import com.egovorushkin.logiweb.services.api.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,14 +21,16 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
+    private final RoleDao roleDao;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private RoleDao roleDao;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao,
+                           BCryptPasswordEncoder passwordEncoder) {
+        this.userDao = userDao;
+        this.roleDao = roleDao;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
@@ -70,8 +71,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String userName) {
         User user = userDao.findByUserName(userName);
         if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password" +
-                    ".");
+            throw new UsernameNotFoundException("Invalid username or password");
         }
         return new org.springframework.security.core.userdetails
                 .User(user.getUserName(), user.getPassword(),

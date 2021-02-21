@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TruckService {
 
-    TruckDto getTruckById(long id);
+    TruckDto getTruckById(Long id);
 
     List<TruckDto> getAllTrucks();
 
@@ -17,12 +17,11 @@ public interface TruckService {
 
     void updateTruck(TruckDto truckDto);
 
-    void deleteTruck(long id);
+    void deleteTruck(Long id);
 
-    List<DriverDto> findCurrentDriversByTruckId(long id);
+    List<DriverDto> findCurrentDriversByTruckId(Long id);
 
     List<DriverDto> findAvailableDriversByTruck(TruckDto truckDto);
-
 
     TruckStatsDto getStats();
 

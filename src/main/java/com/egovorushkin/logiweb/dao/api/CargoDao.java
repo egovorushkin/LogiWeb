@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CargoDao {
 
-    Cargo getCargoById(long id);
+    Cargo getCargoById(Long id);
 
     List<Cargo> getAllCargoes();
 
@@ -14,8 +14,8 @@ public interface CargoDao {
 
     void updateCargo(Cargo cargo);
 
-    void deleteCargo(long id);
+    void deleteCargo(Long id);
 
-    boolean cargoExistsById(long id);
+    boolean cargoExistsById(Long id);
 
 }

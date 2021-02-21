@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    OrderDto getOrderById(long id);
+    OrderDto getOrderById(Long id);
 
     List<OrderDto> getAllOrders();
 
@@ -16,7 +16,7 @@ public interface OrderService {
 
     void updateOrder(OrderDto orderDto);
 
-    void deleteOrder(long id);
+    void deleteOrder(Long id);
 
     List<TruckDto> findAvailableTrucks(OrderDto orderDto);
 
@@ -28,5 +28,5 @@ public interface OrderService {
 
     List<OrderDto> getLatestOrders();
 
-    OrderDto findOrderByTruckId(long id);
+    OrderDto findOrderByTruckId(Long id);
 }

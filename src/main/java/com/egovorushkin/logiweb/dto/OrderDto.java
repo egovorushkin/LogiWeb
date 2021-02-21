@@ -1,19 +1,17 @@
 package com.egovorushkin.logiweb.dto;
 
-import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
-import org.hibernate.validator.constraints.Range;
-
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class OrderDto extends AbstractDto implements Serializable {
 
     private OrderStatus status;
-    private City fromCity;
-    private City toCity;
+    @NotEmpty(message = "Departure city should not be empty")
+    private String fromCity;
+    @NotEmpty(message = "Destination city should not be empty")
+    private String toCity;
     private CargoDto cargo;
-    @Range(min = 0, max = 10000, message = "Distance should be between 0 and " +
-            "10000 km.")
     private Integer distance;
     private Integer duration;
     private TruckDto truck;
@@ -30,19 +28,19 @@ public class OrderDto extends AbstractDto implements Serializable {
         this.status = status;
     }
 
-    public City getFromCity() {
+    public String getFromCity() {
         return fromCity;
     }
 
-    public void setFromCity(City fromCity) {
+    public void setFromCity(String fromCity) {
         this.fromCity = fromCity;
     }
 
-    public City getToCity() {
+    public String getToCity() {
         return toCity;
     }
 
-    public void setToCity(City toCity) {
+    public void setToCity(String toCity) {
         this.toCity = toCity;
     }
 
@@ -63,7 +61,7 @@ public class OrderDto extends AbstractDto implements Serializable {
     }
 
     public Integer getDuration() {
-        return distance / 80;
+        return duration;
     }
 
     public void setDuration(Integer duration) {

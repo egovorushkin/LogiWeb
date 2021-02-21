@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public interface JmsPublisher {
 
-    void send ();
+    void send();
 
     void sendMessage(final String message);
 

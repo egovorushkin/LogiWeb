@@ -29,28 +29,31 @@
                     <th scope="col">To City</th>
                     <th scope="col">Distance (km)</th>
                     <th scope="col">Travel time (hr)</th>
-                    <th scope="col">Cargo</th>
+                    <th scope="col">Name of cargo </th>
                     <th scope="col">Truck</th>
                     <th scope="col">Edit</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${orders}" var="order">
+
+                    <c:url var="updateLink" value="/orders/edit-user-order">
+                        <c:param name="orderId" value="${order.id}"/>
+                    </c:url>
+
                     <tr class='table-row' data-href='${updateLink}'>
                         <td class="align-middle">${order.id}</td>
                         <td class="align-middle">${order.status.toString()}</td>
-                        <td class="align-middle">${order.fromCity.name}</td>
-                        <td class="align-middle">${order.toCity.name}</td>
+                        <td class="align-middle">${order.fromCity}</td>
+                        <td class="align-middle">${order.toCity}</td>
                         <td class="align-middle">${order.distance}</td>
                         <td class="align-middle">${order.duration}</td>
                         <td class="align-middle">${order.cargo.name}</td>
-                        <td class="align-middle">${order.truck.registrationNumber}</td>
-
-                        <c:url var="updateLink" value="/orders/edit-user-order">
-                            <c:param name="orderId" value="${order.id}"/>
-                        </c:url>
-
-                        <td><a class="nav-link" href="${updateLink}"><span data-feather="edit"></span></a></td>
+                        <td class="align-middle">
+                                ${order.truck.registrationNumber}
+                        </td>
+                        <td><a class="nav-link" href="${updateLink}">
+                            <span data-feather="edit"></span></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

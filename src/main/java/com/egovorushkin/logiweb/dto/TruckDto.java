@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class TruckDto implements Serializable {
 
-    private long id;
+    private Long id;
 
     @NotEmpty(message = "Registration Number should not be empty")
     @Pattern(regexp = "^[A-Z]{2}[0-9]{5}$", message = "Registration Number" +
@@ -44,11 +44,11 @@ public class TruckDto implements Serializable {
         this.currentCity = currentCity;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -134,16 +134,6 @@ public class TruckDto implements Serializable {
 
     public void setCurrentOrders(Set<OrderDto> currentOrders) {
         this.currentOrders = currentOrders;
-    }
-
-    public void addDriver(DriverDto driverDto) {
-        currentDrivers.add(driverDto);
-        driverDto.setTruck(this);
-    }
-
-    public void removeDriver(DriverDto driverDto) {
-        currentDrivers.remove(driverDto);
-        driverDto.setTruck(null);
     }
 
     @Override

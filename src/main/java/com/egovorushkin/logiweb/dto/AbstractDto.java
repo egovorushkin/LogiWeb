@@ -3,15 +3,15 @@ package com.egovorushkin.logiweb.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class AbstractDto implements Serializable {
+public abstract class AbstractDto implements Serializable {
 
-    private long id;
+    private Long id;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -20,7 +20,7 @@ public class AbstractDto implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractDto that = (AbstractDto) o;
-        return id == that.id;
+        return id.equals(that.id);
     }
 
     @Override

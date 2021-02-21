@@ -31,7 +31,7 @@
             <label for="fromCity" class="col-sm-2 col-form-label">From
                 City:</label>
             <div class="col-sm-2">
-                <form:input path="fromCity.name" type="text"
+                <form:input path="fromCity" type="text"
                             class="form-control form-control-sm" id="fromCity"
                             name="fromCity" readonly="true"/>
             </div>
@@ -39,7 +39,7 @@
         <div class="row mb-3">
             <label for="toCity" class="col-sm-2 col-form-label">To City:</label>
             <div class="col-sm-2">
-                <form:input path="toCity.name" type="text"
+                <form:input path="toCity" type="text"
                             class="form-control form-control-sm" id="toCity"
                             name="toCity" readonly="true"/>
             </div>
@@ -127,7 +127,7 @@
     </div>
 
     <c:choose>
-        <c:when test="${empty order.truck}">
+        <c:when test="${order.truck == null}">
             <h6>No truck has been assigned for this order yet.</h6>
             <a class="btn btn-sm btn-success"
                href="${pageContext.request.contextPath}/trucks/create"
@@ -184,7 +184,7 @@
             </div>
 
             <c:choose>
-                <c:when test="${currentDrivers == null}">
+                <c:when test="${empty currentDrivers}">
                     <h6>No drivers has been assigned for this order yet.</h6>
                 </c:when>
                 <c:otherwise>

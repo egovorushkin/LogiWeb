@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderDao {
 
-    Order getOrderById(long id);
+    Order getOrderById(Long id);
 
     List<Order> getAllOrders();
 
@@ -17,17 +17,17 @@ public interface OrderDao {
 
     void updateOrder(Order order);
 
-    void deleteOrder(long id);
+    void deleteOrder(Long id);
 
     List<Truck> findAvailableTrucks(Order order);
 
-    List<Order> findCurrentOrdersForTruck(long id);
+    List<Order> findCurrentOrdersForTruck(Long id);
 
     List<Driver> findAvailableDriversForOrder(Order order);
 
-    boolean orderExistsById(long id);
+    boolean orderExistsById(Long id);
 
     List<Order> getLatestOrders();
 
-    Order findOrderByTruckId(long id);
+    Order findOrderByTruckId(Long id);
 }

@@ -5,24 +5,16 @@ import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository()
-public class OrderDaoImpl implements OrderDao {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
-    public Order getOrderById(long id) {
+    public Order getOrderById(Long id) {
         return entityManager.createQuery("SELECT o FROM Order o " +
                 "LEFT JOIN FETCH o.cargo " +
                 "LEFT JOIN FETCH o.truck " +
-                "LEFT JOIN FETCH o.fromCity " +
-                "LEFT JOIN FETCH o.toCity " +
                 "WHERE o.id=:id", Order.class).setParameter("id", id)
                 .getSingleResult();
     }
@@ -31,9 +23,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getAllOrders() {
         return entityManager.createQuery("SELECT o FROM Order o " +
                         "LEFT JOIN FETCH o.cargo " +
-                        "LEFT JOIN FETCH o.truck " +
-                        "LEFT JOIN FETCH o.fromCity " +
-                        "LEFT JOIN FETCH o.toCity", Order.class)
+                        "LEFT JOIN FETCH o.truck", Order.class)
                 .getResultList();
     }
 
@@ -48,7 +38,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void deleteOrder(long id) {
+    public void deleteOrder(Long id) {
         Order order = entityManager.find(Order.class, id);
 
         if (order != null) {
@@ -62,20 +52,18 @@ public class OrderDaoImpl implements OrderDao {
                         "WHERE t.state='SERVICEABLE' " +
                         "AND t.status='PARKED' " +
                         "AND t.capacity>=:cargoWeight " +
-                        "AND t.currentCity.id=:fromCity " +
+                        "AND t.currentCity.name=:fromCity " +
                         "AND t.isBusy=false", Truck.class)
                 .setParameter("cargoWeight", order.getCargo().getWeight())
-                .setParameter("fromCity", order.getFromCity().getId())
+                .setParameter("fromCity", order.getFromCity())
                 .getResultList();
     }
 
     @Override
-    public List<Order> findCurrentOrdersForTruck(long id) {
+    public List<Order> findCurrentOrdersForTruck(Long id) {
         return entityManager.createQuery("SELECT o FROM Order o " +
                     "LEFT JOIN FETCH o.cargo " +
                     "LEFT JOIN FETCH o.truck " +
-                    "LEFT JOIN FETCH o.fromCity " +
-                    "LEFT JOIN FETCH o.toCity " +
                     "WHERE o.truck.id=:id", Order.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -94,7 +82,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean orderExistsById(long id) {
+    public boolean orderExistsById(Long id) {
         Long count = entityManager.createQuery("SELECT COUNT(o) FROM Order " +
                 "o WHERE o.id=:id", Long.class).
                 setParameter("id", id).getSingleResult();
@@ -106,19 +94,16 @@ public class OrderDaoImpl implements OrderDao {
         return entityManager.createQuery("SELECT o FROM Order o " +
                         "LEFT JOIN FETCH o.cargo " +
                         "LEFT JOIN FETCH o.truck " +
-                        "LEFT JOIN FETCH o.fromCity " +
-                        "LEFT JOIN FETCH o.toCity ORDER BY o.id DESC",
+                        "ORDER BY o.id DESC",
                 Order.class).setMaxResults(12)
                 .getResultList();
     }
 
     @Override
-    public Order findOrderByTruckId(long id) {
+    public Order findOrderByTruckId(Long id) {
         return entityManager.createQuery("SELECT o FROM Order o " +
                         "LEFT JOIN FETCH o.cargo " +
                         "LEFT JOIN FETCH o.truck " +
-                        "LEFT JOIN FETCH o.fromCity " +
-                        "LEFT JOIN FETCH o.toCity " +
                         "WHERE o.truck.id=:id", Order.class)
                 .setParameter("id", id)
                 .getSingleResult();

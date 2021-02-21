@@ -1,8 +1,6 @@
 package com.egovorushkin.logiweb.entities;
 
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
-import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -106,7 +104,7 @@ public class Driver extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Driver driver = (Driver) o;
-        return id == driver.id;
+        return id.equals(driver.id);
     }
 
     @Override

@@ -8,17 +8,12 @@ import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.services.api.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/drivers")
@@ -58,7 +53,7 @@ public class DriverController {
     }
 
     @GetMapping("/{id}")
-    public String showDriver(@PathVariable("id") long id, Model model) {
+    public String showDriver(@PathVariable("id") Long id, Model model) {
         model.addAttribute("driver", driverService.getDriverById(id));
         model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute("trucks", truckService.getAllTrucks());
@@ -93,22 +88,12 @@ public class DriverController {
         if (existingUser != null) {
             model.addAttribute(USER_DTO, new UserDto());
             model.addAttribute(CITIES, cityService.getAllCities());
-            model.addAttribute("registrationError", "User name already " +
-                    "exists.");
+            model.addAttribute("registrationError",
+                    "User name already exists: " + userName);
 
-            LOGGER.warn("User name already exists.");
+            LOGGER.warn("User name already exists: " + userName);
             return MANAGER_DRIVER_CREATE;
         }
-
-//        List<GrantedAuthority> authorities =
-//                AuthorityUtils.createAuthorityList();
-//        authorities.add(new SimpleGrantedAuthority("ROLE_DRIVER"));
-//
-//        String formRole = userDto.getFormRole();
-
-//        if (!formRole.equals("ROLE_DRIVER")) {
-//            authorities.add(new SimpleGrantedAuthority(formRole));
-//        }
 
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(userDto.getUserName());
@@ -128,7 +113,7 @@ public class DriverController {
     }
 
     @GetMapping("/edit")
-    public String showEditDriverForm(@RequestParam("driverId") long id,
+    public String showEditDriverForm(@RequestParam("driverId") Long id,
                                      Model model) {
         model.addAttribute("driver", driverService.getDriverById(id));
         model.addAttribute("statuses", DriverStatus.values());
@@ -149,14 +134,14 @@ public class DriverController {
     }
 
     @GetMapping("/delete")
-    public String deleteDriver(@RequestParam("driverId") long id) {
+    public String deleteDriver(@RequestParam("driverId") Long id) {
         driverService.deleteDriver(id);
         return REDIRECT_DRIVERS_LIST;
     }
 
     @GetMapping("/bind-truck")
-    public String bindTruckForDriver(@RequestParam("truckId") long truckId,
-                                    @RequestParam("driverId") long driverId,
+    public String bindTruckForDriver(@RequestParam("truckId") Long truckId,
+                                    @RequestParam("driverId") Long driverId,
                                     RedirectAttributes redirectAttributes) {
         TruckDto truck = truckService.getTruckById(truckId);
         DriverDto driver = driverService.getDriverById(driverId);
@@ -170,7 +155,7 @@ public class DriverController {
     }
 
     @GetMapping("/unbind-truck")
-    public String unbindDriverForTruck(@RequestParam("driverId") long driverId,
+    public String unbindDriverForTruck(@RequestParam("driverId") Long driverId,
                                        RedirectAttributes redirectAttributes) {
         DriverDto driver = driverService.getDriverById(driverId);
         if (driver.getTruck() != null) {

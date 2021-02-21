@@ -3,9 +3,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<jsp:include page="../views/fragments/before-title-main.jsp"/>
+<jsp:include page="../fragments/before-title-main.jsp"/>
 <title>
-    Error
+    Access denied
 </title>
 <hr>
 
@@ -16,11 +16,8 @@
 <link rel="canonical"
       href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
 
-<!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
       rel="stylesheet">
-
-<!-- Custom styles for this template -->
 <link href="${pageContext.request.contextPath}/resources/css/dashboard.css"
       rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/style.css"
@@ -36,26 +33,26 @@
     </ul>
 </header>
 <main>
-    <h3>Application has encountered an error.</h3>
+    <hr>
+    <div class="text-center">
+        <h3>Access Denied - You are not authorized to access this resource.</h3>
 
-    <p><strong>Page: </strong>${url}</p>
-    <p><strong>Occurred: </strong>${timestamp}</p>
-    <p><strong>Exception: </strong>${exception}</p>
+        <sec:authorize access="hasRole('ADMIN')">
+            <a role="button" class="btn btn-sm btn-secondary"
+               href="${pageContext.request.contextPath}/admin">
+                Back to main page
+            </a>
+        </sec:authorize>
 
-    <sec:authorize access="hasRole('ADMIN')">
-        <a role="button" class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/admin">
-            Back to main page
-        </a>
-    </sec:authorize>
-
-    <sec:authorize access="hasRole('DRIVER')">
-        <a role="button" class="btn btn-sm btn-secondary" href="${pageContext.request.contextPath}/driver">
-            Back to main page
-        </a>
-    </sec:authorize>
+        <sec:authorize access="hasRole('DRIVER')">
+            <a role="button" class="btn btn-sm btn-secondary"
+               href="${pageContext.request.contextPath}/driver">
+                Back to main page
+            </a>
+        </sec:authorize>
+    </div>
 
 
 </main>
 
-
-<jsp:include page="../views/fragments/bootstrap-core-js-main.jsp"/>
+<jsp:include page="../fragments/bootstrap-core-js-main.jsp"/>

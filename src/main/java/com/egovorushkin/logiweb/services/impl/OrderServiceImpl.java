@@ -15,12 +15,9 @@ import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import org.apache.log4j.Logger;
-import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.NoResultException;
 import java.util.Collections;
 import java.util.List;
@@ -29,10 +26,10 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private static final String ORDER = "Order with id = ";
-
     private static final Logger LOGGER =
             Logger.getLogger(OrderServiceImpl.class.getName());
+
+    private static final String ORDER = "Order with id = ";
 
     private final OrderDao orderDao;
     private final DriverService driverService;
@@ -40,9 +37,10 @@ public class OrderServiceImpl implements OrderService {
     private final DriverDao driverDao;
     private final ScoreboardService scoreboardService;
 
-    @Autowired
-    public OrderServiceImpl(OrderDao orderDao, DriverService driverService,
-                            ModelMapper modelMapper, DriverDao driverDao,
+    public OrderServiceImpl(OrderDao orderDao,
+                            DriverService driverService,
+                            ModelMapper modelMapper,
+                            DriverDao driverDao,
                             ScoreboardService scoreboardService) {
         this.orderDao = orderDao;
         this.driverService = driverService;
@@ -52,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto getOrderById(long id) {
+    public OrderDto getOrderById(Long id) {
 
         LOGGER.debug("getOrderById() executed");
 
@@ -93,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderDto.getTruck() != null) {
             return availableTrucks.stream()
                     .filter(availableTruck ->
-                            orderDto.getTruck().getId() != availableTruck.getId())
+                            !orderDto.getTruck().getId().equals(availableTruck.getId()))
                     .collect(Collectors.toList());
         }
 
@@ -189,7 +187,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void deleteOrder(long id) {
+    public void deleteOrder(Long id) {
 
         LOGGER.debug("deleteOrder() executed");
 
@@ -244,7 +242,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto findOrderByTruckId(long id) {
+    public OrderDto findOrderByTruckId(Long id) {
         return modelMapper.map(orderDao.findOrderByTruckId(id), OrderDto.class);
     }
 }

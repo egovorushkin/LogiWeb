@@ -36,29 +36,20 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">From City:</label>
+            <label for="fromCity" class="col-sm-2 col-form-label">From
+                City:</label>
             <div class="col-sm-2">
-                <form:select path="fromCity.id"
-                             cssClass="form-control form-control-sm">
-                    <c:if test="${empty order.fromCity}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${cities}" itemValue="id"
-                                  itemLabel="name"/>
-                </form:select>
+                <form:input path="fromCity" type="text"
+                            class="form-control form-control-sm" id="fromCity"
+                            name="fromCity"/>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">To City:</label>
+            <label for="toCity" class="col-sm-2 col-form-label">To City:</label>
             <div class="col-sm-2">
-                <form:select path="toCity.id"
-                             cssClass="form-control form-control-sm">
-                    <c:if test="${empty order.toCity}">
-                        <form:option value="" disabled="true" selected="true"/>
-                    </c:if>
-                    <form:options items="${cities}" itemValue="id"
-                                  itemLabel="name"/>
-                </form:select>
+                <form:input path="toCity" type="text"
+                            class="form-control form-control-sm" id="toCity"
+                            name="toCity"/>
             </div>
         </div>
         <div class="row mb-3">
@@ -80,8 +71,6 @@
                             name="duration" readonly="true"/>
             </div>
         </div>
-        <h6>Cargo</h6>
-        <hr>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Cargo:</label>
             <div class="col-sm-2">
@@ -100,13 +89,11 @@
             <div class="col-sm-2">
                 <c:choose>
                     <c:when test="${empty order.truck}">
-                        <label for="none"></label>
                         <input value="None"
                                class="form-control form-control-sm" id="none"
                                name="none" disabled/>
                     </c:when>
                     <c:otherwise>
-                        <label for="currentTruck"></label>
                         <input value="${order.truck.registrationNumber}"
                                class="form-control form-control-sm"
                                id="currentTruck"
@@ -132,10 +119,11 @@
            role="button">Cancel</a>
     </form:form>
 
+    <hr>
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
     align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h4>Available Trucks</h4>
-        <hr>
     </div>
     <c:choose>
         <c:when test="${empty availableTrucks}">
@@ -165,11 +153,21 @@
                            var="availableTruck">
                     <tr class='table-row'
                         data-href='${pageContext.request.contextPath}/trucks/${availableTruck.id}'>
-                        <td class="align-middle">${availableTruck.registrationNumber}</td>
-                        <td class="align-middle">${availableTruck.capacity}</td>
-                        <td class="align-middle">${availableTruck.state.toString()}</td>
-                        <td class="align-middle">${availableTruck.status.toString()}</td>
-                        <td class="align-middle">${availableTruck.currentCity.name}</td>
+                        <td class="align-middle">
+                                ${availableTruck.registrationNumber}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.capacity}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.state.toString()}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.status.toString()}
+                        </td>
+                        <td class="align-middle">
+                                ${availableTruck.currentCity.name}
+                        </td>
 
                         <c:url var="bindTruckLink" value="/orders/bind-truck">
                             <c:param name="truckId"

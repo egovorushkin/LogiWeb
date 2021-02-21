@@ -3,7 +3,6 @@ package com.egovorushkin.logiweb.services.impl;
 import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.dao.api.OrderDao;
-import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
@@ -20,7 +19,6 @@ import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +30,12 @@ import java.util.stream.Collectors;
 @Service
 public class DriverServiceImpl implements DriverService {
 
+    private static final Logger LOGGER =
+            Logger.getLogger(DriverServiceImpl.class.getName());
+
     private static final String DRIVER = "Driver with id = ";
     private static final String UPDATE_STATUS = " updated status for ";
     private static final String UPDATE_STATE = " updated state inShift = ";
-
-    private static final Logger LOGGER =
-            Logger.getLogger(DriverServiceImpl.class.getName());
 
     private final DriverDao driverDao;
     private final TruckService truckService;
@@ -46,10 +44,6 @@ public class DriverServiceImpl implements DriverService {
     private final ScoreboardService scoreboardService;
     private final OrderDao orderDao;
 
-    @Autowired
-    private TruckDao truckDao;
-
-    @Autowired
     public DriverServiceImpl(DriverDao driverDao,
                              TruckService truckService,
                              ModelMapper modelMapper,
@@ -62,12 +56,11 @@ public class DriverServiceImpl implements DriverService {
         this.authenticationFacade = authenticationFacade;
         this.scoreboardService = scoreboardService;
         this.orderDao = orderDao;
-
     }
 
     @Override
     @Transactional
-    public DriverDto getDriverById(long id) {
+    public DriverDto getDriverById(Long id) {
 
         LOGGER.debug("getDriverById() executed");
 
@@ -130,7 +123,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public void deleteDriver(long id) {
+    public void deleteDriver(Long id) {
 
         LOGGER.debug("deleteDriver() executed");
 
@@ -193,7 +186,7 @@ public class DriverServiceImpl implements DriverService {
                 .findCurrentDriversByTruckId(authorizedDriver.getTruck().getId());
 
         DriverDto colleague = currentDrivers.stream()
-                .filter(driver -> driver.getId() != authorizedDriver.getId())
+                .filter(driver -> !driver.getId().equals(authorizedDriver.getId()))
                 .findFirst().orElse(null);
 
         if (colleague == null) {
@@ -226,11 +219,8 @@ public class DriverServiceImpl implements DriverService {
                     truckService.updateTruck(existingDriver.getTruck());
 
                     if (order != null) {
-                        if(order.getCargo().getStatus().getTitle().equals("PREPARED")) {
-                            order.getCargo().setStatus(CargoStatus.SHIPPED);
-                            orderDao.updateOrder(order);
-                        }
-
+                        order.getCargo().setStatus(CargoStatus.SHIPPED);
+                        orderDao.updateOrder(order);
                     }
 
                     scoreboardService.updateScoreboard();
@@ -340,45 +330,16 @@ public class DriverServiceImpl implements DriverService {
 
         if (!existingDriver.isInShift()) {
             if (findColleagueAuthorizedDriverByUsername() != null) {
-                colleague.setInShift(userState);
-                colleague.setStatus(DriverStatus.RESTING);
-                driverDao.updateDriver(modelMapper.map(colleague,
-                        Driver.class));
-
-                scoreboardService.updateScoreboard();
-
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS
-                        + colleague.getStatus().getName());
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE
-                        + userState);
+                updateStateAndStatusForDriver(colleague, userState);
             }
         } else {
             if (findColleagueAuthorizedDriverByUsername() != null) {
-                colleague.setInShift(false);
-                colleague.setStatus(DriverStatus.RESTING);
-                driverDao.updateDriver(modelMapper.map(colleague,
-                        Driver.class));
-
-                scoreboardService.updateScoreboard();
-
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATE
-                        + userState);
-                LOGGER.info("For " + DRIVER + colleague.getId() + UPDATE_STATUS
-                        + colleague.getStatus().getName());
+                updateStateAndStatusForDriver(colleague, false);
             }
         }
-
-        existingDriver.setInShift(userState);
-        existingDriver.setStatus(DriverStatus.RESTING);
-        driverDao.updateDriver(modelMapper.map(existingDriver, Driver.class));
-
-        scoreboardService.updateScoreboard();
-
-        LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATE
-                + userState);
-        LOGGER.info("For " + DRIVER + existingDriver.getId() + UPDATE_STATUS
-                + existingDriver.getStatus().getName());
+        updateStateAndStatusForDriver(existingDriver, userState);
     }
+
 
     /*
     This method returns drivers statistics
@@ -387,14 +348,28 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public DriverStatsDto getStats() {
         DriverStatsDto driverStats = new DriverStatsDto();
+        List<Driver> drivers = driverDao.getAllDrivers();
 
-        driverStats.setTotal(driverDao.getAllDrivers().size());
-        driverStats.setAvailable(driverDao.getAllDrivers()
-                .stream()
-                .filter(driver -> !driver.isInShift())
-                .count());
-        driverStats.setNotAvailable(driverStats.getTotal() - driverStats.getAvailable());
+        long total = drivers.size();
+        long available = drivers.stream().filter(driver -> !driver.isInShift())
+                .count();
+
+        driverStats.setTotal(total);
+        driverStats.setAvailable(available);
+        driverStats.setNotAvailable(total - available);
 
         return driverStats;
+    }
+
+    private void updateStateAndStatusForDriver(DriverDto driver, boolean state) {
+        driver.setInShift(state);
+        driver.setStatus(DriverStatus.RESTING);
+        driverDao.updateDriver(modelMapper.map(driver, Driver.class));
+
+        scoreboardService.updateScoreboard();
+
+        LOGGER.info("For " + DRIVER + driver.getId() + UPDATE_STATUS
+                + driver.getStatus().getName());
+        LOGGER.info("For " + DRIVER + driver.getId() + UPDATE_STATE + state);
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CargoService {
 
-    CargoDto getCargoById(long id);
+    CargoDto getCargoById(Long id);
 
     List<CargoDto> getAllCargoes();
 
@@ -14,6 +14,6 @@ public interface CargoService {
 
     void updateCargo(CargoDto cargoDto);
 
-    void deleteCargo(long id);
+    void deleteCargo(Long id);
 
 }

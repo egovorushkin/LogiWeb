@@ -28,7 +28,7 @@ public class CargoController {
     }
 
     @GetMapping("/{id}")
-    public String showCargo(@PathVariable("id") long id, Model model) {
+    public String showCargo(@PathVariable("id") Long id, Model model) {
         model.addAttribute("cargo", cargoService.getCargoById(id));
         model.addAttribute("statuses", CargoStatus.values());
         return "manager/cargo/show";
@@ -51,7 +51,7 @@ public class CargoController {
     }
 
     @GetMapping("/edit")
-    public String showEditCargoForm(@RequestParam("cargoId") long id, Model model) {
+    public String showEditCargoForm(@RequestParam("cargoId") Long id, Model model) {
         model.addAttribute("cargo", cargoService.getCargoById(id));
         model.addAttribute("statuses", CargoStatus.values());
         return "manager/cargo/edit";
@@ -68,7 +68,7 @@ public class CargoController {
     }
 
     @GetMapping("/delete")
-    public String deleteCargo(@RequestParam("cargoId") long id) {
+    public String deleteCargo(@RequestParam("cargoId") Long id) {
         cargoService.deleteCargo(id);
         return "redirect:/cargoes/list";
     }

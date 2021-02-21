@@ -3,7 +3,7 @@ package com.egovorushkin.logiweb.config.security;
 import com.egovorushkin.logiweb.entities.User;
 import com.egovorushkin.logiweb.services.api.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -21,8 +21,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     private static final Logger LOGGER =
             Logger.getLogger(CustomAuthenticationSuccessHandler.class.getName());
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public CustomAuthenticationSuccessHandler(@Lazy UserService userService) {
+        this.userService = userService;
+    }
 
 
     @Override

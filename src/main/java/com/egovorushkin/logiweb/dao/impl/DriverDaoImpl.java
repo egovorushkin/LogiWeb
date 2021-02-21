@@ -4,22 +4,17 @@ import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class DriverDaoImpl implements DriverDao {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class DriverDaoImpl extends AbstractDao implements DriverDao {
 
     @Override
-    public Driver getDriverById(long id) {
+    public Driver getDriverById(Long id) {
         return entityManager.createQuery("SELECT d FROM Driver d " +
                 "LEFT JOIN FETCH d.currentCity " +
-                "LEFT JOIN FETCH d.truck WHERE d.id=:id", Driver.class)
+                "LEFT JOIN FETCH d.truck " +
+                "WHERE d.id=:id", Driver.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
@@ -43,7 +38,7 @@ public class DriverDaoImpl implements DriverDao {
     }
 
     @Override
-    public void deleteDriver(long id) {
+    public void deleteDriver(Long id) {
         Driver driver = entityManager.find(Driver.class, id);
 
         if (driver != null) {
@@ -71,7 +66,7 @@ public class DriverDaoImpl implements DriverDao {
     }
 
     @Override
-    public boolean driverExistsById(long id) {
+    public boolean driverExistsById(Long id) {
         Long count = entityManager.createQuery("SELECT COUNT(d)  FROM Driver " +
                 "d WHERE d.id=:id", Long.class).
                 setParameter("id", id).getSingleResult();

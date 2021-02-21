@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-    <jsp:include page="../views/fragments/before-title-main.jsp"/>
+    <jsp:include page="../fragments/before-title-main.jsp"/>
     <title>Create Account</title>
 
     <meta charset="utf-8">

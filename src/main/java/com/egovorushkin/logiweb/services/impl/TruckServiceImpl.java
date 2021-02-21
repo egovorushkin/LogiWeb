@@ -26,7 +26,10 @@ public class TruckServiceImpl implements TruckService {
 
     private static final Logger LOGGER =
             Logger.getLogger(TruckServiceImpl.class.getName());
+
     private static final String TRUCK = "Truck with id = ";
+    private static final String STATUS_FAULTY = "FAULTY";
+    private static final String STATUS_ON_THE_WAY = "ON_THE_WAY";
 
     private final TruckDao truckDao;
     private final ModelMapper modelMapper;
@@ -42,7 +45,7 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     @Transactional
-    public TruckDto getTruckById(long id) {
+    public TruckDto getTruckById(Long id) {
 
         LOGGER.debug("getTruckById() executed");
 
@@ -99,8 +102,7 @@ public class TruckServiceImpl implements TruckService {
             truckDao.updateTruck(modelMapper.map(truckDto, Truck.class));
         } catch (NoResultException e) {
             throw new EntityNotFoundException(String.format("Truck with " +
-                            "registration" +
-                            " number %s does not exist",
+                            "registration number %s does not exist",
                     truckDto.getRegistrationNumber()));
         }
 
@@ -111,7 +113,7 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     @Transactional
-    public void deleteTruck(long id) {
+    public void deleteTruck(Long id) {
 
         LOGGER.debug("deleteTruck() executed");
 
@@ -124,7 +126,7 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     @Transactional
-    public List<DriverDto> findCurrentDriversByTruckId(long id) {
+    public List<DriverDto> findCurrentDriversByTruckId(Long id) {
 
         LOGGER.debug("findCurrentDriversByTruckId() executed");
 
@@ -160,19 +162,20 @@ public class TruckServiceImpl implements TruckService {
     @Override
     public TruckStatsDto getStats() {
         TruckStatsDto truckStats = new TruckStatsDto();
+        List<Truck> trucks = truckDao.getAllTrucks();
 
-        truckStats.setTotal(truckDao.getAllTrucks().size());
-        truckStats.setFaulty(truckDao.getAllTrucks()
-                .stream()
-                .filter(truck ->
-                        truck.getState().getTitle().equals("FAULTY")).count());
-        truckStats.setBusy(truckDao.getAllTrucks()
-                .stream().filter(truck -> truck.getStatus().getTitle().equals("ON_THE_WAY")).count());
+        long total = trucks.size();
+        long faulty = getCountByStatus(trucks, STATUS_FAULTY);
+        long busy = getCountByStatus(trucks, STATUS_ON_THE_WAY);
 
-        truckStats.setAvailable(truckStats.getTotal() - truckStats.getBusy()
-                - truckStats.getFaulty());
+        truckStats.setTotal(total);
+        truckStats.setFaulty(faulty);
+        truckStats.setBusy(busy);
+
+        truckStats.setAvailable(total - faulty - busy);
         return truckStats;
     }
+
 
     @Override
     public Truck findByRegistrationNumber(String registrationNumber) {
@@ -182,4 +185,9 @@ public class TruckServiceImpl implements TruckService {
         return truckDao.findByRegistrationNumber(registrationNumber);
     }
 
+    private long getCountByStatus(List<Truck> trucks, String status) {
+        return trucks.stream()
+                .filter(truck -> status.equals(truck.getState().getTitle()))
+                .count();
+    }
 }

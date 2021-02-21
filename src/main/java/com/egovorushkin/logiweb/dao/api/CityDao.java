@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CityDao {
 
-    City getCityById(long id);
+    City getCityById(Long id);
 
     List<City> getAllCities();
 

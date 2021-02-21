@@ -13,13 +13,11 @@ public class Order extends AbstractEntity {
     @Column(name = "status", nullable = false)
     private OrderStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "from_city_id", nullable = false)
-    private City fromCity;
+    @Column(name = "from_city")
+    private String fromCity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "to_city_id", nullable = false)
-    private City toCity;
+    @Column(name = "to_city")
+    private String toCity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cargo_id", nullable = false)
@@ -27,6 +25,9 @@ public class Order extends AbstractEntity {
 
     @Column(name = "distance", nullable = false)
     private Integer distance;
+
+    @Column(name = "duration", nullable = false)
+    private Integer duration;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "truck_id")
@@ -40,19 +41,19 @@ public class Order extends AbstractEntity {
         this.status = status;
     }
 
-    public City getFromCity() {
+    public String getFromCity() {
         return fromCity;
     }
 
-    public void setFromCity(City fromCity) {
+    public void setFromCity(String fromCity) {
         this.fromCity = fromCity;
     }
 
-    public City getToCity() {
+    public String getToCity() {
         return toCity;
     }
 
-    public void setToCity(City toCity) {
+    public void setToCity(String toCity) {
         this.toCity = toCity;
     }
 
@@ -72,6 +73,14 @@ public class Order extends AbstractEntity {
         this.distance = distance;
     }
 
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
     public Truck getTruck() {
         return truck;
     }
@@ -85,7 +94,7 @@ public class Order extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id;
+        return id.equals(order.id);
     }
 
     @Override
@@ -101,6 +110,7 @@ public class Order extends AbstractEntity {
                 ", toCity=" + toCity +
                 ", cargo=" + cargo +
                 ", distance=" + distance +
+                ", duration=" + duration +
                 ", truck=" + truck +
                 ", id=" + id +
                 '}';

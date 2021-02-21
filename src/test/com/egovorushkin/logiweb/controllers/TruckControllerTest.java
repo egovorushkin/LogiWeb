@@ -82,7 +82,7 @@ public class TruckControllerTest {
         @DisplayName("When two trucks are found from the database")
         class WhenTwoTrucksAreFoundFromTheDatabase {
 
-            private final long TRUCK_ONE_ID = 1L;
+            private final Long TRUCK_ONE_ID = 1L;
             private final String TRUCK_ONE_REGISTRATION_NUMBER = "AB12345";
             private final int TRUCK_ONE_TEAM_SIZE = 2;
             private final int TRUCK_ONE_CAPACITY = 30000;
@@ -90,7 +90,7 @@ public class TruckControllerTest {
             private final TruckStatus STATUS_PARKED = TruckStatus.PARKED;
             private final TruckState STATE_SERVICEABLE = TruckState.SERVICEABLE;
 
-            private final long TRUCK_TWO_ID = 2L;
+            private final Long TRUCK_TWO_ID = 2L;
             private final String TRUCK_TWO_REGISTRATION_NUMBER = "NB00432";
             private final int TRUCK_TWO_TEAM_SIZE = 2;
             private final int TRUCK_TWO_CAPACITY = 25000;
@@ -206,7 +206,7 @@ public class TruckControllerTest {
         @DisplayName("Render the HTML view that displays the information of the requested truck")
         class FindById {
 
-            private final long TRUCK_ID = 99999L;
+            private final Long TRUCK_ID = 99999L;
 
             @Nested
             @DisplayName("When the requested truck isn't found from the database")
@@ -240,7 +240,7 @@ public class TruckControllerTest {
                 private final TruckStatus STATUS_PARKED = TruckStatus.PARKED;
                 private final TruckState STATE_SERVICEABLE = TruckState.SERVICEABLE;
 
-                private final long DRIVER_ID = 10L;
+                private final Long DRIVER_ID = 10L;
                 private final String DRIVER_FIRST_NAME = "Alex";
                 private final String DRIVER_LAST_NAME = "Alexeev";
                 private final int DRIVER_WORKED_HOURS = 100;

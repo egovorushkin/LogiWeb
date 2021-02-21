@@ -29,6 +29,6 @@ public class LoginController {
             LOGGER.debug("accessDenied is executed");
         }
 
-        return "access-denied";
+        return "errors/access-denied";
     }
 }

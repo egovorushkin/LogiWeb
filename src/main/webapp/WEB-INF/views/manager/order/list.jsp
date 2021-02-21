@@ -22,7 +22,7 @@
             <th scope="col">From City</th>
             <th scope="col">To City</th>
             <th scope="col">Distance (km)</th>
-            <th scope="col">~Travel time (hr)</th>
+            <th scope="col">Duration (hr)</th>
             <th scope="col">Cargo</th>
             <th scope="col">Truck</th>
             <th scope="col">Edit</th>
@@ -34,8 +34,8 @@
             <tr class='table-row' data-href='${pageContext.request.contextPath}/orders/${order.id}'>
                 <td class="align-middle">${order.id}</td>
                 <td class="align-middle">${order.status.toString()}</td>
-                <td class="align-middle">${order.fromCity.name}</td>
-                <td class="align-middle">${order.toCity.name}</td>
+                <td class="align-middle">${order.fromCity}</td>
+                <td class="align-middle">${order.toCity}</td>
                 <td class="align-middle">${order.distance}</td>
                 <td class="align-middle">${order.duration}</td>
                 <td class="align-middle">${order.cargo.name}</td>

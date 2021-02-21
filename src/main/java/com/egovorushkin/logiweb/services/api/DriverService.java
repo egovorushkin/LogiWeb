@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DriverService {
 
-    DriverDto getDriverById(long id);
+    DriverDto getDriverById(Long id);
 
     List<DriverDto> getAllDrivers();
 
@@ -17,7 +17,7 @@ public interface DriverService {
 
     void updateDriver(DriverDto driverDto);
 
-    void deleteDriver(long id);
+    void deleteDriver(Long id);
 
     DriverDto getAuthorizedDriverByUsername();
 

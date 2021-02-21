@@ -2,18 +2,16 @@ package com.egovorushkin.logiweb.dao.impl;
 
 import com.egovorushkin.logiweb.dao.api.RoleDao;
 import com.egovorushkin.logiweb.entities.Role;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class RoleDaoImpl implements RoleDao {
+public class RoleDaoImpl extends AbstractDao implements RoleDao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private static final Logger LOGGER =
+            Logger.getLogger(RoleDaoImpl.class.getName());
 
     @Override
     public Role findRoleByName(String theRoleName) {
@@ -27,7 +25,7 @@ public class RoleDaoImpl implements RoleDao {
         try {
             theRole = q.getSingleResult();
         } catch (Exception ignored) {
-            //
+            LOGGER.info("Role with name " + theRoleName + " not found");
         }
 
         return theRole;

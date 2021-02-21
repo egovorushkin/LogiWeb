@@ -53,7 +53,7 @@ public class TruckController {
     }
 
     @GetMapping("/{id}")
-    public String showTruck(@PathVariable("id") long id, Model model){
+    public String showTruck(@PathVariable("id") Long id, Model model){
         model.addAttribute(TRUCK_DTO, truckService.getTruckById(id));
         model.addAttribute(STATES, TruckState.values());
         model.addAttribute(STATUSES, TruckStatus.values());
@@ -102,7 +102,7 @@ public class TruckController {
 
 
     @GetMapping("/edit")
-    public String showEditTruckForm(@RequestParam("truckId") long id, Model model) {
+    public String showEditTruckForm(@RequestParam("truckId") Long id, Model model) {
         model.addAttribute(TRUCK_DTO, truckService.getTruckById(id));
         model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute(STATES, TruckState.values());
@@ -124,14 +124,14 @@ public class TruckController {
     }
 
     @GetMapping("/delete")
-    public String deleteTruck(@RequestParam("truckId") long id) {
+    public String deleteTruck(@RequestParam("truckId") Long id) {
         truckService.deleteTruck(id);
         return REDIRECT_TRUCKS_LIST;
     }
 
     @GetMapping("/bind-driver")
-    public String bindDriverForTruck(@RequestParam("truckId") long truckId,
-                                    @RequestParam("driverId") long driverId,
+    public String bindDriverForTruck(@RequestParam("truckId") Long truckId,
+                                    @RequestParam("driverId") Long driverId,
                                     Model model,
                                     RedirectAttributes redirectAttributes){
         TruckDto truck = truckService.getTruckById(truckId);
@@ -160,8 +160,8 @@ public class TruckController {
     }
 
     @GetMapping("/unbind-driver")
-    public String unbindDriverForTruck(@RequestParam("truckId") long truckId,
-                                    @RequestParam("driverId") long driverId,
+    public String unbindDriverForTruck(@RequestParam("truckId") Long truckId,
+                                    @RequestParam("driverId") Long driverId,
                                     RedirectAttributes redirectAttributes){
         DriverDto driverDto = driverService.getDriverById(driverId);
 

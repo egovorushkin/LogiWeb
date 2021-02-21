@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<jsp:include page="../views/fragments/before-title-main.jsp"/>
+<jsp:include page="../fragments/before-title-main.jsp"/>
 
 <title>New Administrator</title>
 
-<jsp:include page="../views/fragments/after-title-with-nav-manager.jsp"/>
+<jsp:include page="../fragments/after-title-with-nav-manager.jsp"/>
 
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
@@ -96,5 +96,5 @@
     </form:form>
 </main>
 
-<jsp:include page="../views/fragments/bootstrap-core-js-main.jsp"/>
+<jsp:include page="../fragments/bootstrap-core-js-main.jsp"/>
 

@@ -3,24 +3,21 @@ package com.egovorushkin.logiweb.dao.impl;
 import com.egovorushkin.logiweb.dao.api.TruckDao;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Set;
 
 @Repository
-public class TruckDaoImpl  implements TruckDao {
+public class TruckDaoImpl extends AbstractDao implements TruckDao {
 
-
-    @PersistenceContext
-    EntityManager entityManager;
+    private static final Logger LOGGER =
+            Logger.getLogger(TruckDaoImpl.class.getName());
 
     @Override
-    public Truck getTruckById(long id) {
+    public Truck getTruckById(Long id) {
         return entityManager
                 .createQuery("SELECT t FROM Truck t " +
                                 "LEFT JOIN FETCH t.currentDrivers " +
@@ -50,7 +47,7 @@ public class TruckDaoImpl  implements TruckDao {
     }
 
     @Override
-    public void deleteTruck(long id) {
+    public void deleteTruck(Long id) {
         Truck truck = entityManager.find(Truck.class, id);
         Set<Driver> currentDrivers = truck.getCurrentDrivers();
 
@@ -62,7 +59,7 @@ public class TruckDaoImpl  implements TruckDao {
     }
 
     @Override
-    public List<Driver> findCurrentDriversByTruckId(long id) {
+    public List<Driver> findCurrentDriversByTruckId(Long id) {
         return entityManager
                 .createQuery("SELECT d FROM Driver d " +
                         "LEFT JOIN FETCH d.truck " +
@@ -102,13 +99,15 @@ public class TruckDaoImpl  implements TruckDao {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t " +
                 "LEFT JOIN FETCH t.currentDrivers " +
                 "LEFT JOIN FETCH t.currentOrders " +
-                "LEFT JOIN FETCH t.currentCity WHERE t.registrationNumber=:registrationNumber", Truck.class)
+                "LEFT JOIN FETCH t.currentCity " +
+                "WHERE t.registrationNumber=:registrationNumber", Truck.class)
                 .setParameter("registrationNumber", registrationNumber);
         Truck truck = null;
         try {
             truck = q.getSingleResult();
         } catch (NoResultException ignored) {
-            //
+            LOGGER.info("Truck with registration number " + registrationNumber +
+                    " not found");
         }
 
         return truck;

@@ -1,7 +1,6 @@
 package com.egovorushkin.logiweb.config.security;
 
 import com.egovorushkin.logiweb.services.api.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -11,25 +10,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // add a reference to our security data source
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-    @Autowired
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    public SecurityConfig(@Lazy UserService userService,
+                          CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+        this.userService = userService;
+        this.customAuthenticationSuccessHandler =
+                customAuthenticationSuccessHandler;
+    }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -40,11 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register/").hasAnyRole()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/scoreboard/**").permitAll()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/trucks/**").hasRole("ADMIN")
-                .antMatchers("/drivers/**").hasRole("ADMIN")
-                .antMatchers("/order/**").hasRole("ADMIN")
-                .antMatchers("/cargo/**").hasRole("ADMIN")
+                .antMatchers("/register/admin/**", "/admin",
+                        "/trucks/**", "/drivers/**", "/order/**", "/cargo/**")
+                    .hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("DRIVER")
                 .and()
                 .formLogin()
@@ -59,19 +54,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    //beans
-    //bcrypt bean definition
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    //authenticationProvider bean definition
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService); //set the custom user details service
-        auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
+        auth.setUserDetailsService(userService);
+        auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
 

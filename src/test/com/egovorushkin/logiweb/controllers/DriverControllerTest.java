@@ -82,14 +82,14 @@ public class DriverControllerTest {
         @DisplayName("When two drivers are found from the database")
         class WhenTwoDriversAreFoundFromTheDatabase {
 
-            private final long DRIVER_ONE_ID = 1L;
+            private final Long DRIVER_ONE_ID = 1L;
             private final String DRIVER_ONE_USERNAME = "driver1";
             private final String DRIVER_ONE_FIRST_NAME = "Ivan";
             private final String DRIVER_ONE_LAST_NAME = "Ivanov";
             private final int DRIVER_ONE_WORKED_HOURS = 100;
             private final DriverStatus STATUS_DRIVING = DriverStatus.DRIVING;
 
-            private final long DRIVER_TWO_ID = 3L;
+            private final Long DRIVER_TWO_ID = 3L;
             private final String DRIVER_TWO_USERNAME = "driver2";
             private final String DRIVER_TWO_FIRST_NAME = "Alex";
             private final String DRIVER_TWO_LAST_NAME = "Alexeev";
@@ -199,7 +199,7 @@ public class DriverControllerTest {
         @DisplayName("Render the HTML view that displays the information of the requested driver")
         class FindById {
 
-            private final long DRIVER_ID = 88888L;
+            private final Long DRIVER_ID = 88888L;
 
             @Nested
             @DisplayName("When the requested driver isn't found from the database")
@@ -227,14 +227,14 @@ public class DriverControllerTest {
             @DisplayName("When the requested driver is found from the database")
             class WhenRequestedDriverIsFound {
 
-                private final long DRIVER_ID = 10L;
+                private final Long DRIVER_ID = 10L;
                 private final String DRIVER_FIRST_NAME = "Alex";
                 private final String DRIVER_LAST_NAME = "Alexeev";
                 private final String DRIVER_USERNAMME = "driver";
                 private final int DRIVER_WORKED_HOURS = 100;
                 private final DriverStatus DRIVER_RESTING = DriverStatus.RESTING;
 
-                private final long TRUCK_ID = 10L;
+                private final Long TRUCK_ID = 10L;
                 private final String REGISTRATION_NUMBER = "XX00000";
                 private final int TEAM_SIZE = 2;
                 private final int CAPACITY = 25000;

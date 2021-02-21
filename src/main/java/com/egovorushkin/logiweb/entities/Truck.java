@@ -127,7 +127,7 @@ public class Truck extends AbstractEntity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Truck truck = (Truck) o;
-        return id == truck.id &&
+        return id.equals(truck.id) &&
                 registrationNumber.equals(truck.registrationNumber);
     }
 

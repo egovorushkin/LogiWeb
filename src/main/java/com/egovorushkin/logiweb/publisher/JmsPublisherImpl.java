@@ -1,6 +1,5 @@
 package com.egovorushkin.logiweb.publisher;
 
-import com.egovorushkin.logiweb.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
@@ -32,8 +31,4 @@ public class JmsPublisherImpl implements JmsPublisher {
         jmsTemplate.send(session -> session.createObjectMessage(message));
     }
 
-//    @Override
-//    public void send(OrderDto orderDto) {
-//        jmsTemplate.convertAndSend(orderDto);
-//    }
 }

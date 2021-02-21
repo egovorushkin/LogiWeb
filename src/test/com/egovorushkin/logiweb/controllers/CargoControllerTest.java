@@ -79,12 +79,12 @@ public class CargoControllerTest {
         @DisplayName("When two cargoes are found from the database")
         class WhenTwoDriversAreFoundFromTheDatabase {
 
-            private final long CARGO_ONE_ID = 1L;
+            private final Long CARGO_ONE_ID = 1L;
             private final String CARGO_ONE_NAME = "PC";
             private final int CARGO_ONE_WEIGHT = 5000;
             private final CargoStatus CARGO_PREPARED = CargoStatus.PREPARED;
 
-            private final long CARGO_TWO_ID = 2L;
+            private final Long CARGO_TWO_ID = 2L;
             private final String CARGO_TWO_NAME = "Wood";
             private final int CARGO_TWO_WEIGHT = 20000;
             private final CargoStatus CARGO_DELIVERED = CargoStatus.DELIVERED;
@@ -180,7 +180,7 @@ public class CargoControllerTest {
         @DisplayName("Render the HTML view that displays the information of the requested cargo")
         class FindById {
 
-            private final long CARGO_ID = 9999L;
+            private final Long CARGO_ID = 9999L;
 
             @Nested
             @DisplayName("When the requested cargo isn't found from the database")
@@ -208,7 +208,7 @@ public class CargoControllerTest {
             @DisplayName("When the requested cargo is found from the database")
             class WhenRequestedDriverIsFound {
 
-                private final long CARGO_ID = 11L;
+                private final Long CARGO_ID = 11L;
                 private final String CARGO_NAME = "Laptops";
                 private final int CARGO_WEIGHT = 8000;
                 private final CargoStatus CARGO_SHIPPED = CargoStatus.SHIPPED;

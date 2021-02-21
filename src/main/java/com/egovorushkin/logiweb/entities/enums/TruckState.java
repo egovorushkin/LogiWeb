@@ -1,6 +1,7 @@
 package com.egovorushkin.logiweb.entities.enums;
 
 public enum TruckState {
+
     SERVICEABLE("SERVICEABLE", "Serviceable"),
     FAULTY("FAULTY", "Faulty");
 

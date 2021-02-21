@@ -35,9 +35,6 @@ public class UserDto implements Serializable {
 
     private CityDto currentCity;
 
-    public UserDto() {
-    }
-
     public String getFirstName() {
         return firstName;
     }

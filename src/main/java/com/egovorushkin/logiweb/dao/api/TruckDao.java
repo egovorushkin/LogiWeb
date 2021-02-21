@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TruckDao {
 
-    Truck getTruckById(long id);
+    Truck getTruckById(Long id);
 
     List<Truck> getAllTrucks();
 
@@ -15,9 +15,9 @@ public interface TruckDao {
 
     void updateTruck(Truck truck);
 
-    void deleteTruck(long id);
+    void deleteTruck(Long id);
 
-    List<Driver> findCurrentDriversByTruckId(long id);
+    List<Driver> findCurrentDriversByTruckId(Long id);
 
     List<Driver> findAvailableDriversByTruck(Truck truck);
 

@@ -34,7 +34,6 @@
     // For Feather Icons
     feather.replace();
 
-
     // Using DataTable
     $(document).ready(function () {
         $('#tables').dataTable({

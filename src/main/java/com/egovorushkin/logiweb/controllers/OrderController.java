@@ -52,22 +52,21 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public String showOrder(@PathVariable("id") long id, Model model) {
+    public String showOrder(@PathVariable("id") Long id, Model model) {
         OrderDto orderDto = orderService.getOrderById(id);
         TruckDto truckDto = orderDto.getTruck();
         model.addAttribute(ORDER, orderDto);
-        model.addAttribute("currentDrivers",
-                truckService.findCurrentDriversByTruckId(truckDto.getId()));
+        if (truckDto != null) {
+            model.addAttribute("currentDrivers",
+                    truckService.findCurrentDriversByTruckId(truckDto.getId()));
+        }
         return "manager/order/show";
     }
 
     @GetMapping("/create")
     public String showCreateOrderForm(Model model) {
         model.addAttribute(ORDER, new OrderDto());
-        model.addAttribute(STATUSES, OrderStatus.values());
-        model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute(CARGOES, cargoService.getAllCargoes());
-        model.addAttribute(TRUCKS, truckService.getAllTrucks());
         return "manager/order/create";
     }
 
@@ -76,14 +75,14 @@ public class OrderController {
                               BindingResult bindingResult, Model model)
             throws InterruptedException, ApiException, IOException {
         if (bindingResult.hasErrors()) {
-            model.addAttribute(CITIES, cityService.getAllCities());
             model.addAttribute(CARGOES, cargoService.getAllCargoes());
-            model.addAttribute(TRUCKS, truckService.getAllTrucks());
-            model.addAttribute(STATUSES, OrderStatus.values());
             return "manager/order/create";
         }
 
-//        orderDto = mapService.evaluateDistanceAndDuration(orderDto);
+        orderDto.setDistance(mapService.computeDistance(orderDto.getFromCity(),
+                orderDto.getToCity()));
+        orderDto.setDuration(mapService.computeDuration(orderDto.getFromCity(),
+                orderDto.getToCity()));
 
         orderService.createOrder(orderDto);
 
@@ -91,7 +90,7 @@ public class OrderController {
     }
 
     @GetMapping("/edit")
-    public String showEditOrderFormForAdmin(@RequestParam("orderId") long id,
+    public String showEditOrderFormForAdmin(@RequestParam("orderId") Long id,
                                             Model model) {
         model.addAttribute(ORDER, orderService.getOrderById(id));
         model.addAttribute(STATUSES, OrderStatus.values());
@@ -105,7 +104,7 @@ public class OrderController {
     }
 
     @GetMapping("/edit-user-order")
-    public String showEditOrderFormForUser(@RequestParam("orderId") long id,
+    public String showEditOrderFormForUser(@RequestParam("orderId") Long id,
                                            Model model) {
         model.addAttribute("userOrder", orderService.getOrderById(id));
         model.addAttribute("orderStatuses", OrderStatus.values());
@@ -124,14 +123,14 @@ public class OrderController {
     }
 
     @GetMapping("/delete")
-    public String deleteOrder(@RequestParam("orderId") long id) {
+    public String deleteOrder(@RequestParam("orderId") Long id) {
         orderService.deleteOrder(id);
         return REDIRECT_ORDERS_LIST;
     }
 
     @GetMapping("/bind-truck")
-    public String bindTruckForOrder(@RequestParam("truckId") long truckId,
-                                    @RequestParam("orderId") long orderId,
+    public String bindTruckForOrder(@RequestParam("truckId") Long truckId,
+                                    @RequestParam("orderId") Long orderId,
                                     RedirectAttributes redirectAttributes) {
         TruckDto truck = truckService.getTruckById(truckId);
         OrderDto order = orderService.getOrderById(orderId);
@@ -147,7 +146,7 @@ public class OrderController {
     }
 
     @GetMapping("/unbind-truck")
-    public String unbindTruckForOrder(@RequestParam("orderId") long orderId,
+    public String unbindTruckForOrder(@RequestParam("orderId") Long orderId,
                                       RedirectAttributes redirectAttributes) {
         OrderDto order = orderService.getOrderById(orderId);
         if (order.getTruck() != null) {

@@ -5,7 +5,6 @@ public enum TruckStatus {
     PARKED("PARKED", "Parked"),
     ON_THE_WAY("ON_THE_WAY", "On the way");
 
-
     String title;
     String name;
 

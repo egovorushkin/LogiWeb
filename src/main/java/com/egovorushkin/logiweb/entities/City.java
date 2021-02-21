@@ -25,7 +25,7 @@ public class City extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city = (City) o;
-        return id == city.id &&
+        return id.equals(city.id) &&
                 name.equals(city.name);
     }
 

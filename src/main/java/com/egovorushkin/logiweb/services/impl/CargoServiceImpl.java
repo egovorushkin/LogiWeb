@@ -7,12 +7,10 @@ import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.CargoService;
 import org.apache.log4j.Logger;
-import org.hibernate.collection.spi.PersistentCollection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +33,7 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public CargoDto getCargoById(long id) {
+    public CargoDto getCargoById(Long id) {
 
         LOGGER.debug("getCargoById() executed");
 
@@ -94,7 +92,7 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     @Transactional
-    public void deleteCargo(long id) {
+    public void deleteCargo(Long id) {
 
         LOGGER.debug("deleteCargo() executed");
 

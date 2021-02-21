@@ -23,9 +23,13 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     private static final String USER_DTO = "userDto";
-    private static final String REGISTRATION_FORM = "registration-form";
+    private static final String REG_FORM = "registration/" +
+            "registration-form";
+    private static final String REG_FORM_ADMIN =
+            "registration/registration-form-admin";
     private static final String CITIES = "cities";
     private static final String REG_ERROR = "registrationError";
+    private static final String USERNAME_EXISTS = "User name already exists: ";
 
     private final UserService userService;
     private final DriverService driverService;
@@ -56,11 +60,12 @@ public class RegistrationController {
     public String showRegistrationForm(Model model) {
         model.addAttribute(USER_DTO, new UserDto());
         model.addAttribute(CITIES, cityService.getAllCities());
-        return REGISTRATION_FORM;
+        return REG_FORM;
     }
 
     @PostMapping("/processRegistrationForm")
-    public String processRegistrationForm(@Valid @ModelAttribute(USER_DTO) UserDto userDto,
+    public String processRegistrationForm(@Valid @ModelAttribute(USER_DTO)
+                                                      UserDto userDto,
                                           BindingResult theBindingResult,
                                           Model model) {
 
@@ -74,18 +79,17 @@ public class RegistrationController {
 
             LOGGER.warn("User name/password can not be empty.");
 
-            return REGISTRATION_FORM;
+            return REG_FORM;
         }
 
         User existing = userService.findByUserName(userName);
         if (existing != null) {
             model.addAttribute(USER_DTO, new UserDto());
             model.addAttribute(CITIES, cityService.getAllCities());
-            model.addAttribute(REG_ERROR, "User name already " +
-                    "exists.");
+            model.addAttribute(REG_ERROR, USERNAME_EXISTS + userName);
 
-            LOGGER.warn("User name already exists.");
-            return REGISTRATION_FORM;
+            LOGGER.warn(USERNAME_EXISTS + userName);
+            return REG_FORM;
         }
 
         DriverDto driverDto = new DriverDto();
@@ -99,18 +103,18 @@ public class RegistrationController {
 
         scoreboardService.updateScoreboard();
 
-        LOGGER.info("Successfully created user: " + userName);
+        LOGGER.info("Successfully created user with username: " + userName);
 
-        return "registration-confirmation";
+        return "registration/registration-confirmation";
     }
 
-    @GetMapping("/showRegistrationFormForAdmin")
+    @GetMapping("/admin/showRegistrationFormForAdmin")
     public String showRegistrationFormForAdmin(Model model) {
         model.addAttribute(USER_DTO, new UserDto());
-        return "registration-form-admin";
+        return REG_FORM_ADMIN;
     }
 
-    @PostMapping("/processRegistrationFormForAdmin")
+    @PostMapping("/admin/processRegistrationFormForAdmin")
     public String processRegistrationFormForAdmin(@Valid @ModelAttribute(USER_DTO) UserDto userDto,
                                           BindingResult theBindingResult,
                                           Model model) {
@@ -124,24 +128,23 @@ public class RegistrationController {
 
             LOGGER.warn("User name/password can not be empty.");
 
-            return "registration-form-admin";
+            return REG_FORM_ADMIN;
         }
 
         User existing = userService.findByUserName(userName);
         if (existing != null) {
             model.addAttribute(USER_DTO, new UserDto());
-            model.addAttribute(REG_ERROR, "User name already " +
-                    "exists.");
+            model.addAttribute(REG_ERROR, USERNAME_EXISTS + userName);
 
-            LOGGER.warn("User name already exists.");
-            return "registration-form-admin";
+            LOGGER.warn(USERNAME_EXISTS + userName);
+            return REG_FORM_ADMIN;
         }
 
         userService.saveAdmin(userDto);
 
-        LOGGER.info("Successfully created user: " + userName);
+        LOGGER.info("Successfully created user with username: " + userName);
 
-        return "registration-confirmation-admin";
+        return "registration/registration-confirmation-admin";
     }
 
 }

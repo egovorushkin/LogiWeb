@@ -31,7 +31,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional
-    public CityDto getCityById(long id) {
+    public CityDto getCityById(Long id) {
 
         LOGGER.debug("getCityById() executed");
 

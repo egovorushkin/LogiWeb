@@ -2,7 +2,6 @@ package com.egovorushkin.logiweb.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")

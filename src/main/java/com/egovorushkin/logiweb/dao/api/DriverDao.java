@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DriverDao {
 
-    Driver getDriverById(long id);
+    Driver getDriverById(Long id);
 
     List<Driver> getAllDrivers();
 
@@ -15,12 +15,12 @@ public interface DriverDao {
 
     void updateDriver(Driver driver);
 
-    void deleteDriver(long id);
+    void deleteDriver(Long id);
 
     Driver getDriverByUsername(String username);
 
     List<Truck> findAvailableTrucksByDriver(Driver driver);
 
-    boolean driverExistsById(long id);
+    boolean driverExistsById(Long id);
 
 }

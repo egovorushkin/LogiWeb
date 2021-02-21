@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface CityService {
 
-    CityDto getCityById(long id);
+    CityDto getCityById(Long id);
 
     List<CityDto> getAllCities();
 

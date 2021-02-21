@@ -81,11 +81,11 @@ public class OrderControllerTest {
         @DisplayName("When two trucks are found from the database")
         class WhenTwoTrucksAreFoundFromTheDatabase {
 
-            private final long ORDER_ONE_ID = 1L;
+            private final Long ORDER_ONE_ID = 1L;
             private final OrderStatus STATUS_COMPLETED = OrderStatus.COMPLETED;
             private final int ORDER_ONE_DISTANCE = 2000;
 
-            private final long ORDER_TWO_ID = 2L;
+            private final Long ORDER_TWO_ID = 2L;
             private final OrderStatus STATUS_NOT_COMPLETED =
                     OrderStatus.NOT_COMPLETED;
             private final int ORDER_TWO_DISTANCE = 1000;

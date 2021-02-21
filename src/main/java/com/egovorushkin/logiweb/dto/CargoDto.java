@@ -57,4 +57,9 @@ public class CargoDto extends AbstractDto implements Serializable {
     public int hashCode() {
         return super.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return name + " (" + weight + "kg), " + status.getName();
+    }
 }

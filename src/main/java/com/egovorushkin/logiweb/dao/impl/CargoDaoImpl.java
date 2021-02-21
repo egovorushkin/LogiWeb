@@ -3,18 +3,13 @@ package com.egovorushkin.logiweb.dao.impl;
 import com.egovorushkin.logiweb.dao.api.CargoDao;
 import com.egovorushkin.logiweb.entities.Cargo;
 import org.springframework.stereotype.Repository;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class CargoDaoImpl implements CargoDao {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class CargoDaoImpl extends AbstractDao implements CargoDao {
 
     @Override
-    public Cargo getCargoById(long id) {
+    public Cargo getCargoById(Long id) {
         return entityManager.find(Cargo.class, id);
     }
 
@@ -36,7 +31,7 @@ public class CargoDaoImpl implements CargoDao {
     }
 
     @Override
-    public void deleteCargo(long id) {
+    public void deleteCargo(Long id) {
         Cargo cargo = entityManager.find(Cargo.class, id);
 
         if (cargo != null) {
@@ -45,7 +40,7 @@ public class CargoDaoImpl implements CargoDao {
     }
 
     @Override
-    public boolean cargoExistsById(long id) {
+    public boolean cargoExistsById(Long id) {
         Long count = entityManager.createQuery("SELECT COUNT(c)  FROM Cargo " +
                 "c WHERE c.id=:id", Long.class).
                 setParameter("id", id).getSingleResult();

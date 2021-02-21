@@ -66,21 +66,23 @@
                             Cargoes
                         </a>
                     </li>
+
                     <li class="nav-item">
+                        <hr>
                         <a class="nav-link" href="${pageContext.request.contextPath}/register/showRegistrationFormForAdmin">
                             <span data-feather="alert-triangle"></span>
                             Add Admin
                         </a>
                     </li>
                     <li class="nav-item">
-                        <hr>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/map">
-                            <span data-feather="map"></span>
-                            Google Maps Test
-                        </a>
-                    </li>
+<%--                        <hr>--%>
+<%--                    </li>--%>
+<%--                    <li class="nav-item">--%>
+<%--                        <a class="nav-link" href="${pageContext.request.contextPath}/map">--%>
+<%--                            <span data-feather="map"></span>--%>
+<%--                            Google Maps Test--%>
+<%--                        </a>--%>
+<%--                    </li>--%>
                 </ul>
             </div>
         </nav>

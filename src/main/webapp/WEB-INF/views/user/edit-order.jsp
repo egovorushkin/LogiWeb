@@ -50,7 +50,7 @@
             <label for="fromCity" class="col-sm-2 col-form-label">From
                 City:</label>
             <div class="col-sm-2">
-                <form:input path="fromCity.name" type="text"
+                <form:input path="fromCity" type="text"
                             class="form-control form-control-sm" id="fromCity"
                             name="fromCity" readonly="true"/>
             </div>
@@ -58,7 +58,7 @@
         <div class="row mb-3">
             <label for="toCity" class="col-sm-2 col-form-label">To City:</label>
             <div class="col-sm-2">
-                <form:input path="toCity.name" type="text"
+                <form:input path="toCity" type="text"
                             class="form-control form-control-sm" id="toCity"
                             name="toCity" readonly="true"/>
             </div>
@@ -80,6 +80,32 @@
                 <form:input path="duration" type="text"
                             class="form-control form-control-sm" id="duration"
                             name="duration" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="cargoName" class="col-sm-2 col-form-label">
+                Name of cargo:
+            </label>
+            <div class="col-sm-2">
+                <form:input path="cargo.name" type="text"
+                            class="form-control form-control-sm" id="cargoName"
+                            name="cargoName" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="cargoWeight" class="col-sm-2 col-form-label">Weight of cargo</label>
+            <div class="col-sm-2">
+                <form:input path="cargo.weight" type="text"
+                            class="form-control form-control-sm" id="cargoWeight"
+                            name="cargoWeight" readonly="true"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="cargoStatus" class="col-sm-2 col-form-label">Cargo status</label>
+            <div class="col-sm-2">
+                <form:input path="cargo.status.name" type="text"
+                            class="form-control form-control-sm" id="cargoStatus"
+                            name="cargoStatus" readonly="true"/>
             </div>
         </div>
         <c:choose>

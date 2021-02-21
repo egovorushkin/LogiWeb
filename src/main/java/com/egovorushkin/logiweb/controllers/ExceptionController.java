@@ -20,16 +20,16 @@ public class ExceptionController {
     private static final Logger LOGGER =
             Logger.getLogger(ExceptionController.class.getName());
 
-    @ExceptionHandler(value = Exception.class)
-    public String handleError(HttpServletRequest request, Exception ex, Model model) {
-        LOGGER.error("Request: " + request.getRequestURL() + " raised " + ex);
-
-        model.addAttribute("exception", ex);
-        model.addAttribute("url", request.getRequestURL());
-        model.addAttribute("timestamp", new Date().toString());
-
-        return "error";
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    public String handleError(HttpServletRequest request, Exception ex, Model model) {
+//        LOGGER.error("Request: " + request.getRequestURL() + " raised " + ex);
+//
+//        model.addAttribute("exception", ex);
+//        model.addAttribute("url", request.getRequestURL());
+//        model.addAttribute("timestamp", new Date().toString());
+//
+//        return "error";
+//    }
 
     /**
      * Convert a predefined exception to an HTTP Status code

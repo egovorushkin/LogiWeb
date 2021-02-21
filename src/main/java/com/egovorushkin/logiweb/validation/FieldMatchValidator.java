@@ -22,17 +22,14 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
     @Override
     public boolean isValid(final Object value,
                            final ConstraintValidatorContext context) {
-        boolean valid = true;
-        try {
-            final Object firstObj =
-                    new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
-            final Object secondObj =
-                    new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
+        boolean valid;
+        final Object firstObj =
+                new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
+        final Object secondObj =
+                new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
 
-            valid = firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
-        } catch (final Exception ignore) {
-            //
-        }
+        valid = firstObj == null && secondObj == null
+                || firstObj != null && firstObj.equals(secondObj);
 
         if (!valid) {
             context.buildConstraintViolationWithTemplate(message)
@@ -40,7 +37,6 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
                     .addConstraintViolation()
                     .disableDefaultConstraintViolation();
         }
-
         return valid;
     }
 }

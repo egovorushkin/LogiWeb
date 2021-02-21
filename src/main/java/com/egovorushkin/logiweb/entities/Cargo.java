@@ -50,7 +50,7 @@ public class Cargo extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cargo cargo = (Cargo) o;
-        return id == cargo.id;
+        return id.equals(cargo.id);
     }
 
     @Override
@@ -60,6 +60,6 @@ public class Cargo extends AbstractEntity {
 
     @Override
     public String toString() {
-        return name + " " + weight + " " + status;
+        return name + " (" + weight + "kg), " + status.getName();
     }
 }
