@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ScoreboardServiceImpl implements ScoreboardService {
 
+    private static final String MSG_UPDATED = "updated";
+
     private final JmsPublisher jmsPublisher;
 
     public ScoreboardServiceImpl(JmsPublisher jmsPublisher) {
@@ -15,6 +17,6 @@ public class ScoreboardServiceImpl implements ScoreboardService {
 
     @Override
     public void updateScoreboard() {
-        jmsPublisher.sendMessage("updated");
+        jmsPublisher.sendMessage(MSG_UPDATED);
     }
 }

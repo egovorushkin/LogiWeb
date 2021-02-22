@@ -25,8 +25,6 @@ public interface OrderDao {
 
     List<Driver> findAvailableDriversForOrder(Order order);
 
-    boolean orderExistsById(Long id);
-
     List<Order> getLatestOrders();
 
     Order findOrderByTruckId(Long id);

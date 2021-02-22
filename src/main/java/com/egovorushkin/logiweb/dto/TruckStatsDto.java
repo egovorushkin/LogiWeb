@@ -38,4 +38,36 @@ public class TruckStatsDto {
     public void setFaulty(long faulty) {
         this.faulty = faulty;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TruckStatsDto that = (TruckStatsDto) o;
+
+        if (total != that.total) return false;
+        if (available != that.available) return false;
+        if (busy != that.busy) return false;
+        return faulty == that.faulty;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (total ^ (total >>> 32));
+        result = 31 * result + (int) (available ^ (available >>> 32));
+        result = 31 * result + (int) (busy ^ (busy >>> 32));
+        result = 31 * result + (int) (faulty ^ (faulty >>> 32));
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TruckStatsDto{" +
+                "total=" + total +
+                ", available=" + available +
+                ", busy=" + busy +
+                ", faulty=" + faulty +
+                '}';
+    }
 }

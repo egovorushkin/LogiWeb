@@ -82,14 +82,6 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     @Override
-    public boolean orderExistsById(Long id) {
-        Long count = entityManager.createQuery("SELECT COUNT(o) FROM Order " +
-                "o WHERE o.id=:id", Long.class).
-                setParameter("id", id).getSingleResult();
-        return count > 0;
-    }
-
-    @Override
     public List<Order> getLatestOrders() {
         return entityManager.createQuery("SELECT o FROM Order o " +
                         "LEFT JOIN FETCH o.cargo " +

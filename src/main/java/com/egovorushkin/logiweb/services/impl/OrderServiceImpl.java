@@ -155,11 +155,6 @@ public class OrderServiceImpl implements OrderService {
 
         LOGGER.debug("createOrder() executed");
 
-        if (orderDao.orderExistsById(orderDto.getId())) {
-            throw new ServiceException(String.format("Order with id" +
-                    " %s already exists", orderDto.getId()));
-        }
-
         orderDao.createOrder(modelMapper.map(orderDto, Order.class));
 
         scoreboardService.updateScoreboard();

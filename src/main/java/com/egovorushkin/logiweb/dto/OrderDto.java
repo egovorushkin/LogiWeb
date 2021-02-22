@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.dto;
 import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class OrderDto extends AbstractDto implements Serializable {
 
@@ -78,12 +79,27 @@ public class OrderDto extends AbstractDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderDto orderDto = (OrderDto) o;
+
+        if (!Objects.equals(fromCity, orderDto.fromCity))
+            return false;
+        if (!Objects.equals(toCity, orderDto.toCity))
+            return false;
+        if (!Objects.equals(distance, orderDto.distance))
+            return false;
+        return Objects.equals(duration, orderDto.duration);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = fromCity != null ? fromCity.hashCode() : 0;
+        result = 31 * result + (toCity != null ? toCity.hashCode() : 0);
+        result = 31 * result + (distance != null ? distance.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        return result;
     }
 
     @Override

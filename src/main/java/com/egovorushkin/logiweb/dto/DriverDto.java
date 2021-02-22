@@ -1,10 +1,10 @@
 package com.egovorushkin.logiweb.dto;
 
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
-import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class DriverDto extends AbstractDto implements Serializable {
 
@@ -20,8 +20,6 @@ public class DriverDto extends AbstractDto implements Serializable {
     @NotEmpty(message = "Lastname should not be empty.")
     private String lastName;
 
-    @Range(min = 0, max = 176,
-            message = "Worked hours should be between 0 and 176.")
     private int workedHoursPerMonth;
 
     private boolean isInShift;
@@ -104,12 +102,17 @@ public class DriverDto extends AbstractDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DriverDto driverDto = (DriverDto) o;
+
+        return Objects.equals(username, driverDto.username);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return username != null ? username.hashCode() : 0;
     }
 
     @Override

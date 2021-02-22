@@ -7,11 +7,10 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
-public class TruckDto implements Serializable {
-
-    private Long id;
+public class TruckDto extends AbstractDto implements Serializable {
 
     @NotEmpty(message = "Registration Number should not be empty")
     @Pattern(regexp = "^[A-Z]{2}[0-9]{5}$", message = "Registration Number" +
@@ -42,14 +41,6 @@ public class TruckDto implements Serializable {
         this.teamSize = teamSize;
         this.capacity = capacity;
         this.currentCity = currentCity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getRegistrationNumber() {
@@ -138,18 +129,23 @@ public class TruckDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TruckDto truckDto = (TruckDto) o;
+
+        return Objects.equals(registrationNumber, truckDto.registrationNumber);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return registrationNumber != null ? registrationNumber.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "TruckDto{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", registrationNumber='" + registrationNumber + '\'' +
                 ", teamSize=" + teamSize +
                 ", capacity=" + capacity +

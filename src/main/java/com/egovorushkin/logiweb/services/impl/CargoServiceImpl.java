@@ -8,7 +8,6 @@ import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.CargoService;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
@@ -20,13 +19,13 @@ public class CargoServiceImpl implements CargoService {
 
     private static final Logger LOGGER =
             Logger.getLogger(CargoServiceImpl.class.getName());
+
     private static final String CARGO = "Cargo with id = ";
 
 
     private final CargoDao cargoDao;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public CargoServiceImpl(CargoDao cargoDao, ModelMapper modelMapper) {
         this.cargoDao = cargoDao;
         this.modelMapper = modelMapper;
@@ -38,8 +37,7 @@ public class CargoServiceImpl implements CargoService {
         LOGGER.debug("getCargoById() executed");
 
         if (cargoDao.getCargoById(id) == null) {
-            throw new EntityNotFoundException(CARGO + id + " is" +
-                    " not found");
+            throw new EntityNotFoundException(CARGO + id + " is not found");
         }
 
         LOGGER.info("Found cargo with id = " + id);

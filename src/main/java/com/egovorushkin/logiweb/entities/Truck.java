@@ -104,16 +104,6 @@ public class Truck extends AbstractEntity{
         this.currentDrivers = currentDrivers;
     }
 
-    public void addDriver(Driver driver) {
-        currentDrivers.add(driver);
-        driver.setTruck(this);
-    }
-
-    public void removeDriver(Driver driver) {
-        currentDrivers.remove(driver);
-        driver.setTruck(null);
-    }
-
     public Set<Order> getCurrentOrders() {
         return currentOrders;
     }
