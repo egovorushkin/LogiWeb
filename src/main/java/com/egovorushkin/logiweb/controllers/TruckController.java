@@ -32,6 +32,8 @@ public class TruckController {
     private static final String STATUSES = "statuses";
     private static final String REDIRECT_TRUCKS_LIST = "redirect:/trucks/list";
     private static final String MANAGER_TRUCK_CREATE = "manager/truck/create";
+    private static final String MANAGER_TRUCK_EDIT = "manager/truck/edit";
+    private static final String CURRENT_DRIVERS = "currentDrivers";
 
     private final TruckService truckService;
     private final CityService cityService;
@@ -57,7 +59,7 @@ public class TruckController {
         model.addAttribute(TRUCK_DTO, truckService.getTruckById(id));
         model.addAttribute(STATES, TruckState.values());
         model.addAttribute(STATUSES, TruckStatus.values());
-        model.addAttribute("currentDrivers", truckService.findCurrentDriversByTruckId(id));
+        model.addAttribute(CURRENT_DRIVERS, truckService.findCurrentDriversByTruckId(id));
         model.addAttribute("numberOfDrivers", truckService.findCurrentDriversByTruckId(id).size());
 
         return "manager/truck/show";
@@ -107,17 +109,17 @@ public class TruckController {
         model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute(STATES, TruckState.values());
         model.addAttribute(STATUSES, TruckStatus.values());
-        model.addAttribute("currentDrivers", truckService.findCurrentDriversByTruckId(id));
+        model.addAttribute(CURRENT_DRIVERS, truckService.findCurrentDriversByTruckId(id));
         model.addAttribute("availableDrivers",
                 truckService.findAvailableDriversByTruck(truckService.getTruckById(id)));
-        return "manager/truck/edit";
+        return MANAGER_TRUCK_EDIT;
     }
 
     @PostMapping("/update")
     public String updateTruck(@ModelAttribute(TRUCK_DTO) @Valid TruckDto truckDto,
                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "manager/truck/edit";
+            return MANAGER_TRUCK_EDIT;
         }
         truckService.updateTruck(truckDto);
         return REDIRECT_TRUCKS_LIST;
@@ -144,10 +146,10 @@ public class TruckController {
             model.addAttribute(CITIES, cityService.getAllCities());
             model.addAttribute(STATES, TruckState.values());
             model.addAttribute(STATUSES, TruckStatus.values());
-            model.addAttribute("currentDrivers", truckService.findCurrentDriversByTruckId(truckId));
+            model.addAttribute(CURRENT_DRIVERS, truckService.findCurrentDriversByTruckId(truckId));
             model.addAttribute("availableDrivers",
                     truckService.findAvailableDriversByTruck(truckService.getTruckById(truckId)));
-            return "manager/truck/edit";
+            return MANAGER_TRUCK_EDIT;
         }
 
         driver.setTruck(truck);
@@ -167,7 +169,7 @@ public class TruckController {
 
         if (driverDto.getTruck().getCurrentDrivers() != null) {
             DriverDto colleague = driverDto.getTruck().getCurrentDrivers().stream()
-                    .filter(driver -> driver.getId() != driverDto.getId())
+                    .filter(driver -> !driver.getId().equals(driverDto.getId()))
                     .findFirst().orElse(null);
 
             if (colleague != null) {

@@ -121,10 +121,7 @@
 
     <hr>
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
-    align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4>Available Trucks</h4>
-    </div>
+    <h4>Available Trucks</h4>
     <c:choose>
         <c:when test="${empty availableTrucks}">
             <h6>No available trucks fo this order</h6>
@@ -137,7 +134,6 @@
 
             <table class="table table-hover table-responsive-sm table-striped
             table-bordered table-sm">
-                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col">Registration №</th>

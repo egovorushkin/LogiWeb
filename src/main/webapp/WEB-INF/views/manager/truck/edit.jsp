@@ -120,7 +120,7 @@
     <hr>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
-                align-items-center pt-3 pb-2 mb-3 border-bottom">
+                align-items-center pt-3 pb-2 mb-3">
         <h4 class="h4">Available Drivers</h4>
     </div>
 
@@ -148,7 +148,6 @@
         </c:when>
         <c:otherwise>
             <table class="table table-hover table-striped table-bordered">
-                <caption></caption>
                 <thead>
                 <tr>
                     <th scope="col"></th>

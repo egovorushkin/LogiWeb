@@ -96,13 +96,11 @@
             <div class="col-sm-2">
                 <c:choose>
                     <c:when test="${empty driver.truck}">
-                        <label for="none"></label>
                         <input value="None"
                                class="form-control form-control-sm" id="none"
                                name="none" disabled/>
                     </c:when>
                     <c:otherwise>
-                        <label for="currentTruck"></label>
                         <input value="${driver.truck.registrationNumber}"
                                class="form-control form-control-sm"
                                id="currentTruck"
@@ -127,13 +125,9 @@
            role="button">Cancel</a>
     </form:form>
 
-    <hr/>
+    <hr>
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
-                align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4>Available Trucks</h4>
-    </div>
-
+    <h4>Available Trucks</h4>
     <c:choose>
         <c:when test="${empty availableTrucks}">
             <h6>No available trucks for this driver.</h6>

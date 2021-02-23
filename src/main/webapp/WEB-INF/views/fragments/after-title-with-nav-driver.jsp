@@ -14,18 +14,21 @@
 <body>
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow nav">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-2" href="#">LogiWeb</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-2"
+       href="${pageContext.request.contextPath}/driver">LogiWeb</a>
     <ul class="navbar-nav px-2">
         <li class="nav-item text-nowrap d-inline-block">
 
-            <form:form cssClass="form-inline" action="${pageContext.request.contextPath}/logout"
+            <form:form cssClass="form-inline"
+                       action="${pageContext.request.contextPath}/logout"
                        method="POST">
                 <a class="nav-link mr-1" href="#">Hi,
                     <security:authorize access="isAuthenticated()">
                         <security:authentication property="principal.username"/>
                     </security:authorize>
                 </a>
-                <input class="btn btn-outline-success btn-sm" type="submit" value="Logout" />
+                <input class="btn btn-outline-success btn-sm" type="submit"
+                       value="Logout" />
             </form:form>
         </li>
     </ul>

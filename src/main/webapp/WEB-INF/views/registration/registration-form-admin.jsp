@@ -16,7 +16,7 @@
     </div>
 
     <form:form modelAttribute="userDto"
-               action="${pageContext.request.contextPath}/register/processRegistrationFormForAdmin">
+               action="${pageContext.request.contextPath}/register/admin/processRegistrationFormForAdmin">
 
         <!-- Place for messages: error, alert etc ... -->
         <div class="form-group">

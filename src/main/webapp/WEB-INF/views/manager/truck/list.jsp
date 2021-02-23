@@ -15,7 +15,6 @@
     </div>
 
     <table id="tables" class="table-hover table-striped">
-        <caption></caption>
         <thead>
         <tr>
             <th scope="col">Registration №</th>
