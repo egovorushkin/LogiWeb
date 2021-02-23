@@ -1,6 +1,13 @@
 package com.egovorushkin.logiweb.dto;
 
-public class TruckStatsDto {
+import java.io.Serializable;
+
+/**
+ * Represent a truck statistic
+ * extends {@link AbstractDto}
+ * implements {@link Serializable}
+ */
+public class TruckStatsDto implements Serializable {
 
     private long total;
     private long available;

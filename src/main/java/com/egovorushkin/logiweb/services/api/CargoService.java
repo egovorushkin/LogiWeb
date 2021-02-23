@@ -4,6 +4,9 @@ import com.egovorushkin.logiweb.dto.CargoDto;
 
 import java.util.List;
 
+/**
+ * Service interface for {@link com.egovorushkin.logiweb.entities.Cargo}
+ */
 public interface CargoService {
 
     CargoDto getCargoById(Long id);

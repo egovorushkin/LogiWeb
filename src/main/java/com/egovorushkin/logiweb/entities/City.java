@@ -4,7 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Objects;
-
+/**
+ * Represent a city
+ * extends {@link AbstractEntity}
+ */
 @Entity
 @Table(name = "city")
 public class City extends AbstractEntity {

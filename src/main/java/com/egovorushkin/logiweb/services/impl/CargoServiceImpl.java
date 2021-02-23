@@ -14,6 +14,11 @@ import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class with business logics for {@link Cargo}
+ * and {@link CargoDto}
+ * implements {@link CargoService}
+ */
 @Service
 public class CargoServiceImpl implements CargoService {
 

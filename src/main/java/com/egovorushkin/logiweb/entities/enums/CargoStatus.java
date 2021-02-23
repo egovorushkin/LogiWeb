@@ -1,5 +1,10 @@
 package com.egovorushkin.logiweb.entities.enums;
 
+/**
+ * Represent a statuses for {@link com.egovorushkin.logiweb.entities.Cargo}
+ * and for {@link com.egovorushkin.logiweb.dto.CargoDto}
+ *
+ */
 public enum CargoStatus {
 
     PREPARED("PREPARED", "Prepared"),

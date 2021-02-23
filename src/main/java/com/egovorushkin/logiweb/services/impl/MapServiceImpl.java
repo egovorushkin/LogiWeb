@@ -12,6 +12,12 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 
+/**
+ * Service class with business logics for Google Maps API
+ * (Directions API
+ * https://developers.google.com/maps/documentation/directions/overview)
+ * implements {@link MapService}
+ */
 @Service
 public class MapServiceImpl implements MapService {
 

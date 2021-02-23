@@ -6,6 +6,14 @@ import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+/**
+ * Represent a repository
+ * and implements methods to operate for {@link Driver}
+ * extends {@link AbstractDao}
+ * implements {@link DriverDao}
+ * annotated {@link Repository}
+ *
+ */
 @Repository
 public class DriverDaoImpl extends AbstractDao implements DriverDao {
 

@@ -7,6 +7,14 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Represent a repository
+ * and implements methods to operate for {@link Role}
+ * extends {@link AbstractDao}
+ * implements {@link RoleDao}
+ * annotated {@link Repository}
+ *
+ */
 @Repository
 public class RoleDaoImpl extends AbstractDao implements RoleDao {
 

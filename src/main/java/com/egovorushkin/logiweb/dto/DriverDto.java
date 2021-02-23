@@ -6,6 +6,11 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Represent a driver
+ * extends {@link AbstractDto}
+ * implements {@link Serializable}
+ */
 public class DriverDto extends AbstractDto implements Serializable {
 
     private String username;

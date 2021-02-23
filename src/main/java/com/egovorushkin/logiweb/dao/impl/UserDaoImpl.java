@@ -7,6 +7,14 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+/**
+ * Represent a repository
+ * and implements methods to operate for {@link User}
+ * extends {@link AbstractDao}
+ * implements {@link UserDao}
+ * annotated {@link Repository}
+ *
+ */
 @Repository
 public class UserDaoImpl extends AbstractDao implements UserDao {
 

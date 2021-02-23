@@ -2,6 +2,10 @@ package com.egovorushkin.logiweb.dto;
 
 import java.io.Serializable;
 
+/**
+ * Represent a abstract object
+ *
+ */
 public abstract class AbstractDto implements Serializable {
 
    private Long id;

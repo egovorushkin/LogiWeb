@@ -4,7 +4,12 @@ import org.springframework.beans.BeanWrapperImpl;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
+/**
+ * Represent a validator for fields.
+ * Compare two fields
+ * implements {@link ConstraintValidator}
+ *
+ */
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
         Object> {
 
@@ -12,6 +17,10 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
     private String secondFieldName;
     private String message;
 
+    /**
+     * This method initialize two fields
+     * @param constraintAnnotation
+     */
     @Override
     public void initialize(final FieldMatch constraintAnnotation) {
         firstFieldName = constraintAnnotation.first();
@@ -19,6 +28,12 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
         message = constraintAnnotation.message();
     }
 
+    /**
+     *
+     * @param value
+     * @param context
+     * @return true if two fields are equals and false if are not
+     */
     @Override
     public boolean isValid(final Object value,
                            final ConstraintValidatorContext context) {

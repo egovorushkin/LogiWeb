@@ -8,6 +8,11 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Represent a cargo
+ * extends {@link AbstractDto}
+ * implements {@link Serializable}
+ */
 public class CargoDto extends AbstractDto implements Serializable {
 
     @Pattern(regexp = "[A-Z]*[a-z]*",
@@ -51,12 +56,20 @@ public class CargoDto extends AbstractDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CargoDto cargoDto = (CargoDto) o;
+
+        if (weight != cargoDto.weight) return false;
+        return Objects.equals(name, cargoDto.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode());
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + weight;
+        return result;
     }
 
     @Override

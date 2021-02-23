@@ -10,7 +10,6 @@ import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.entities.enums.CargoStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
-import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
@@ -23,6 +22,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class with business logics for {@link Order}
+ * and {@link OrderDto}
+ * implements {@link OrderService}
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 

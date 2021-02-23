@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class with business logics for {@link City}
+ * and {@link CityDto}
+ * implements {@link CityService}
+ */
 @Service
 public class CityServiceImpl implements CityService {
 

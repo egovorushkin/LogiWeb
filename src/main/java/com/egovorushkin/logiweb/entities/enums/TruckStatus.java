@@ -1,5 +1,10 @@
 package com.egovorushkin.logiweb.entities.enums;
 
+/**
+ * Represent a statuses for {@link com.egovorushkin.logiweb.entities.Truck}
+ * and for {@link com.egovorushkin.logiweb.dto.TruckDto}
+ *
+ */
 public enum TruckStatus {
 
     PARKED("PARKED", "Parked"),

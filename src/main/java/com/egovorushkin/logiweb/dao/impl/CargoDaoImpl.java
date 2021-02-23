@@ -5,6 +5,14 @@ import com.egovorushkin.logiweb.entities.Cargo;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+/**
+ * Represent a repository
+ * and implements methods to operate for {@link Cargo}
+ * extends {@link AbstractDao}
+ * implements {@link CargoDao}
+ * annotated {@link Repository}
+ *
+ */
 @Repository
 public class CargoDaoImpl extends AbstractDao implements CargoDao {
 

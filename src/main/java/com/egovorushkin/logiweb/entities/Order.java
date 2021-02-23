@@ -5,6 +5,10 @@ import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Represent an order
+ * extends {@link AbstractEntity}
+ */
 @Entity
 @Table(name = "orders")
 public class Order extends AbstractEntity {

@@ -7,7 +7,15 @@ import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
-@Repository()
+/**
+ * Represent a repository
+ * and implements methods to operate for {@link Order}
+ * extends {@link AbstractDao}
+ * implements {@link OrderDao}
+ * annotated {@link Repository}
+ *
+ */
+@Repository
 public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override

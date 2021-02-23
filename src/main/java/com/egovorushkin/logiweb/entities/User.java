@@ -3,6 +3,10 @@ package com.egovorushkin.logiweb.entities;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * Represent a user
+ * extends {@link AbstractEntity}
+ */
 @Entity
 @Table(name = "users")
 public class User extends AbstractEntity {

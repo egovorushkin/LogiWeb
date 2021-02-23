@@ -4,6 +4,10 @@ import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Represent a driver
+ * extends {@link AbstractEntity}
+ */
 @Entity
 @Table(name = "driver")
 public class Driver extends AbstractEntity {

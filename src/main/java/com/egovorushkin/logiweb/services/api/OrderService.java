@@ -6,6 +6,9 @@ import com.egovorushkin.logiweb.dto.TruckDto;
 
 import java.util.List;
 
+/**
+ * Service interface for {@link com.egovorushkin.logiweb.entities.Order}
+ */
 public interface OrderService {
 
     OrderDto getOrderById(Long id);

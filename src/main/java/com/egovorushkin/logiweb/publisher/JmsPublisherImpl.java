@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
+/**
+ * Implements {@link JmsPublisher}
+ * Implement methods for sending message to message broker
+ */
 @Component
 public class JmsPublisherImpl implements JmsPublisher {
 

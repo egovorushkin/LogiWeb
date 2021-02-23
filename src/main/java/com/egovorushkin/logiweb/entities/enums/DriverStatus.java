@@ -1,5 +1,10 @@
 package com.egovorushkin.logiweb.entities.enums;
 
+/**
+ * Represent a statuses for {@link com.egovorushkin.logiweb.entities.Driver}
+ * and for {@link com.egovorushkin.logiweb.dto.DriverDto}
+ *
+ */
 public enum DriverStatus {
 
     RESTING("RESTING", "Resting"),

@@ -3,6 +3,10 @@ package com.egovorushkin.logiweb.entities;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Represent a role
+ * extends {@link AbstractEntity}
+ */
 @Entity
 @Table(name = "roles")
 public class Role extends AbstractEntity {

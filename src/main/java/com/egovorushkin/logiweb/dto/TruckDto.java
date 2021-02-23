@@ -10,6 +10,11 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represent a truck
+ * extends {@link AbstractDto}
+ * implements {@link Serializable}
+ */
 public class TruckDto extends AbstractDto implements Serializable {
 
     @NotEmpty(message = "Registration Number should not be empty")

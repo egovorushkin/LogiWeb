@@ -5,6 +5,10 @@ import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import javax.persistence.*;
 import java.util.*;
 
+/**
+ * Represent a truck
+ * extends {@link AbstractEntity}
+ */
 @Entity
 @Table(name = "truck")
 public class Truck extends AbstractEntity{

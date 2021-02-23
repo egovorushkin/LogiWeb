@@ -5,6 +5,11 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Represent an order
+ * extends {@link AbstractDto}
+ * implements {@link Serializable}
+ */
 public class OrderDto extends AbstractDto implements Serializable {
 
     private OrderStatus status;

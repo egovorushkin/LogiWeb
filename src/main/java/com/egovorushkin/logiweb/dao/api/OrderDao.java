@@ -1,12 +1,15 @@
 package com.egovorushkin.logiweb.dao.api;
 
-import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 
 import java.util.List;
 
+/**
+ * This interface represent some methods to operate on a {@link Order}
+ * (retrieve from and save to database)
+ */
 public interface OrderDao {
 
     Order getOrderById(Long id);

@@ -5,7 +5,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-
+/**
+ * Represent a user
+ * implements {@link Serializable}
+ * with validator {@link FieldMatch}
+ */
 @FieldMatch.List({
         @FieldMatch(first = "password", second = "matchingPassword", message
                 = "The password fields must match")})

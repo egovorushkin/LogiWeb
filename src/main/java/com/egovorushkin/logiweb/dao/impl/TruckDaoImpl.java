@@ -10,6 +10,14 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represent a repository
+ * and implements methods to operate for {@link Truck}
+ * extends {@link AbstractDao}
+ * implements {@link TruckDao}
+ * annotated {@link Repository}
+ *
+ */
 @Repository
 public class TruckDaoImpl extends AbstractDao implements TruckDao {
 

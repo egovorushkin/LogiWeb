@@ -5,6 +5,14 @@ import com.egovorushkin.logiweb.entities.City;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+/**
+ * Represent a repository
+ * and implements methods to operate for {@link City}
+ * extends {@link AbstractDao}
+ * implements {@link CityDao}
+ * annotated {@link Repository}
+ *
+ */
 @Repository
 public class CityDaoImpl extends AbstractDao implements CityDao {
 

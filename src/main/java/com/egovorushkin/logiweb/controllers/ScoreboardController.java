@@ -33,11 +33,21 @@ public class ScoreboardController {
         return orderService.getLatestOrders();
     }
 
+    /**
+     * This method return JSON with
+     * truck statistic
+     * @return {@link List<TruckStatsDto>} truck statistic
+     */
     @RequestMapping("/trucks")
     public TruckStatsDto getTruckStats() {
         return truckService.getStats();
     }
 
+    /**
+     * This method return JSON with
+     * driver statistic
+     * @return {@link List<DriverStatsDto>} driver statistic
+     */
     @RequestMapping("/drivers")
     public DriverStatsDto getDriverStats() {
         return driverService.getStats();

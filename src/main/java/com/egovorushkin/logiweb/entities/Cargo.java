@@ -8,6 +8,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
 import java.util.Objects;
 
+/**
+ * Represent a cargo
+ * extends {@link AbstractEntity}
+ */
 @Entity
 @Table(name = "cargo")
 public class Cargo extends AbstractEntity {

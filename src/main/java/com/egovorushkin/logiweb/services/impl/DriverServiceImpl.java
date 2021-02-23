@@ -27,6 +27,11 @@ import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class with business logics for {@link Driver}
+ * and {@link DriverDto}
+ * implements {@link DriverService}
+ */
 @Service
 public class DriverServiceImpl implements DriverService {
 
@@ -134,6 +139,10 @@ public class DriverServiceImpl implements DriverService {
         LOGGER.info(DRIVER + id + " deleted");
     }
 
+    /**
+     * This method returns the currently logged driver
+     * @return {@link DriverDto} currently logged driver
+     */
     @Override
     @Transactional
     public DriverDto getAuthorizedDriverByUsername() {
@@ -153,6 +162,11 @@ public class DriverServiceImpl implements DriverService {
                         DriverDto.class);
     }
 
+    /**
+     * This method finds available trucks for given driver
+     * @param driverDto this is given driver
+     * @return {@link List<TruckDto>} available trucks
+     */
     @Override
     @Transactional
     public List<TruckDto> findAvailableTrucksByDriver(DriverDto driverDto) {
@@ -170,6 +184,10 @@ public class DriverServiceImpl implements DriverService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * This method finds a colleague of currently logged driver
+     * @return {@link DriverDto} colleague
+     */
     @Override
     @Transactional
     public DriverDto findColleagueAuthorizedDriverByUsername() {
@@ -196,6 +214,10 @@ public class DriverServiceImpl implements DriverService {
         return colleague;
     }
 
+    /**
+     * This method updates status depending on the input status of driver
+     * @param driverStatus input status of driver
+     */
     @Override
     @Transactional
     public void updateStatus(DriverStatus driverStatus) {
@@ -319,6 +341,11 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    /**
+     * This method updates the state of the driver
+     * and his colleague (if exists)
+     * @param userState input state
+     */
     @Override
     @Transactional
     public void updateState(boolean userState) {
@@ -341,9 +368,10 @@ public class DriverServiceImpl implements DriverService {
     }
 
 
-    /*
-    This method returns drivers statistics
-    like total, available and not available drivers
+    /**
+     * This method returns drivers statistics
+     * like total, available and not available drivers
+     * @return {@link DriverStatsDto} driver statistic
      */
     @Override
     public DriverStatsDto getStats() {
@@ -361,6 +389,12 @@ public class DriverServiceImpl implements DriverService {
         return driverStats;
     }
 
+    /**
+     * Helping method for updateStatus method
+     * @param driver input driver
+     * @param state input state
+     *
+     */
     private void updateStateAndStatusForDriver(DriverDto driver, boolean state) {
         driver.setInShift(state);
         driver.setStatus(DriverStatus.RESTING);

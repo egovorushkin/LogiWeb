@@ -1,6 +1,13 @@
 package com.egovorushkin.logiweb.dto;
 
-public class DriverStatsDto {
+import java.io.Serializable;
+
+/**
+ * Represent a driver statistic
+ * extends {@link AbstractDto}
+ * implements {@link Serializable}
+ */
+public class DriverStatsDto implements Serializable{
 
     private long total;
     private long available;

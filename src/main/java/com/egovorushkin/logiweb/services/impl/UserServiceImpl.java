@@ -18,6 +18,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+/**
+ * Service class with business logics for {@link User}
+ * and {@link UserDto}
+ * implements {@link UserService}
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

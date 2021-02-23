@@ -4,6 +4,10 @@ import com.egovorushkin.logiweb.dto.UserDto;
 import com.egovorushkin.logiweb.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * Service interface for {@link com.egovorushkin.logiweb.entities.User}
+ * extends {@link UserDetailsService}
+ */
 public interface UserService extends UserDetailsService {
 
     User findByUserName(String userName);

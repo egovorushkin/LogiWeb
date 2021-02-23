@@ -4,6 +4,11 @@ import com.egovorushkin.logiweb.publisher.JmsPublisher;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class with business logics
+ * to send message to message broker
+ * implements {@link ScoreboardService}
+ */
 @Service
 public class ScoreboardServiceImpl implements ScoreboardService {
 

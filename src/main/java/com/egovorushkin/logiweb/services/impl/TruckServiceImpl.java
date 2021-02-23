@@ -21,6 +21,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class with business logics for {@link Truck}
+ * and {@link TruckDto}
+ * implements {@link TruckService}
+ */
 @Service
 public class TruckServiceImpl implements TruckService {
 
@@ -124,6 +129,11 @@ public class TruckServiceImpl implements TruckService {
         LOGGER.info(TRUCK + id + " deleted");
     }
 
+    /**
+     * This method finds current drivers for given truck id
+     * @param id Truck id
+     * @return {@link List<DriverDto>} current drivers
+     */
     @Override
     @Transactional
     public List<DriverDto> findCurrentDriversByTruckId(Long id) {
@@ -141,7 +151,11 @@ public class TruckServiceImpl implements TruckService {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * This method finds available drivers for given truck
+     * @param truckDto given truck {@link TruckDto}
+     * @return {@link List<DriverDto>} available drivers
+     */
     @Override
     public List<DriverDto> findAvailableDriversByTruck(TruckDto truckDto) {
 
@@ -155,9 +169,10 @@ public class TruckServiceImpl implements TruckService {
                 .collect(Collectors.toList());
     }
 
-    /*
-    This method returns truck statistics
-    like total, available, busy and faulty trucks
+    /**
+     * This method returns truck statistics
+     * like total, available, busy and faulty trucks
+     * @return {@link TruckStatsDto} driver statistic
      */
     @Override
     public TruckStatsDto getStats() {
@@ -176,7 +191,11 @@ public class TruckServiceImpl implements TruckService {
         return truckStats;
     }
 
-
+    /**
+     * This method finds the truck by given registration number
+     * @param registrationNumber given registration number
+     * @return truck {@link Truck}
+     */
     @Override
     public Truck findByRegistrationNumber(String registrationNumber) {
 
@@ -185,6 +204,13 @@ public class TruckServiceImpl implements TruckService {
         return truckDao.findByRegistrationNumber(registrationNumber);
     }
 
+    /**
+     * Helping method forgetStats method
+     * Counts given trucks by given status
+     * @param trucks {@link List<Truck>} given trucks
+     * @param status given status
+     * @return number of trucks
+     */
     private long getCountByStatus(List<Truck> trucks, String status) {
         return trucks.stream()
                 .filter(truck -> status.equals(truck.getState().getTitle()))

@@ -1,5 +1,10 @@
 package com.egovorushkin.logiweb.entities.enums;
 
+/**
+ * Represent a statuses for {@link com.egovorushkin.logiweb.entities.Order}
+ * and for {@link com.egovorushkin.logiweb.dto.OrderDto}
+ *
+ */
 public enum OrderStatus {
 
     NOT_COMPLETED("NOT_COMPLETED", "Not completed"),

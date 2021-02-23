@@ -5,6 +5,10 @@ import com.egovorushkin.logiweb.entities.Truck;
 
 import java.util.List;
 
+/**
+ * This interface represent some methods to operate on a {@link Driver}
+ * (retrieve from and save to database)
+ */
 public interface DriverDao {
 
     Driver getDriverById(Long id);

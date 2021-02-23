@@ -5,6 +5,10 @@ import com.egovorushkin.logiweb.entities.Truck;
 
 import java.util.List;
 
+/**
+ * This interface represent some methods to operate on a {@link Truck}
+ * (retrieve from and save to database)
+ */
 public interface TruckDao {
 
     Truck getTruckById(Long id);

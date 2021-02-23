@@ -4,6 +4,11 @@ import com.google.maps.errors.ApiException;
 import org.json.JSONObject;
 import java.io.IOException;
 
+/**
+ * Service interface for Google Maps API
+ * (Directions API
+ * https://developers.google.com/maps/documentation/directions/overview)
+ */
 public interface MapService {
 
     Long parseJsonFromGoogleDirectionsApi(JSONObject jsonObject,

@@ -4,6 +4,10 @@ import com.egovorushkin.logiweb.entities.Cargo;
 
 import java.util.List;
 
+/**
+ * This interface represent some methods to operate on a {@link Cargo}
+ * (retrieve from and save to database)
+ */
 public interface CargoDao {
 
     Cargo getCargoById(Long id);
