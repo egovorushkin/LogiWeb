@@ -1,12 +1,12 @@
 package com.egovorushkin.logiweb.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -24,6 +24,7 @@ import java.util.Properties;
         ".properties"})
 public class PersistenceJPAConfig {
 
+    private static final Logger LOGGER = Logger.getLogger(PersistenceJPAConfig.class);
     private final Environment env;
 
     public PersistenceJPAConfig(Environment env) {
@@ -34,7 +35,6 @@ public class PersistenceJPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em =
                 new LocalContainerEntityManagerFactoryBean();
-//        em.setDataSource(dataSource());
         em.setDataSource(securityDataSource());
         em.setPackagesToScan("com.egovorushkin.logiweb.entities");
 
@@ -45,16 +45,6 @@ public class PersistenceJPAConfig {
         return em;
     }
 
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        dataSource.setUrl(env.getProperty("jdbc.url"));
-//        dataSource.setUsername(env.getProperty("jdbc.user"));
-//        dataSource.setPassword(env.getProperty("jdbc.password"));
-//        return dataSource;
-//    }
-
     @Bean
     public DataSource securityDataSource() {
 
@@ -64,22 +54,18 @@ public class PersistenceJPAConfig {
         try {
             securityDataSource.setDriverClass(env.getProperty("security.jdbc.driver"));
         } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc);
+            LOGGER.error("Unacceptable value");
         }
 
         securityDataSource.setJdbcUrl(env.getProperty("security.jdbc.url"));
         securityDataSource.setUser(env.getProperty("security.jdbc.user"));
         securityDataSource.setPassword(env.getProperty("security.jdbc.password"));
-
         securityDataSource.setInitialPoolSize(
                 getIntProperty("security.connection.pool.initialPoolSize"));
-
         securityDataSource.setMinPoolSize(
                 getIntProperty("security.connection.pool.minPoolSize"));
-
         securityDataSource.setMaxPoolSize(
                 getIntProperty("security.connection.pool.maxPoolSize"));
-
         securityDataSource.setMaxIdleTime(
                 getIntProperty("security.connection.pool.maxIdleTime"));
 
@@ -88,9 +74,8 @@ public class PersistenceJPAConfig {
 
 
     private int getIntProperty(String propName) {
-
         String propVal = env.getProperty(propName);
-
+        assert propVal != null;
         return Integer.parseInt(propVal);
     }
 

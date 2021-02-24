@@ -219,10 +219,13 @@ public class OrderServiceImpl implements OrderService {
 
 
         if (orderDto.getDuration() <= 12) {
-            driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration());
+            driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth()
+                    + orderDto.getDuration());
         } else {
-            driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth() + orderDto.getDuration());
-            colleague.setWorkedHoursPerMonth(colleague.getWorkedHoursPerMonth() + orderDto.getDuration());
+            driver.setWorkedHoursPerMonth(driver.getWorkedHoursPerMonth()
+                    + orderDto.getDuration());
+            colleague.setWorkedHoursPerMonth(colleague.getWorkedHoursPerMonth()
+                    + orderDto.getDuration());
         }
 
         driverDao.updateDriver(modelMapper.map(driver, Driver.class));

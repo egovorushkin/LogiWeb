@@ -14,6 +14,9 @@ import javax.validation.Valid;
 @RequestMapping("/cargoes")
 public class CargoController {
 
+    private static final String CARGO = "cargo";
+    private static final String REDIRECT_CARGOES_LIST =  "redirect:/cargoes/list";
+
     private final CargoService cargoService;
 
     @Autowired
@@ -29,47 +32,47 @@ public class CargoController {
 
     @GetMapping("/{id}")
     public String showCargo(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("cargo", cargoService.getCargoById(id));
+        model.addAttribute(CARGO, cargoService.getCargoById(id));
         model.addAttribute("statuses", CargoStatus.values());
         return "manager/cargo/show";
     }
 
     @GetMapping("/create")
     public String showCreateCargoForm(Model model) {
-        model.addAttribute("cargo", new CargoDto());
+        model.addAttribute(CARGO, new CargoDto());
         return "manager/cargo/create";
     }
 
     @PostMapping("/save")
-    public String createCargo(@ModelAttribute("cargo") @Valid CargoDto cargoDto,
+    public String createCargo(@ModelAttribute(CARGO) @Valid CargoDto cargoDto,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "manager/cargo/create";
         }
         cargoService.createCargo(cargoDto);
-        return "redirect:/cargoes/list";
+        return REDIRECT_CARGOES_LIST;
     }
 
     @GetMapping("/edit")
     public String showEditCargoForm(@RequestParam("cargoId") Long id, Model model) {
-        model.addAttribute("cargo", cargoService.getCargoById(id));
+        model.addAttribute(CARGO, cargoService.getCargoById(id));
         model.addAttribute("statuses", CargoStatus.values());
         return "manager/cargo/edit";
     }
 
     @PostMapping("/update")
-    public String updateCargo(@ModelAttribute("cargo") @Valid CargoDto cargoDto,
+    public String updateCargo(@ModelAttribute(CARGO) @Valid CargoDto cargoDto,
                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "manager/cargo/edit";
         }
         cargoService.updateCargo(cargoDto);
-        return "redirect:/cargoes/list";
+        return REDIRECT_CARGOES_LIST;
     }
 
     @GetMapping("/delete")
     public String deleteCargo(@RequestParam("cargoId") Long id) {
         cargoService.deleteCargo(id);
-        return "redirect:/cargoes/list";
+        return REDIRECT_CARGOES_LIST;
     }
 }

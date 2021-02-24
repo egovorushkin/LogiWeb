@@ -1,13 +1,7 @@
 package com.egovorushkin.logiweb.config;
 
-import com.egovorushkin.logiweb.dto.DriverDto;
-import com.egovorushkin.logiweb.dto.TruckDto;
-import com.egovorushkin.logiweb.entities.Truck;
 import org.hibernate.collection.spi.PersistentCollection;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,9 +12,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
