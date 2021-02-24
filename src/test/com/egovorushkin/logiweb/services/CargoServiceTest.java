@@ -62,65 +62,76 @@ class CargoServiceTest {
     }
 
     @Test
-    @DisplayName("Test getCargoById success")
+    @DisplayName("Test get cargo by id success")
     void testGetCargoByIdSuccess() {
         when(cargoDao.getCargoById(CARGO_ONE_ID)).thenReturn(cargoOne);
+
         cargoDto = cargoService.getCargoById(CARGO_ONE_ID);
+
         Assertions.assertEquals(modelMapper.map(cargoOne, CargoDto.class),
                 cargoDto);
     }
 
     @Test
-    @DisplayName("Test getCargoById failed")
+    @DisplayName("Test get cargo by id failed")
     void testGetCargoByIdFailed() {
         when(cargoDao.getCargoById(CARGO_ONE_ID)).thenReturn(null);
+
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> cargoService.getCargoById(CARGO_ONE_ID));
     }
 
     @Test
-    @DisplayName("Test getAllCargoes")
+    @DisplayName("Test get all cargoes")
     void testGetAllCargoes() {
         List<Cargo> expectedCargoes = new ArrayList<>();
+
         expectedCargoes.add(cargoOne);
         expectedCargoes.add(cargoTwo);
+
         when(cargoDao.getAllCargoes()).thenReturn(expectedCargoes);
+
         List<CargoDto> expectedCargoesDto = expectedCargoes.stream()
                 .map(cargo -> modelMapper.map(cargo, CargoDto.class))
                 .collect(Collectors.toList());
         List<CargoDto> actualCargoes = cargoService.getAllCargoes();
+
         Assertions.assertEquals(expectedCargoesDto, actualCargoes);
     }
 
     @Test
-    @DisplayName("Test createCargo success")
-    void createCargoSuccess() {
+    @DisplayName("Test create cargo success")
+    void testCreateCargoSuccess() {
         cargoService.createCargo(modelMapper.map(cargoOne, CargoDto.class));
+
         verify(cargoDao, times(1))
                 .createCargo(any(Cargo.class));
     }
 
     @Test
-    @DisplayName("Test createCargo failed")
-    void createCargoFailed() {
+    @DisplayName("Test create cargo failed")
+    void testCreateCargoFailed() {
         when(cargoDao.cargoExistsById(CARGO_ONE_ID)).thenReturn(true);
+
         CargoDto newCargoDto = modelMapper.map(cargoOne,
                 CargoDto.class);
+
         Assertions.assertThrows(ServiceException.class,
                 () -> cargoService.createCargo(newCargoDto));
     }
 
     @Test
-    @DisplayName("Test updateCargo success")
-    void updateCargoSuccess() {
+    @DisplayName("Test update cargo success")
+    void testUpdateCargoSuccess() {
         cargoService.updateCargo(modelMapper.map(cargoOne, CargoDto.class));
+
         verify(cargoDao, times(1))
                 .updateCargo(any(Cargo.class));
     }
 
     @Test
-    @DisplayName("Test updateCargo failed")
-    void updateCargoFailed() {
+    @DisplayName("Test update cargo failed")
+    void testUpdateCargoFailed() {
 
         doThrow(new NoResultException()).when(cargoDao).updateCargo(cargoOne);
 
@@ -132,9 +143,10 @@ class CargoServiceTest {
     }
 
     @Test
-    @DisplayName("Test deleteCargo success")
-    void deleteCargoSuccess() {
+    @DisplayName("Test delete cargo success")
+    void testDeleteCargoSuccess() {
         cargoService.deleteCargo(CARGO_ONE_ID);
+
         verify(cargoDao, times(1))
                 .deleteCargo(CARGO_ONE_ID);
     }

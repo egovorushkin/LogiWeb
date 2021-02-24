@@ -38,7 +38,8 @@ class UserServiceTest {
     @BeforeEach
     public void init() {
         RoleDao roleDao = Mockito.mock(RoleDao.class);
-        BCryptPasswordEncoder passwordEncoder = Mockito.mock(BCryptPasswordEncoder.class);
+        BCryptPasswordEncoder passwordEncoder =
+                Mockito.mock(BCryptPasswordEncoder.class);
         modelMapper = new ModelMapper();
         userService = new UserServiceImpl(userDao, roleDao, passwordEncoder);
 
@@ -50,7 +51,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Test findByUserName success")
+    @DisplayName("Test find by username success")
     void testFindByUserNameSuccess() {
         when(userDao.findByUserName(USER_ONE_USERNAME)).thenReturn(userOne);
 
@@ -59,21 +60,20 @@ class UserServiceTest {
         Assertions.assertEquals(userOne, userTwo);
     }
 
-
     @Test
-    @DisplayName("Test saveUser success")
-    void saveUserSuccess() {
+    @DisplayName("Test save user success")
+    void testSaveUserSuccess() {
         userService.save(modelMapper.map(userOne, UserDto.class));
-        verify(userDao, times(1))
-                .save(any(User.class));
+
+        verify(userDao, times(1)).save(any(User.class));
     }
 
     @Test
-    @DisplayName("Test saveAdmin success")
-    void saveAdminSuccess() {
+    @DisplayName("Test save admin success")
+    void testSaveAdminSuccess() {
         userService.saveAdmin(modelMapper.map(userOne, UserDto.class));
-        verify(userDao, times(1))
-                .save(any(User.class));
+
+        verify(userDao, times(1)).save(any(User.class));
     }
 
 }

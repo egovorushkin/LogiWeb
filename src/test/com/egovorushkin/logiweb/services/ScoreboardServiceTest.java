@@ -29,10 +29,10 @@ class ScoreboardServiceTest {
     }
 
     @Test
-    @DisplayName("Test updateScoreboard success")
-    void updateScoreboardSuccess() {
+    @DisplayName("Test update scoreboard success")
+    void testUpdateScoreboardSuccess() {
         scoreboardService.updateScoreboard();
-        verify(jmsPublisher, times(1)).sendMessage(MSG_UPDATED);
 
+        verify(jmsPublisher, times(1)).sendMessage(MSG_UPDATED);
     }
 }

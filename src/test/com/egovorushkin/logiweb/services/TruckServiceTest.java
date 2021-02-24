@@ -37,14 +37,14 @@ import static org.mockito.Mockito.*;
 class TruckServiceTest {
 
     private static final Long TRUCK_ONE_ID = 1L;
-    private static final String TRUCK_ONE_REGISTRATION_NUMBER = "AB12345";
+    private static final String TRUCK_ONE_REG_NUMBER = "AB12345";
     private static final int TRUCK_ONE_TEAM_SIZE = 2;
     private static final int TRUCK_ONE_CAPACITY = 30000;
     private static final TruckStatus STATUS_PARKED = TruckStatus.PARKED;
     private static final TruckState STATE_SERVICEABLE = TruckState.SERVICEABLE;
 
     private static final Long TRUCK_TWO_ID = 2L;
-    private static final String TRUCK_TWO_REGISTRATION_NUMBER = "NB00432";
+    private static final String TRUCK_TWO_REG_NUMBER = "NB00432";
     private static final int TRUCK_TWO_TEAM_SIZE = 2;
     private static final int TRUCK_TWO_CAPACITY = 25000;
     private static final TruckStatus STATUS_ON_THE_WAY = TruckStatus.ON_THE_WAY;
@@ -92,14 +92,14 @@ class TruckServiceTest {
                 scoreboardService);
 
         truckOne.setId(TRUCK_ONE_ID);
-        truckOne.setRegistrationNumber(TRUCK_ONE_REGISTRATION_NUMBER);
+        truckOne.setRegistrationNumber(TRUCK_ONE_REG_NUMBER);
         truckOne.setTeamSize(TRUCK_ONE_TEAM_SIZE);
         truckOne.setCapacity(TRUCK_ONE_CAPACITY);
         truckOne.setStatus(STATUS_PARKED);
         truckOne.setState(STATE_SERVICEABLE);
 
         truckTwo.setId(TRUCK_TWO_ID);
-        truckTwo.setRegistrationNumber(TRUCK_TWO_REGISTRATION_NUMBER);
+        truckTwo.setRegistrationNumber(TRUCK_TWO_REG_NUMBER);
         truckTwo.setTeamSize(TRUCK_TWO_TEAM_SIZE);
         truckTwo.setCapacity(TRUCK_TWO_CAPACITY);
         truckTwo.setStatus(STATUS_ON_THE_WAY);
@@ -132,129 +132,161 @@ class TruckServiceTest {
     }
 
     @Test
-    @DisplayName("Test getTruckById success")
+    @DisplayName("Test get truck by id success")
     void testGetTruckByIdSuccess() {
         when(truckDao.getTruckById(TRUCK_ONE_ID)).thenReturn(truckOne);
+
         truckDto = truckService.getTruckById(TRUCK_ONE_ID);
+
         Assertions.assertEquals(modelMapper.map(truckOne, TruckDto.class),
                 truckDto);
     }
 
     @Test
-    @DisplayName("Test getTruckById failed")
+    @DisplayName("Test get truck by id failed")
     void testGetTruckByIdFailed() {
         when(truckDao.getTruckById(TRUCK_ONE_ID)).thenReturn(null);
+
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> truckService.getTruckById(TRUCK_ONE_ID));
     }
 
     @Test
-    @DisplayName("Test getAllTrucks")
+    @DisplayName("Test get all trucks")
     void testGetAllTrucks() {
         List<Truck> expectedTrucks = new ArrayList<>();
+
         expectedTrucks.add(truckOne);
         expectedTrucks.add(truckTwo);
+
         when(truckDao.getAllTrucks()).thenReturn(expectedTrucks);
+
         List<TruckDto> expectedTrucksDto = expectedTrucks.stream()
                 .map(truck -> modelMapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
         List<TruckDto> actualTrucks = truckService.getAllTrucks();
+
         Assertions.assertEquals(expectedTrucksDto, actualTrucks);
     }
 
     @Test
-    @DisplayName("Test createTruck success")
-    void createTruckSuccess() {
+    @DisplayName("Test create truck success")
+    void testCreateTruckSuccess() {
         truckService.createTruck(modelMapper.map(truckOne, TruckDto.class));
+
         verify(truckDao, times(1))
                 .createTruck(any(Truck.class));
     }
 
     @Test
-    @DisplayName("Test createTruck failed")
-    void createTruckFailed() {
-        when(truckDao.truckExistsByRegistrationNumber(TRUCK_ONE_REGISTRATION_NUMBER)).thenReturn(true);
-        TruckDto newTruckDto = modelMapper.map(truckOne,
-                TruckDto.class);
+    @DisplayName("Test create truck failed")
+    void testCreateTruckFailed() {
+        when(truckDao.truckExistsByRegistrationNumber(TRUCK_ONE_REG_NUMBER))
+                .thenReturn(true);
+
+        TruckDto newTruckDto = modelMapper.map(truckOne, TruckDto.class);
+
         Assertions.assertThrows(ServiceException.class,
                 () -> truckService.createTruck(newTruckDto));
     }
 
     @Test
-    @DisplayName("Test updateTruck success")
-    void updateTruckSuccess() {
+    @DisplayName("Test update truck success")
+    void testUpdateTruckSuccess() {
         truckService.updateTruck(modelMapper.map(truckOne, TruckDto.class));
+
         verify(truckDao, times(1))
                 .updateTruck(any(Truck.class));
     }
 
     @Test
-    @DisplayName("Test updateTruck failed")
-    void updateTruckFailed() {
+    @DisplayName("Test update truck failed")
+    void testUpdateTruckFailed() {
         doThrow(new NoResultException()).when(truckDao).updateTruck(truckOne);
-        TruckDto existingTruckDto = modelMapper.map(truckOne,
-                TruckDto.class);
+
+        TruckDto existingTruckDto = modelMapper.map(truckOne, TruckDto.class);
+
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> truckService.updateTruck(existingTruckDto));
     }
 
     @Test
-    @DisplayName("Test deleteTruck success")
-    void deleteTruckSuccess() {
+    @DisplayName("Test delete truck success")
+    void testDeleteTruckSuccess() {
         truckService.deleteTruck(TRUCK_ONE_ID);
+
         verify(truckDao, times(1))
                 .deleteTruck(TRUCK_ONE_ID);
     }
 
     @Test
-    @DisplayName("Test findCurrentDriversByTruckId success")
-    void findCurrentDriversByTruckIdSuccess() {
+    @DisplayName("Test find current drivers by truck id success")
+    void testFindCurrentDriversByTruckIdSuccess() {
         List<Driver> expectedDrivers = new ArrayList<>();
+
         expectedDrivers.add(driverOne);
         expectedDrivers.add(driverTwo);
-        when(truckDao.findCurrentDriversByTruckId(TRUCK_ONE_ID)).thenReturn(expectedDrivers);
+
+        when(truckDao.findCurrentDriversByTruckId(TRUCK_ONE_ID))
+                .thenReturn(expectedDrivers);
+
         truckDto = modelMapper.map(truckOne, TruckDto.class);
         List<DriverDto> expectedDriversDto = expectedDrivers.stream()
                 .map(driver -> modelMapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
-        List<DriverDto> actualDriversDto = truckService.findCurrentDriversByTruckId(TRUCK_ONE_ID);
+        List<DriverDto> actualDriversDto =
+                truckService.findCurrentDriversByTruckId(TRUCK_ONE_ID);
+
         Assertions.assertEquals(expectedDriversDto, actualDriversDto);
     }
 
     @Test
-    @DisplayName("Test findCurrentDriversByTruckId failed")
-    void findCurrentDriversByTruckIdFailed() {
-        when(truckDao.findCurrentDriversByTruckId(TRUCK_ONE_ID)).thenReturn(null);
-        List<DriverDto> actualDriversDto = truckService.findCurrentDriversByTruckId(TRUCK_ONE_ID);
+    @DisplayName("Test find current drivers by truck id failed")
+    void testFindCurrentDriversByTruckIdFailed() {
+        when(truckDao.findCurrentDriversByTruckId(TRUCK_ONE_ID))
+                .thenReturn(null);
+
+        List<DriverDto> actualDriversDto =
+                truckService.findCurrentDriversByTruckId(TRUCK_ONE_ID);
+
         Assertions.assertEquals(Collections.emptyList(), actualDriversDto);
     }
 
     @Test
-    @DisplayName("Test findAvailableDriversByTruck success")
-    void findAvailableDriversByTruckSuccess() {
-        when(truckDao.findAvailableDriversByTruck(truckOne)).thenReturn(expectedDrivers);
+    @DisplayName("Test find available drivers by truck success")
+    void testFindAvailableDriversByTruckSuccess() {
+        when(truckDao.findAvailableDriversByTruck(truckOne))
+                .thenReturn(expectedDrivers);
+
         truckDto = modelMapper.map(truckOne, TruckDto.class);
         List<DriverDto> expectedDriversDto = expectedDrivers.stream()
                 .map(driver -> modelMapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
-        List<DriverDto> actualDriversDto = truckService.findAvailableDriversByTruck(truckDto);
+        List<DriverDto> actualDriversDto =
+                truckService.findAvailableDriversByTruck(truckDto);
+
         Assertions.assertEquals(expectedDriversDto, actualDriversDto);
     }
 
     @Test
-    @DisplayName("Test findByRegistrationNumber success")
-    void findByRegistrationNumberSuccess() {
-        when(truckDao.findByRegistrationNumber(TRUCK_TWO_REGISTRATION_NUMBER))
+    @DisplayName("Test find truck by registration number success")
+    void testFindTruckByRegistrationNumberSuccess() {
+        when(truckDao.findByRegistrationNumber(TRUCK_TWO_REG_NUMBER))
                 .thenReturn(truckTwo);
-        Truck expectedTruck = truckService.findByRegistrationNumber(TRUCK_TWO_REGISTRATION_NUMBER);
+
+        Truck expectedTruck =
+                truckService.findByRegistrationNumber(TRUCK_TWO_REG_NUMBER);
+
         Assertions.assertEquals(expectedTruck, truckTwo);
     }
 
     @Test
-    @DisplayName("Test getStats success")
-    void getStatsSuccess() {
+    @DisplayName("Test get stats success")
+    void testGetStatsSuccess() {
         when(truckDao.getAllTrucks()).thenReturn(expectedTrucks );
+
         TruckStatsDto actualTruckStatsDto = truckService.getStats();
+
         Assertions.assertEquals(expectedTruckStatsDto, actualTruckStatsDto);
     }
 

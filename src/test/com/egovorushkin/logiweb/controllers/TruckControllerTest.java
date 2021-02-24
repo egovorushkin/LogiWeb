@@ -52,13 +52,13 @@ public class TruckControllerTest {
 
         @Test
         @DisplayName("Should return the HTTP status code 200")
-        void shouldReturnHttpStatusCodeOk() throws Exception {
+        void testShouldReturnHttpStatusCodeOk() throws Exception {
             requestBuilder.findAll().andExpect(status().isOk());
         }
 
         @Test
         @DisplayName("Should render the Truck list view")
-        void shouldRenderTruckListView() throws Exception {
+        void testShouldRenderTruckListView() throws Exception {
             requestBuilder.findAll().andExpect(view().name("manager/truck/list"));
         }
 
@@ -73,7 +73,7 @@ public class TruckControllerTest {
 
             @Test
             @DisplayName("Should display zero trucks")
-            void shouldDisplayZeroTrucks() throws Exception {
+            void testShouldDisplayZeroTrucks() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("trucks", hasSize(0)));
             }
         }
@@ -123,7 +123,7 @@ public class TruckControllerTest {
 
             @Test
             @DisplayName("Should display two trucks")
-            void shouldDisplayTwoTrucks() throws Exception {
+            void testShouldDisplayTwoTrucks() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("trucks", hasSize(2)));
             }
 
@@ -134,7 +134,7 @@ public class TruckControllerTest {
              */
             @Test
             @DisplayName("Should display the information of the first truck")
-            void shouldDisplayInformationOfFirstTruck() throws Exception {
+            void testShouldDisplayInformationOfFirstTruck() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("trucks",
@@ -152,7 +152,7 @@ public class TruckControllerTest {
 
             @Test
             @DisplayName("Should display the information of the second truck")
-            void shouldDisplayInformationOfSecondTruck() throws Exception {
+            void testShouldDisplayInformationOfSecondTruck() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("trucks",
@@ -174,7 +174,7 @@ public class TruckControllerTest {
              */
             @Test
             @DisplayName("Should display the information of the first and second trucks in the correct order")
-            void shouldDisplayFirstAndSecondTrucksInCorrectOrder() throws Exception {
+            void testShouldDisplayFirstAndSecondTrucksInCorrectOrder() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("trucks",
@@ -219,13 +219,13 @@ public class TruckControllerTest {
 
                 @Test
                 @DisplayName("Should return HTTP status code 404")
-                void shouldReturnHttpStatusCodeNotFound() throws Exception {
+                void testShouldReturnHttpStatusCodeNotFound() throws Exception {
                     requestBuilder.findById(TRUCK_ID).andExpect(status().isNotFound());
                 }
 
                 @Test
                 @DisplayName("Should render the 404 view")
-                void shouldRRender404View() throws Exception {
+                void testShouldRRender404View() throws Exception {
                     requestBuilder.findById(TRUCK_ID).andExpect(view().name("error/404"));
                 }
             }
@@ -270,20 +270,20 @@ public class TruckControllerTest {
 
                 @Test
                 @DisplayName("Should return the HTTP status code 200")
-                void shouldReturnHttpStatusCodeOk() throws Exception {
+                void testShouldReturnHttpStatusCodeOk() throws Exception {
                     requestBuilder.findById(TRUCK_ID).andExpect(status().isOk());
                 }
 
                 @Test
                 @DisplayName("Should render the view truck")
-                void shouldRenderViewTruckView() throws Exception {
-                    requestBuilder.findById(TRUCK_ID).andExpect(view().name("manager/truck/show"));
+                void testShouldRenderViewTruckView() throws Exception {
+                    requestBuilder.findById(TRUCK_ID).andExpect(view()
+                            .name("manager/truck/show"));
                 }
 
                 @Test
                 @DisplayName("Should display the information of the correct truck")
-                void
-                shouldDisplayInformationOfCorrectTruck() throws Exception {
+                void testShouldDisplayInformationOfCorrectTruck() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
                                     "truckDto",
@@ -293,7 +293,7 @@ public class TruckControllerTest {
 
                 @Test
                 @DisplayName("Should display the correct information of truck")
-                void shouldDisplayCorrectInformationOfTruck() throws Exception {
+                void testShouldDisplayCorrectInformationOfTruck() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
                                     "truckDto",
@@ -309,7 +309,7 @@ public class TruckControllerTest {
 
                 @Test
                 @DisplayName("Should display a parked truck")
-                void shouldDisplayParkedTruck() throws Exception {
+                void testShouldDisplayParkedTruck() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
                                     "truckDto",
@@ -319,7 +319,7 @@ public class TruckControllerTest {
 
                 @Test
                 @DisplayName("Should display a truck that has one driver")
-                void shouldDisplayTruckThanHasOneDriver() throws Exception {
+                void testShouldDisplayTruckThanHasOneDriver() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
                                     "truckDto",
@@ -329,7 +329,7 @@ public class TruckControllerTest {
 
                 @Test
                 @DisplayName("Should display the information of the found driver")
-                void shouldDisplayInformationOfFoundDriver() throws Exception {
+                void testShouldDisplayInformationOfFoundDriver() throws Exception {
                     requestBuilder.findById(TRUCK_ID)
                             .andExpect(model().attribute(
                                     "truckDto",

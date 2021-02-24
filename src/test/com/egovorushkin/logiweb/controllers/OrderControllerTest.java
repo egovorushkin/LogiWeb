@@ -49,13 +49,13 @@ public class OrderControllerTest {
 
         @Test
         @DisplayName("Should return the HTTP status code 200")
-        void shouldReturnHttpStatusCodeOk() throws Exception {
+        void testShouldReturnHttpStatusCodeOk() throws Exception {
             requestBuilder.findAll().andExpect(status().isOk());
         }
 
         @Test
         @DisplayName("Should render the Order list view")
-        void shouldRenderOrderListView() throws Exception {
+        void testShouldRenderOrderListView() throws Exception {
             requestBuilder.findAll().andExpect(view().name("manager/order" +
                     "/list"));
         }
@@ -71,7 +71,7 @@ public class OrderControllerTest {
 
             @Test
             @DisplayName("Should display zero orders")
-            void shouldDisplayZeroTrucks() throws Exception {
+            void testShouldDisplayZeroTrucks() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("orders"
                         , hasSize(0)));
             }
@@ -107,7 +107,7 @@ public class OrderControllerTest {
 
             @Test
             @DisplayName("Should display two orders")
-            void shouldDisplayTwoOrders() throws Exception {
+            void testShouldDisplayTwoOrders() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("orders"
                         , hasSize(2)));
             }
@@ -119,7 +119,7 @@ public class OrderControllerTest {
              */
             @Test
             @DisplayName("Should display the information of the first order")
-            void shouldDisplayInformationOfFirstOrder() throws Exception {
+            void testShouldDisplayInformationOfFirstOrder() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("orders",
@@ -137,7 +137,7 @@ public class OrderControllerTest {
 
             @Test
             @DisplayName("Should display the information of the second truck")
-            void shouldDisplayInformationOfSecondTruck() throws Exception {
+            void testShouldDisplayInformationOfSecondTruck() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("orders",
@@ -160,7 +160,8 @@ public class OrderControllerTest {
             @Test
             @DisplayName("Should display the information of the first and " +
                     "second trucks in the correct order")
-            void shouldDisplayFirstAndSecondTrucksInCorrectOrder() throws Exception {
+            void testShouldDisplayFirstAndSecondTrucksInCorrectOrder()
+                    throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("orders",

@@ -52,13 +52,13 @@ public class DriverControllerTest {
 
         @Test
         @DisplayName("Should return the HTTP status code 200")
-        void shouldReturnHttpStatusCodeOk() throws Exception {
+        void testShouldReturnHttpStatusCodeOk() throws Exception {
             requestBuilder.findAll().andExpect(status().isOk());
         }
 
         @Test
         @DisplayName("Should render the Driver list view")
-        void shouldRenderDriverListView() throws Exception {
+        void testShouldRenderDriverListView() throws Exception {
             requestBuilder.findAll().andExpect(view().name("manager/driver/list"));
         }
 
@@ -73,8 +73,9 @@ public class DriverControllerTest {
 
             @Test
             @DisplayName("Should display zero drivers")
-            void shouldDisplayZeroDrivers() throws Exception {
-                requestBuilder.findAll().andExpect(model().attribute("drivers", hasSize(0)));
+            void testShouldDisplayZeroDrivers() throws Exception {
+                requestBuilder.findAll()
+                        .andExpect(model().attribute("drivers", hasSize(0)));
             }
         }
 
@@ -120,7 +121,7 @@ public class DriverControllerTest {
 
             @Test
             @DisplayName("Should display two drivers")
-            void shouldDisplayTwoDrivers() throws Exception {
+            void testShouldDisplayTwoDrivers() throws Exception {
                 requestBuilder.findAll().andExpect(model().attribute("drivers", hasSize(2)));
             }
 
@@ -131,7 +132,7 @@ public class DriverControllerTest {
              */
             @Test
             @DisplayName("Should display the information of the first driver")
-            void shouldDisplayInformationOfFirstDriver() throws Exception {
+            void testShouldDisplayInformationOfFirstDriver() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("drivers",
@@ -148,7 +149,7 @@ public class DriverControllerTest {
 
             @Test
             @DisplayName("Should display the information of the second driver")
-            void shouldDisplayInformationOfSecondDriver() throws Exception {
+            void testShouldDisplayInformationOfSecondDriver() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("drivers",
@@ -169,7 +170,7 @@ public class DriverControllerTest {
              */
             @Test
             @DisplayName("Should display the information of the first and second drivers in the correct order")
-            void shouldDisplayFirstAndSecondDriversInCorrectOrder() throws Exception {
+            void testShouldDisplayFirstAndSecondDriversInCorrectOrder() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("drivers",
@@ -212,13 +213,13 @@ public class DriverControllerTest {
 
                 @Test
                 @DisplayName("Should return HTTP status code 404")
-                void shouldReturnHttpStatusCodeNotFound() throws Exception {
+                void testShouldReturnHttpStatusCodeNotFound() throws Exception {
                     requestBuilder.findById(DRIVER_ID).andExpect(status().isNotFound());
                 }
 
                 @Test
                 @DisplayName("Should render the 404 view")
-                void shouldRender404View() throws Exception {
+                void testShouldRender404View() throws Exception {
                     requestBuilder.findById(DRIVER_ID).andExpect(view().name("error/404"));
                 }
             }
@@ -266,20 +267,20 @@ public class DriverControllerTest {
 
                 @Test
                 @DisplayName("Should return the HTTP status code 200")
-                void shouldReturnHttpStatusCodeOk() throws Exception {
+                void testShouldReturnHttpStatusCodeOk() throws Exception {
                     requestBuilder.findById(DRIVER_ID).andExpect(status().isOk());
                 }
 
                 @Test
                 @DisplayName("Should render the view driver")
-                void shouldRenderViewDriverView() throws Exception {
-                    requestBuilder.findById(DRIVER_ID).andExpect(view().name("manager/driver/show"));
+                void testShouldRenderViewDriverView() throws Exception {
+                    requestBuilder.findById(DRIVER_ID).andExpect(view()
+                            .name("manager/driver/show"));
                 }
 
                 @Test
                 @DisplayName("Should display the information of the correct driver")
-                void
-                shouldDisplayInformationOfCorrectDriver() throws Exception {
+                void testShouldDisplayInformationOfCorrectDriver() throws Exception {
                     requestBuilder.findById(DRIVER_ID)
                             .andExpect(model().attribute(
                                     "driver",
@@ -289,7 +290,7 @@ public class DriverControllerTest {
 
                 @Test
                 @DisplayName("Should display the correct information of driver")
-                void shouldDisplayCorrectInformationOfDriver() throws Exception {
+                void testShouldDisplayCorrectInformationOfDriver() throws Exception {
                     requestBuilder.findById(DRIVER_ID)
                             .andExpect(model().attribute(
                                     "driver",
@@ -306,7 +307,7 @@ public class DriverControllerTest {
 
                 @Test
                 @DisplayName("Should display a resting driver")
-                void shouldDisplayParkedDriver() throws Exception {
+                void testShouldDisplayParkedDriver() throws Exception {
                     requestBuilder.findById(DRIVER_ID)
                             .andExpect(model().attribute(
                                     "driver",

@@ -43,20 +43,22 @@ public class CargoControllerTest {
 
         @Test
         @DisplayName("Should return the HTTP status code 200")
-        void shouldReturnHttpStatusCodeOk() throws Exception {
+        void testShouldReturnHttpStatusCodeOk() throws Exception {
             requestBuilder.findAll().andExpect(status().isOk());
         }
 
         @Test
         @DisplayName("Should render the Cargo list view")
-        void shouldRenderCargoListView() throws Exception {
-            requestBuilder.findAll().andExpect(view().name("manager/cargo/list"));
+        void testShouldRenderCargoListView() throws Exception {
+            requestBuilder.findAll().andExpect(view()
+                    .name("manager/cargo/list"));
         }
 
         @Test
         @DisplayName("Should render the Cargo create view")
-        void shouldRenderCargoCreateView() throws Exception {
-            requestBuilder.create().andExpect(view().name("manager/cargo/create"));
+        void testShouldRenderCargoCreateView() throws Exception {
+            requestBuilder.create().andExpect(view()
+                    .name("manager/cargo/create"));
         }
 
         @Nested
@@ -65,13 +67,15 @@ public class CargoControllerTest {
 
             @BeforeEach
             void serviceReturnsEmptyList() {
-                given(cargoService.getAllCargoes()).willReturn(new ArrayList<>());
+                given(cargoService.getAllCargoes())
+                        .willReturn(new ArrayList<>());
             }
 
             @Test
             @DisplayName("Should display zero cargoes")
-            void shouldDisplayZeroCargoes() throws Exception {
-                requestBuilder.findAll().andExpect(model().attribute("cargoes", hasSize(0)));
+            void testShouldDisplayZeroCargoes() throws Exception {
+                requestBuilder.findAll().andExpect(model()
+                        .attribute("cargoes", hasSize(0)));
             }
         }
 
@@ -103,14 +107,15 @@ public class CargoControllerTest {
                 second.setWeight(CARGO_TWO_WEIGHT);
                 second.setStatus(CARGO_DELIVERED);
 
-
-                given(cargoService.getAllCargoes()).willReturn(Arrays.asList(first, second));
+                given(cargoService.getAllCargoes())
+                        .willReturn(Arrays.asList(first, second));
             }
 
             @Test
             @DisplayName("Should display two cargoes")
-            void shouldDisplayTwoCargoes() throws Exception {
-                requestBuilder.findAll().andExpect(model().attribute("cargoes", hasSize(2)));
+            void testShouldDisplayTwoCargoes() throws Exception {
+                requestBuilder.findAll()
+                        .andExpect(model().attribute("cargoes", hasSize(2)));
             }
 
             /**
@@ -120,7 +125,7 @@ public class CargoControllerTest {
              */
             @Test
             @DisplayName("Should display the information of the first cargo")
-            void shouldDisplayInformationOfFirstCargo() throws Exception {
+            void testShouldDisplayInformationOfFirstCargo() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("cargoes",
@@ -135,7 +140,7 @@ public class CargoControllerTest {
 
             @Test
             @DisplayName("Should display the information of the second cargo")
-            void shouldDisplayInformationOfSecondCargo() throws Exception {
+            void testShouldDisplayInformationOfSecondCargo() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("cargoes",
@@ -154,7 +159,7 @@ public class CargoControllerTest {
              */
             @Test
             @DisplayName("Should display the information of the first and second cargoes in the correct order")
-            void shouldDisplayFirstAndSecondCargoesInCorrectOrder() throws Exception {
+            void testShouldDisplayFirstAndSecondCargoesInCorrectOrder() throws Exception {
                 requestBuilder.findAll()
                         .andExpect(
                                 model().attribute("cargoes",
@@ -193,13 +198,13 @@ public class CargoControllerTest {
 
                 @Test
                 @DisplayName("Should return HTTP status code 404")
-                void shouldReturnHttpStatusCodeNotFound() throws Exception {
+                void testShouldReturnHttpStatusCodeNotFound() throws Exception {
                     requestBuilder.findById(CARGO_ID).andExpect(status().isNotFound());
                 }
 
                 @Test
                 @DisplayName("Should render the 404 view")
-                void shouldRender404View() throws Exception {
+                void testShouldRender404View() throws Exception {
                     requestBuilder.findById(CARGO_ID).andExpect(view().name("error/404"));
                 }
             }
@@ -227,19 +232,19 @@ public class CargoControllerTest {
 
                 @Test
                 @DisplayName("Should return the HTTP status code 200")
-                void shouldReturnHttpStatusCodeOk() throws Exception {
+                void testShouldReturnHttpStatusCodeOk() throws Exception {
                     requestBuilder.findById(CARGO_ID).andExpect(status().isOk());
                 }
 
                 @Test
                 @DisplayName("Should render the view cargo")
-                void shouldRenderViewCargoView() throws Exception {
+                void testShouldRenderViewCargoView() throws Exception {
                     requestBuilder.findById(CARGO_ID).andExpect(view().name("manager/cargo/show"));
                 }
 
                 @Test
                 @DisplayName("Should display the information of the correct cargo")
-                void shouldDisplayInformationOfCorrectCargo() throws Exception {
+                void testShouldDisplayInformationOfCorrectCargo() throws Exception {
                     requestBuilder.findById(CARGO_ID)
                             .andExpect(model().attribute(
                                     "cargo",
@@ -249,7 +254,7 @@ public class CargoControllerTest {
 
                 @Test
                 @DisplayName("Should display the correct information of cargo")
-                void shouldDisplayCorrectInformationOfCargo() throws Exception {
+                void testShouldDisplayCorrectInformationOfCargo() throws Exception {
                     requestBuilder.findById(CARGO_ID)
                             .andExpect(model().attribute(
                                     "cargo",
@@ -264,7 +269,7 @@ public class CargoControllerTest {
 
                 @Test
                 @DisplayName("Should display a shipped cargo")
-                void shouldDisplayShippedCargo() throws Exception {
+                void testShouldDisplayShippedCargo() throws Exception {
                     requestBuilder.findById(CARGO_ID)
                             .andExpect(model().attribute(
                                     "cargo",

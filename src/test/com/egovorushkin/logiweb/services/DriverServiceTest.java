@@ -93,6 +93,7 @@ class DriverServiceTest {
                 Mockito.mock(IAuthenticationFacade.class);
         OrderDao orderDao = Mockito.mock(OrderDao.class);
         modelMapper = new ModelMapper();
+
         driverService = new DriverServiceImpl(driverDao, truckService,
                 modelMapper, authenticationFacade, scoreboardService, orderDao);
 
@@ -136,66 +137,75 @@ class DriverServiceTest {
     }
 
     @Test
-    @DisplayName("Test getDriverById success")
+    @DisplayName("Test get driver by id success")
     void testGetDriverByIdSuccess() {
         when(driverDao.getDriverById(DRIVER_ONE_ID)).thenReturn(driverOne);
+
         driverDto = driverService.getDriverById(DRIVER_ONE_ID);
+
         Assertions.assertEquals(modelMapper.map(driverOne, DriverDto.class),
                 driverDto);
     }
 
     @Test
-    @DisplayName("Test getDriverById failed")
+    @DisplayName("Test get driver by id failed")
     void testGetDriverByIdFailed() {
         when(driverDao.getDriverById(DRIVER_ONE_ID)).thenReturn(null);
+
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> driverService.getDriverById(DRIVER_ONE_ID));
     }
 
     @Test
-    @DisplayName("Test getAllDrivers")
+    @DisplayName("Test get all drivers")
     void testGetAllDrivers() {
         List<Driver> expectedDrivers = new ArrayList<>();
+
         expectedDrivers.add(driverOne);
         expectedDrivers.add(driverTwo);
+
         when(driverDao.getAllDrivers()).thenReturn(expectedDrivers);
+
         List<DriverDto> expectedDriversDto = expectedDrivers.stream()
                 .map(driver -> modelMapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
         List<DriverDto> actualDrivers = driverService.getAllDrivers();
+
         Assertions.assertEquals(expectedDriversDto, actualDrivers);
     }
 
     @Test
-    @DisplayName("Test saveDriver success")
-    void saveDriverSuccess() {
+    @DisplayName("Test save driver success")
+    void testSaveDriverSuccess() {
         driverService.createDriver(modelMapper.map(driverOne, DriverDto.class));
+
         verify(driverDao, times(1))
                 .saveDriver(any(Driver.class));
     }
 
     @Test
-    @DisplayName("Test createDriver failed")
-    void createDriverFailed() {
+    @DisplayName("Test create driver failed")
+    void testCreateDriverFailed() {
         when(driverDao.driverExistsById(DRIVER_ONE_ID)).thenReturn(true);
-        DriverDto newDriverDto = modelMapper.map(driverOne,
-                DriverDto.class);
+
+        DriverDto newDriverDto = modelMapper.map(driverOne, DriverDto.class);
+
         Assertions.assertThrows(ServiceException.class,
                 () -> driverService.createDriver(newDriverDto));
     }
 
     @Test
-    @DisplayName("Test updateDriver success")
-    void updateDriverSuccess() {
+    @DisplayName("Test update driver success")
+    void testUpdateDriverSuccess() {
         driverService.updateDriver(modelMapper.map(driverOne, DriverDto.class));
+
         verify(driverDao, times(1))
                 .updateDriver(any(Driver.class));
     }
 
     @Test
-    @DisplayName("Test updateDriver failed")
-    void updateDriverFailed() {
-
+    @DisplayName("Test update driver failed")
+    void testUpdateDriverFailed() {
         doThrow(new NoResultException()).when(driverDao).updateDriver(driverOne);
 
         DriverDto existingDriverDto = modelMapper.map(driverOne,
@@ -206,30 +216,37 @@ class DriverServiceTest {
     }
 
     @Test
-    @DisplayName("Test deleteDriver success")
-    void deleteDriverSuccess() {
+    @DisplayName("Test delete driver success")
+    void testDeleteDriverSuccess() {
         driverService.deleteDriver(DRIVER_ONE_ID);
+
         verify(driverDao, times(1))
                 .deleteDriver(DRIVER_ONE_ID);
     }
 
     @Test
-    @DisplayName("Test findAvailableTrucksByDriverSuccess")
-    void findAvailableTrucksByDriverSuccess() {
-        when(driverDao.findAvailableTrucksByDriver(driverOne)).thenReturn(expectedTrucks);
+    @DisplayName("Test find available trucks by driver success")
+    void testFindAvailableTrucksByDriverSuccess() {
+        when(driverDao.findAvailableTrucksByDriver(driverOne))
+                .thenReturn(expectedTrucks);
+
         driverDto = modelMapper.map(driverOne, DriverDto.class);
         List<TruckDto> expectedTrucksDto = expectedTrucks.stream()
                 .map(truck -> modelMapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
-        List<TruckDto> actualTrucksDto = driverService.findAvailableTrucksByDriver(driverDto);
+        List<TruckDto> actualTrucksDto = driverService
+                .findAvailableTrucksByDriver(driverDto);
+
         Assertions.assertEquals(expectedTrucksDto, actualTrucksDto);
     }
 
     @Test
-    @DisplayName("Test getStats success")
-    void getStatsSuccess() {
+    @DisplayName("Test get stats success")
+    void testGetStatsSuccess() {
         when(driverDao.getAllDrivers()).thenReturn(expectedDrivers);
+
         DriverStatsDto actualDriverStatsDto = driverService.getStats();
+
         Assertions.assertEquals(expectedDriverStatsDto, actualDriverStatsDto);
     }
 }

@@ -52,35 +52,41 @@ class CityServiceTest {
     }
 
     @Test
-    @DisplayName("Test getCityById success")
+    @DisplayName("Test get city by id success")
     void testGetCityByIdSuccess() {
         when(cityDao.getCityById(CITY_ONE_ID)).thenReturn(cityOne);
+
         cityDto = cityService.getCityById(CITY_ONE_ID);
+
         Assertions.assertEquals(cityOne.getId(), cityDto.getId());
         Assertions.assertEquals(modelMapper.map(cityOne, CityDto.class),
                 cityDto);
-
     }
 
     @Test
-    @DisplayName("Test getCityById failed")
+    @DisplayName("Test get city by id failed")
     void testGetCityByIdFailed() {
         when(cityDao.getCityById(CITY_ONE_ID)).thenReturn(null);
+
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> cityService.getCityById(CITY_ONE_ID));
     }
 
     @Test
-    @DisplayName("Test getAllCities")
+    @DisplayName("Test get all cities")
     void testGetAllCities() {
         List<City> expectedCities = new ArrayList<>();
+
         expectedCities.add(cityOne);
         expectedCities.add(cityTwo);
+
         when(cityDao.getAllCities()).thenReturn(expectedCities);
+
         List<CityDto> expectedCitiesDto = expectedCities.stream()
                 .map(city -> modelMapper.map(city, CityDto.class))
                 .collect(Collectors.toList());
         List<CityDto> actualCities = cityService.getAllCities();
+
         Assertions.assertEquals(expectedCitiesDto, actualCities);
     }
 }
