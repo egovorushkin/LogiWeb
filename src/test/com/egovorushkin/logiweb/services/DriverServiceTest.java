@@ -6,13 +6,11 @@ import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.Cargo;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
-import com.egovorushkin.logiweb.entities.enums.DriverStatus;
-import com.egovorushkin.logiweb.entities.enums.OrderStatus;
-import com.egovorushkin.logiweb.entities.enums.TruckState;
-import com.egovorushkin.logiweb.entities.enums.TruckStatus;
+import com.egovorushkin.logiweb.entities.enums.*;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
@@ -77,6 +75,12 @@ class DriverServiceTest {
     private static final OrderStatus ORDER_STATUS_NOT_COMPLETED =
             OrderStatus.NOT_COMPLETED;
 
+    private static final Long CARGO_ONE_ID = 1L;
+    private static final String CARGO_ONE_NAME = "Laptops";
+    private static final int CARGO_ONE_WEIGHT = 5000;
+    private static final CargoStatus CARGO_ONE_STATUS_PREPARED =
+            CargoStatus.PREPARED;
+
     private static final long TOTAL = 2;
     private static final long AVAILABLE = 2;
     private static final long NOT_AVAILABLE = 0;
@@ -90,6 +94,7 @@ class DriverServiceTest {
     private final Driver driverTwo = new Driver();
     private final Truck truckOne = new Truck();
     private final Truck truckTwo = new Truck();
+    private final Cargo cargoOne = new Cargo();
     private final Order order = new Order();
     DriverDto driverDto = new DriverDto();
     private final List<Driver> expectedDrivers = new ArrayList<>();
@@ -98,13 +103,15 @@ class DriverServiceTest {
     ModelMapper modelMapper;
     Authentication authentication;
     IAuthenticationFacade authenticationFacade;
+    TruckService truckService;
 
 
     @BeforeEach
     public void init() {
         ScoreboardService scoreboardService =
                 Mockito.mock(ScoreboardService.class);
-        TruckService truckService = Mockito.mock(TruckService.class);
+        orderDao = Mockito.mock(OrderDao.class);
+        truckService = Mockito.mock(TruckService.class);
         authenticationFacade =
                 Mockito.mock(IAuthenticationFacade.class);
         authentication = Mockito.mock(Authentication.class);
@@ -118,6 +125,7 @@ class DriverServiceTest {
         driverOne.setFirstName(DRIVER_ONE_FIRST_NAME);
         driverOne.setLastName(DRIVER_ONE_LAST_NAME);
         driverOne.setWorkedHoursPerMonth(DRIVER_ONE_WORKED_HOURS);
+        driverOne.setTruck(truckOne);
         driverOne.setStatus(STATUS_DRIVING);
 
         driverTwo.setId(DRIVER_TWO_ID);
@@ -147,7 +155,13 @@ class DriverServiceTest {
         order.setDistance(ORDER_DISTANCE);
         order.setDuration(ORDER_DURATION);
         order.setTruck(truckOne);
+        order.setCargo(cargoOne);
         order.setStatus(ORDER_STATUS_NOT_COMPLETED);
+
+        cargoOne.setId(CARGO_ONE_ID);
+        cargoOne.setName(CARGO_ONE_NAME);
+        cargoOne.setWeight(CARGO_ONE_WEIGHT);
+        cargoOne.setStatus(CARGO_ONE_STATUS_PREPARED);
 
         expectedDrivers.add(driverOne);
         expectedDrivers.add(driverTwo);
@@ -273,27 +287,27 @@ class DriverServiceTest {
 
         Assertions.assertEquals(expectedDriverStatsDto, actualDriverStatsDto);
     }
-    //TODO: need to finish the test
-//    @Test
-//    @DisplayName("Test update status \"DRIVING\" success")
-//    void testUpdateStatusDrivingSuccess() {
-//        when(authenticationFacade.getAuthentication()).thenReturn(authentication);
-//        when(authentication.getName()).thenReturn(driverOne.getUsername());
-//        when(driverDao.getDriverByUsername(driverOne.getUsername()))
-//                .thenReturn(driverOne);
-//
-////        when(driverService.getAuthorizedDriverByUsername())
-////                .thenReturn(driverOne);
-////        when(driverService.findColleagueAuthorizedDriverByUsername())
-////                .thenReturn(modelMapper.map(driverTwo, DriverDto.class));
-//
-//        when(orderDao.findOrderByTruckId(TRUCK_ONE_ID)).thenReturn(order);
-//
-//        driverService.updateStatus(DriverStatus.DRIVING);
-//
-//        verify(driverDao, times(1))
-//                .deleteDriver(DRIVER_ONE_ID);
-//    }
+
+
+    @Test
+    @DisplayName("Test update status \"DRIVING\", \"SECOND DRIVER\", \"LOADING" +
+            " UNLOADING\" and \"RESTING\" if colleague is null success")
+    void testUpdateStatusDrivingSecondDriverLoadingUnloadingRestingIfColleagueIsNullSuccess() {
+        when(authenticationFacade.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn(driverOne.getUsername());
+        when(driverDao.getDriverByUsername(driverOne.getUsername()))
+                .thenReturn(driverOne);
+
+        when(orderDao.findOrderByTruckId(TRUCK_ONE_ID)).thenReturn(order);
+
+        driverService.updateStatus(DriverStatus.DRIVING);
+        driverService.updateStatus(DriverStatus.SECOND_DRIVER);
+        driverService.updateStatus(DriverStatus.LOADING_UNLOADING);
+        driverService.updateStatus(DriverStatus.RESTING);
+
+        verify(driverDao, times(4))
+                .updateDriver(driverOne);
+    }
 
     @Test
     @DisplayName("Test get authorized driver by username success")
