@@ -280,7 +280,7 @@ public class DriverServiceImpl implements DriverService {
 
                 if (colleague != null) {
                     updateStatusForDriver(colleague, DriverStatus.RESTING,
-                            false);
+                            true);
                 }
                 break;
             default:
@@ -293,7 +293,9 @@ public class DriverServiceImpl implements DriverService {
         truck.setStatus(status);
         truck.setBusy(truckIsBusy);
         truckService.updateTruck(truck);
+
         scoreboardService.updateScoreboard();
+
         LOGGER.info("Truck with id" + truck.getId() +
                 " update status to " + truck.getStatus());
     }

@@ -131,7 +131,6 @@
                 Truck</a>
         </c:when>
         <c:otherwise>
-
             <table class="table table-hover table-responsive-sm table-striped
             table-bordered table-sm">
                 <thead>

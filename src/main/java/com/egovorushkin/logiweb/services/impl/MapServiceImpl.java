@@ -47,24 +47,6 @@ public class MapServiceImpl implements MapService {
                 responseJson(fromCity, toCity), DURATION, IN_SECONDS) / 3600);
     }
 
-    private JSONObject responseJson(String fromCity, String toCity)
-            throws ApiException, InterruptedException, IOException {
-        GeoApiContext context = new GeoApiContext.Builder()
-                .apiKey(API_KEY)
-                .build();
-
-        DirectionsApiRequest directionsApiRequest =
-                new DirectionsApiRequest(context)
-                        .origin(fromCity)
-                        .destination(toCity);
-
-        DirectionsResult resultOfDirections = directionsApiRequest.await();
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        return new JSONObject(gson.toJson(resultOfDirections));
-    }
-
     @Override
     public Long parseJsonFromGoogleDirectionsApi(JSONObject jsonObject,
                                               String param1, String param2) {
@@ -83,5 +65,23 @@ public class MapServiceImpl implements MapService {
             }
         }
         return result;
+    }
+
+    private JSONObject responseJson(String fromCity, String toCity)
+            throws ApiException, InterruptedException, IOException {
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey(API_KEY)
+                .build();
+
+        DirectionsApiRequest directionsApiRequest =
+                new DirectionsApiRequest(context).region("ru")
+                        .origin(fromCity)
+                        .destination(toCity);
+
+        DirectionsResult resultOfDirections = directionsApiRequest.await();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        return new JSONObject(gson.toJson(resultOfDirections));
     }
 }

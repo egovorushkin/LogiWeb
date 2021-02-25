@@ -101,6 +101,9 @@ public class OrderServiceImpl implements OrderService {
 
         LOGGER.info("Available trucks found");
 
+        for(TruckDto t : availableTrucks){
+            System.out.println(t);
+        }
         return availableTrucks;
     }
 

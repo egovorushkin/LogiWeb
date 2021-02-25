@@ -180,7 +180,7 @@ public class TruckServiceImpl implements TruckService {
         List<Truck> trucks = truckDao.getAllTrucks();
 
         long total = trucks.size();
-        long faulty = getCountByStatus(trucks, STATUS_FAULTY);
+        long faulty = getCountByState(trucks, STATUS_FAULTY);
         long busy = getCountByStatus(trucks, STATUS_ON_THE_WAY);
 
         truckStats.setTotal(total);
@@ -188,6 +188,7 @@ public class TruckServiceImpl implements TruckService {
         truckStats.setBusy(busy);
 
         truckStats.setAvailable(total - faulty - busy);
+        System.out.println(truckStats);
         return truckStats;
     }
 
@@ -213,7 +214,12 @@ public class TruckServiceImpl implements TruckService {
      */
     private long getCountByStatus(List<Truck> trucks, String status) {
         return trucks.stream()
-                .filter(truck -> status.equals(truck.getState().getTitle()))
+                .filter(truck -> status.equals(truck.getStatus().getTitle()))
+                .count();
+    }
+    private long getCountByState(List<Truck> trucks, String state) {
+        return trucks.stream()
+                .filter(truck -> state.equals(truck.getState().getTitle()))
                 .count();
     }
 }
