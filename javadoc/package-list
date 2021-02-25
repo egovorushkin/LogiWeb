@@ -1,0 +1,13 @@
+com.egovorushkin.logiweb.config
+com.egovorushkin.logiweb.config.security
+com.egovorushkin.logiweb.controllers
+com.egovorushkin.logiweb.dao.api
+com.egovorushkin.logiweb.dao.impl
+com.egovorushkin.logiweb.dto
+com.egovorushkin.logiweb.entities
+com.egovorushkin.logiweb.entities.enums
+com.egovorushkin.logiweb.exceptions
+com.egovorushkin.logiweb.publisher
+com.egovorushkin.logiweb.services.api
+com.egovorushkin.logiweb.services.impl
+com.egovorushkin.logiweb.validation
