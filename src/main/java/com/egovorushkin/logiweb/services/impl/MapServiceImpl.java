@@ -30,7 +30,6 @@ public class MapServiceImpl implements MapService {
     private static final String ROUTES = "routes";
     private static final String LEGS = "legs";
 
-
     @Override
     public int computeDistance(String fromCity, String toCity)
             throws InterruptedException, ApiException, IOException {
