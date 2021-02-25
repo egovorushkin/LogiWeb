@@ -233,112 +233,83 @@ public class DriverServiceImpl implements DriverService {
         switch (driverStatus.getTitle()) {
             case "DRIVING":
                 if (existingDriver.getTruck() != null) {
-                    existingDriver.setStatus(driverStatus);
-                    existingDriver.getTruck().setStatus(TruckStatus.ON_THE_WAY);
-                    existingDriver.getTruck().setBusy(true);
-                    driverDao.updateDriver(modelMapper.map(existingDriver,
-                            Driver.class));
-                    truckService.updateTruck(existingDriver.getTruck());
+                    updateStatusForDriver(existingDriver, driverStatus,
+                            existingDriver.isInShift());
+                    updateStatusAndStateForTruck(existingDriver.getTruck(),
+                            TruckStatus.ON_THE_WAY, true);
 
                     if (order != null) {
                         order.getCargo().setStatus(CargoStatus.SHIPPED);
                         orderDao.updateOrder(order);
                     }
-
-                    scoreboardService.updateScoreboard();
-
-                    LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
-                            + existingDriver.getStatus().getName());
-                    LOGGER.info("Truck with id = " + existingDriver.getTruck().getId() +
-                            " update status to " + existingDriver.getTruck().getStatus());
                 }
 
-
                 if (colleague != null) {
-                    colleague.setStatus(DriverStatus.SECOND_DRIVER);
-                    driverDao.updateDriver(modelMapper.map(colleague,
-                            Driver.class));
-
-                    scoreboardService.updateScoreboard();
-
-                    LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
-                            + DriverStatus.SECOND_DRIVER.getName());
+                    updateStatusForDriver(colleague, DriverStatus.SECOND_DRIVER,
+                            colleague.isInShift());
                 }
                 break;
             case "SECOND_DRIVER":
-                existingDriver.setStatus(driverStatus);
-                driverDao.updateDriver(modelMapper.map(existingDriver,
-                        Driver.class));
-
-                scoreboardService.updateScoreboard();
-
-                LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
-                        + existingDriver.getStatus().getName());
+                updateStatusForDriver(existingDriver, driverStatus,
+                        existingDriver.isInShift());
 
                 if (colleague != null) {
-                    colleague.setStatus(DriverStatus.DRIVING);
-                    driverDao.updateDriver(modelMapper.map(colleague,
-                            Driver.class));
-
-                    scoreboardService.updateScoreboard();
-
-                    LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
-                            + DriverStatus.DRIVING.getName());
+                    updateStatusForDriver(colleague, DriverStatus.DRIVING,
+                            colleague.isInShift());
                 }
                 break;
             case "LOADING_UNLOADING":
-                existingDriver.setStatus(driverStatus);
-                driverDao.updateDriver(modelMapper.map(existingDriver,
-                        Driver.class));
-
-                scoreboardService.updateScoreboard();
-
-                LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
-                        + existingDriver.getStatus().getName());
+                updateStatusForDriver(existingDriver, driverStatus,
+                        existingDriver.isInShift());
 
                 if (colleague != null) {
-                    colleague.setStatus(DriverStatus.LOADING_UNLOADING);
-                    driverDao.updateDriver(modelMapper.map(colleague,
-                            Driver.class));
-
-                    scoreboardService.updateScoreboard();
-
-                    LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
-                            + DriverStatus.LOADING_UNLOADING.getName());
+                    updateStatusForDriver(colleague,
+                            DriverStatus.LOADING_UNLOADING,
+                            colleague.isInShift());
                 }
                 break;
 
             case "RESTING":
                 if (existingDriver.getTruck() != null) {
-                    existingDriver.setStatus(driverStatus);
-                    existingDriver.getTruck().setStatus(TruckStatus.PARKED);
-                    driverDao.updateDriver(modelMapper.map(existingDriver,
-                            Driver.class));
-                    truckService.updateTruck(existingDriver.getTruck());
-
-                    scoreboardService.updateScoreboard();
-
-                    LOGGER.info(DRIVER + existingDriver.getId() + UPDATE_STATUS
-                            + existingDriver.getStatus().getName());
-                    LOGGER.info("Truck with id" + existingDriver.getTruck().getId() +
-                            " update status to " + existingDriver.getTruck().getStatus());
+                    updateStatusForDriver(existingDriver, driverStatus,
+                            existingDriver.isInShift());
+                    updateStatusAndStateForTruck(existingDriver.getTruck(),
+                            TruckStatus.PARKED,
+                            existingDriver.getTruck().isBusy());
                 }
 
                 if (colleague != null) {
-                    colleague.setStatus(DriverStatus.RESTING);
-                    colleague.setInShift(false);
-                    driverDao.updateDriver(modelMapper.map(colleague,
-                            Driver.class));
-
-                    scoreboardService.updateScoreboard();
-
-                    LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
-                            + DriverStatus.RESTING.getName());
+                    updateStatusForDriver(colleague, DriverStatus.RESTING,
+                            false);
                 }
                 break;
             default:
                 break;
         }
+    }
+    private void updateStatusAndStateForTruck(TruckDto truck,
+                                              TruckStatus status,
+                                              boolean truckIsBusy) {
+        truck.setStatus(status);
+        truck.setBusy(truckIsBusy);
+        truckService.updateTruck(truck);
+        scoreboardService.updateScoreboard();
+        LOGGER.info("Truck with id" + truck.getId() +
+                " update status to " + truck.getStatus());
+    }
+
+    private void updateStatusForDriver(DriverDto colleague,
+                                          DriverStatus status,
+                                          boolean inShift) {
+        colleague.setStatus(status);
+        colleague.setInShift(inShift);
+        driverDao.updateDriver(modelMapper.map(colleague,
+                Driver.class));
+
+        scoreboardService.updateScoreboard();
+
+        LOGGER.info(DRIVER + colleague.getId() + UPDATE_STATUS
+                + status.getName());
     }
 
     /**

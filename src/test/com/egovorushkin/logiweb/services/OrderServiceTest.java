@@ -5,6 +5,7 @@ import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
+import com.egovorushkin.logiweb.entities.Cargo;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
@@ -85,24 +86,17 @@ class OrderServiceTest {
     OrderService orderService;
 
     @Mock
-    private final DriverService driverService;
-    private final DriverDao driverDao;
+    private  OrderDao orderDao;
+    private  DriverService driverService;
+    private  ModelMapper modelMapper;
+    private  DriverDao driverDao;
     private final Order orderOne = new Order();
     private final Order orderTwo = new Order();
     private final Truck truckOne = new Truck();
     private final Truck truckTwo = new Truck();
     private final Driver driverOne = new Driver();
     private final Driver driverTwo = new Driver();
-    private final OrderDao orderDao;
-    private  ModelMapper modelMapper;
     OrderDto orderDto = new OrderDto();
-
-    OrderServiceTest(DriverService driverService, DriverDao driverDao,
-                     OrderDao orderDao) {
-        this.driverService = driverService;
-        this.driverDao = driverDao;
-        this.orderDao = orderDao;
-    }
 
     @BeforeEach
     public void init() {
@@ -112,6 +106,8 @@ class OrderServiceTest {
         orderService = new OrderServiceImpl(orderDao, driverService,
                 modelMapper, driverDao, scoreboardService);
 
+        Cargo cargo = Mockito.mock(Cargo.class);
+        Truck truck = Mockito.mock(Truck.class);
         orderOne.setId(ORDER_ONE_ID);
         orderOne.setFromCity(ORDER_ONE_FROM_CITY);
         orderOne.setToCity(ORDER_ONE_TO_CITY);

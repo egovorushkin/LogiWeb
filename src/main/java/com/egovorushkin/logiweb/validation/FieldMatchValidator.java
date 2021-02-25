@@ -19,7 +19,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
 
     /**
      * This method initialize two fields
-     * @param constraintAnnotation
+     * @param constraintAnnotation FieldMatch
      */
     @Override
     public void initialize(final FieldMatch constraintAnnotation) {
@@ -30,8 +30,8 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
 
     /**
      *
-     * @param value
-     * @param context
+     * @param value object
+     * @param context ConstraintValidatorContext
      * @return true if two fields are equals and false if are not
      */
     @Override

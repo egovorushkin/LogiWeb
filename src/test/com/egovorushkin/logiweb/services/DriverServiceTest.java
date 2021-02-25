@@ -7,8 +7,10 @@ import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Driver;
+import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.entities.enums.DriverStatus;
+import com.egovorushkin.logiweb.entities.enums.OrderStatus;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
@@ -26,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
@@ -66,6 +69,14 @@ class DriverServiceTest {
     private static final TruckStatus STATUS_ON_THE_WAY = TruckStatus.ON_THE_WAY;
     private static final TruckState STATE_FAULTY = TruckState.FAULTY;
 
+    private static final Long ORDER_ID = 2L;
+    private static final String ORDER_FROM_CITY = "Moscow";
+    private static final String ORDER_TO_CITY = "Orel";
+    private static final Integer ORDER_DISTANCE = 364;
+    private static final Integer ORDER_DURATION = 5;
+    private static final OrderStatus ORDER_STATUS_NOT_COMPLETED =
+            OrderStatus.NOT_COMPLETED;
+
     private static final long TOTAL = 2;
     private static final long AVAILABLE = 2;
     private static final long NOT_AVAILABLE = 0;
@@ -74,24 +85,29 @@ class DriverServiceTest {
 
     @Mock
     private DriverDao driverDao;
+    private OrderDao orderDao;
     private final Driver driverOne = new Driver();
     private final Driver driverTwo = new Driver();
     private final Truck truckOne = new Truck();
     private final Truck truckTwo = new Truck();
+    private final Order order = new Order();
     DriverDto driverDto = new DriverDto();
     private final List<Driver> expectedDrivers = new ArrayList<>();
     private final List<Truck> expectedTrucks = new ArrayList<>();
     private final DriverStatsDto expectedDriverStatsDto = new DriverStatsDto();
     ModelMapper modelMapper;
+    Authentication authentication;
+    IAuthenticationFacade authenticationFacade;
+
 
     @BeforeEach
     public void init() {
         ScoreboardService scoreboardService =
                 Mockito.mock(ScoreboardService.class);
         TruckService truckService = Mockito.mock(TruckService.class);
-        IAuthenticationFacade authenticationFacade =
+        authenticationFacade =
                 Mockito.mock(IAuthenticationFacade.class);
-        OrderDao orderDao = Mockito.mock(OrderDao.class);
+        authentication = Mockito.mock(Authentication.class);
         modelMapper = new ModelMapper();
 
         driverService = new DriverServiceImpl(driverDao, truckService,
@@ -124,6 +140,14 @@ class DriverServiceTest {
         truckTwo.setCapacity(TRUCK_TWO_CAPACITY);
         truckTwo.setStatus(STATUS_ON_THE_WAY);
         truckTwo.setState(STATE_FAULTY);
+
+        order.setId(ORDER_ID);
+        order.setFromCity(ORDER_FROM_CITY);
+        order.setToCity(ORDER_TO_CITY);
+        order.setDistance(ORDER_DISTANCE);
+        order.setDuration(ORDER_DURATION);
+        order.setTruck(truckOne);
+        order.setStatus(ORDER_STATUS_NOT_COMPLETED);
 
         expectedDrivers.add(driverOne);
         expectedDrivers.add(driverTwo);
@@ -249,4 +273,47 @@ class DriverServiceTest {
 
         Assertions.assertEquals(expectedDriverStatsDto, actualDriverStatsDto);
     }
+    //TODO: need to finish the test
+//    @Test
+//    @DisplayName("Test update status \"DRIVING\" success")
+//    void testUpdateStatusDrivingSuccess() {
+//        when(authenticationFacade.getAuthentication()).thenReturn(authentication);
+//        when(authentication.getName()).thenReturn(driverOne.getUsername());
+//        when(driverDao.getDriverByUsername(driverOne.getUsername()))
+//                .thenReturn(driverOne);
+//
+////        when(driverService.getAuthorizedDriverByUsername())
+////                .thenReturn(driverOne);
+////        when(driverService.findColleagueAuthorizedDriverByUsername())
+////                .thenReturn(modelMapper.map(driverTwo, DriverDto.class));
+//
+//        when(orderDao.findOrderByTruckId(TRUCK_ONE_ID)).thenReturn(order);
+//
+//        driverService.updateStatus(DriverStatus.DRIVING);
+//
+//        verify(driverDao, times(1))
+//                .deleteDriver(DRIVER_ONE_ID);
+//    }
+
+    @Test
+    @DisplayName("Test get authorized driver by username success")
+    void testGetAuthorizedDriverByUsername() {
+        when(authenticationFacade.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn(driverOne.getUsername());
+        when(driverDao.getDriverByUsername(driverOne.getUsername()))
+                .thenReturn(driverOne);
+
+        DriverDto expectedDriver = modelMapper.map(driverOne, DriverDto.class);
+        DriverDto actualDriver = driverService.getAuthorizedDriverByUsername();
+
+        Assertions.assertEquals(expectedDriver, actualDriver);
+    }
+
+    // TODO: need to finish the test
+//    @Test
+//    @DisplayName("Test find colleague authorized driver by username success")
+//    void testFindColleagueAuthorizedDriverByUsername() {
+//        when(driverService.getAuthorizedDriverByUsername())
+//                .thenReturn(modelMapper.map(driverTwo, DriverDto.class));
+//    }
 }
