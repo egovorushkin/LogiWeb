@@ -61,6 +61,9 @@
         <c:if test="${user.status eq 'SECOND_DRIVER'}">
             <span class="badge rounded-pill bg-warning text-light">Second driver</span>
         </c:if>
+        <c:if test="${user.status eq 'LOADING_UNLOADING'}">
+            <span class="badge rounded-pill bg-warning text-light">Loading / Unloading</span>
+        </c:if>
     </h5>
     <hr>
 
