@@ -104,4 +104,12 @@ public class CargoServiceImpl implements CargoService {
         LOGGER.info(CARGO + id + " deleted");
     }
 
+    @Override
+    public List<CargoDto> findAvailableCargoes() {
+        List<Cargo> cargoes = cargoDao.findAvailableCargoes();
+        return cargoes.stream()
+                .map(cargo -> modelMapper.map(cargo, CargoDto.class))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -66,7 +66,7 @@ public class OrderController {
     @GetMapping("/create")
     public String showCreateOrderForm(Model model) {
         model.addAttribute(ORDER, new OrderDto());
-        model.addAttribute(CARGOES, cargoService.getAllCargoes());
+        model.addAttribute(CARGOES, cargoService.findAvailableCargoes());
         return "manager/order/create";
     }
 
@@ -75,7 +75,7 @@ public class OrderController {
                               BindingResult bindingResult, Model model)
             throws InterruptedException, ApiException, IOException {
         if (bindingResult.hasErrors()) {
-            model.addAttribute(CARGOES, cargoService.getAllCargoes());
+            model.addAttribute(CARGOES, cargoService.findAvailableCargoes());
             return "manager/order/create";
         }
 
@@ -95,7 +95,7 @@ public class OrderController {
         model.addAttribute(ORDER, orderService.getOrderById(id));
         model.addAttribute(STATUSES, OrderStatus.values());
         model.addAttribute(CITIES, cityService.getAllCities());
-        model.addAttribute(CARGOES, cargoService.getAllCargoes());
+        model.addAttribute(CARGOES, cargoService.findAvailableCargoes());
         model.addAttribute(TRUCKS, truckService.getAllTrucks());
         model.addAttribute("availableTrucks",
                 orderService.findAvailableTrucks(orderService.getOrderById(id)));

@@ -19,4 +19,6 @@ public interface CargoService {
 
     void deleteCargo(Long id);
 
+    List<CargoDto> findAvailableCargoes();
+
 }

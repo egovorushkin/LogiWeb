@@ -23,9 +23,8 @@ public class CargoDaoImpl extends AbstractDao implements CargoDao {
 
     @Override
     public List<Cargo> getAllCargoes() {
-        return entityManager.createQuery("SELECT t FROM Cargo t",
-                Cargo.class)
-                .getResultList();
+        return entityManager.createQuery("SELECT c FROM Cargo c",
+                Cargo.class).getResultList();
     }
 
     @Override
@@ -53,6 +52,12 @@ public class CargoDaoImpl extends AbstractDao implements CargoDao {
                 "c WHERE c.id=:id", Long.class).
                 setParameter("id", id).getSingleResult();
         return count > 0;
+    }
+
+    @Override
+    public List<Cargo> findAvailableCargoes() {
+        return entityManager.createQuery("SELECT c FROM Cargo c " +
+                "WHERE c.status='PREPARED'").getResultList();
     }
 
 }

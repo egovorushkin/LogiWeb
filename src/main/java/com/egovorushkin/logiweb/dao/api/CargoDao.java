@@ -22,4 +22,6 @@ public interface CargoDao {
 
     boolean cargoExistsById(Long id);
 
+    List<Cargo> findAvailableCargoes();
+
 }
