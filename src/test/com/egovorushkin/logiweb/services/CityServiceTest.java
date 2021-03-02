@@ -6,6 +6,8 @@ import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.services.api.CityService;
 import com.egovorushkin.logiweb.services.impl.CityServiceImpl;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +38,12 @@ class CityServiceTest {
     private final City cityOne = new City();
     private final City cityTwo = new City();
     CityDto cityDto = new CityDto();
-    ModelMapper modelMapper;
+    private Mapper mapper;
 
     @BeforeEach
     public void init() {
-        modelMapper = new ModelMapper();
-        cityService = new CityServiceImpl(cityDao, modelMapper);
+        mapper = new DozerBeanMapper();
+        cityService = new CityServiceImpl(cityDao, mapper);
 
         cityOne.setId(CITY_ONE_ID);
         cityOne.setName(CITY_ONE_NAME);
@@ -59,7 +60,7 @@ class CityServiceTest {
         cityDto = cityService.getCityById(CITY_ONE_ID);
 
         Assertions.assertEquals(cityOne.getId(), cityDto.getId());
-        Assertions.assertEquals(modelMapper.map(cityOne, CityDto.class),
+        Assertions.assertEquals(mapper.map(cityOne, CityDto.class),
                 cityDto);
     }
 
@@ -83,7 +84,7 @@ class CityServiceTest {
         when(cityDao.getAllCities()).thenReturn(expectedCities);
 
         List<CityDto> expectedCitiesDto = expectedCities.stream()
-                .map(city -> modelMapper.map(city, CityDto.class))
+                .map(city -> mapper.map(city, CityDto.class))
                 .collect(Collectors.toList());
         List<CityDto> actualCities = cityService.getAllCities();
 

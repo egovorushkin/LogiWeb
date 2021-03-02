@@ -1,11 +1,13 @@
 package com.egovorushkin.logiweb.services;
 
-import com.egovorushkin.logiweb.dao.api.UserDao;
 import com.egovorushkin.logiweb.dao.api.RoleDao;
+import com.egovorushkin.logiweb.dao.api.UserDao;
 import com.egovorushkin.logiweb.dto.UserDto;
 import com.egovorushkin.logiweb.entities.User;
 import com.egovorushkin.logiweb.services.api.UserService;
 import com.egovorushkin.logiweb.services.impl.UserServiceImpl;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +16,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -33,14 +35,14 @@ class UserServiceTest {
     @Mock
     private  UserDao userDao;
     private final User userOne = new User();
-    ModelMapper modelMapper;
+    Mapper mapper;
 
     @BeforeEach
     public void init() {
         RoleDao roleDao = Mockito.mock(RoleDao.class);
         BCryptPasswordEncoder passwordEncoder =
                 Mockito.mock(BCryptPasswordEncoder.class);
-        modelMapper = new ModelMapper();
+        mapper = new DozerBeanMapper();
         userService = new UserServiceImpl(userDao, roleDao, passwordEncoder);
 
         userOne.setId(USER_ONE_ID);
@@ -63,7 +65,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Test save user success")
     void testSaveUserSuccess() {
-        userService.save(modelMapper.map(userOne, UserDto.class));
+        userService.save(mapper.map(userOne, UserDto.class));
 
         verify(userDao, times(1)).save(any(User.class));
     }
@@ -71,7 +73,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Test save admin success")
     void testSaveAdminSuccess() {
-        userService.saveAdmin(modelMapper.map(userOne, UserDto.class));
+        userService.saveAdmin(mapper.map(userOne, UserDto.class));
 
         verify(userDao, times(1)).save(any(User.class));
     }

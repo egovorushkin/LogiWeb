@@ -13,10 +13,12 @@ import com.egovorushkin.logiweb.entities.Truck;
 import com.egovorushkin.logiweb.entities.enums.*;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
-import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.DriverService;
+import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import com.egovorushkin.logiweb.services.impl.DriverServiceImpl;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +27,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 
 import javax.persistence.NoResultException;
@@ -100,7 +101,7 @@ class DriverServiceTest {
     private final List<Driver> expectedDrivers = new ArrayList<>();
     private final List<Truck> expectedTrucks = new ArrayList<>();
     private final DriverStatsDto expectedDriverStatsDto = new DriverStatsDto();
-    ModelMapper modelMapper;
+    private Mapper mapper;
     Authentication authentication;
     IAuthenticationFacade authenticationFacade;
     TruckService truckService;
@@ -115,10 +116,10 @@ class DriverServiceTest {
         authenticationFacade =
                 Mockito.mock(IAuthenticationFacade.class);
         authentication = Mockito.mock(Authentication.class);
-        modelMapper = new ModelMapper();
+        mapper = new DozerBeanMapper();
 
         driverService = new DriverServiceImpl(driverDao, truckService,
-                modelMapper, authenticationFacade, scoreboardService, orderDao);
+                mapper, authenticationFacade, scoreboardService, orderDao);
 
         driverOne.setId(DRIVER_ONE_ID);
         driverOne.setUsername(DRIVER_ONE_USERNAME);
@@ -181,7 +182,7 @@ class DriverServiceTest {
 
         driverDto = driverService.getDriverById(DRIVER_ONE_ID);
 
-        Assertions.assertEquals(modelMapper.map(driverOne, DriverDto.class),
+        Assertions.assertEquals(mapper.map(driverOne, DriverDto.class),
                 driverDto);
     }
 
@@ -205,7 +206,7 @@ class DriverServiceTest {
         when(driverDao.getAllDrivers()).thenReturn(expectedDrivers);
 
         List<DriverDto> expectedDriversDto = expectedDrivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverDto.class))
+                .map(driver -> mapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
         List<DriverDto> actualDrivers = driverService.getAllDrivers();
 
@@ -215,7 +216,7 @@ class DriverServiceTest {
     @Test
     @DisplayName("Test save driver success")
     void testSaveDriverSuccess() {
-        driverService.createDriver(modelMapper.map(driverOne, DriverDto.class));
+        driverService.createDriver(mapper.map(driverOne, DriverDto.class));
 
         verify(driverDao, times(1))
                 .saveDriver(any(Driver.class));
@@ -226,7 +227,7 @@ class DriverServiceTest {
     void testCreateDriverFailed() {
         when(driverDao.driverExistsById(DRIVER_ONE_ID)).thenReturn(true);
 
-        DriverDto newDriverDto = modelMapper.map(driverOne, DriverDto.class);
+        DriverDto newDriverDto = mapper.map(driverOne, DriverDto.class);
 
         Assertions.assertThrows(ServiceException.class,
                 () -> driverService.createDriver(newDriverDto));
@@ -235,7 +236,7 @@ class DriverServiceTest {
     @Test
     @DisplayName("Test update driver success")
     void testUpdateDriverSuccess() {
-        driverService.updateDriver(modelMapper.map(driverOne, DriverDto.class));
+        driverService.updateDriver(mapper.map(driverOne, DriverDto.class));
 
         verify(driverDao, times(1))
                 .updateDriver(any(Driver.class));
@@ -246,7 +247,7 @@ class DriverServiceTest {
     void testUpdateDriverFailed() {
         doThrow(new NoResultException()).when(driverDao).updateDriver(driverOne);
 
-        DriverDto existingDriverDto = modelMapper.map(driverOne,
+        DriverDto existingDriverDto = mapper.map(driverOne,
                 DriverDto.class);
 
         Assertions.assertThrows(EntityNotFoundException.class,
@@ -268,9 +269,9 @@ class DriverServiceTest {
         when(driverDao.findAvailableTrucksByDriver(driverOne))
                 .thenReturn(expectedTrucks);
 
-        driverDto = modelMapper.map(driverOne, DriverDto.class);
+        driverDto = mapper.map(driverOne, DriverDto.class);
         List<TruckDto> expectedTrucksDto = expectedTrucks.stream()
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .map(truck -> mapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
         List<TruckDto> actualTrucksDto = driverService
                 .findAvailableTrucksByDriver(driverDto);
@@ -317,7 +318,7 @@ class DriverServiceTest {
         when(driverDao.getDriverByUsername(driverOne.getUsername()))
                 .thenReturn(driverOne);
 
-        DriverDto expectedDriver = modelMapper.map(driverOne, DriverDto.class);
+        DriverDto expectedDriver = mapper.map(driverOne, DriverDto.class);
         DriverDto actualDriver = driverService.getAuthorizedDriverByUsername();
 
         Assertions.assertEquals(expectedDriver, actualDriver);

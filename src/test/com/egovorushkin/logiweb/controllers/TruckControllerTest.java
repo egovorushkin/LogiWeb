@@ -105,7 +105,6 @@ public class TruckControllerTest {
                 first.setRegistrationNumber(TRUCK_ONE_REGISTRATION_NUMBER);
                 first.setTeamSize(TRUCK_ONE_TEAM_SIZE);
                 first.setCapacity(TRUCK_ONE_CAPACITY);
-                first.setCurrentNumberOfDrivers(TRUCK_ONE_CURRENT_NUMBER_OF_DRIVERS);
                 first.setStatus(STATUS_PARKED);
                 first.setState(STATE_SERVICEABLE);
 
@@ -114,7 +113,6 @@ public class TruckControllerTest {
                 second.setRegistrationNumber(TRUCK_TWO_REGISTRATION_NUMBER);
                 second.setTeamSize(TRUCK_TWO_TEAM_SIZE);
                 second.setCapacity(TRUCK_TWO_CAPACITY);
-                second.setCurrentNumberOfDrivers(TRUCK_TWO_CURRENT_NUMBER_OF_DRIVERS);
                 second.setStatus(STATUS_ON_THE_WAY);
                 second.setState(STATE_FAULTY);
 
@@ -263,7 +261,7 @@ public class TruckControllerTest {
                     driver.setWorkedHoursPerMonth(DRIVER_WORKED_HOURS);
                     driver.setStatus(DRIVER_RESTING);
 
-                    truck.setCurrentDrivers(Collections.singleton(driver));
+                    truck.setDrivers(Collections.singleton(driver));
 
                     given(truckService.getTruckById(TRUCK_ID)).willReturn(truck);
                 }

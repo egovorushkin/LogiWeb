@@ -3,7 +3,6 @@ package com.egovorushkin.logiweb.controllers;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.entities.Truck;
-import com.egovorushkin.logiweb.entities.enums.DriverStatus;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.services.api.CityService;
@@ -55,12 +54,15 @@ public class TruckController {
     }
 
     @GetMapping("/{id}")
-    public String showTruck(@PathVariable("id") Long id, Model model){
-        model.addAttribute(TRUCK_DTO, truckService.getTruckById(id));
+    public String showTruck(@PathVariable("id") Long id, Model model) {
+        TruckDto truckDto = truckService.getTruckById(id);
+
+        model.addAttribute(TRUCK_DTO, truckDto);
         model.addAttribute(STATES, TruckState.values());
         model.addAttribute(STATUSES, TruckStatus.values());
-        model.addAttribute(CURRENT_DRIVERS, truckService.findCurrentDriversByTruckId(id));
-        model.addAttribute("numberOfDrivers", truckService.findCurrentDriversByTruckId(id).size());
+        model.addAttribute(CURRENT_DRIVERS, truckDto.getDrivers());
+        model.addAttribute("numberOfDrivers",
+                truckDto.getDrivers().size());
 
         return "manager/truck/show";
     }
@@ -76,7 +78,7 @@ public class TruckController {
 
     @PostMapping("/save")
     public String createTruck(@ModelAttribute(TRUCK_DTO) @Valid TruckDto truckDto,
-                            BindingResult bindingResult, Model model) {
+                              BindingResult bindingResult, Model model) {
 
         String registrationNumber = truckDto.getRegistrationNumber();
 
@@ -86,32 +88,34 @@ public class TruckController {
             return MANAGER_TRUCK_CREATE;
         }
 
-        Truck existingTruck = truckService.findByRegistrationNumber(registrationNumber);
+        Truck existingTruck =
+                truckService.findByRegistrationNumber(registrationNumber);
+
         if (existingTruck != null) {
             model.addAttribute(TRUCK_DTO, new TruckDto());
             model.addAttribute(CITIES, cityService.getAllCities());
-            model.addAttribute("createTruckError", "Truck registration number " +
-                    "already exists");
+            model.addAttribute("createTruckError",
+                    "Truck registration number already exists");
 
             LOGGER.warn("Registration number already exists.");
 
             return MANAGER_TRUCK_CREATE;
-
         }
         truckService.createTruck(truckDto);
         return REDIRECT_TRUCKS_LIST;
     }
 
-
     @GetMapping("/edit")
-    public String showEditTruckForm(@RequestParam("truckId") Long id, Model model) {
-        model.addAttribute(TRUCK_DTO, truckService.getTruckById(id));
+    public String showEditTruckForm(@RequestParam("truckId") Long id,
+                                    Model model) {
+        TruckDto truckDto = truckService.getTruckById(id);
+        model.addAttribute(TRUCK_DTO, truckDto);
         model.addAttribute(CITIES, cityService.getAllCities());
         model.addAttribute(STATES, TruckState.values());
         model.addAttribute(STATUSES, TruckStatus.values());
-        model.addAttribute(CURRENT_DRIVERS, truckService.findCurrentDriversByTruckId(id));
+        model.addAttribute(CURRENT_DRIVERS, truckDto);
         model.addAttribute("availableDrivers",
-                truckService.findAvailableDriversByTruck(truckService.getTruckById(id)));
+                truckService.findAvailableDriversByTruck(truckDto));
         return MANAGER_TRUCK_EDIT;
     }
 
@@ -133,29 +137,30 @@ public class TruckController {
 
     @GetMapping("/bind-driver")
     public String bindDriverForTruck(@RequestParam("truckId") Long truckId,
-                                    @RequestParam("driverId") Long driverId,
-                                    Model model,
-                                    RedirectAttributes redirectAttributes){
-        TruckDto truck = truckService.getTruckById(truckId);
+                                     @RequestParam("driverId") Long driverId,
+                                     Model model,
+                                     RedirectAttributes redirectAttributes) {
+        TruckDto truckDto = truckService.getTruckById(truckId);
 
-        DriverDto driver = driverService.getDriverById(driverId);
+        DriverDto driverDto = driverService.getDriverById(driverId);
 
-        if (truckService.findCurrentDriversByTruckId(truckId).size() >= truck.getTeamSize()) {
-            model.addAttribute("noSpaceInTheTruck", "No space in the truck");
-            model.addAttribute(TRUCK_DTO, truckService.getTruckById(truckId));
+        if (truckDto.getDrivers().size() >= truckDto.getTeamSize()) {
+            model.addAttribute("noSpaceInTheTruck",
+                    "No space in the truck");
+            model.addAttribute(TRUCK_DTO, truckDto);
             model.addAttribute(CITIES, cityService.getAllCities());
             model.addAttribute(STATES, TruckState.values());
             model.addAttribute(STATUSES, TruckStatus.values());
-            model.addAttribute(CURRENT_DRIVERS, truckService.findCurrentDriversByTruckId(truckId));
+            model.addAttribute(CURRENT_DRIVERS, truckDto.getDrivers());
             model.addAttribute("availableDrivers",
-                    truckService.findAvailableDriversByTruck(truckService.getTruckById(truckId)));
+                    truckService.findAvailableDriversByTruck(truckDto));
             return MANAGER_TRUCK_EDIT;
         }
 
-        driver.setTruck(truck);
-        driverService.updateDriver(driver);
+        driverDto.setTruck(truckDto);
+        driverService.updateDriver(driverDto);
 
-        truckService.updateTruck(truck);
+        truckService.updateTruck(truckDto);
 
         redirectAttributes.addAttribute("truckId", truckId);
         return "redirect:{truckId}";
@@ -163,34 +168,10 @@ public class TruckController {
 
     @GetMapping("/unbind-driver")
     public String unbindDriverForTruck(@RequestParam("truckId") Long truckId,
-                                    @RequestParam("driverId") Long driverId,
-                                    RedirectAttributes redirectAttributes){
-        DriverDto driverDto = driverService.getDriverById(driverId);
+                                       @RequestParam("driverId") Long driverId,
+                                       RedirectAttributes redirectAttributes) {
 
-        if (driverDto.getTruck().getCurrentDrivers() != null) {
-            DriverDto colleague = driverDto.getTruck().getCurrentDrivers().stream()
-                    .filter(driver -> !driver.getId().equals(driverDto.getId()))
-                    .findFirst().orElse(null);
-
-            if (colleague != null) {
-                colleague.setTruck(null);
-                colleague.setInShift(false);
-                colleague.setStatus(DriverStatus.RESTING);
-                driverService.updateDriver(colleague);
-            }
-        }
-
-        if (truckService.findCurrentDriversByTruckId(driverDto.getTruck().getId()).size() == 1) {
-            driverDto.getTruck().setStatus(TruckStatus.PARKED);
-            driverDto.getTruck().setBusy(false);
-            truckService.updateTruck(driverDto.getTruck());
-        }
-
-        driverDto.setTruck(null);
-        driverDto.setInShift(false);
-        driverDto.setStatus(DriverStatus.RESTING);
-
-        driverService.updateDriver(driverDto);
+        truckService.unbindDriver(truckId, driverId);
 
         redirectAttributes.addAttribute("truckId", truckId);
         return "redirect:{truckId}";

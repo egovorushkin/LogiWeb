@@ -1,5 +1,6 @@
 package com.egovorushkin.logiweb.dto;
 
+import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import org.hibernate.validator.constraints.Range;
@@ -27,13 +28,12 @@ public class TruckDto extends AbstractDto implements Serializable {
     @Range(min = 5000, max = 40000, message = "Capacity should be between " +
             "5000 and 40000 kg.")
     private int capacity;
-    private int currentNumberOfDrivers;
     private TruckStatus status = TruckStatus.PARKED;
     private TruckState state = TruckState.SERVICEABLE;
     private boolean isBusy = false;
     private CityDto currentCity;
-    private Set<DriverDto> currentDrivers;
-    private Set<OrderDto> currentOrders;
+    private Set<DriverDto> drivers;
+    private Set<OrderDto> orders;
 
     public TruckDto() {
     }
@@ -105,31 +105,30 @@ public class TruckDto extends AbstractDto implements Serializable {
         this.currentCity = currentCity;
     }
 
-    public int getCurrentNumberOfDrivers() {
-        if (currentDrivers != null) {
-            return currentDrivers.size();
-        }
-        return 0;
+    public Set<DriverDto> getDrivers() {
+        return drivers;
     }
 
-    public void setCurrentNumberOfDrivers(int currentNumberOfDrivers) {
-        this.currentNumberOfDrivers = currentNumberOfDrivers;
+    public void setDrivers(Set<DriverDto> drivers) {
+        this.drivers = drivers;
     }
 
-    public Set<DriverDto> getCurrentDrivers() {
-        return currentDrivers;
+    public Set<OrderDto> getOrders() {
+        return orders;
     }
 
-    public void setCurrentDrivers(Set<DriverDto> currentDrivers) {
-        this.currentDrivers = currentDrivers;
+    public void setOrders(Set<OrderDto> orders) {
+        this.orders = orders;
     }
 
-    public Set<OrderDto> getCurrentOrders() {
-        return currentOrders;
+    public void addDriver(DriverDto driverDto) {
+        drivers.add(driverDto);
+        driverDto.setTruck(this);
     }
 
-    public void setCurrentOrders(Set<OrderDto> currentOrders) {
-        this.currentOrders = currentOrders;
+    public void removeDriver(DriverDto driverDto) {
+        drivers.remove(driverDto);
+        driverDto.setTruck(null);
     }
 
     @Override
@@ -154,7 +153,6 @@ public class TruckDto extends AbstractDto implements Serializable {
                 ", registrationNumber='" + registrationNumber + '\'' +
                 ", teamSize=" + teamSize +
                 ", capacity=" + capacity +
-                ", currentNumberOfDrivers=" + currentNumberOfDrivers +
                 ", status=" + status +
                 ", state=" + state +
                 ", isBusy=" + isBusy +

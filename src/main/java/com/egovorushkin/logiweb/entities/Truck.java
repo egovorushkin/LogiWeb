@@ -39,10 +39,10 @@ public class Truck extends AbstractEntity{
     private City currentCity;
 
     @OneToMany(mappedBy = "truck")
-    private Set<Driver> currentDrivers = new HashSet<>();
+    private Set<Driver> drivers = new HashSet<>();
 
     @OneToMany(mappedBy = "truck")
-    private Set<Order> currentOrders = new HashSet<>();
+    private Set<Order> orders = new HashSet<>();
 
     public String getRegistrationNumber() {
         return registrationNumber;
@@ -100,20 +100,20 @@ public class Truck extends AbstractEntity{
         this.currentCity = currentCity;
     }
 
-    public Set<Driver> getCurrentDrivers() {
-        return currentDrivers;
+    public Set<Driver> getDrivers() {
+        return drivers;
     }
 
-    public void setCurrentDrivers(Set<Driver> currentDrivers) {
-        this.currentDrivers = currentDrivers;
+    public void setDrivers(Set<Driver> currentDrivers) {
+        this.drivers = currentDrivers;
     }
 
-    public Set<Order> getCurrentOrders() {
-        return currentOrders;
+    public Set<Order> getOrders() {
+        return orders;
     }
 
-    public void setCurrentOrders(Set<Order> currentOrders) {
-        this.currentOrders = currentOrders;
+    public void setOrders(Set<Order> currentOrders) {
+        this.orders = currentOrders;
     }
 
     @Override

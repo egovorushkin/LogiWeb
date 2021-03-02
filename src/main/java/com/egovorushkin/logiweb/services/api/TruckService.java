@@ -23,13 +23,6 @@ public interface TruckService {
     void deleteTruck(Long id);
 
     /**
-     * This method finds current drivers for given truck id
-     * @param id Truck id
-     * @return {@link List<DriverDto>} current drivers
-     */
-    List<DriverDto> findCurrentDriversByTruckId(Long id);
-
-    /**
      * This method finds available drivers for given truck
      * @param truckDto given truck {@link TruckDto}
      * @return {@link List<DriverDto>} available drivers
@@ -49,4 +42,6 @@ public interface TruckService {
      * @return truck {@link Truck}
      */
     Truck findByRegistrationNumber(String registrationNumber);
+
+    void unbindDriver(Long truckId, Long driverId);
 }

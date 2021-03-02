@@ -7,9 +7,10 @@ import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.CargoService;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
+import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,11 +30,11 @@ public class CargoServiceImpl implements CargoService {
 
 
     private final CargoDao cargoDao;
-    private final ModelMapper modelMapper;
+    private final Mapper mapper;
 
-    public CargoServiceImpl(CargoDao cargoDao, ModelMapper modelMapper) {
+    public CargoServiceImpl(CargoDao cargoDao, Mapper mapper) {
         this.cargoDao = cargoDao;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class CargoServiceImpl implements CargoService {
 
         LOGGER.info("Found cargo with id = " + id);
 
-        return modelMapper.map(cargoDao.getCargoById(id), CargoDto.class);
+        return mapper.map(cargoDao.getCargoById(id), CargoDto.class);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class CargoServiceImpl implements CargoService {
 
         List<Cargo> cargoes = cargoDao.getAllCargoes();
         return cargoes.stream()
-                .map(cargo -> modelMapper.map(cargo, CargoDto.class))
+                .map(cargo -> mapper.map(cargo, CargoDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -72,7 +73,7 @@ public class CargoServiceImpl implements CargoService {
                     " %s already exists", cargoDto.getId()));
         }
 
-        cargoDao.createCargo(modelMapper.map(cargoDto, Cargo.class));
+        cargoDao.createCargo(mapper.map(cargoDto, Cargo.class));
 
         LOGGER.info(CARGO + cargoDto.getId() + " created");
     }
@@ -84,7 +85,7 @@ public class CargoServiceImpl implements CargoService {
         LOGGER.debug("updateCargo() executed");
 
         try {
-            cargoDao.updateCargo(modelMapper.map(cargoDto, Cargo.class));
+            cargoDao.updateCargo(mapper.map(cargoDto, Cargo.class));
         } catch (NoResultException e) {
             throw new EntityNotFoundException(String.format("Cargo with id " +
                     "%s does not exist", cargoDto.getId()));
@@ -108,7 +109,7 @@ public class CargoServiceImpl implements CargoService {
     public List<CargoDto> findAvailableCargoes() {
         List<Cargo> cargoes = cargoDao.findAvailableCargoes();
         return cargoes.stream()
-                .map(cargo -> modelMapper.map(cargo, CargoDto.class))
+                .map(cargo -> mapper.map(cargo, CargoDto.class))
                 .collect(Collectors.toList());
     }
 

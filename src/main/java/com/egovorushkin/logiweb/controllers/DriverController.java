@@ -145,7 +145,7 @@ public class DriverController {
                                     RedirectAttributes redirectAttributes) {
         TruckDto truck = truckService.getTruckById(truckId);
         DriverDto driver = driverService.getDriverById(driverId);
-        if (truck.getCurrentNumberOfDrivers() < truck.getTeamSize()) {
+        if (truck.getDrivers().size() < truck.getTeamSize()) {
             driver.setTruck(truck);
             driverService.updateDriver(driver);
         }

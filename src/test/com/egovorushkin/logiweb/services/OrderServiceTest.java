@@ -5,7 +5,6 @@ import com.egovorushkin.logiweb.dao.api.OrderDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.OrderDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
-import com.egovorushkin.logiweb.entities.Cargo;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
@@ -19,12 +18,16 @@ import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.impl.OrderServiceImpl;
 import com.egovorushkin.logiweb.services.impl.ScoreboardServiceImpl;
-import org.junit.jupiter.api.*;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
@@ -83,13 +86,14 @@ class OrderServiceTest {
     private static final int DRIVER_TWO_WORKED_HOURS = 150;
     private static final DriverStatus STATUS_RESTING = DriverStatus.RESTING;
 
+    private final Mapper mapper = new DozerBeanMapper();
+
     OrderService orderService;
 
     @Mock
     private  OrderDao orderDao;
-    private  DriverService driverService;
-    private  ModelMapper modelMapper;
-    private  DriverDao driverDao;
+    private DriverService driverService;
+    private DriverDao driverDao;
     private final Order orderOne = new Order();
     private final Order orderTwo = new Order();
     private final Truck truckOne = new Truck();
@@ -102,12 +106,9 @@ class OrderServiceTest {
     public void init() {
         ScoreboardService scoreboardService =
                 Mockito.mock(ScoreboardServiceImpl.class);
-        modelMapper = new ModelMapper();
         orderService = new OrderServiceImpl(orderDao, driverService,
-                modelMapper, driverDao, scoreboardService);
+                mapper, driverDao, scoreboardService);
 
-        Cargo cargo = Mockito.mock(Cargo.class);
-        Truck truck = Mockito.mock(Truck.class);
         orderOne.setId(ORDER_ONE_ID);
         orderOne.setFromCity(ORDER_ONE_FROM_CITY);
         orderOne.setToCity(ORDER_ONE_TO_CITY);
@@ -160,7 +161,7 @@ class OrderServiceTest {
 
         orderDto = orderService.getOrderById(ORDER_ONE_ID);
 
-        Assertions.assertEquals(modelMapper.map(orderOne, OrderDto.class),
+        Assertions.assertEquals(mapper.map(orderOne, OrderDto.class),
                 orderDto);
     }
 
@@ -184,7 +185,7 @@ class OrderServiceTest {
         when(orderDao.getAllOrders()).thenReturn(expectedOrders);
 
         List<OrderDto> expectedOrdersDto = expectedOrders.stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(order -> mapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
         List<OrderDto> actualOrders = orderService.getAllOrders();
 
@@ -194,7 +195,7 @@ class OrderServiceTest {
     @Test
     @DisplayName("Test create order success")
     void testCreateOrderSuccess() {
-        orderService.createOrder(modelMapper.map(orderOne, OrderDto.class));
+        orderService.createOrder(mapper.map(orderOne, OrderDto.class));
 
         verify(orderDao, times(1))
                 .createOrder(any(Order.class));
@@ -203,7 +204,7 @@ class OrderServiceTest {
     @Test
     @DisplayName("Test update order success")
     void testUpdateOrderSuccess() {
-        orderService.updateOrder(modelMapper.map(orderOne, OrderDto.class));
+        orderService.updateOrder(mapper.map(orderOne, OrderDto.class));
 
         verify(orderDao, times(1))
                 .updateOrder(any(Order.class));
@@ -215,7 +216,7 @@ class OrderServiceTest {
 
         doThrow(new NoResultException()).when(orderDao).updateOrder(orderOne);
 
-        OrderDto existingOrderDto = modelMapper.map(orderOne,
+        OrderDto existingOrderDto = mapper.map(orderOne,
                 OrderDto.class);
 
         Assertions.assertThrows(EntityNotFoundException.class,
@@ -238,10 +239,10 @@ class OrderServiceTest {
                 .thenReturn(Collections.singletonList(truckTwo));
 
         List<TruckDto> expectedTrucks = Stream.of(truckTwo)
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .map(truck -> mapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
         List<TruckDto> actualTrucks = orderService
-                .findAvailableTrucks(modelMapper.map(orderOne, OrderDto.class));
+                .findAvailableTrucks(mapper.map(orderOne, OrderDto.class));
 
         Assertions.assertEquals(expectedTrucks, actualTrucks);
     }
@@ -255,10 +256,10 @@ class OrderServiceTest {
                 .thenReturn(Collections.singletonList(truckTwo));
 
         List<TruckDto> expectedTrucks = Stream.of(truckTwo)
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .map(truck -> mapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
         List<TruckDto> actualTrucks = orderService
-                .findAvailableTrucks(modelMapper.map(orderOne, OrderDto.class));
+                .findAvailableTrucks(mapper.map(orderOne, OrderDto.class));
 
         Assertions.assertEquals(expectedTrucks, actualTrucks);
     }
@@ -284,7 +285,7 @@ class OrderServiceTest {
                 orderDao.findCurrentOrdersForTruck(TRUCK_ONE_ID);
 
         List<OrderDto> actualOrders = orderService
-                .findCurrentOrdersForTruck(modelMapper.map(truckOne, TruckDto.class));
+                .findCurrentOrdersForTruck(mapper.map(truckOne, TruckDto.class));
 
         Assertions.assertEquals(actualOrders.size(), expectedOrders.size());
     }
@@ -299,10 +300,10 @@ class OrderServiceTest {
         List<OrderDto> expectedOrders = orderDao
                 .findCurrentOrdersForTruck(TRUCK_ONE_ID)
                 .stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(order -> mapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
         List<OrderDto> actualOrders = orderService
-                .findCurrentOrdersForTruck(modelMapper.map(truckOne, TruckDto.class));
+                .findCurrentOrdersForTruck(mapper.map(truckOne, TruckDto.class));
 
         Assertions.assertEquals(actualOrders.size(), expectedOrders.size());
     }
@@ -312,7 +313,7 @@ class OrderServiceTest {
     void testFindAvailableDriversForOrderIfTruckNullSuccess() {
         orderOne.setTruck(null);
 
-        OrderDto orderDto = modelMapper.map(orderOne, OrderDto.class);
+        OrderDto orderDto = mapper.map(orderOne, OrderDto.class);
         List<DriverDto> expectedDrivers = Collections.emptyList();
         List<DriverDto> actualDrivers = orderService.findAvailableDriversForOrder(orderDto);
 
@@ -322,8 +323,8 @@ class OrderServiceTest {
     @Test
     @DisplayName("Test find available drivers for order if truck is not null success")
     void testFindAvailableDriversForOrderIfTruckNotNullSuccess() {
-        OrderDto orderDtoOne = modelMapper.map(orderOne, OrderDto.class);
-        DriverDto driverDtoOne = modelMapper.map(driverOne, DriverDto.class);
+        OrderDto orderDtoOne = mapper.map(orderOne, OrderDto.class);
+        DriverDto driverDtoOne = mapper.map(driverOne, DriverDto.class);
 
         when(orderDao.findAvailableDriversForOrder(orderOne))
                 .thenReturn(Collections.singletonList(driverOne));
@@ -341,7 +342,7 @@ class OrderServiceTest {
                 .thenReturn(Collections.singletonList(orderTwo));
 
         List<OrderDto> expectedOrders = Stream.of(orderTwo)
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(order -> mapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
         List<OrderDto> actualOrders = orderService.getLatestOrders();
 
@@ -353,7 +354,7 @@ class OrderServiceTest {
     void testFindOrderByTruckId() {
         when(orderDao.findOrderByTruckId(TRUCK_TWO_ID)).thenReturn(orderTwo);
 
-        OrderDto expectedOrder = modelMapper.map(orderTwo, OrderDto.class);
+        OrderDto expectedOrder = mapper.map(orderTwo, OrderDto.class);
         OrderDto actualOrder = orderService.findOrderByTruckId(TRUCK_TWO_ID);
 
         Assertions.assertEquals(expectedOrder, actualOrder);

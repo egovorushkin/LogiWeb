@@ -21,11 +21,10 @@ public interface TruckDao {
 
     void deleteTruck(Long id);
 
-    List<Driver> findCurrentDriversByTruckId(Long id);
-
     List<Driver> findAvailableDriversByTruck(Truck truck);
 
     boolean truckExistsByRegistrationNumber(String registrationNumber);
 
     Truck findByRegistrationNumber(String registrationNumber);
+
 }

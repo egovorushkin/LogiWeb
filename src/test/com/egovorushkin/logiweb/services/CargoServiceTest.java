@@ -8,11 +8,15 @@ import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
 import com.egovorushkin.logiweb.services.api.CargoService;
 import com.egovorushkin.logiweb.services.impl.CargoServiceImpl;
-import org.junit.jupiter.api.*;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
@@ -43,12 +47,12 @@ class CargoServiceTest {
     private final Cargo cargoOne = new Cargo();
     private final Cargo cargoTwo = new Cargo();
     CargoDto cargoDto = new CargoDto();
-    ModelMapper modelMapper;
+    Mapper mapper;
 
     @BeforeEach
     public void init() {
-        modelMapper = new ModelMapper();
-        cargoService = new CargoServiceImpl(cargoDao, modelMapper);
+        mapper = new DozerBeanMapper();
+        cargoService = new CargoServiceImpl(cargoDao, mapper);
 
         cargoOne.setId(CARGO_ONE_ID);
         cargoOne.setName(CARGO_ONE_NAME);
@@ -68,7 +72,7 @@ class CargoServiceTest {
 
         cargoDto = cargoService.getCargoById(CARGO_ONE_ID);
 
-        Assertions.assertEquals(modelMapper.map(cargoOne, CargoDto.class),
+        Assertions.assertEquals(mapper.map(cargoOne, CargoDto.class),
                 cargoDto);
     }
 
@@ -92,7 +96,7 @@ class CargoServiceTest {
         when(cargoDao.getAllCargoes()).thenReturn(expectedCargoes);
 
         List<CargoDto> expectedCargoesDto = expectedCargoes.stream()
-                .map(cargo -> modelMapper.map(cargo, CargoDto.class))
+                .map(cargo -> mapper.map(cargo, CargoDto.class))
                 .collect(Collectors.toList());
         List<CargoDto> actualCargoes = cargoService.getAllCargoes();
 
@@ -102,7 +106,7 @@ class CargoServiceTest {
     @Test
     @DisplayName("Test create cargo success")
     void testCreateCargoSuccess() {
-        cargoService.createCargo(modelMapper.map(cargoOne, CargoDto.class));
+        cargoService.createCargo(mapper.map(cargoOne, CargoDto.class));
 
         verify(cargoDao, times(1))
                 .createCargo(any(Cargo.class));
@@ -113,7 +117,7 @@ class CargoServiceTest {
     void testCreateCargoFailed() {
         when(cargoDao.cargoExistsById(CARGO_ONE_ID)).thenReturn(true);
 
-        CargoDto newCargoDto = modelMapper.map(cargoOne,
+        CargoDto newCargoDto = mapper.map(cargoOne,
                 CargoDto.class);
 
         Assertions.assertThrows(ServiceException.class,
@@ -123,7 +127,7 @@ class CargoServiceTest {
     @Test
     @DisplayName("Test update cargo success")
     void testUpdateCargoSuccess() {
-        cargoService.updateCargo(modelMapper.map(cargoOne, CargoDto.class));
+        cargoService.updateCargo(mapper.map(cargoOne, CargoDto.class));
 
         verify(cargoDao, times(1))
                 .updateCargo(any(Cargo.class));
@@ -135,7 +139,7 @@ class CargoServiceTest {
 
         doThrow(new NoResultException()).when(cargoDao).updateCargo(cargoOne);
 
-        CargoDto existingCargoDto = modelMapper.map(cargoOne,
+        CargoDto existingCargoDto = mapper.map(cargoOne,
                 CargoDto.class);
 
         Assertions.assertThrows(EntityNotFoundException.class,

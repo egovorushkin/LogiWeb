@@ -6,7 +6,7 @@ import com.egovorushkin.logiweb.entities.City;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.services.api.CityService;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +26,12 @@ public class CityServiceImpl implements CityService {
             Logger.getLogger(CityServiceImpl.class.getName());
 
     private final CityDao cityDao;
-    private final ModelMapper modelMapper;
+    private final Mapper mapper;
 
     @Autowired
-    public CityServiceImpl(CityDao cityDao, ModelMapper modelMapper) {
+    public CityServiceImpl(CityDao cityDao, Mapper mapper) {
         this.cityDao = cityDao;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CityServiceImpl implements CityService {
 
         LOGGER.info("Found city with id = " + id);
 
-        return modelMapper.map(cityDao.getCityById(id), CityDto.class);
+        return mapper.map(cityDao.getCityById(id), CityDto.class);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CityServiceImpl implements CityService {
 
         List<City> cities = cityDao.getAllCities();
         return cities.stream()
-                .map(city -> modelMapper.map(city, CityDto.class))
+                .map(city -> mapper.map(city, CityDto.class))
                 .collect(Collectors.toList());
     }
 

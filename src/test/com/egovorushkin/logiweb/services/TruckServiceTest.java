@@ -11,9 +11,12 @@ import com.egovorushkin.logiweb.entities.enums.TruckState;
 import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
+import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import com.egovorushkin.logiweb.services.impl.TruckServiceImpl;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,11 +25,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,8 +66,8 @@ class TruckServiceTest {
     private static final DriverStatus STATUS_RESTING = DriverStatus.RESTING;
 
     private static final long TOTAL = 2;
-    private static final long AVAILABLE = 1;
-    private static final long BUSY = 0;
+    private static final long AVAILABLE = 0;
+    private static final long BUSY = 1;
     private static final long FAULTY = 1;
 
     TruckService truckService;
@@ -81,14 +82,15 @@ class TruckServiceTest {
     private final List<Truck> expectedTrucks = new ArrayList<>();
     private final TruckStatsDto expectedTruckStatsDto = new TruckStatsDto();
     TruckDto truckDto = new TruckDto();
-    ModelMapper modelMapper;
+    Mapper mapper;
 
     @BeforeEach
     public void init() {
         ScoreboardService scoreboardService =
                 Mockito.mock(ScoreboardService.class);
-        modelMapper = new ModelMapper();
-        truckService = new TruckServiceImpl(truckDao, modelMapper,
+        DriverService driverService = Mockito.mock(DriverService.class);
+        mapper = new DozerBeanMapper();
+        truckService = new TruckServiceImpl(truckDao, driverService, mapper,
                 scoreboardService);
 
         truckOne.setId(TRUCK_ONE_ID);
@@ -138,7 +140,7 @@ class TruckServiceTest {
 
         truckDto = truckService.getTruckById(TRUCK_ONE_ID);
 
-        Assertions.assertEquals(modelMapper.map(truckOne, TruckDto.class),
+        Assertions.assertEquals(mapper.map(truckOne, TruckDto.class),
                 truckDto);
     }
 
@@ -162,7 +164,7 @@ class TruckServiceTest {
         when(truckDao.getAllTrucks()).thenReturn(expectedTrucks);
 
         List<TruckDto> expectedTrucksDto = expectedTrucks.stream()
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .map(truck -> mapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
         List<TruckDto> actualTrucks = truckService.getAllTrucks();
 
@@ -172,7 +174,7 @@ class TruckServiceTest {
     @Test
     @DisplayName("Test create truck success")
     void testCreateTruckSuccess() {
-        truckService.createTruck(modelMapper.map(truckOne, TruckDto.class));
+        truckService.createTruck(mapper.map(truckOne, TruckDto.class));
 
         verify(truckDao, times(1))
                 .createTruck(any(Truck.class));
@@ -184,7 +186,7 @@ class TruckServiceTest {
         when(truckDao.truckExistsByRegistrationNumber(TRUCK_ONE_REG_NUMBER))
                 .thenReturn(true);
 
-        TruckDto newTruckDto = modelMapper.map(truckOne, TruckDto.class);
+        TruckDto newTruckDto = mapper.map(truckOne, TruckDto.class);
 
         Assertions.assertThrows(ServiceException.class,
                 () -> truckService.createTruck(newTruckDto));
@@ -193,7 +195,7 @@ class TruckServiceTest {
     @Test
     @DisplayName("Test update truck success")
     void testUpdateTruckSuccess() {
-        truckService.updateTruck(modelMapper.map(truckOne, TruckDto.class));
+        truckService.updateTruck(mapper.map(truckOne, TruckDto.class));
 
         verify(truckDao, times(1))
                 .updateTruck(any(Truck.class));
@@ -204,7 +206,7 @@ class TruckServiceTest {
     void testUpdateTruckFailed() {
         doThrow(new NoResultException()).when(truckDao).updateTruck(truckOne);
 
-        TruckDto existingTruckDto = modelMapper.map(truckOne, TruckDto.class);
+        TruckDto existingTruckDto = mapper.map(truckOne, TruckDto.class);
 
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> truckService.updateTruck(existingTruckDto));
@@ -220,47 +222,14 @@ class TruckServiceTest {
     }
 
     @Test
-    @DisplayName("Test find current drivers by truck id success")
-    void testFindCurrentDriversByTruckIdSuccess() {
-        List<Driver> expectedDrivers = new ArrayList<>();
-
-        expectedDrivers.add(driverOne);
-        expectedDrivers.add(driverTwo);
-
-        when(truckDao.findCurrentDriversByTruckId(TRUCK_ONE_ID))
-                .thenReturn(expectedDrivers);
-
-        truckDto = modelMapper.map(truckOne, TruckDto.class);
-        List<DriverDto> expectedDriversDto = expectedDrivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverDto.class))
-                .collect(Collectors.toList());
-        List<DriverDto> actualDriversDto =
-                truckService.findCurrentDriversByTruckId(TRUCK_ONE_ID);
-
-        Assertions.assertEquals(expectedDriversDto, actualDriversDto);
-    }
-
-    @Test
-    @DisplayName("Test find current drivers by truck id failed")
-    void testFindCurrentDriversByTruckIdFailed() {
-        when(truckDao.findCurrentDriversByTruckId(TRUCK_ONE_ID))
-                .thenReturn(null);
-
-        List<DriverDto> actualDriversDto =
-                truckService.findCurrentDriversByTruckId(TRUCK_ONE_ID);
-
-        Assertions.assertEquals(Collections.emptyList(), actualDriversDto);
-    }
-
-    @Test
     @DisplayName("Test find available drivers by truck success")
     void testFindAvailableDriversByTruckSuccess() {
         when(truckDao.findAvailableDriversByTruck(truckOne))
                 .thenReturn(expectedDrivers);
 
-        truckDto = modelMapper.map(truckOne, TruckDto.class);
+        truckDto = mapper.map(truckOne, TruckDto.class);
         List<DriverDto> expectedDriversDto = expectedDrivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverDto.class))
+                .map(driver -> mapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
         List<DriverDto> actualDriversDto =
                 truckService.findAvailableDriversByTruck(truckDto);

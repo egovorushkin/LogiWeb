@@ -14,7 +14,7 @@ import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.OrderService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
+import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
@@ -37,18 +37,18 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderDao orderDao;
     private final DriverService driverService;
-    private final ModelMapper modelMapper;
+    private final Mapper mapper;
     private final DriverDao driverDao;
     private final ScoreboardService scoreboardService;
 
     public OrderServiceImpl(OrderDao orderDao,
                             DriverService driverService,
-                            ModelMapper modelMapper,
+                            Mapper mapper,
                             DriverDao driverDao,
                             ScoreboardService scoreboardService) {
         this.orderDao = orderDao;
         this.driverService = driverService;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
         this.driverDao = driverDao;
         this.scoreboardService = scoreboardService;
     }
@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 
         LOGGER.info("Found order with id = " + id);
 
-        return modelMapper.map(orderDao.getOrderById(id), OrderDto.class);
+        return mapper.map(orderDao.getOrderById(id), OrderDto.class);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderDao.getAllOrders();
 
         return orders.stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(order -> mapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -86,24 +86,22 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.debug("findAvailableTrucks() executed");
 
         List<Truck> trucks =
-                orderDao.findAvailableTrucks(modelMapper.map(orderDto,
+                orderDao.findAvailableTrucks(mapper.map(orderDto,
                         Order.class));
         List<TruckDto> availableTrucks = trucks.stream()
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .map(truck -> mapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
 
         if (orderDto.getTruck() != null) {
             return availableTrucks.stream()
                     .filter(availableTruck ->
-                            !orderDto.getTruck().getId().equals(availableTruck.getId()))
+                            !orderDto.getTruck().getId()
+                                    .equals(availableTruck.getId()))
                     .collect(Collectors.toList());
         }
 
         LOGGER.info("Available trucks found");
 
-        for(TruckDto t : availableTrucks){
-            System.out.println(t);
-        }
         return availableTrucks;
     }
 
@@ -120,7 +118,8 @@ public class OrderServiceImpl implements OrderService {
 
         if (orders.isEmpty()) {
 
-            LOGGER.info("Orders for truck with id = " + truckDto.getId() + " not found");
+            LOGGER.info("Orders for truck with id = " + truckDto.getId() +
+                    " not found");
 
             return Collections.emptyList();
         }
@@ -128,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.info("Orders for truck with id = " + truckDto.getId() + " found");
 
         return orders.stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(order -> mapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -141,13 +140,14 @@ public class OrderServiceImpl implements OrderService {
         if (orderDto.getTruck() == null) {
             return Collections.emptyList();
         }
-        drivers = orderDao.findAvailableDriversForOrder(modelMapper
+        drivers = orderDao.findAvailableDriversForOrder(mapper
                 .map(orderDto, Order.class));
         List<DriverDto> availableDrivers = drivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverDto.class))
+                .map(driver -> mapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
 
-        LOGGER.info("Available drivers for order with id = " + orderDto.getId() + " found");
+        LOGGER.info("Available drivers for order with id = " + orderDto.getId()
+                + " found");
 
         return availableDrivers.stream()
                 .filter(availableDriver ->
@@ -162,7 +162,7 @@ public class OrderServiceImpl implements OrderService {
 
         LOGGER.debug("createOrder() executed");
 
-        orderDao.createOrder(modelMapper.map(orderDto, Order.class));
+        orderDao.createOrder(mapper.map(orderDto, Order.class));
 
         scoreboardService.updateScoreboard();
 
@@ -176,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.debug("updateOrder() executed");
 
         try {
-            orderDao.updateOrder(modelMapper.map(orderDto, Order.class));
+            orderDao.updateOrder(mapper.map(orderDto, Order.class));
         } catch (NoResultException e) {
             throw new EntityNotFoundException(String.format(ORDER +
                     "%s does not exist", orderDto.getId()));
@@ -210,11 +210,11 @@ public class OrderServiceImpl implements OrderService {
                 driverService.findColleagueAuthorizedDriverByUsername();
 
         OrderDto existingOrder =
-                modelMapper.map(orderDao.getOrderById(orderDto.getId()),
+                mapper.map(orderDao.getOrderById(orderDto.getId()),
                         OrderDto.class);
 
         existingOrder.setStatus(orderDto.getStatus());
-        orderDao.updateOrder(modelMapper.map(existingOrder, Order.class));
+        orderDao.updateOrder(mapper.map(existingOrder, Order.class));
 
         Order order = orderDao.getOrderById(existingOrder.getId());
         order.getCargo().setStatus(CargoStatus.DELIVERED);
@@ -231,8 +231,8 @@ public class OrderServiceImpl implements OrderService {
                     + orderDto.getDuration());
         }
 
-        driverDao.updateDriver(modelMapper.map(driver, Driver.class));
-        driverDao.updateDriver(modelMapper.map(colleague, Driver.class));
+        driverDao.updateDriver(mapper.map(driver, Driver.class));
+        driverDao.updateDriver(mapper.map(colleague, Driver.class));
 
         scoreboardService.updateScoreboard();
     }
@@ -242,12 +242,12 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderDao.getLatestOrders();
 
         return orders.stream()
-                .map(order -> modelMapper.map(order, OrderDto.class))
+                .map(order -> mapper.map(order, OrderDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public OrderDto findOrderByTruckId(Long id) {
-        return modelMapper.map(orderDao.findOrderByTruckId(id), OrderDto.class);
+        return mapper.map(orderDao.findOrderByTruckId(id), OrderDto.class);
     }
 }

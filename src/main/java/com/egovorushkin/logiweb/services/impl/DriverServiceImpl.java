@@ -18,13 +18,14 @@ import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
+import org.dozer.Mapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -44,20 +45,20 @@ public class DriverServiceImpl implements DriverService {
 
     private final DriverDao driverDao;
     private final TruckService truckService;
-    private final ModelMapper modelMapper;
+    private final Mapper mapper;
     private final IAuthenticationFacade authenticationFacade;
     private final ScoreboardService scoreboardService;
     private final OrderDao orderDao;
 
     public DriverServiceImpl(DriverDao driverDao,
                              TruckService truckService,
-                             ModelMapper modelMapper,
+                             Mapper mapper,
                              IAuthenticationFacade authenticationFacade,
                              ScoreboardService scoreboardService,
                              OrderDao orderDao) {
         this.driverDao = driverDao;
         this.truckService = truckService;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
         this.authenticationFacade = authenticationFacade;
         this.scoreboardService = scoreboardService;
         this.orderDao = orderDao;
@@ -76,7 +77,7 @@ public class DriverServiceImpl implements DriverService {
 
         LOGGER.info("Found driver with id = " + id);
 
-        return modelMapper.map(driverDao.getDriverById(id), DriverDto.class);
+        return mapper.map(driverDao.getDriverById(id), DriverDto.class);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class DriverServiceImpl implements DriverService {
 
         List<Driver> drivers = driverDao.getAllDrivers();
         return drivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverDto.class))
+                .map(driver -> mapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -101,7 +102,7 @@ public class DriverServiceImpl implements DriverService {
             throw new ServiceException(String.format("Driver with id" +
                     " %s already exists", driverDto.getId()));
         }
-        driverDao.saveDriver(modelMapper.map(driverDto, Driver.class));
+        driverDao.saveDriver(mapper.map(driverDto, Driver.class));
 
         scoreboardService.updateScoreboard();
 
@@ -115,7 +116,7 @@ public class DriverServiceImpl implements DriverService {
         LOGGER.debug("updateDriver() executed");
 
         try {
-            driverDao.updateDriver(modelMapper.map(driverDto, Driver.class));
+            driverDao.updateDriver(mapper.map(driverDto, Driver.class));
         } catch (NoResultException e) {
             throw new EntityNotFoundException(String.format(DRIVER +
                     "%s does not exist", driverDto.getId()));
@@ -157,7 +158,7 @@ public class DriverServiceImpl implements DriverService {
         LOGGER.info("Authorized driver with username = " +
                 authorizedDriver + " found");
 
-        return modelMapper
+        return mapper
                 .map(driverDao.getDriverByUsername(authorizedDriver),
                         DriverDto.class);
     }
@@ -174,13 +175,13 @@ public class DriverServiceImpl implements DriverService {
         LOGGER.debug("findAvailableTrucksByDriver() executed");
 
         List<Truck> availableTrucks =
-                driverDao.findAvailableTrucksByDriver(modelMapper.map(driverDto
+                driverDao.findAvailableTrucksByDriver(mapper.map(driverDto
                         , Driver.class));
 
         LOGGER.info("Available trucks found");
 
         return availableTrucks.stream()
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .map(truck -> mapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -200,8 +201,7 @@ public class DriverServiceImpl implements DriverService {
             return null;
         }
 
-        List<DriverDto> currentDrivers = truckService
-                .findCurrentDriversByTruckId(authorizedDriver.getTruck().getId());
+        Set<DriverDto> currentDrivers = authorizedDriver.getTruck().getDrivers();
 
         DriverDto colleague = currentDrivers.stream()
                 .filter(driver -> !driver.getId().equals(authorizedDriver.getId()))
@@ -305,7 +305,7 @@ public class DriverServiceImpl implements DriverService {
                                           boolean inShift) {
         colleague.setStatus(status);
         colleague.setInShift(inShift);
-        driverDao.updateDriver(modelMapper.map(colleague,
+        driverDao.updateDriver(mapper.map(colleague,
                 Driver.class));
 
         scoreboardService.updateScoreboard();
@@ -371,7 +371,7 @@ public class DriverServiceImpl implements DriverService {
     private void updateStateAndStatusForDriver(DriverDto driver, boolean state) {
         driver.setInShift(state);
         driver.setStatus(DriverStatus.RESTING);
-        driverDao.updateDriver(modelMapper.map(driver, Driver.class));
+        driverDao.updateDriver(mapper.map(driver, Driver.class));
 
         scoreboardService.updateScoreboard();
 

@@ -35,8 +35,7 @@
 <main>
     <hr>
     <div class="text-center">
-        <h3>Application has encountered an error. Please contact support on
-            ...</h3>
+        <h3>${errorMsg}</h3>
 
         <sec:authorize access="hasRole('ADMIN')">
             <a role="button" class="btn btn-sm btn-secondary"

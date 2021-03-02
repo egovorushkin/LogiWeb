@@ -6,18 +6,21 @@ import com.egovorushkin.logiweb.dto.TruckDto;
 import com.egovorushkin.logiweb.dto.TruckStatsDto;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
+import com.egovorushkin.logiweb.entities.enums.DriverStatus;
+import com.egovorushkin.logiweb.entities.enums.TruckStatus;
 import com.egovorushkin.logiweb.exceptions.EntityNotFoundException;
 import com.egovorushkin.logiweb.exceptions.ServiceException;
+import com.egovorushkin.logiweb.services.api.DriverService;
 import com.egovorushkin.logiweb.services.api.ScoreboardService;
 import com.egovorushkin.logiweb.services.api.TruckService;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,14 +40,18 @@ public class TruckServiceImpl implements TruckService {
     private static final String STATUS_ON_THE_WAY = "ON_THE_WAY";
 
     private final TruckDao truckDao;
-    private final ModelMapper modelMapper;
+    private final DriverService driverService;
+    private final Mapper mapper;
     private final ScoreboardService scoreboardService;
 
     @Autowired
     public TruckServiceImpl(TruckDao truckDao,
-                            ModelMapper modelMapper, ScoreboardService scoreboardService) {
+                            @Lazy DriverService driverService,
+                            Mapper mapper,
+                            ScoreboardService scoreboardService) {
         this.truckDao = truckDao;
-        this.modelMapper = modelMapper;
+        this.driverService = driverService;
+        this.mapper = mapper;
         this.scoreboardService = scoreboardService;
     }
 
@@ -63,7 +70,7 @@ public class TruckServiceImpl implements TruckService {
 
         LOGGER.info("Found the truck with id = " + id);
 
-        return modelMapper.map(truckDao.getTruckById(id), TruckDto.class);
+        return mapper.map(truck, TruckDto.class);
     }
 
     @Override
@@ -75,7 +82,7 @@ public class TruckServiceImpl implements TruckService {
         List<Truck> trucks = truckDao.getAllTrucks();
 
         return trucks.stream()
-                .map(truck -> modelMapper.map(truck, TruckDto.class))
+                .map(truck -> mapper.map(truck, TruckDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -90,7 +97,7 @@ public class TruckServiceImpl implements TruckService {
                             " number %s already exists",
                     truckDto.getRegistrationNumber()));
         }
-        truckDao.createTruck(modelMapper.map(truckDto, Truck.class));
+        truckDao.createTruck(mapper.map(truckDto, Truck.class));
 
         scoreboardService.updateScoreboard();
 
@@ -104,7 +111,7 @@ public class TruckServiceImpl implements TruckService {
         LOGGER.debug("updateTruck() executed");
 
         try {
-            truckDao.updateTruck(modelMapper.map(truckDto, Truck.class));
+            truckDao.updateTruck(mapper.map(truckDto, Truck.class));
         } catch (NoResultException e) {
             throw new EntityNotFoundException(String.format("Truck with " +
                             "registration number %s does not exist",
@@ -130,28 +137,6 @@ public class TruckServiceImpl implements TruckService {
     }
 
     /**
-     * This method finds current drivers for given truck id
-     * @param id Truck id
-     * @return {@link List<DriverDto>} current drivers
-     */
-    @Override
-    @Transactional
-    public List<DriverDto> findCurrentDriversByTruckId(Long id) {
-
-        LOGGER.debug("findCurrentDriversByTruckId() executed");
-
-        List<Driver> currentDrivers = truckDao.findCurrentDriversByTruckId(id);
-
-        if (currentDrivers == null) {
-            return Collections.emptyList();
-        }
-
-        return currentDrivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverDto.class))
-                .collect(Collectors.toList());
-    }
-
-    /**
      * This method finds available drivers for given truck
      * @param truckDto given truck {@link TruckDto}
      * @return {@link List<DriverDto>} available drivers
@@ -162,10 +147,10 @@ public class TruckServiceImpl implements TruckService {
         LOGGER.debug("findAvailableDriversByTruck() executed");
 
         List<Driver> availableDrivers =
-                truckDao.findAvailableDriversByTruck(modelMapper.map(truckDto
+                truckDao.findAvailableDriversByTruck(mapper.map(truckDto
                         , Truck.class));
         return availableDrivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverDto.class))
+                .map(driver -> mapper.map(driver, DriverDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -180,15 +165,15 @@ public class TruckServiceImpl implements TruckService {
         List<Truck> trucks = truckDao.getAllTrucks();
 
         long total = trucks.size();
-        long faulty = getCountByState(trucks, STATUS_FAULTY);
-        long busy = getCountByStatus(trucks, STATUS_ON_THE_WAY);
+        long faulty = getCountByState(trucks);
+        long busy = getCountByStatus(trucks);
 
         truckStats.setTotal(total);
         truckStats.setFaulty(faulty);
         truckStats.setBusy(busy);
 
         truckStats.setAvailable(total - faulty - busy);
-        System.out.println(truckStats);
+
         return truckStats;
     }
 
@@ -205,21 +190,42 @@ public class TruckServiceImpl implements TruckService {
         return truckDao.findByRegistrationNumber(registrationNumber);
     }
 
+    @Override
+    @Transactional
+    public void unbindDriver(Long truckId, Long driverId) {
+        TruckDto truckDto = getTruckById(truckId);
+        DriverDto driverDto = driverService.getDriverById(driverId);
+
+        if (truckDto.getDrivers().size() == 1) {
+            truckDto.setStatus(TruckStatus.PARKED);
+            truckDto.setBusy(false);
+
+        }
+        truckDto.removeDriver(driverDto);
+
+        driverDto.setInShift(false);
+        driverDto.setStatus(DriverStatus.RESTING);
+
+        driverService.updateDriver(driverDto);
+        updateTruck(truckDto);
+    }
+
     /**
      * Helping method forgetStats method
      * Counts given trucks by given status
      * @param trucks {@link List<Truck>} given trucks
-     * @param status given status
      * @return number of trucks
      */
-    private long getCountByStatus(List<Truck> trucks, String status) {
+    private long getCountByStatus(List<Truck> trucks) {
         return trucks.stream()
-                .filter(truck -> status.equals(truck.getStatus().getTitle()))
+                .filter(truck -> TruckServiceImpl.STATUS_ON_THE_WAY
+                        .equals(truck.getStatus().getTitle()))
                 .count();
     }
-    private long getCountByState(List<Truck> trucks, String state) {
+    private long getCountByState(List<Truck> trucks) {
         return trucks.stream()
-                .filter(truck -> state.equals(truck.getState().getTitle()))
+                .filter(truck -> TruckServiceImpl.STATUS_FAULTY
+                        .equals(truck.getState().getTitle()))
                 .count();
     }
 }

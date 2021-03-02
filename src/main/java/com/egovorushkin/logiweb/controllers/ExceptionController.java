@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import javax.jms.JMSException;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.Date;
@@ -27,10 +29,8 @@ public class ExceptionController {
     public String handleError(HttpServletRequest request, Exception ex, Model model) {
         LOGGER.error("Request: " + request.getRequestURL() + " raised " + ex);
 
-        model.addAttribute("exception", ex);
-        model.addAttribute("url", request.getRequestURL());
-        model.addAttribute("timestamp", new Date().toString());
-
+        model.addAttribute("errorMsg", "Application has encountered an error." +
+                " Please contact support on...");
         return "error";
     }
 
@@ -38,11 +38,15 @@ public class ExceptionController {
      * Convert a predefined exception to an HTTP Status code
      */
     @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Data integrity " +
-            "voilation")
+            "violation")
     @ExceptionHandler(DataIntegrityViolationException.class)
     // 409
-    public void confilct() {
+    public String conflict(Model model) {
         LOGGER.error("Request raised a DataIntegrityViolationException");
+
+        model.addAttribute("errorMsg", "Data integrity violation");
+
+        return "error";
     }
 
     /**
@@ -55,8 +59,6 @@ public class ExceptionController {
     public String databaseError(Exception ex, Model model) {
         LOGGER.error("Request raised " + ex.getClass().getSimpleName());
 
-        model.addAttribute("exception", ex);
-        model.addAttribute("timestamp", new Date().toString());
         return "databaseError";
     }
 }

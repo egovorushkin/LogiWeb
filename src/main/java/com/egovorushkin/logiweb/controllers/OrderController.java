@@ -57,8 +57,7 @@ public class OrderController {
         TruckDto truckDto = orderDto.getTruck();
         model.addAttribute(ORDER, orderDto);
         if (truckDto != null) {
-            model.addAttribute("currentDrivers",
-                    truckService.findCurrentDriversByTruckId(truckDto.getId()));
+            model.addAttribute("currentDrivers", truckDto.getDrivers());
         }
         return "manager/order/show";
     }

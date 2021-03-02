@@ -28,8 +28,8 @@ public class TruckDaoImpl extends AbstractDao implements TruckDao {
     public Truck getTruckById(Long id) {
         return entityManager
                 .createQuery("SELECT t FROM Truck t " +
-                                "LEFT JOIN FETCH t.currentDrivers " +
-                                "LEFT JOIN FETCH t.currentOrders " +
+                                "LEFT JOIN FETCH t.drivers " +
+                                "LEFT JOIN FETCH t.orders " +
                                 "LEFT JOIN FETCH t.currentCity WHERE t.id=:id",
                         Truck.class)
                 .setParameter("id", id).getSingleResult();
@@ -57,23 +57,13 @@ public class TruckDaoImpl extends AbstractDao implements TruckDao {
     @Override
     public void deleteTruck(Long id) {
         Truck truck = entityManager.find(Truck.class, id);
-        Set<Driver> currentDrivers = truck.getCurrentDrivers();
+        Set<Driver> currentDrivers = truck.getDrivers();
 
         for (Driver d : currentDrivers) {
             d.setTruck(null);
         }
 
         entityManager.remove(truck);
-    }
-
-    @Override
-    public List<Driver> findCurrentDriversByTruckId(Long id) {
-        return entityManager
-                .createQuery("SELECT d FROM Driver d " +
-                        "LEFT JOIN FETCH d.truck " +
-                        "LEFT JOIN FETCH d.currentCity WHERE d.truck.id=:id",
-                        Driver.class)
-                .setParameter("id", id).getResultList();
     }
 
     @Override
@@ -105,8 +95,8 @@ public class TruckDaoImpl extends AbstractDao implements TruckDao {
     @Override
     public Truck findByRegistrationNumber(String registrationNumber) {
         TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t " +
-                "LEFT JOIN FETCH t.currentDrivers " +
-                "LEFT JOIN FETCH t.currentOrders " +
+                "LEFT JOIN FETCH t.drivers " +
+                "LEFT JOIN FETCH t.orders " +
                 "LEFT JOIN FETCH t.currentCity " +
                 "WHERE t.registrationNumber=:registrationNumber", Truck.class)
                 .setParameter("registrationNumber", registrationNumber);
