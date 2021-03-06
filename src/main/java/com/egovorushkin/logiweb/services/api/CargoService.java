@@ -21,4 +21,8 @@ public interface CargoService {
 
     List<CargoDto> findAvailableCargoes();
 
+    List<CargoDto> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
+
 }

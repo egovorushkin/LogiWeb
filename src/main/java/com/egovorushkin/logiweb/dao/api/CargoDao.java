@@ -24,4 +24,8 @@ public interface CargoDao {
 
     List<Cargo> findAvailableCargoes();
 
+    List<Cargo> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
+
 }

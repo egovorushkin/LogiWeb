@@ -27,4 +27,8 @@ public interface DriverDao {
 
     boolean driverExistsById(Long id);
 
+    List<Driver> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
+
 }

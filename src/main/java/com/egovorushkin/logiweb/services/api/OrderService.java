@@ -32,4 +32,8 @@ public interface OrderService {
     List<OrderDto> getLatestOrders();
 
     OrderDto findOrderByTruckId(Long id);
+
+    List<OrderDto> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
 }

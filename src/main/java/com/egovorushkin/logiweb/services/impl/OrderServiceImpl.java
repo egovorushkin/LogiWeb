@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDto getOrderById(Long id) {
 
         LOGGER.debug("getOrderById() executed");
@@ -69,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<OrderDto> getAllOrders() {
 
         LOGGER.debug("getAllOrders() executed");
@@ -81,6 +83,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<TruckDto> findAvailableTrucks(OrderDto orderDto) {
 
         LOGGER.debug("findAvailableTrucks() executed");
@@ -106,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<OrderDto> findCurrentOrdersForTruck(TruckDto truckDto) {
 
         LOGGER.debug("findCurrentOrdersForTruck() executed");
@@ -132,6 +136,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<DriverDto> findAvailableDriversForOrder(OrderDto orderDto) {
 
         LOGGER.debug("findAvailableDriversForOrder() executed");
@@ -238,6 +243,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<OrderDto> getLatestOrders() {
         List<Order> orders = orderDao.getLatestOrders();
 
@@ -247,7 +253,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDto findOrderByTruckId(Long id) {
         return mapper.map(orderDao.findOrderByTruckId(id), OrderDto.class);
+    }
+
+    @Override
+    @Transactional
+    public List<OrderDto> listAllByPage(int firstResult, int maxResult) {
+        List<Order> orders = orderDao.listAllByPage(firstResult, maxResult);
+
+        return orders.stream()
+                .map(order -> mapper.map(order, OrderDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Long totalCount() {
+        return orderDao.totalCount();
     }
 }

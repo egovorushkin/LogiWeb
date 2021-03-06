@@ -214,6 +214,7 @@ public class DriverServiceImpl implements DriverService {
         return colleague;
     }
 
+    // TODO: refactor this method
     /**
      * This method updates status depending on the input status of driver
      * @param driverStatus input status of driver
@@ -347,6 +348,7 @@ public class DriverServiceImpl implements DriverService {
      * @return {@link DriverStatsDto} driver statistic
      */
     @Override
+    @Transactional
     public DriverStatsDto getStats() {
         DriverStatsDto driverStats = new DriverStatsDto();
         List<Driver> drivers = driverDao.getAllDrivers();
@@ -360,6 +362,23 @@ public class DriverServiceImpl implements DriverService {
         driverStats.setNotAvailable(total - available);
 
         return driverStats;
+    }
+
+
+    @Override
+    @Transactional
+    public List<DriverDto> listAllByPage(int firstResult, int maxResult) {
+        List<Driver> drivers = driverDao.listAllByPage(firstResult, maxResult);
+
+        return drivers.stream()
+                .map(driver -> mapper.map(driver, DriverDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Long totalCount() {
+        return driverDao.totalCount();
     }
 
     /**

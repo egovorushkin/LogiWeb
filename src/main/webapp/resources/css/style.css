@@ -1,3 +1,12 @@
 .table-row{
     cursor:pointer;
 }
+.pagination>li.active>a {
+    background-color: #343a40 !important;
+    color: white;
+}
+
+.pagination>li>a {
+    background-color: white !important;
+    color: black;
+}

@@ -45,9 +45,19 @@ public class OrderController {
         this.mapService = mapService;
     }
 
-    @GetMapping("/list")
-    public String showAllOrders(Model model) {
-        model.addAttribute("orders", orderService.getAllOrders());
+    @GetMapping("/list/{pageId}")
+    public String showOrdersByPage(@PathVariable("pageId") int pageId, Model model) {
+
+        int recordsByPage = 6;
+        Long totalPages = (orderService.totalCount() / recordsByPage);
+
+        if (pageId != 1) {
+            pageId = (pageId - 1) * recordsByPage + 1;
+        }
+
+        model.addAttribute("orders",
+                orderService.listAllByPage(pageId, recordsByPage));
+        model.addAttribute("totalPages", totalPages);
         return "manager/order/list";
     }
 

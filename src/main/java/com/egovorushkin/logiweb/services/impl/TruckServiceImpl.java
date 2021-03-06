@@ -210,6 +210,23 @@ public class TruckServiceImpl implements TruckService {
         updateTruck(truckDto);
     }
 
+    @Override
+    @Transactional
+    public List<TruckDto> listAllByPage(int firstResult, int maxResult) {
+
+        List<Truck> trucks = truckDao.listAllByPage(firstResult, maxResult);
+
+        return trucks.stream()
+                .map(truck -> mapper.map(truck, TruckDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Long totalCount() {
+        return truckDao.totalCount();
+    }
+
     /**
      * Helping method forgetStats method
      * Counts given trucks by given status

@@ -4,6 +4,8 @@ import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -75,10 +77,35 @@ public class DriverDaoImpl extends AbstractDao implements DriverDao {
 
     @Override
     public boolean driverExistsById(Long id) {
-        Long count = entityManager.createQuery("SELECT COUNT(d)  FROM Driver " +
+        Long count = entityManager.createQuery("SELECT COUNT(d) FROM Driver " +
                 "d WHERE d.id=:id", Long.class).
                 setParameter("id", id).getSingleResult();
         return count > 0;
+    }
+
+    @Override
+    public List<Driver> listAllByPage(int firstResult, int maxResult) {
+        TypedQuery<Long> idQuery = entityManager
+                .createQuery("SELECT d.id FROM Driver d ORDER BY d.id",
+                        Long.class);
+
+        List<Long> driversIds = idQuery.setFirstResult(firstResult)
+                .setMaxResults(maxResult).getResultList();
+
+        TypedQuery<Driver> driverQuery = entityManager.createQuery("SELECT " +
+                        "DISTINCT d FROM Driver d " +
+                        "LEFT JOIN FETCH d.currentCity " +
+                        "LEFT JOIN FETCH d.truck " +
+                        "WHERE d.id IN (:ids)", Driver.class)
+                .setParameter("ids", driversIds);
+
+        return driverQuery.getResultList();
+    }
+
+    @Override
+    public Long totalCount() {
+        return entityManager.createQuery("SELECT COUNT (d.id) FROM Driver d",
+                Long.class).getSingleResult();
     }
 
 }

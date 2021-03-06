@@ -47,9 +47,18 @@ public class TruckController {
         this.driverService = driverService;
     }
 
-    @GetMapping("/list")
-    public String getAllTrucks(Model model) {
-        model.addAttribute("trucks", truckService.getAllTrucks());
+    @GetMapping("/list/{pageId}")
+    public String showTrucksByPage(@PathVariable("pageId") int pageId, Model model) {
+        int recordsByPage = 6;
+        Long totalPages = (truckService.totalCount() / recordsByPage);
+
+        if (pageId != 1) {
+            pageId = (pageId - 1) * recordsByPage + 1;
+        }
+
+        model.addAttribute("trucks",
+                truckService.listAllByPage(pageId, recordsByPage));
+        model.addAttribute("totalPages", totalPages);
         return "manager/truck/list";
     }
 

@@ -46,9 +46,18 @@ public class DriverController {
         this.scoreboardService = scoreboardService;
     }
 
-    @GetMapping("/list")
-    public String showAllDrivers(Model model) {
-        model.addAttribute("drivers", driverService.getAllDrivers());
+    @GetMapping("/list/{pageId}")
+    public String showDriversByPage(@PathVariable("pageId") int pageId, Model model) {
+        int recordsByPage = 6;
+        Long totalPages = (driverService.totalCount() / recordsByPage);
+
+        if (pageId != 1) {
+            pageId = (pageId - 1) * recordsByPage + 1;
+        }
+
+        model.addAttribute("drivers",
+                driverService.listAllByPage(pageId, recordsByPage));
+        model.addAttribute("totalPages", totalPages);
         return "manager/driver/list";
     }
 

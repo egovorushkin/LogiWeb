@@ -27,4 +27,8 @@ public interface TruckDao {
 
     Truck findByRegistrationNumber(String registrationNumber);
 
+    List<Truck> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
+
 }

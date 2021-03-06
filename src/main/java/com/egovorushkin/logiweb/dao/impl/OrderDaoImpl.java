@@ -5,6 +5,8 @@ import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Order;
 import com.egovorushkin.logiweb.entities.Truck;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -106,6 +108,32 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                         "LEFT JOIN FETCH o.truck " +
                         "WHERE o.truck.id=:id", Order.class)
                 .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
+    public List<Order> listAllByPage(int firstResult, int maxResult) {
+        TypedQuery<Long> idQuery = entityManager
+                .createQuery("SELECT o.id FROM Order o ORDER BY o.id",
+                        Long.class);
+
+        List<Long> ordersIds = idQuery.setFirstResult(firstResult)
+                .setMaxResults(maxResult).getResultList();
+
+        TypedQuery<Order> orderQuery = entityManager.createQuery("SELECT o " +
+                        "FROM Order o " +
+                        "LEFT JOIN FETCH o.cargo " +
+                        "LEFT JOIN FETCH o.truck " +
+                        "WHERE o.id IN (:ids)", Order.class)
+                .setParameter("ids", ordersIds);
+
+        return orderQuery.getResultList();
+    }
+
+    @Override
+    public Long totalCount() {
+        return entityManager.createQuery("SELECT COUNT (o.id) " +
+                        "FROM Order o", Long.class)
                 .getSingleResult();
     }
 

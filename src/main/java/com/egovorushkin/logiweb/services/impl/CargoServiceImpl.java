@@ -38,6 +38,7 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
+    @Transactional
     public CargoDto getCargoById(Long id) {
 
         LOGGER.debug("getCargoById() executed");
@@ -52,6 +53,7 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
+    @Transactional
     public List<CargoDto> getAllCargoes() {
 
         LOGGER.debug("getAllCargoes() executed");
@@ -106,11 +108,28 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
+    @Transactional
     public List<CargoDto> findAvailableCargoes() {
         List<Cargo> cargoes = cargoDao.findAvailableCargoes();
         return cargoes.stream()
                 .map(cargo -> mapper.map(cargo, CargoDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<CargoDto> listAllByPage(int firstResult, int maxResult) {
+        List<Cargo> cargoes = cargoDao.listAllByPage(firstResult, maxResult);
+
+        return cargoes.stream()
+                .map(cargo -> mapper.map(cargo, CargoDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Long totalCount() {
+        return cargoDao.totalCount();
     }
 
 }

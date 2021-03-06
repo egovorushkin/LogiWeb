@@ -9,11 +9,11 @@
 <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap
-                align-items-center pt-3 pb-2 mb-3 border-bottom">
+                align-items-center pt-3 pb-2">
         <h4><em class="fas fa-users"></em> | Drivers</h4>
     </div>
 
-    <table id="tables" class="table-hover table-striped">
+    <table class="table table-hover table-striped">
         <thead>
         <tr>
             <th scope="col">First Name</th>
@@ -58,6 +58,56 @@
         </c:forEach>
         </tbody>
     </table>
+
+    <ul class="pagination pagination-sm">
+        <c:choose>
+            <c:when test="${pageId == 1}">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-disabled="true">Previous</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <c:url value="${pageContext.request.contextPath}/drivers/list/${pageId - 1}"
+                       var="url"/>
+                <li class="page-item">
+                    <a class="page-link" href='<c:out value="${url}" />'>Previous</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+        <c:forEach begin="1" end="${totalPages}" step="1" varStatus="tagStatus">
+            <c:choose>
+                <c:when test="${pageId == tagStatus.index}">
+                    <li class="page-item active">
+                        <a class="page-link" href='#'>${tagStatus.index}</a>
+                    </li>
+                </c:when>
+
+                <c:otherwise>
+                    <c:url value="${pageContext.request.contextPath}/drivers/list/${tagStatus.index}"
+                           var="url"/>
+                    <li class="page-item">
+                        <a class="page-link"
+                           href='<c:out value="${url}" />'>${tagStatus.index}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <c:choose>
+            <c:when test="${pageId == totalPages}">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-disabled="true">Next</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <c:url value="${pageContext.request.contextPath}/drivers/list/${pageId + 1}"
+                       var="url"/>
+                <li class="page-item">
+                    <a class="page-link" href='<c:out value="${url}" />'>Next</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
 
     <a class="btn btn-sm  btn-success"
        href="${pageContext.request.contextPath}/drivers/create" role="button">Add

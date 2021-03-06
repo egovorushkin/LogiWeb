@@ -51,4 +51,8 @@ public interface DriverService {
      * @return {@link DriverStatsDto} driver statistic
      */
     DriverStatsDto getStats();
+
+    List<DriverDto> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
 }

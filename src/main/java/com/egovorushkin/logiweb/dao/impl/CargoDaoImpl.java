@@ -3,6 +3,8 @@ package com.egovorushkin.logiweb.dao.impl;
 import com.egovorushkin.logiweb.dao.api.CargoDao;
 import com.egovorushkin.logiweb.entities.Cargo;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -57,7 +59,30 @@ public class CargoDaoImpl extends AbstractDao implements CargoDao {
     @Override
     public List<Cargo> findAvailableCargoes() {
         return entityManager.createQuery("SELECT c FROM Cargo c " +
-                "WHERE c.status='PREPARED'").getResultList();
+                "WHERE c.status='PREPARED'", Cargo.class).getResultList();
+    }
+
+    @Override
+    public List<Cargo> listAllByPage(int firstResult, int maxResult) {
+        TypedQuery<Long> idQuery = entityManager
+                .createQuery("SELECT c.id FROM Cargo c ORDER BY c.id",
+                        Long.class);
+
+        List<Long> cargoesIds = idQuery.setFirstResult(firstResult)
+                .setMaxResults(maxResult).getResultList();
+
+        TypedQuery<Cargo> cargoQuery = entityManager.createQuery("SELECT " +
+                        "DISTINCT c FROM Cargo c " +
+                        "WHERE c.id IN (:ids)", Cargo.class)
+                .setParameter("ids", cargoesIds);
+
+        return cargoQuery.getResultList();
+    }
+
+    @Override
+    public Long totalCount() {
+        return entityManager.createQuery("SELECT COUNT (c.id) FROM Cargo c",
+                Long.class).getSingleResult();
     }
 
 }

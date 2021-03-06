@@ -31,4 +31,8 @@ public interface OrderDao {
     List<Order> getLatestOrders();
 
     Order findOrderByTruckId(Long id);
+
+    List<Order> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
 }

@@ -24,9 +24,18 @@ public class CargoController {
         this.cargoService = cargoService;
     }
 
-    @GetMapping("/list")
-    public String showAllCargoes(Model model) {
-        model.addAttribute("cargoes", cargoService.getAllCargoes());
+    @GetMapping("/list/{pageId}")
+    public String showCargoesByPage(@PathVariable("pageId") int pageId, Model model) {
+        int recordsByPage = 6;
+        Long totalPages = (cargoService.totalCount() / recordsByPage);
+
+        if (pageId != 1) {
+            pageId = (pageId - 1) * recordsByPage + 1;
+        }
+
+        model.addAttribute("cargoes",
+                cargoService.listAllByPage(pageId, recordsByPage));
+        model.addAttribute("totalPages", totalPages);
         return "manager/cargo/list";
     }
 

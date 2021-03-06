@@ -44,4 +44,8 @@ public interface TruckService {
     Truck findByRegistrationNumber(String registrationNumber);
 
     void unbindDriver(Long truckId, Long driverId);
+
+    List<TruckDto> listAllByPage(int firstResult, int maxResult);
+
+    Long totalCount();
 }

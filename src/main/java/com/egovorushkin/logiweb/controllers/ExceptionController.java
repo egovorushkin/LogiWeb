@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import javax.jms.JMSException;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.util.Date;
 
 /**
  * Controller used to showcase what happens when an exception is thrown

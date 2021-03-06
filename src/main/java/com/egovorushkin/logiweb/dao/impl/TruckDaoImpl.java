@@ -5,6 +5,7 @@ import com.egovorushkin.logiweb.entities.Driver;
 import com.egovorushkin.logiweb.entities.Truck;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -94,7 +95,8 @@ public class TruckDaoImpl extends AbstractDao implements TruckDao {
 
     @Override
     public Truck findByRegistrationNumber(String registrationNumber) {
-        TypedQuery<Truck> q = entityManager.createQuery("SELECT t FROM Truck t " +
+        TypedQuery<Truck> q = entityManager.createQuery("SELECT t " +
+                "FROM Truck t " +
                 "LEFT JOIN FETCH t.drivers " +
                 "LEFT JOIN FETCH t.orders " +
                 "LEFT JOIN FETCH t.currentCity " +
@@ -109,6 +111,32 @@ public class TruckDaoImpl extends AbstractDao implements TruckDao {
         }
 
         return truck;
+    }
+
+    @Override
+    public List<Truck> listAllByPage(int firstResult, int maxResult) {
+        TypedQuery<Long> idQuery = entityManager.createQuery("SELECT t.id " +
+                        "FROM Truck t ORDER BY t.id", Long.class);
+
+        List<Long> trucksIds = idQuery.setFirstResult(firstResult)
+                .setMaxResults(maxResult).getResultList();
+
+        TypedQuery<Truck> truckQuery = entityManager.createQuery("SELECT " +
+                        "DISTINCT t FROM Truck t " +
+                        "LEFT JOIN FETCH t.drivers " +
+                        "LEFT JOIN FETCH t.orders " +
+                        "LEFT JOIN FETCH t.currentCity WHERE t.id IN (:ids)",
+                Truck.class)
+                .setParameter("ids", trucksIds);
+
+        return truckQuery.getResultList();
+    }
+
+    @Override
+    public Long totalCount() {
+        return entityManager.createQuery("SELECT COUNT (t.id) " +
+                        "FROM Truck t", Long.class)
+                .getSingleResult();
     }
 
 }
