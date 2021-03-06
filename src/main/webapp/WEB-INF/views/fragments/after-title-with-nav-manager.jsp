@@ -3,9 +3,6 @@
            uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<link rel="canonical"
-      href="https://getbootstrap.com/docs/4.1/examples/dashboard/">
-
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
       rel="stylesheet">
@@ -53,28 +50,28 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/trucks/list">
+                           href="${pageContext.request.contextPath}/trucks/list/1">
                             <span data-feather="truck"></span>
                             Trucks
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/drivers/list">
+                           href="${pageContext.request.contextPath}/drivers/list/1">
                             <span data-feather="users"></span>
                             Drivers
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/orders/list">
+                           href="${pageContext.request.contextPath}/orders/list/1">
                             <span data-feather="clipboard"></span>
                             Orders
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/cargoes/list">
+                           href="${pageContext.request.contextPath}/cargoes/list/1">
                             <span data-feather="package"></span>
                             Cargoes
                         </a>
