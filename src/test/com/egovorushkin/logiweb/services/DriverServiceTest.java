@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.services;
 import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.dao.api.OrderDao;
+import com.egovorushkin.logiweb.dao.api.UserDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
@@ -91,6 +92,7 @@ class DriverServiceTest {
     @Mock
     private DriverDao driverDao;
     private OrderDao orderDao;
+    private UserDao userDao;
     private final Driver driverOne = new Driver();
     private final Driver driverTwo = new Driver();
     private final Truck truckOne = new Truck();
@@ -119,7 +121,8 @@ class DriverServiceTest {
         mapper = new DozerBeanMapper();
 
         driverService = new DriverServiceImpl(driverDao, truckService,
-                mapper, authenticationFacade, scoreboardService, orderDao);
+                mapper, authenticationFacade, scoreboardService, orderDao,
+                userDao);
 
         driverOne.setId(DRIVER_ONE_ID);
         driverOne.setUsername(DRIVER_ONE_USERNAME);

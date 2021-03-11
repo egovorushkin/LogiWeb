@@ -41,4 +41,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         entityManager.persist(theUser);
     }
 
+    @Override
+    public void deleteUser(String userName) {
+        User user = (User) entityManager.createQuery("SELECT u FROM User u " +
+                "WHERE u.userName=:userName")
+                .setParameter("userName", userName).getSingleResult();
+
+        if (user != null) {
+            entityManager.remove(user);
+        }
+    }
+
 }

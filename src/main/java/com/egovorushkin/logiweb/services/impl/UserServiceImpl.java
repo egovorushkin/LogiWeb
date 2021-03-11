@@ -72,6 +72,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteUser(String userName) {
+        userDao.deleteUser(userName);
+    }
+
+    @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) {
         User user = userDao.findByUserName(userName);

@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
     void save(UserDto userDto);
 
     void saveAdmin(UserDto userDto);
+
+    void deleteUser(String userName);
 }
