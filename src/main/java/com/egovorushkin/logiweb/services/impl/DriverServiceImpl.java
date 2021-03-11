@@ -3,6 +3,7 @@ package com.egovorushkin.logiweb.services.impl;
 import com.egovorushkin.logiweb.config.security.IAuthenticationFacade;
 import com.egovorushkin.logiweb.dao.api.DriverDao;
 import com.egovorushkin.logiweb.dao.api.OrderDao;
+import com.egovorushkin.logiweb.dao.api.UserDao;
 import com.egovorushkin.logiweb.dto.DriverDto;
 import com.egovorushkin.logiweb.dto.DriverStatsDto;
 import com.egovorushkin.logiweb.dto.TruckDto;
@@ -49,19 +50,22 @@ public class DriverServiceImpl implements DriverService {
     private final IAuthenticationFacade authenticationFacade;
     private final ScoreboardService scoreboardService;
     private final OrderDao orderDao;
+    private final UserDao userDao;
 
     public DriverServiceImpl(DriverDao driverDao,
                              TruckService truckService,
                              Mapper mapper,
                              IAuthenticationFacade authenticationFacade,
                              ScoreboardService scoreboardService,
-                             OrderDao orderDao) {
+                             OrderDao orderDao,
+                             UserDao userDao) {
         this.driverDao = driverDao;
         this.truckService = truckService;
         this.mapper = mapper;
         this.authenticationFacade = authenticationFacade;
         this.scoreboardService = scoreboardService;
         this.orderDao = orderDao;
+        this.userDao = userDao;
     }
 
     @Override
@@ -133,7 +137,10 @@ public class DriverServiceImpl implements DriverService {
 
         LOGGER.debug("deleteDriver() executed");
 
+        String userName = driverDao.getDriverById(id).getUsername();
+
         driverDao.deleteDriver(id);
+        userDao.deleteUser(userName);
 
         scoreboardService.updateScoreboard();
 
