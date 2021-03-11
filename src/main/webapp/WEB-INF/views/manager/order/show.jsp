@@ -115,7 +115,7 @@
                return false"
            role="button">Delete</a>
         <a class="btn btn-secondary btn-sm"
-           href="${pageContext.request.contextPath}/orders/list" role="button">
+           href="${pageContext.request.contextPath}/orders/list/1" role="button">
             Back
         </a>
     </form:form>

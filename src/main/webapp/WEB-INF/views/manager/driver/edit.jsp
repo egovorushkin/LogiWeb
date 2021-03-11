@@ -121,7 +121,7 @@
                return false"
            role="button">Delete</a>
         <a class="btn btn-sm btn-secondary"
-           href="${pageContext.request.contextPath}/drivers/list"
+           href="${pageContext.request.contextPath}/drivers/list/1"
            role="button">Cancel</a>
     </form:form>
 

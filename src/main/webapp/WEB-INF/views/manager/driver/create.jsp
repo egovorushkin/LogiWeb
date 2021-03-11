@@ -108,7 +108,7 @@
         </div>
         <button type="submit" class="btn btn-sm btn-primary">Save</button>
         <a class="btn btn-sm btn-secondary"
-           href="${pageContext.request.contextPath}/drivers/list"
+           href="${pageContext.request.contextPath}/drivers/list/1"
            role="button">Back</a>
     </form:form>
 </main>
