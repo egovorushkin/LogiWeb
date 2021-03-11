@@ -24,7 +24,7 @@ public class DriverController {
 
     private static final String CITIES = "cities";
     private static final String USER_DTO = "userDto";
-    private static final String REDIRECT_DRIVERS_LIST = "redirect:/drivers/list";
+    private static final String REDIRECT_DRIVERS_LIST = "redirect:/drivers/list/1";
     private static final String MANAGER_DRIVER_CREATE = "manager/driver/create";
 
     private final DriverService driverService;
@@ -49,7 +49,8 @@ public class DriverController {
     @GetMapping("/list/{pageId}")
     public String showDriversByPage(@PathVariable("pageId") int pageId, Model model) {
         int recordsByPage = 6;
-        Long totalPages = (driverService.totalCount() / recordsByPage);
+        int totalPages =
+                (int) (driverService.totalCount() + recordsByPage - 1) / recordsByPage;
 
         if (pageId != 1) {
             pageId = (pageId - 1) * recordsByPage + 1;

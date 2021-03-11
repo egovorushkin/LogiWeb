@@ -117,7 +117,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                 .createQuery("SELECT o.id FROM Order o ORDER BY o.id",
                         Long.class);
 
-        List<Long> ordersIds = idQuery.setFirstResult(firstResult)
+        List<Long> ordersIds = idQuery.setFirstResult(firstResult - 1)
                 .setMaxResults(maxResult).getResultList();
 
         TypedQuery<Order> orderQuery = entityManager.createQuery("SELECT o " +

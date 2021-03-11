@@ -68,7 +68,7 @@ public class CargoDaoImpl extends AbstractDao implements CargoDao {
                 .createQuery("SELECT c.id FROM Cargo c ORDER BY c.id",
                         Long.class);
 
-        List<Long> cargoesIds = idQuery.setFirstResult(firstResult)
+        List<Long> cargoesIds = idQuery.setFirstResult(firstResult - 1)
                 .setMaxResults(maxResult).getResultList();
 
         TypedQuery<Cargo> cargoQuery = entityManager.createQuery("SELECT " +

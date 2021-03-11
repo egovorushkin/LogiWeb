@@ -50,7 +50,8 @@ public class TruckController {
     @GetMapping("/list/{pageId}")
     public String showTrucksByPage(@PathVariable("pageId") int pageId, Model model) {
         int recordsByPage = 6;
-        Long totalPages = (truckService.totalCount() / recordsByPage);
+        int totalPages =
+                (int) (truckService.totalCount() + recordsByPage - 1) / recordsByPage;
 
         if (pageId != 1) {
             pageId = (pageId - 1) * recordsByPage + 1;

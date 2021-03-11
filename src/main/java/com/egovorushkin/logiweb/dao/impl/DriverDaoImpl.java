@@ -89,7 +89,7 @@ public class DriverDaoImpl extends AbstractDao implements DriverDao {
                 .createQuery("SELECT d.id FROM Driver d ORDER BY d.id",
                         Long.class);
 
-        List<Long> driversIds = idQuery.setFirstResult(firstResult)
+        List<Long> driversIds = idQuery.setFirstResult(firstResult - 1)
                 .setMaxResults(maxResult).getResultList();
 
         TypedQuery<Driver> driverQuery = entityManager.createQuery("SELECT " +

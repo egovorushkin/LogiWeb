@@ -118,7 +118,7 @@ public class TruckDaoImpl extends AbstractDao implements TruckDao {
         TypedQuery<Long> idQuery = entityManager.createQuery("SELECT t.id " +
                         "FROM Truck t ORDER BY t.id", Long.class);
 
-        List<Long> trucksIds = idQuery.setFirstResult(firstResult)
+        List<Long> trucksIds = idQuery.setFirstResult(firstResult - 1)
                 .setMaxResults(maxResult).getResultList();
 
         TypedQuery<Truck> truckQuery = entityManager.createQuery("SELECT " +

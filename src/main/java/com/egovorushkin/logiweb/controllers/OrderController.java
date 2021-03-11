@@ -49,7 +49,8 @@ public class OrderController {
     public String showOrdersByPage(@PathVariable("pageId") int pageId, Model model) {
 
         int recordsByPage = 6;
-        Long totalPages = (orderService.totalCount() / recordsByPage);
+        int totalPages =
+                (int) (orderService.totalCount() + recordsByPage - 1) / recordsByPage;
 
         if (pageId != 1) {
             pageId = (pageId - 1) * recordsByPage + 1;
